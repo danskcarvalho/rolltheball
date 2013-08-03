@@ -77,6 +77,9 @@ CGSize GetImageSize(NSURL* url){
     //they should have the same number of files
     for (int i = 0; i < [filesInImagesDir count]; i++) {
         NSURL* fileURL = [filesInImagesDir objectAtIndex:i];
+        NSString* extension = fileURL.pathExtension;
+        if(![extension isEqualToString: @"png"])
+            continue;
         NSURL* thumbnailURL = [iPad3ThumbnailDir URLByAppendingPathComponent:[fileURL lastPathComponent]];
         CGSize imageSize = GetImageSize(fileURL);
         [self.primitiveImages addObject:[[PrimitiveImage alloc] initWithThumbnailURL:thumbnailURL imageDirectoryURL:imagesURL width:imageSize.width height:imageSize.height]];

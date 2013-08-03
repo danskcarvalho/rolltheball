@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<object type-name="rb::scene">
+	<properties>
+		<property value="~/Projects/GameRollerBall/Resources/Atlases/Test.bundle" name="atlas_path" />
+		<property value="Test.bundle" name="atlas_name" />
+		<property value="true" name="aspect_correction" />
+		<property value-a="1" value-b="0" value-g="0" value-r="0" name="background_color" />
+		<property value-a="1" value-b="0" value-g="0.7" value-r="0" name="gizmo_color" />
+		<property value-a="1" value-b="0" value-g="0.64" value-r="1" name="alternate_gizmo" />
+		<property value-a="1" value-b="1" value-g="1" value-r="1" name="selection_color" />
+		<property value="0|" name="current" />
+		<property value="AAB1AAAAgD8AAIA/AAAAANsPyT8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAAEAZwAAAIA/AAAAAAAAAAAAAIA/AAAAAAAAAAA=" name="camera" />
+	</properties>
+	<children>
+		<child type-name="rb::layer">
+			<properties>
+				<property value="false" name="rb::in_editor_hidden" />
+				<property value="false" name="rb::selected" />
+				<property value="false" name="static_layer" />
+				<property value="true" name="playing" />
+				<property value="Normal" name="blend_mode" />
+				<property value-a="1" value-b="1" value-g="1" value-r="1" name="ambient_color" />
+			</properties>
+			<children>
+				<child type-name="rb::sprite_component">
+					<properties>
+						<property value="false" name="rb::in_editor_hidden" />
+						<property value="false" name="rb::selected" />
+						<property type-name="rb::component_id" name="rb::node_id">
+							<properties>
+								<property value="" name="name" />
+								<property value="" name="classes" />
+							</properties>
+							<children />
+						</property>
+						<property type-name="rb::transformation_values" name="rb::transformation">
+							<properties>
+								<property value-y="0" value-x="0" name="translation" />
+								<property value-y="0.736384" value-x="0.736384" name="scale" />
+								<property value="true" name="uniform" />
+								<property value-y="90" value-x="0" name="rotation" />
+								<property value="true" name="orthogonal" />
+							</properties>
+							<children />
+						</property>
+						<property value="false" name="rb::blocked" />
+						<property value="character" name="image" />
+						<property value="1" name="opacity" />
+						<property value="true" name="visible" />
+						<property value="true" name="aspect_correction" />
+						<property value="BgAAAAQAAAAAAAEAAgAAAAMAAQCXg7y+UIO8PgAAAD9tqVk/AACAPwAAgD8AAAA/QhYyP6uqqj6tTB4+/////6qDvD77g7y+VlVVP0IWMj8AAIA/AACAPwAAAD9CFjI/q6qqPq1MHj7/////qoO8Pk6DvD5WVVU/balZPwAAgD8AAIA/AAAAP0IWMj+rqqo+rUwePv////+eg7y+AIS8vgAAAD9CFjI/AACAPwAAgD8AAAA/QhYyP6uqqj6tTB4+/////w==" name="mesh" />
+						<property value="BgAAAAQAAAAAAAEAAgAAAAMAAQAAAAC/AAAAPwAAAD9tqVk/AACAPwAAgD8AAAA/QhYyP6uqqj6tTB4+/////wAAAD8AAAC/VlVVP0IWMj8AAIA/AACAPwAAAD9CFjI/q6qqPq1MHj7/////AAAAPwAAAD9WVVU/balZPwAAgD8AAIA/AAAAP0IWMj+rqqo+rUwePv////8AAAC/AAAAvwAAAD9CFjI/AACAPwAAgD8AAAA/QhYyP6uqqj6tTB4+/////w==" name="mesh_copy" />
+						<property value="AAAAAK6DPD+ugzw/AAAAANsPyT8AAAAAAAAAAK6DPD8AAAAAAAAAAK6DPD8AAAAAAAAAAAEAAACC0q0/AAAAAAAAAACC0q0/AAAAAAAAAAA=" name="before_transformation" />
+					</properties>
+					<children />
+				</child>
+			</children>
+		</child>
+		<child type-name="rb::layer">
+			<properties>
+				<property value="false" name="rb::in_editor_hidden" />
+				<property value="false" name="rb::selected" />
+				<property value="false" name="static_layer" />
+				<property value="true" name="playing" />
+				<property value="Normal" name="blend_mode" />
+				<property value-a="1" value-b="1" value-g="1" value-r="1" name="ambient_color" />
+			</properties>
+			<children />
+		</child>
+		<child type-name="rb::layer">
+			<properties>
+				<property value="false" name="rb::in_editor_hidden" />
+				<property value="false" name="rb::selected" />
+				<property value="false" name="static_layer" />
+				<property value="true" name="playing" />
+				<property value="Normal" name="blend_mode" />
+				<property value-a="1" value-b="1" value-g="1" value-r="1" name="ambient_color" />
+			</properties>
+			<children />
+		</child>
+		<child type-name="rb::layer">
+			<properties>
+				<property value="false" name="rb::in_editor_hidden" />
+				<property value="false" name="rb::selected" />
+				<property value="false" name="static_layer" />
+				<property value="true" name="playing" />
+				<property value="Normal" name="blend_mode" />
+				<property value-a="1" value-b="1" value-g="1" value-r="1" name="ambient_color" />
+			</properties>
+			<children />
+		</child>
+		<child type-name="rb::layer">
+			<properties>
+				<property value="false" name="rb::in_editor_hidden" />
+				<property value="false" name="rb::selected" />
+				<property value="false" name="static_layer" />
+				<property value="true" name="playing" />
+				<property value="Normal" name="blend_mode" />
+				<property value-a="1" value-b="1" value-g="1" value-r="1" name="ambient_color" />
+			</properties>
+			<children />
+		</child>
+		<child type-name="rb::layer">
+			<properties>
+				<property value="false" name="rb::in_editor_hidden" />
+				<property value="false" name="rb::selected" />
+				<property value="false" name="static_layer" />
+				<property value="true" name="playing" />
+				<property value="Normal" name="blend_mode" />
+				<property value-a="1" value-b="1" value-g="1" value-r="1" name="ambient_color" />
+			</properties>
+			<children />
+		</child>
+		<child type-name="rb::layer">
+			<properties>
+				<property value="false" name="rb::in_editor_hidden" />
+				<property value="false" name="rb::selected" />
+				<property value="false" name="static_layer" />
+				<property value="true" name="playing" />
+				<property value="Normal" name="blend_mode" />
+				<property value-a="1" value-b="1" value-g="1" value-r="1" name="ambient_color" />
+			</properties>
+			<children />
+		</child>
+		<child type-name="rb::layer">
+			<properties>
+				<property value="false" name="rb::in_editor_hidden" />
+				<property value="false" name="rb::selected" />
+				<property value="false" name="static_layer" />
+				<property value="true" name="playing" />
+				<property value="Normal" name="blend_mode" />
+				<property value-a="1" value-b="1" value-g="1" value-r="1" name="ambient_color" />
+			</properties>
+			<children />
+		</child>
+		<child type-name="rb::layer">
+			<properties>
+				<property value="false" name="rb::in_editor_hidden" />
+				<property value="false" name="rb::selected" />
+				<property value="false" name="static_layer" />
+				<property value="true" name="playing" />
+				<property value="Normal" name="blend_mode" />
+				<property value-a="1" value-b="1" value-g="1" value-r="1" name="ambient_color" />
+			</properties>
+			<children />
+		</child>
+		<child type-name="rb::layer">
+			<properties>
+				<property value="false" name="rb::in_editor_hidden" />
+				<property value="false" name="rb::selected" />
+				<property value="false" name="static_layer" />
+				<property value="true" name="playing" />
+				<property value="Normal" name="blend_mode" />
+				<property value-a="1" value-b="1" value-g="1" value-r="1" name="ambient_color" />
+			</properties>
+			<children />
+		</child>
+	</children>
+</object>

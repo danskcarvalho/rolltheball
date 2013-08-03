@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<texture-atlas atlas-count="1" max-atlas-size="4096">
+	<all-groups>
+		<group name="g00">
+			<textures>
+				<texture size-y="315" center-x="120" center-y="877.5" atlas-index="0" size-x="240" name="cannon" />
+				<texture size-y="400" center-x="203.5" center-y="200" atlas-index="0" size-x="407" name="factory" />
+				<texture size-y="320" center-x="240" center-y="560" atlas-index="0" size-x="480" name="bushes" />
+				<texture size-y="160" center-x="320" center-y="800" atlas-index="0" size-x="160" name="character" />
+			</textures>
+			<atlases>
+				<atlas index="0" />
+			</atlases>
+		</group>
+	</all-groups>
+	<all-textures>
+		<texture border="rb::texture_border::none" scale="1" name="bushes" />
+		<texture border="rb::texture_border::none" scale="1" name="character" />
+		<texture border="rb::texture_border::none" scale="1" name="factory" />
+		<texture border="rb::texture_border::none" scale="1" name="cannon" />
+	</all-textures>
+</texture-atlas>
