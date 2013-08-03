@@ -1,0 +1,34 @@
+Lista de Texturas:
+** Grass.
+** Ground (Brown, Gray, Purple, Yellowish, Back and Red). [Cross]
+** Brick [Brown, Gray, Purple, Yellowish] [Cross].
+** Wood Board with pins [Soft and Darker].
+** Wood Window [Soft and Darker].
+** Wood Suportter (like a kingpin).
+** Placa.
+** Temple Tile [All colors of checkered ground]
+** Temple Small Tile (1/4).
+** Infinite QUad Temple tile [All colors of checkered ground
+** Irregular Bricks.
+** Metal Tile.
+** 1/4 Metal Tile.
+** Pure metal.
+** Metal Board with pins.
+** Metal Machinery Tile (various designs).
+** Industrial Window.
+** Industrial Support Structure.
+** Metal Supporter.
+** HandRail.
+** Water.
+** Lava.
+** Rope.
+** Bifurcador de corda.
+** Pegador de corda.
+** Caixa de Energia.
+** Fio
+** Trees.
+** Bushes.
+** Moving Platform.
+
+
+

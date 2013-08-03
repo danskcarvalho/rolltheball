@@ -1,0 +1,34 @@
+//
+// Prefix header for all source files of the 'RollerBallCoreTests' target in the 'RollerBallCoreTests' project
+//
+
+#ifdef __OBJC__
+    #import <Cocoa/Cocoa.h>
+#endif
+
+#define GL_DO_NOT_WARN_IF_MULTI_GL_VERSION_HEADERS_INCLUDED
+#include <OpenGL/gl3.h>
+#include <OpenGL/glext.h>
+
+#ifdef __CPP_TYPES__
+#include <cstddef>
+#include <cassert>
+#include <cmath>
+#include <cstdint>
+#include <string>
+#include <memory>
+#include "Triangulate.h"
+#include <Box2D/Box2D.h>
+#include <sstream>
+#include <locale>
+#include <codecvt>
+#include <array>
+#include <vector>
+#include <deque>
+#include <forward_list>
+#include <list>
+#include <set>
+#include <map>
+#include <unordered_set>
+#include <unordered_map>
+#endif

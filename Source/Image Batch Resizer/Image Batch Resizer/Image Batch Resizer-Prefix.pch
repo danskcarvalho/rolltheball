@@ -1,0 +1,7 @@
+//
+// Prefix header for all source files of the 'Image Batch Resizer' target in the 'Image Batch Resizer' project
+//
+
+#ifdef __OBJC__
+    #import <Cocoa/Cocoa.h>
+#endif

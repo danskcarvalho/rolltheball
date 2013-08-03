@@ -1,0 +1,421 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		4500090C164364E300191CC3 /* SmallNumberValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 4500090B164364E300191CC3 /* SmallNumberValueTransformer.m */; };
+		4500090F16436D5300191CC3 /* RadiansToDegreesValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 4500090E16436D5300191CC3 /* RadiansToDegreesValueTransformer.m */; };
+		45150A571641F28200421B06 /* ExtendedNSCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 45150A561641F28200421B06 /* ExtendedNSCollectionView.m */; };
+		45150A5B16420B9400421B06 /* KeyValuePair.m in Sources */ = {isa = PBXBuildFile; fileRef = 45150A5A16420B9400421B06 /* KeyValuePair.m */; };
+		451E6C36163708D900B8A9D7 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 451E6C35163708D900B8A9D7 /* Cocoa.framework */; };
+		451E6C40163708D900B8A9D7 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 451E6C3E163708D900B8A9D7 /* InfoPlist.strings */; };
+		451E6C42163708D900B8A9D7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 451E6C41163708D900B8A9D7 /* main.m */; };
+		451E6C46163708D900B8A9D7 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 451E6C44163708D900B8A9D7 /* Credits.rtf */; };
+		451E6C49163708D900B8A9D7 /* DSAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 451E6C48163708D900B8A9D7 /* DSAppDelegate.m */; };
+		451E6C4C163708D900B8A9D7 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 451E6C4A163708D900B8A9D7 /* MainMenu.xib */; };
+		451FC733163FFB160022E8E0 /* DSTextureAtlasController.m in Sources */ = {isa = PBXBuildFile; fileRef = 451FC732163FFB160022E8E0 /* DSTextureAtlasController.m */; };
+		452FFECA163EFCD7006C2D1C /* TextureStage.m in Sources */ = {isa = PBXBuildFile; fileRef = 452FFEC9163EFCD7006C2D1C /* TextureStage.m */; };
+		452FFECF163F0F26006C2D1C /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 452FFECE163F0F26006C2D1C /* ImageIO.framework */; };
+		452FFED1163F4A60006C2D1C /* libRollerBallCoreMacOSX.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 452FFED0163F4A60006C2D1C /* libRollerBallCoreMacOSX.a */; };
+		452FFED3163F539F006C2D1C /* Texture.mm in Sources */ = {isa = PBXBuildFile; fileRef = 452FFED2163F539F006C2D1C /* Texture.mm */; };
+		452FFED5163F55EE006C2D1C /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 452FFED4163F55EE006C2D1C /* OpenGL.framework */; };
+		453DDBE616385B7E0039D1A4 /* PrimitiveImage.mm in Sources */ = {isa = PBXBuildFile; fileRef = 453DDBE516385B7E0039D1A4 /* PrimitiveImage.mm */; };
+		453DDBE916385BA20039D1A4 /* TextureAtlas.mm in Sources */ = {isa = PBXBuildFile; fileRef = 453DDBE816385BA20039D1A4 /* TextureAtlas.mm */; };
+		45440348165E8738002D594B /* Resolutions.m in Sources */ = {isa = PBXBuildFile; fileRef = 45440347165E8738002D594B /* Resolutions.m */; };
+		45499D211650243E00CA518C /* Atlas-icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 45499D201650243E00CA518C /* Atlas-icon.icns */; };
+		45530AAD164624D6002FFEA5 /* Atlas-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 45530AAB164624D6002FFEA5 /* Atlas-icon.png */; };
+		45530AAE164624D6002FFEA5 /* link-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 45530AAC164624D6002FFEA5 /* link-icon.png */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		4500090A164364E300191CC3 /* SmallNumberValueTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SmallNumberValueTransformer.h; path = TextureAtlasEditor/SmallNumberValueTransformer.h; sourceTree = "<group>"; };
+		4500090B164364E300191CC3 /* SmallNumberValueTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SmallNumberValueTransformer.m; path = TextureAtlasEditor/SmallNumberValueTransformer.m; sourceTree = "<group>"; };
+		4500090D16436D5300191CC3 /* RadiansToDegreesValueTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RadiansToDegreesValueTransformer.h; path = TextureAtlasEditor/RadiansToDegreesValueTransformer.h; sourceTree = "<group>"; };
+		4500090E16436D5300191CC3 /* RadiansToDegreesValueTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RadiansToDegreesValueTransformer.m; path = TextureAtlasEditor/RadiansToDegreesValueTransformer.m; sourceTree = "<group>"; };
+		45150A551641F28200421B06 /* ExtendedNSCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ExtendedNSCollectionView.h; path = TextureAtlasEditor/ExtendedNSCollectionView.h; sourceTree = "<group>"; };
+		45150A561641F28200421B06 /* ExtendedNSCollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ExtendedNSCollectionView.m; path = TextureAtlasEditor/ExtendedNSCollectionView.m; sourceTree = "<group>"; };
+		45150A5916420B9400421B06 /* KeyValuePair.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KeyValuePair.h; path = TextureAtlasEditor/KeyValuePair.h; sourceTree = "<group>"; };
+		45150A5A16420B9400421B06 /* KeyValuePair.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KeyValuePair.m; path = TextureAtlasEditor/KeyValuePair.m; sourceTree = "<group>"; };
+		451E6C31163708D900B8A9D7 /* TextureAtlasEditor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TextureAtlasEditor.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		451E6C35163708D900B8A9D7 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		451E6C38163708D900B8A9D7 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		451E6C39163708D900B8A9D7 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		451E6C3A163708D900B8A9D7 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		451E6C3D163708D900B8A9D7 /* TextureAtlasEditor-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "TextureAtlasEditor-Info.plist"; sourceTree = "<group>"; };
+		451E6C3F163708D900B8A9D7 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		451E6C41163708D900B8A9D7 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		451E6C43163708D900B8A9D7 /* TextureAtlasEditor-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TextureAtlasEditor-Prefix.pch"; sourceTree = "<group>"; };
+		451E6C45163708D900B8A9D7 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
+		451E6C47163708D900B8A9D7 /* DSAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DSAppDelegate.h; sourceTree = "<group>"; };
+		451E6C48163708D900B8A9D7 /* DSAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DSAppDelegate.m; sourceTree = "<group>"; };
+		451E6C4B163708D900B8A9D7 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		451FC731163FFB160022E8E0 /* DSTextureAtlasController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSTextureAtlasController.h; sourceTree = "<group>"; };
+		451FC732163FFB160022E8E0 /* DSTextureAtlasController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DSTextureAtlasController.m; sourceTree = "<group>"; };
+		452FFEC8163EFCD7006C2D1C /* TextureStage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TextureStage.h; path = TextureAtlasEditor/TextureStage.h; sourceTree = "<group>"; };
+		452FFEC9163EFCD7006C2D1C /* TextureStage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TextureStage.m; path = TextureAtlasEditor/TextureStage.m; sourceTree = "<group>"; };
+		452FFECE163F0F26006C2D1C /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
+		452FFED0163F4A60006C2D1C /* libRollerBallCoreMacOSX.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libRollerBallCoreMacOSX.a; path = "../../../../Library/Developer/Xcode/DerivedData/GameRollerBall-bwsouzuzmkmatvazblqbzwuztkxy/Build/Products/Debug/libRollerBallCoreMacOSX.a"; sourceTree = "<group>"; };
+		452FFED2163F539F006C2D1C /* Texture.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = Texture.mm; path = TextureAtlasEditor/Texture.mm; sourceTree = "<group>"; };
+		452FFED4163F55EE006C2D1C /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
+		453DDBE416385B7E0039D1A4 /* PrimitiveImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PrimitiveImage.h; path = TextureAtlasEditor/PrimitiveImage.h; sourceTree = "<group>"; };
+		453DDBE516385B7E0039D1A4 /* PrimitiveImage.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = PrimitiveImage.mm; path = TextureAtlasEditor/PrimitiveImage.mm; sourceTree = "<group>"; };
+		453DDBE716385BA20039D1A4 /* TextureAtlas.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TextureAtlas.h; path = TextureAtlasEditor/TextureAtlas.h; sourceTree = "<group>"; };
+		453DDBE816385BA20039D1A4 /* TextureAtlas.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = TextureAtlas.mm; path = TextureAtlasEditor/TextureAtlas.mm; sourceTree = "<group>"; };
+		453DDBEA16385BBF0039D1A4 /* Texture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Texture.h; path = TextureAtlasEditor/Texture.h; sourceTree = "<group>"; };
+		453DDBEE1638827E0039D1A4 /* Constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Constants.h; path = TextureAtlasEditor/Constants.h; sourceTree = "<group>"; };
+		45440346165E8738002D594B /* Resolutions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Resolutions.h; path = TextureAtlasEditor/Resolutions.h; sourceTree = "<group>"; };
+		45440347165E8738002D594B /* Resolutions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Resolutions.m; path = TextureAtlasEditor/Resolutions.m; sourceTree = "<group>"; };
+		45499D201650243E00CA518C /* Atlas-icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = "Atlas-icon.icns"; sourceTree = "<group>"; };
+		45530AAB164624D6002FFEA5 /* Atlas-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Atlas-icon.png"; sourceTree = "<group>"; };
+		45530AAC164624D6002FFEA5 /* link-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "link-icon.png"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		451E6C2E163708D900B8A9D7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				452FFED5163F55EE006C2D1C /* OpenGL.framework in Frameworks */,
+				452FFED1163F4A60006C2D1C /* libRollerBallCoreMacOSX.a in Frameworks */,
+				452FFECF163F0F26006C2D1C /* ImageIO.framework in Frameworks */,
+				451E6C36163708D900B8A9D7 /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		451E6C26163708D900B8A9D7 = {
+			isa = PBXGroup;
+			children = (
+				45530AA516461A88002FFEA5 /* Images */,
+				453DDBDF163859070039D1A4 /* Classes */,
+				451E6C3B163708D900B8A9D7 /* TextureAtlasEditor */,
+				451E6C34163708D900B8A9D7 /* Frameworks */,
+				451E6C32163708D900B8A9D7 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		451E6C32163708D900B8A9D7 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				451E6C31163708D900B8A9D7 /* TextureAtlasEditor.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		451E6C34163708D900B8A9D7 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				452FFED0163F4A60006C2D1C /* libRollerBallCoreMacOSX.a */,
+				452FFED4163F55EE006C2D1C /* OpenGL.framework */,
+				452FFECE163F0F26006C2D1C /* ImageIO.framework */,
+				451E6C35163708D900B8A9D7 /* Cocoa.framework */,
+				451E6C37163708D900B8A9D7 /* Other Frameworks */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		451E6C37163708D900B8A9D7 /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				451E6C38163708D900B8A9D7 /* AppKit.framework */,
+				451E6C39163708D900B8A9D7 /* CoreData.framework */,
+				451E6C3A163708D900B8A9D7 /* Foundation.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		451E6C3B163708D900B8A9D7 /* TextureAtlasEditor */ = {
+			isa = PBXGroup;
+			children = (
+				451E6C47163708D900B8A9D7 /* DSAppDelegate.h */,
+				451E6C48163708D900B8A9D7 /* DSAppDelegate.m */,
+				451FC731163FFB160022E8E0 /* DSTextureAtlasController.h */,
+				451FC732163FFB160022E8E0 /* DSTextureAtlasController.m */,
+				451E6C4A163708D900B8A9D7 /* MainMenu.xib */,
+				451E6C3C163708D900B8A9D7 /* Supporting Files */,
+			);
+			path = TextureAtlasEditor;
+			sourceTree = "<group>";
+		};
+		451E6C3C163708D900B8A9D7 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				451E6C3D163708D900B8A9D7 /* TextureAtlasEditor-Info.plist */,
+				451E6C3E163708D900B8A9D7 /* InfoPlist.strings */,
+				451E6C41163708D900B8A9D7 /* main.m */,
+				451E6C43163708D900B8A9D7 /* TextureAtlasEditor-Prefix.pch */,
+				451E6C44163708D900B8A9D7 /* Credits.rtf */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		453DDBDF163859070039D1A4 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				453DDBEE1638827E0039D1A4 /* Constants.h */,
+				45440346165E8738002D594B /* Resolutions.h */,
+				45440347165E8738002D594B /* Resolutions.m */,
+				453DDBE416385B7E0039D1A4 /* PrimitiveImage.h */,
+				453DDBE516385B7E0039D1A4 /* PrimitiveImage.mm */,
+				453DDBE716385BA20039D1A4 /* TextureAtlas.h */,
+				453DDBE816385BA20039D1A4 /* TextureAtlas.mm */,
+				453DDBEA16385BBF0039D1A4 /* Texture.h */,
+				452FFED2163F539F006C2D1C /* Texture.mm */,
+				452FFEC8163EFCD7006C2D1C /* TextureStage.h */,
+				452FFEC9163EFCD7006C2D1C /* TextureStage.m */,
+				45150A551641F28200421B06 /* ExtendedNSCollectionView.h */,
+				45150A561641F28200421B06 /* ExtendedNSCollectionView.m */,
+				45150A5916420B9400421B06 /* KeyValuePair.h */,
+				45150A5A16420B9400421B06 /* KeyValuePair.m */,
+				4500090A164364E300191CC3 /* SmallNumberValueTransformer.h */,
+				4500090B164364E300191CC3 /* SmallNumberValueTransformer.m */,
+				4500090D16436D5300191CC3 /* RadiansToDegreesValueTransformer.h */,
+				4500090E16436D5300191CC3 /* RadiansToDegreesValueTransformer.m */,
+			);
+			name = Classes;
+			sourceTree = "<group>";
+		};
+		45530AA516461A88002FFEA5 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				45499D201650243E00CA518C /* Atlas-icon.icns */,
+				45530AAB164624D6002FFEA5 /* Atlas-icon.png */,
+				45530AAC164624D6002FFEA5 /* link-icon.png */,
+			);
+			name = Images;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		451E6C30163708D900B8A9D7 /* TextureAtlasEditor */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 451E6C4F163708D900B8A9D7 /* Build configuration list for PBXNativeTarget "TextureAtlasEditor" */;
+			buildPhases = (
+				451E6C2D163708D900B8A9D7 /* Sources */,
+				451E6C2E163708D900B8A9D7 /* Frameworks */,
+				451E6C2F163708D900B8A9D7 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = TextureAtlasEditor;
+			productName = TextureAtlasEditor;
+			productReference = 451E6C31163708D900B8A9D7 /* TextureAtlasEditor.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		451E6C28163708D900B8A9D7 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				CLASSPREFIX = DS;
+				LastUpgradeCheck = 0450;
+				ORGANIZATIONNAME = "Danilo Carvalho";
+			};
+			buildConfigurationList = 451E6C2B163708D900B8A9D7 /* Build configuration list for PBXProject "TextureAtlasEditor" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 451E6C26163708D900B8A9D7;
+			productRefGroup = 451E6C32163708D900B8A9D7 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				451E6C30163708D900B8A9D7 /* TextureAtlasEditor */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		451E6C2F163708D900B8A9D7 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				451E6C40163708D900B8A9D7 /* InfoPlist.strings in Resources */,
+				451E6C46163708D900B8A9D7 /* Credits.rtf in Resources */,
+				451E6C4C163708D900B8A9D7 /* MainMenu.xib in Resources */,
+				45530AAD164624D6002FFEA5 /* Atlas-icon.png in Resources */,
+				45530AAE164624D6002FFEA5 /* link-icon.png in Resources */,
+				45499D211650243E00CA518C /* Atlas-icon.icns in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		451E6C2D163708D900B8A9D7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				451E6C42163708D900B8A9D7 /* main.m in Sources */,
+				451E6C49163708D900B8A9D7 /* DSAppDelegate.m in Sources */,
+				453DDBE616385B7E0039D1A4 /* PrimitiveImage.mm in Sources */,
+				453DDBE916385BA20039D1A4 /* TextureAtlas.mm in Sources */,
+				452FFECA163EFCD7006C2D1C /* TextureStage.m in Sources */,
+				452FFED3163F539F006C2D1C /* Texture.mm in Sources */,
+				451FC733163FFB160022E8E0 /* DSTextureAtlasController.m in Sources */,
+				45150A571641F28200421B06 /* ExtendedNSCollectionView.m in Sources */,
+				45150A5B16420B9400421B06 /* KeyValuePair.m in Sources */,
+				4500090C164364E300191CC3 /* SmallNumberValueTransformer.m in Sources */,
+				4500090F16436D5300191CC3 /* RadiansToDegreesValueTransformer.m in Sources */,
+				45440348165E8738002D594B /* Resolutions.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		451E6C3E163708D900B8A9D7 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				451E6C3F163708D900B8A9D7 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		451E6C44163708D900B8A9D7 /* Credits.rtf */ = {
+			isa = PBXVariantGroup;
+			children = (
+				451E6C45163708D900B8A9D7 /* en */,
+			);
+			name = Credits.rtf;
+			sourceTree = "<group>";
+		};
+		451E6C4A163708D900B8A9D7 /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				451E6C4B163708D900B8A9D7 /* en */,
+			);
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		451E6C4D163708D900B8A9D7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		451E6C4E163708D900B8A9D7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
+				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		451E6C50163708D900B8A9D7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "TextureAtlasEditor/TextureAtlasEditor-Prefix.pch";
+				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
+				INFOPLIST_FILE = "TextureAtlasEditor/TextureAtlasEditor-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../../../Library/Developer/Xcode/DerivedData/GameRollerBall-bwsouzuzmkmatvazblqbzwuztkxy/Build/Products/Debug\"",
+				);
+				PRODUCT_NAME = TextureAtlasEditor;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		451E6C51163708D900B8A9D7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "TextureAtlasEditor/TextureAtlasEditor-Prefix.pch";
+				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
+				INFOPLIST_FILE = "TextureAtlasEditor/TextureAtlasEditor-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../../../Library/Developer/Xcode/DerivedData/GameRollerBall-bwsouzuzmkmatvazblqbzwuztkxy/Build/Products/Debug\"",
+				);
+				PRODUCT_NAME = TextureAtlasEditor;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		451E6C2B163708D900B8A9D7 /* Build configuration list for PBXProject "TextureAtlasEditor" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				451E6C4D163708D900B8A9D7 /* Debug */,
+				451E6C4E163708D900B8A9D7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		451E6C4F163708D900B8A9D7 /* Build configuration list for PBXNativeTarget "TextureAtlasEditor" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				451E6C50163708D900B8A9D7 /* Debug */,
+				451E6C51163708D900B8A9D7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 451E6C28163708D900B8A9D7 /* Project object */;
+}

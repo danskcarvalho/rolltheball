@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>82E62F62-45B9-48D1-A2E5-EEE9B838F1C0</string>
+	<key>IDESourceControlProjectName</key>
+	<string>GameRollerBall</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>41069F2E-B78B-42DD-9975-3E8B53BCCEDB</key>
+		<string>svn+ssh://svn.code.sf.net/p/gamerollerball/code/trunk</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>Source/GameRollerBall.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>41069F2E-B78B-42DD-9975-3E8B53BCCEDB</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectRepositoryRootDictionary</key>
+	<dict>
+		<key>41069F2E-B78B-42DD-9975-3E8B53BCCEDB</key>
+		<string>svn+ssh://svn.code.sf.net/p/gamerollerball/code</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>svn+ssh://svn.code.sf.net/p/gamerollerball/code/trunk/Source/GameRollerBall.xcworkspace</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>41069F2E-B78B-42DD-9975-3E8B53BCCEDB</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryBranchesRelativeLocationKey</key>
+			<string>branches</string>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.subversion</string>
+			<key>IDESourceControlRepositoryTagsRelativeLocationKey</key>
+			<string>tags</string>
+			<key>IDESourceControlRepositoryTrunkRelativeLocationKey</key>
+			<string>trunk</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>41069F2E-B78B-42DD-9975-3E8B53BCCEDB</string>
+			<key>IDESourceControlWCCName</key>
+			<string>GameRollerBall</string>
+		</dict>
+	</array>
+</dict>
+</plist>

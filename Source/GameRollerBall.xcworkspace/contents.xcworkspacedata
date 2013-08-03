@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workspace
+   version = "1.0">
+   <FileRef
+      location = "group:TextureAtlasEditor/TextureAtlasEditor.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:RollerBallEditor/RollerBallEditor.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:RollerBalliOS/RollerBalliOS.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:RollerBallMacOSX/RollerBallMacOSX.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:RollerBallCore/RollerBallCore.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:Image Batch Resizer/Image Batch Resizer.xcodeproj">
+   </FileRef>
+</Workspace>

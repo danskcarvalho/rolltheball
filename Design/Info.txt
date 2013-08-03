@@ -1,0 +1,86 @@
+Tamanho Bloco Básico iPad 3:
+128px vs 128px
+
+Quantidade máxima de blocos: 16
+
+Os objetos estão numa resolução maior que a esperada, no entanto, é esperado q esses objetos sejam reduzidos in-game.
+
+Tamanho (aproximado) expresso em blocos.
+Objetos
+Cannon: 4 x 4
+Cristal: 1 x 1
+Halo: 1.5 x 1.5
+Light: 4 x 4
+Character: 2 x 2
+FireBall: 0.5 x 0.5x
+FireParticles: 1.5 x 1.5x
+FireLauncher: 2 x 2
+GooBall: 4 x 4
+GooRectangle-1: 2 x 2
+GooRectangle-2: 3 x 2
+GravitySign: 1 x 1
+MagneticLassoBase: 1 x 1
+MagneticLassoDelimiter: 0.5 x 0.5
+MagneticLassoPin: 0.5 x 0.5
+Mine: 3 x 3
+Missile: 1 x 1
+MissileLauncher: 2 x 2
+OKSign: 1 x 2
+Pole: 1 x 2
+SawBlade: 3 x 3
+Star: 1 x 1
+Switch-Base: 1 x 1
+Switch-Button: 0.5 x 0.5
+TimedMine: 3 x 3
+Track: 4 x 0.5
+
+Botões
+Todos: 2.5 x 2.5
+
+Textures
+Autos: 8x8
+SmallTextureDetail: 2 x 2
+BigTextureDetail: 1 x 1
+Buildings: 8 x 8
+Bush: 2 x 2
+Bushes: 4 x 4
+Clouds: 4 x 4
+Cranes: 8 x 8
+Crane-Part-1: 2 x 4
+Crane-Part-2: 4 x 2
+Full-Crane: 8 x 8
+Eletric-Pole: 4 x 4
+Fans: 2 x 2
+Grass: 3 x 1
+Ladder: 1.5 x 3
+Lamp: 1 x 1
+Metal-Fix: 1 x 1
+Metal-HandRail: 1 x 1
+Metal-Support: 2 x 1
+Metal-Window: 2 x 2
+Mountain: 8 x 8
+Pipe-1: 4 x 1.5
+Pipe-2: 1.5 x 1.5
+Pipe-3: 2 x 2
+Pipe-4: 2 x 4
+Pipe-6: 2 x 2
+Pipe-7: 2 x 2
+Pipe-8: 1.5 x 1.5x
+Pipe-9: 1.5 x 1.5x
+Pipe-10: 1 x 1
+Platform-1: 3 x 1
+Platform-2: 1.5 x 1
+Rope: 0.2 x 0.5
+Silo: 6 x 6
+Stars: 1 x 1
+Stones: 1.5 x 1.5
+Strip: 2 x 0.5
+Support-1-3-4: 6 x 6
+Support-2: 1.5 x 1.5
+Trees: 6 x 6
+Wire: 0.2 x 0.5
+WireFix: 1 x 1
+Wood-1: 1 x 2
+Wood-2-3-4-5: 2 x 1
+Wood-Fix: 1 x 1
+Wood-7: 2 x 2

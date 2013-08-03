@@ -1,0 +1,23 @@
+Lista de Objetos:
+** Personagem principal.
+** Pista (Track).
+** Saw Blade.
+** Mina.
+** Mina aproximativa.
+** Mina que explode ao chegar perto
+** Canhão.
+** Placa indicando final da fase.
+** Estrela.
+** Pontos para indicar linhas de viagem e áreas.
+** Switch On/OFF.
+** Molas (bolhas propulsoras).
+** Míssel.
+** Lança- Míssel.
+** Rastro do Lança Míssel (implementar na GPU?) 
+** Cristal Repulsivo/ Cristal atrativo.
+** Bolha.
+** Laço magnético.
+** Poeira.
+** Explosão.
+** Gota de água.
+** Lança chama.
