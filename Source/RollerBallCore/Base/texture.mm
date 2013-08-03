@@ -57,7 +57,7 @@ const texture* texture::blank(){
         _blank = new dynamic_texture(vec2(10, 10), texture_border::none, [](void* ctx){
             
             CGContextRef _ctx = (CGContextRef)ctx;
-            CGContextSetRGBFillColor(_ctx, 0, 0, 0, 0);
+            CGContextSetRGBFillColor(_ctx, 1, 1, 1, 1);
             CGContextFillRect(_ctx, CGRectMake(0, 0, 10, 10));
             });
     }

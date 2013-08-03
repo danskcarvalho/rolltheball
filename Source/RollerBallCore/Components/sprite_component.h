@@ -25,6 +25,8 @@ namespace rb {
         rb_string _image;
         bool _reapply_mapping;
         float _opacity;
+        color _tint;
+        float _blend;
         bool _collapsed;
         bool _visible;
         bool _aspect_correction;
@@ -56,6 +58,14 @@ namespace rb {
         const rb_string& image_name(const rb_string& value);
         bool aspect_correction() const;
         bool aspect_correction(const bool value);
+        float opacity() const;
+        float opacity(float value);
+        bool visible() const;
+        bool visible(bool value);
+        const color& tint() const;
+        const color& tint(const color& value);
+        float blend() const;
+        float blend(float value);
     private:
         vec2 size_of_tex() const;
         transform_space aspect_correction_factor() const;

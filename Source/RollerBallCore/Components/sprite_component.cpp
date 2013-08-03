@@ -24,6 +24,8 @@ sprite_component::sprite_component(){
     _image = u"";
     _reapply_mapping = false;
     _opacity = 1;
+    _tint = color::from_rgba(1, 1, 1, 1);
+    _blend = 1;
     _collapsed = true;
     _visible = true;
     _aspect_correction = true;
@@ -52,6 +54,8 @@ void sprite_component::create(){
             else
                 _rc.to_mesh(*_m, rectangle(0.5, 0.5, 1, 1)); //no texture coordinates
             _m->set_alpha(_opacity);
+            _m->set_color(_tint);
+            _m->set_blend(_blend);
             _m_copy = new mesh();
             *_m_copy = *_m;
         }
@@ -197,6 +201,55 @@ rectangle sprite_component::bounds() const{
     return _rc;
 }
 
+float sprite_component::opacity() const {
+    return _opacity;
+}
+
+float sprite_component::opacity(float value){
+    this->_opacity = value;
+    if(this->_m)
+        this->_m->set_alpha(this->_opacity);
+    if(this->_m_copy)
+        this->_m_copy->set_alpha(this->_opacity);
+    return _opacity;
+}
+
+const color& sprite_component::tint() const {
+    return _tint;
+}
+
+const color& sprite_component::tint(const rb::color &value){
+    this->_tint = value;
+    if(this->_m)
+        this->_m->set_color(this->_tint);
+    if(this->_m_copy)
+        this->_m_copy->set_color(this->_tint);
+    return _tint;
+}
+
+float sprite_component::blend() const {
+    return _blend;
+}
+
+float sprite_component::blend(float value){
+    this->_blend = value;
+    if(this->_m)
+        this->_m->set_blend(this->_blend);
+    if(this->_m_copy)
+        this->_m_copy->set_blend(this->_blend);
+    return _blend;
+}
+
+
+bool sprite_component::visible() const {
+    return _visible;
+}
+
+bool sprite_component::visible(bool value){
+    this->_visible = value;
+    return _visible;
+}
+
 void sprite_component::describe_type(){
     node::describe_type();
     start_type<sprite_component>([](){ return new sprite_component(); });
@@ -213,11 +266,7 @@ void sprite_component::describe_type(){
             return site->_opacity;
         },
         [](sprite_component* site, const float value){
-            site->_opacity = value;
-            if(site->_m)
-                site->_m->set_alpha(site->_opacity);
-            if(site->_m_copy)
-                site->_m_copy->set_alpha(site->_opacity);
+            site->opacity(value);
         }
     });
     boolean_property<sprite_component>(u"visible", u"Visible", true, {
@@ -225,7 +274,7 @@ void sprite_component::describe_type(){
             return site->_visible;
         },
         [](sprite_component* site, const float value){
-            site->_visible = value;
+            site->visible(value);
         }
     });
     boolean_property<sprite_component>(u"aspect_correction", u"Aspect", true, {
@@ -234,6 +283,22 @@ void sprite_component::describe_type(){
         },
         [](sprite_component* site, const float value){
             site->_aspect_correction = value;
+        }
+    });
+    color_property<sprite_component>(u"tint", u"Tint", true, true, {
+        [](const sprite_component* site){
+            return site->_tint;
+        },
+        [](sprite_component* site, const color& value){
+            site->tint(value);
+        }
+    });
+    ranged_property<sprite_component>(u"blend", u"Blend", true, true, 5, {
+        [](const sprite_component* site){
+            return site->_blend;
+        },
+        [](sprite_component* site, const float value){
+            site->blend(value);
         }
     });
     
