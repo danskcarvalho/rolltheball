@@ -307,7 +307,8 @@ const rb_string& layer::primary_group_name(const rb_string& value) {
     if(_primary_group_name == value)
         return _primary_group_name;
     _primary_group_name = value;
-    texture_atlas_changed();
+    if(_parent_scene && _parent_scene->active())
+        texture_atlas_changed();
     return _primary_group_name;
 }
 const rb_string& layer::secondary_group_name() const {
@@ -317,7 +318,8 @@ const rb_string& layer::secondary_group_name(const rb_string& value) {
     if(_secondary_group_name == value)
         return _secondary_group_name;
     _secondary_group_name = value;
-    texture_atlas_changed();
+    if(_parent_scene && _parent_scene->active())
+        texture_atlas_changed();
     return _secondary_group_name;
 }
 
@@ -530,6 +532,56 @@ transform_space layer::from_layer_space_to(const rb::node_container *another) co
     return _to_scene_2.inverse() * _to_scene_1;
 }
 
+rb_string to_group_name(uint32_t flags){
+    if(flags & (1 << 0))
+        return u"g00";
+    else if(flags & (1 << 1))
+        return u"g01";
+    else if(flags & (1 << 2))
+        return u"g02";
+    else if(flags & (1 << 3))
+        return u"g03";
+    else if(flags & (1 << 4))
+        return u"g04";
+    else if(flags & (1 << 5))
+        return u"g05";
+    else if(flags & (1 << 6))
+        return u"g06";
+    else if(flags & (1 << 7))
+        return u"g07";
+    else if(flags & (1 << 8))
+        return u"g08";
+    else if(flags & (1 << 9))
+        return u"g09";
+    else
+        return u"";
+}
+
+uint32_t from_group_name(const rb_string& grp_name){
+    if(grp_name == u"g00")
+        return 1 << 0;
+    else if(grp_name == u"g01")
+        return 1 << 1;
+    else if(grp_name == u"g02")
+        return 1 << 2;
+    else if(grp_name == u"g03")
+        return 1 << 3;
+    else if(grp_name == u"g04")
+        return 1 << 4;
+    else if(grp_name == u"g05")
+        return 1 << 5;
+    else if(grp_name == u"g06")
+        return 1 << 6;
+    else if(grp_name == u"g07")
+        return 1 << 7;
+    else if(grp_name == u"g08")
+        return 1 << 8;
+    else if(grp_name == u"g09")
+        return 1 << 9;
+    else
+        return 0;
+}
+
 void layer::describe_type(){
     node_container::describe_type();
     start_type<layer>([]() { return new layer(); });
@@ -564,6 +616,103 @@ void layer::describe_type(){
         },
         [](layer* site, const color& value){
             site->ambient_color(value);
+        }
+    });
+    //Primary Group
+    flags_property<layer, uint32_t>(u"primary_g00_g03", u"Primary Grp", {u"0", u"1", u"2", u"3"}, true, {
+        [](const layer* site){
+            return from_group_name(site->primary_group_name()) & 0xF;
+        },
+        [](layer* site, uint32 value){
+            if(value == 0)
+                return;
+            auto _current = from_group_name(site->primary_group_name());
+            auto _new = value & (~_current);
+            site->primary_group_name(to_group_name(_new));
+            site->force_notify_property_changed(u"primary_g00_g03");
+            site->force_notify_property_changed(u"primary_g04_g07");
+            site->force_notify_property_changed(u"primary_g08_g09");
+        }
+    });
+    flags_property<layer, uint32_t>(u"primary_g04_g07", u"", {u"4", u"5", u"6", u"7"}, true, {
+        [](const layer* site){
+            return (from_group_name(site->primary_group_name()) & 0xF0) >> 4;
+        },
+        [](layer* site, uint32 value){
+            if(value == 0)
+                return;
+            value <<= 4;
+            auto _current = from_group_name(site->primary_group_name());
+            auto _new = value & (~_current);
+            site->primary_group_name(to_group_name(_new));
+            site->force_notify_property_changed(u"primary_g00_g03");
+            site->force_notify_property_changed(u"primary_g04_g07");
+            site->force_notify_property_changed(u"primary_g08_g09");
+        }
+    });
+    flags_property<layer, uint32_t>(u"primary_g08_g09", u"", {u"8", u"9"}, true, {
+        [](const layer* site){
+            return (from_group_name(site->primary_group_name()) & 0xF00) >> 8;
+        },
+        [](layer* site, uint32 value){
+            if(value == 0)
+                return;
+            value <<= 8;
+            auto _current = from_group_name(site->primary_group_name());
+            auto _new = value & (~_current);
+            site->primary_group_name(to_group_name(_new));
+            site->force_notify_property_changed(u"primary_g00_g03");
+            site->force_notify_property_changed(u"primary_g04_g07");
+            site->force_notify_property_changed(u"primary_g08_g09");
+        }
+    });
+    
+    //Secondaru Group
+    flags_property<layer, uint32_t>(u"secondary_g00_g03", u"Secondary Grp", {u"0", u"1", u"2", u"3"}, true, {
+        [](const layer* site){
+            return from_group_name(site->secondary_group_name()) & 0xF;
+        },
+        [](layer* site, uint32 value){
+            if(value == 0)
+                return;
+            auto _current = from_group_name(site->secondary_group_name());
+            auto _new = value & (~_current);
+            site->secondary_group_name(to_group_name(_new));
+            site->force_notify_property_changed(u"secondary_g00_g03");
+            site->force_notify_property_changed(u"secondary_g04_g07");
+            site->force_notify_property_changed(u"secondary_g08_g09");
+        }
+    });
+    flags_property<layer, uint32_t>(u"secondary_g04_g07", u"", {u"4", u"5", u"6", u"7"}, true, {
+        [](const layer* site){
+            return (from_group_name(site->secondary_group_name()) & 0xF0) >> 4;
+        },
+        [](layer* site, uint32 value){
+            if(value == 0)
+                return;
+            value <<= 4;
+            auto _current = from_group_name(site->secondary_group_name());
+            auto _new = value & (~_current);
+            site->secondary_group_name(to_group_name(_new));
+            site->force_notify_property_changed(u"secondary_g00_g03");
+            site->force_notify_property_changed(u"secondary_g04_g07");
+            site->force_notify_property_changed(u"secondary_g08_g09");
+        }
+    });
+    flags_property<layer, uint32_t>(u"secondary_g08_g09", u"", {u"8", u"9"}, true, {
+        [](const layer* site){
+            return (from_group_name(site->secondary_group_name()) & 0xF00) >> 8;
+        },
+        [](layer* site, uint32 value){
+            if(value == 0)
+                return;
+            value <<= 8;
+            auto _current = from_group_name(site->secondary_group_name());
+            auto _new = value & (~_current);
+            site->secondary_group_name(to_group_name(_new));
+            site->force_notify_property_changed(u"secondary_g00_g03");
+            site->force_notify_property_changed(u"secondary_g04_g07");
+            site->force_notify_property_changed(u"secondary_g08_g09");
         }
     });
     end_type();
