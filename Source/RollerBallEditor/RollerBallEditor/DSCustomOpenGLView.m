@@ -286,6 +286,14 @@ inline rb_string from_platform_string(NSString* str){
     }
 }
 
+-(void)selectAll:(id)sender{
+    if(director::active_scene()->current()){
+        for (auto _n : *director::active_scene()->current()){
+            director::active_scene()->current()->add_to_selection(_n);
+        }
+    }
+}
+
 -(BOOL)acceptsFirstResponder{
     return YES;
 }

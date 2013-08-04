@@ -325,6 +325,9 @@ namespace rb {
         //Centering Camera
     public:
         void center_camera_on_selection();
+        //removing degenerated
+    public:
+        uint32_t remove_degenerated();
     };
 }
 
