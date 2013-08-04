@@ -21,7 +21,7 @@
 		456726F815F033B100C91B3C /* libRollerBallCoreiOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 456726F715F033B100C91B3C /* libRollerBallCoreiOS.a */; };
 		456C8A0E161267900001B343 /* basic_shader.fsh in CopyFiles */ = {isa = PBXBuildFile; fileRef = 456C8A06161267510001B343 /* basic_shader.fsh */; };
 		456C8A0F161267900001B343 /* basic_shader.vsh in CopyFiles */ = {isa = PBXBuildFile; fileRef = 456C8A07161267510001B343 /* basic_shader.vsh */; };
-		45D3CC7717A413550034EDBF /* Near-Complete.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 45D3CC7617A413550034EDBF /* Near-Complete.bundle */; };
+		45A06C1017AE9C22009087B7 /* Test.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 45A06C0F17AE9C22009087B7 /* Test.bundle */; };
 		45D3CC7A17A4138D0034EDBF /* Test.scene in CopyFiles */ = {isa = PBXBuildFile; fileRef = 45D3CC7817A413820034EDBF /* Test.scene */; };
 		45E52957161265E9002159FF /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45E52956161265E9002159FF /* ImageIO.framework */; };
 /* End PBXBuildFile section */
@@ -9074,7 +9074,7 @@
 		456726F715F033B100C91B3C /* libRollerBallCoreiOS.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libRollerBallCoreiOS.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		456C8A06161267510001B343 /* basic_shader.fsh */ = {isa = PBXFileReference; explicitFileType = sourcecode.glsl; fileEncoding = 4; name = basic_shader.fsh; path = ../../RollerBallCore/Shaders/basic_shader.fsh; sourceTree = "<group>"; };
 		456C8A07161267510001B343 /* basic_shader.vsh */ = {isa = PBXFileReference; explicitFileType = sourcecode.glsl; fileEncoding = 4; name = basic_shader.vsh; path = ../../RollerBallCore/Shaders/basic_shader.vsh; sourceTree = "<group>"; };
-		45D3CC7617A413550034EDBF /* Near-Complete.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = "Near-Complete.bundle"; path = "../../../Resources/Atlases/Near-Complete.bundle"; sourceTree = "<group>"; };
+		45A06C0F17AE9C22009087B7 /* Test.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = Test.bundle; path = ../../../Resources/Atlases/Test.bundle; sourceTree = "<group>"; };
 		45D3CC7817A413820034EDBF /* Test.scene */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = Test.scene; path = ../../../Resources/Scenes/Test.scene; sourceTree = "<group>"; };
 		45E52956161265E9002159FF /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
@@ -24278,7 +24278,7 @@
 		45E5295B16126692002159FF /* Atlases */ = {
 			isa = PBXGroup;
 			children = (
-				45D3CC7617A413550034EDBF /* Near-Complete.bundle */,
+				45A06C0F17AE9C22009087B7 /* Test.bundle */,
 			);
 			name = Atlases;
 			sourceTree = "<group>";
@@ -24338,7 +24338,7 @@
 			files = (
 				456726DE15F0322E00C91B3C /* InfoPlist.strings in Resources */,
 				456726EE15F0322E00C91B3C /* DSViewController.xib in Resources */,
-				45D3CC7717A413550034EDBF /* Near-Complete.bundle in Resources */,
+				45A06C1017AE9C22009087B7 /* Test.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
