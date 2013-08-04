@@ -29,5 +29,6 @@
 #include "group_component.h"
 #include "transform_gizmo.h"
 #include "scene_loader.h"
-
+#include "misc_classes_2.h"
+#include "misc_classes_3.h"
 #endif

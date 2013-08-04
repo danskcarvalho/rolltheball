@@ -18,7 +18,7 @@
 #include "null_texture_map.h"
 #include "polygon.h"
 #include "editor_delegate.h"
-#include "misc_classes.h"
+#include "misc_classes_3.h"
 #include "group_component.h"
 #include "texture_atlas_loader.h"
 #include "scene_loader.h"
