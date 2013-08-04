@@ -718,6 +718,19 @@ void node_container::unhide_all_children() {
     }
 }
 
+bool node_container::is_degenerated() const {
+    auto _t = transform();
+    return !_t.test_direction(transform_direction::from_base_to_space) || !_t.test_direction(transform_direction::from_space_to_base);
+}
+
+void node_container::test_degeneration(std::vector<node *> &nodes){
+    if (dynamic_cast<node*>(this) && this->is_degenerated())
+        nodes.push_back(dynamic_cast<node*>(this));
+    
+    for (auto _n : *this){
+        _n->test_degeneration(nodes);
+    }
+}
 
 
 

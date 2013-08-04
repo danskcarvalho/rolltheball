@@ -991,14 +991,14 @@
 					</object>
 					<object class="NSMenuItem" id="600433017">
 						<reference key="NSMenu" ref="649796088"/>
-						<string key="NSTitle">Object</string>
+						<string key="NSTitle">Node</string>
 						<string key="NSKeyEquiv"/>
 						<int key="NSMnemonicLoc">2147483647</int>
 						<reference key="NSOnImage" ref="35465992"/>
 						<reference key="NSMixedImage" ref="502551668"/>
 						<string key="NSAction">submenuAction:</string>
 						<object class="NSMenu" key="NSSubmenu" id="774401173">
-							<string key="NSTitle">Object</string>
+							<string key="NSTitle">Node</string>
 							<array class="NSMutableArray" key="NSMenuItems">
 								<object class="NSMenuItem" id="1000865481">
 									<reference key="NSMenu" ref="774401173"/>
@@ -1023,6 +1023,24 @@
 									<string key="NSTitle">Deselect All</string>
 									<string key="NSKeyEquiv">a</string>
 									<int key="NSKeyEquivModMask">1572864</int>
+									<int key="NSMnemonicLoc">2147483647</int>
+									<reference key="NSOnImage" ref="35465992"/>
+									<reference key="NSMixedImage" ref="502551668"/>
+								</object>
+								<object class="NSMenuItem" id="31616145">
+									<reference key="NSMenu" ref="774401173"/>
+									<bool key="NSIsDisabled">YES</bool>
+									<bool key="NSIsSeparator">YES</bool>
+									<string key="NSTitle"/>
+									<string key="NSKeyEquiv"/>
+									<int key="NSMnemonicLoc">2147483647</int>
+									<reference key="NSOnImage" ref="35465992"/>
+									<reference key="NSMixedImage" ref="502551668"/>
+								</object>
+								<object class="NSMenuItem" id="263363661">
+									<reference key="NSMenu" ref="774401173"/>
+									<string key="NSTitle">Remove Degenerated Nodes</string>
+									<string key="NSKeyEquiv"/>
 									<int key="NSMnemonicLoc">2147483647</int>
 									<reference key="NSOnImage" ref="35465992"/>
 									<reference key="NSMixedImage" ref="502551668"/>
@@ -2287,6 +2305,14 @@
 					<int key="connectionID">1496</int>
 				</object>
 				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">selectAll:</string>
+						<reference key="source" ref="1014"/>
+						<reference key="destination" ref="142598306"/>
+					</object>
+					<int key="connectionID">1686</int>
+				</object>
+				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
 						<string key="label">window</string>
 						<reference key="source" ref="976324537"/>
@@ -3285,19 +3311,19 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
-						<string key="label">selectAllNodes:</string>
-						<reference key="source" ref="1034646827"/>
-						<reference key="destination" ref="142598306"/>
-					</object>
-					<int key="connectionID">1681</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
 						<string key="label">deselectAllNodes:</string>
 						<reference key="source" ref="1034646827"/>
 						<reference key="destination" ref="990707634"/>
 					</object>
 					<int key="connectionID">1682</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">removeDegenerated:</string>
+						<reference key="source" ref="1034646827"/>
+						<reference key="destination" ref="263363661"/>
+					</object>
+					<int key="connectionID">1685</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -3882,6 +3908,8 @@
 							<reference ref="787911250"/>
 							<reference ref="142598306"/>
 							<reference ref="990707634"/>
+							<reference ref="263363661"/>
+							<reference ref="31616145"/>
 						</array>
 						<reference key="parent" ref="600433017"/>
 					</object>
@@ -5630,6 +5658,16 @@
 						<reference key="object" ref="376418613"/>
 						<reference key="parent" ref="377230383"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">1683</int>
+						<reference key="object" ref="263363661"/>
+						<reference key="parent" ref="774401173"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">1684</int>
+						<reference key="object" ref="31616145"/>
+						<reference key="parent" ref="774401173"/>
+					</object>
 				</array>
 			</object>
 			<dictionary class="NSMutableDictionary" key="flattenedProperties">
@@ -5842,6 +5880,8 @@
 				<string key="1677.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="1678.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="1679.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="1683.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="1684.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="29.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<boolean value="YES" key="371.IBNSWindowAutoPositionCentersHorizontal"/>
 				<boolean value="YES" key="371.IBNSWindowAutoPositionCentersVertical"/>
@@ -5970,7 +6010,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">1682</int>
+			<int key="maxID">1686</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -6075,6 +6115,7 @@
 						<string key="openScene:">id</string>
 						<string key="playStop:">id</string>
 						<string key="quitApplication:">id</string>
+						<string key="removeDegenerated:">id</string>
 						<string key="removeFromSelection:">id</string>
 						<string key="resetCamera:">id</string>
 						<string key="resetRotation:">id</string>
@@ -6208,6 +6249,10 @@
 						</object>
 						<object class="IBActionInfo" key="quitApplication:">
 							<string key="name">quitApplication:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="removeDegenerated:">
+							<string key="name">removeDegenerated:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 						<object class="IBActionInfo" key="removeFromSelection:">

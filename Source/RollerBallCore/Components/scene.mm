@@ -1226,6 +1226,19 @@ std::vector<node*> scene::node_with_one_class(const rb_string& classes){
     return _result;
 }
 
+uint32_t scene::remove_degenerated(){
+    std::vector<node*> _nodes;
+    for (size_t i = 0; i < MAX_LAYERS; i++) {
+        _layers[i]->test_degeneration(_nodes);
+    }
+    
+    for (size_t i = 0; i < _nodes.size(); i++) {
+        _nodes[i]->parent()->remove_node(_nodes[i], true);
+    }
+    
+    return (uint32_t)_nodes.size();
+}
+
 
 
 

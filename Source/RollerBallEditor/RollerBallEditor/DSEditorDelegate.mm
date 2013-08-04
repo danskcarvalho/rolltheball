@@ -939,14 +939,6 @@ inline rb_string from_platform_string(NSString* str){
     director::active_scene()->navigation_mode(navigation_mode::scroll);
 }
 
-- (IBAction)selectAllNodes:(id)sender {
-    if(director::active_scene()->current()){
-        for (auto _n : *director::active_scene()->current()){
-            director::active_scene()->current()->add_to_selection(_n);
-        }
-    }
-}
-
 - (IBAction)deselectAllNodes:(id)sender {
     if(director::active_scene()->current()){
         director::active_scene()->current()->clear_selection();
@@ -1045,6 +1037,11 @@ inline rb_string from_platform_string(NSString* str){
 
 -(void)removeObjectFromComponentsAtIndex:(NSUInteger)index{
     [self.components removeObjectAtIndex:index];
+}
+
+- (IBAction)removeDegenerated:(id)sender {
+    auto _r = director::active_scene()->remove_degenerated();
+    [self alert:[NSString stringWithFormat:@"%d Nodes Removed.", _r]];
 }
 
 -(void)delegateSelectionChanged:(void *)container {

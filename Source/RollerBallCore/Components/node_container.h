@@ -143,6 +143,11 @@ namespace rb {
         //serialization
     protected:
         virtual void was_deserialized() override;
+        //Degeneration
+    public:
+        virtual bool is_degenerated() const;
+    private:
+        void test_degeneration(std::vector<node*>& nodes);
     };
 }
 
