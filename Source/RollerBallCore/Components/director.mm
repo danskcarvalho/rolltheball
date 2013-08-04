@@ -10,7 +10,7 @@
 #include "scene.h"
 #include "editor_delegate.h"
 #include "sprite_component.h"
-#include "misc_classes.h"
+#include "misc_classes_2.h"
 #include "group_component.h"
 #include "layer.h"
 #import <Foundation/Foundation.h>

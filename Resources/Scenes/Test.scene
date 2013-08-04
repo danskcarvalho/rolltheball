@@ -9,7 +9,7 @@
 		<property value-a="1" value-b="0" value-g="0.64" value-r="1" name="alternate_gizmo" />
 		<property value-a="1" value-b="1" value-g="0" value-r="0" name="selection_color" />
 		<property value="0|" name="current" />
-		<property value="AIsBkoD2T0CA9k9AAAAAANsPyT+o2di+AAAAAID2T0AAAAAAAAAAAID2T0Co2di+AAAAAAFnAnEMkZ0+AAAAAAAAAAAMkZ0+WXgFPgAAAAA=" name="camera" />
+		<property value="AAAAAID2T0CA9k9AAAAAANsPyT+o2di+AAAAAID2T0AAAAAAAAAAAID2T0Co2di+AAAAAAEgAAAMkZ0+AAAAAAAAAAAMkZ0+WXgFPgAAAAA=" name="camera" />
 	</properties>
 	<children>
 		<child type-name="rb::layer">
@@ -31,7 +31,7 @@
 				<child type-name="rb::sprite_component">
 					<properties>
 						<property value="false" name="rb::in_editor_hidden" />
-						<property value="true" name="rb::selected" />
+						<property value="false" name="rb::selected" />
 						<property type-name="rb::component_id" name="rb::node_id">
 							<properties>
 								<property value="" name="name" />
@@ -41,7 +41,41 @@
 						</property>
 						<property type-name="rb::transformation_values" name="rb::transformation">
 							<properties>
-								<property value-y="0" value-x="0" name="translation" />
+								<property value-y="0.238269" value-x="2.72567" name="translation" />
+								<property value-y="1.85394" value-x="1.85394" name="scale" />
+								<property value="false" name="uniform" />
+								<property value-y="117.251" value-x="27.2514" name="rotation" />
+								<property value="true" name="orthogonal" />
+							</properties>
+							<children />
+						</property>
+						<property value="false" name="rb::blocked" />
+						<property value="cannon" name="image" />
+						<property value="0.552734" name="opacity" />
+						<property value="true" name="visible" />
+						<property value="true" name="aspect_correction" />
+						<property value-a="1" value-b="1" value-g="1" value-r="1" name="tint" />
+						<property value="1" name="blend" />
+						<property value="BgAAAAQAAAAAAAEAAgAAAAMAAQBxL9Y//Sw9PwAAAAD//38/AIANPwAAgD8AAAAAQhYyPwAAAD9605s+/////3PKcUBrWoa+AAAAP0IWMj8AgA0/AACAPwAAAABCFjI/AAAAP3rTmz7/////EHY7QGRgsT8AAAA///9/PwCADT8AAIA/AAAAAEIWMj8AAAA/etObPv////99bCFAUcFovwAAAABCFjI/AIANPwAAgD8AAAAAQhYyPwAAAD9605s+/////w==" name="mesh" />
+						<property value="BgAAAAQAAAAAAAEAAgAAAAMAAQAAAAC/AAAAPwAAAAD//38/AIANPwAAgD8AAAAAQhYyPwAAAD9605s+/////wAAAD8AAAC/AAAAP0IWMj8AgA0/AACAPwAAAABCFjI/AAAAP3rTmz7/////AAAAPwAAAD8AAAA///9/PwCADT8AAIA/AAAAAEIWMj8AAAA/etObPv////8AAAC/AAAAvwAAAABCFjI/AIANPwAAgD8AAAAAQhYyPwAAAD9605s+/////w==" name="mesh_copy" />
+						<property value="AAAAAJ3NtD/dTe0/QIXzPpX4AkBncS5AqfxzPjO8oD/pkyU/HlJZvwP30j9ncS5AqfxzPgEAAACnHiE/pel8vlH5pT4LhPU+YHflvwMXDz8=" name="before_transformation" />
+					</properties>
+					<children />
+				</child>
+				<child type-name="rb::group_component">
+					<properties>
+						<property value="false" name="rb::in_editor_hidden" />
+						<property value="false" name="rb::selected" />
+						<property type-name="rb::component_id" name="rb::node_id">
+							<properties>
+								<property value="" name="name" />
+								<property value="" name="classes" />
+							</properties>
+							<children />
+						</property>
+						<property type-name="rb::transformation_values" name="rb::transformation">
+							<properties>
+								<property value-y="0.0813127" value-x="-1.77131" name="translation" />
 								<property value-y="1" value-x="1" name="scale" />
 								<property value="false" name="uniform" />
 								<property value-y="90" value-x="0" name="rotation" />
@@ -50,17 +84,78 @@
 							<children />
 						</property>
 						<property value="false" name="rb::blocked" />
-						<property value="character" name="image" />
-						<property value="1" name="opacity" />
-						<property value="true" name="visible" />
-						<property value="true" name="aspect_correction" />
-						<property value-a="1" value-b="1" value-g="1" value-r="1" name="tint" />
-						<property value="0.408854" name="blend" />
-						<property value="BgAAAAQAAAAAAAEAAgAAAAMAAQAAAAC/AAAAPwAAAD9tqVk/AACAP1VV0T4AAAA/QhYyP6uqqj6tTB4+/////wAAAD8AAAC/VlVVP0IWMj8AAIA/VVXRPgAAAD9CFjI/q6qqPq1MHj7/////AAAAPwAAAD9WVVU/balZPwAAgD9VVdE+AAAAP0IWMj+rqqo+rUwePv////8AAAC/AAAAvwAAAD9CFjI/AACAP1VV0T4AAAA/QhYyP6uqqj6tTB4+/////w==" name="mesh" />
-						<property value="BgAAAAQAAAAAAAEAAgAAAAMAAQAAAAC/AAAAPwAAAD9tqVk/AACAP1VV0T4AAAA/QhYyP6uqqj6tTB4+/////wAAAD8AAAC/VlVVP0IWMj8AAIA/VVXRPgAAAD9CFjI/q6qqPq1MHj7/////AAAAPwAAAD9WVVU/balZPwAAgD9VVdE+AAAAP0IWMj+rqqo+rUwePv////8AAAC/AAAAvwAAAD9CFjI/AACAP1VV0T4AAAA/QhYyP6uqqj6tTB4+/////w==" name="mesh_copy" />
-						<property value="AAAAAAAAgD8AAIA/AAAAANsPyT8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAAEAAAAAAIA/AAAAAAAAAAAAAIA/AAAAAAAAAAA=" name="before_transformation" />
+						<property value="false" name="copy_node" />
 					</properties>
-					<children />
+					<children>
+						<child type-name="rb::sprite_component">
+							<properties>
+								<property value="false" name="rb::in_editor_hidden" />
+								<property value="false" name="rb::selected" />
+								<property type-name="rb::component_id" name="rb::node_id">
+									<properties>
+										<property value="" name="name" />
+										<property value="ball" name="classes" />
+									</properties>
+									<children />
+								</property>
+								<property type-name="rb::transformation_values" name="rb::transformation">
+									<properties>
+										<property value-y="0.0674386" value-x="0.742039" name="translation" />
+										<property value-y="1" value-x="1" name="scale" />
+										<property value="false" name="uniform" />
+										<property value-y="90" value-x="0" name="rotation" />
+										<property value="true" name="orthogonal" />
+									</properties>
+									<children />
+								</property>
+								<property value="false" name="rb::blocked" />
+								<property value="character" name="image" />
+								<property value="1" name="opacity" />
+								<property value="true" name="visible" />
+								<property value="true" name="aspect_correction" />
+								<property value-a="1" value-b="1" value-g="1" value-r="1" name="tint" />
+								<property value="1" name="blend" />
+								<property value="BgAAAAQAAAAAAAEAAgAAAAMAAQBHv8O/kBQmPwAAAD9tqVk/AACAPwAAgD8AAAA/QhYyP6uqqj6tTB4+/////45+B7/g1rO+VlVVP0IWMj8AAIA/AACAPwAAAD9CFjI/q6qqPq1MHj7/////jn4Hv5AUJj9WVVU/balZPwAAgD8AAIA/AAAAP0IWMj+rqqo+rUwePv////9Hv8O/4NazvgAAAD9CFjI/AACAPwAAgD8AAAA/QhYyP6uqqj6tTB4+/////w==" name="mesh" />
+								<property value="BgAAAAQAAAAAAAEAAgAAAAMAAQAAAAC/AAAAPwAAAD9tqVk/AACAPwAAgD8AAAA/QhYyP6uqqj6tTB4+/////wAAAD8AAAC/VlVVP0IWMj8AAIA/AACAPwAAAD9CFjI/q6qqPq1MHj7/////AAAAPwAAAD9WVVU/balZPwAAgD8AAIA/AAAAP0IWMj+rqqo+rUwePv////8AAAC/AAAAvwAAAD9CFjI/AACAPwAAgD8AAAA/QhYyP6uqqj6tTB4+/////w==" name="mesh_copy" />
+								<property value="AAAAAAAAgD8AAIA/AAAAANsPyT9Hv4O/QlIYPgAAgD8AAAAAAAAAAAAAgD9Hv4O/QlIYPgEAbAAAAIA/AAAAAAAAAAAAAIA/R7+DP0JSGL4=" name="before_transformation" />
+							</properties>
+							<children />
+						</child>
+						<child type-name="rb::sprite_component">
+							<properties>
+								<property value="false" name="rb::in_editor_hidden" />
+								<property value="false" name="rb::selected" />
+								<property type-name="rb::component_id" name="rb::node_id">
+									<properties>
+										<property value="" name="name" />
+										<property value="" name="classes" />
+									</properties>
+									<children />
+								</property>
+								<property type-name="rb::transformation_values" name="rb::transformation">
+									<properties>
+										<property value-y="-0.0674386" value-x="-0.742039" name="translation" />
+										<property value-y="1" value-x="1" name="scale" />
+										<property value="false" name="uniform" />
+										<property value-y="90" value-x="0" name="rotation" />
+										<property value="true" name="orthogonal" />
+									</properties>
+									<children />
+								</property>
+								<property value="false" name="rb::blocked" />
+								<property value="character" name="image" />
+								<property value="1" name="opacity" />
+								<property value="true" name="visible" />
+								<property value="true" name="aspect_correction" />
+								<property value-a="1" value-b="1" value-g="1" value-r="1" name="tint" />
+								<property value="1" name="blend" />
+								<property value="BgAAAAQAAAAAAAEAAgAAAAMAAQDE2kDAP40DPwAAAD9tqVk/AACAPwAAgD8AAAA/QhYyP6uqqj6tTB4+/////8TaAMCA5fi+VlVVP0IWMj8AAIA/AACAPwAAAD9CFjI/q6qqPq1MHj7/////xNoAwD+NAz9WVVU/balZPwAAgD8AAIA/AAAAP0IWMj+rqqo+rUwePv/////E2kDAgOX4vgAAAD9CFjI/AACAPwAAgD8AAAA/QhYyP6uqqj6tTB4+/////w==" name="mesh" />
+								<property value="BgAAAAQAAAAAAAEAAgAAAAMAAQAAAAC/AAAAPwAAAD9tqVk/AACAPwAAgD8AAAA/QhYyP6uqqj6tTB4+/////wAAAD8AAAC/VlVVP0IWMj8AAIA/AACAPwAAAD9CFjI/q6qqPq1MHj7/////AAAAPwAAAD9WVVU/balZPwAAgD8AAIA/AAAAP0IWMj+rqqo+rUwePv////8AAAC/AAAAvwAAAD9CFjI/AACAPwAAgD8AAAA/QhYyP6uqqj6tTB4+/////w==" name="mesh_copy" />
+								<property value="AHHFdwAAgD8AAIA/AAAAANsPyT/E2iDAIFBjPAAAgD8AAAAAAAAAAAAAgD/E2iDAIFBjPAF/AAAAAIA/AAAAAAAAAAAAAIA/xNogQCBQY7w=" name="before_transformation" />
+							</properties>
+							<children />
+						</child>
+					</children>
 				</child>
 			</children>
 		</child>
@@ -110,7 +205,7 @@
 						<property value="1" name="blend" />
 						<property value="BgAAAAQAAAAAAAEAAgAAAAMAAQCkJnk+fnBvPwAAAD9tqVk/AACAPwAAgD8AAAA/QhYyP6uqqj6tTB4+/wD//zgarT9UHMm+VlVVP0IWMj8AAIA/AACAPwAAAD9CFjI/q6qqPq1MHj7/AP//MB+7P4xmUz9WVVU/balZPwAAgD8AAIA/AAAAP0IWMj+rqqo+rUwePv8A///k/gg+cAiRvgAAAD9CFjI/AACAPwAAgD8AAAA/QhYyP6uqqj6tTB4+/wD//w==" name="mesh" />
 						<property value="BgAAAAQAAAAAAAEAAgAAAAMAAQAAAAC/AAAAPwAAAD9tqVk/AACAPwAAgD8AAAA/QhYyP6uqqj6tTB4+/wD//wAAAD8AAAC/VlVVP0IWMj8AAIA/AACAPwAAAD9CFjI/q6qqPq1MHj7/AP//AAAAPwAAAD9WVVU/balZPwAAgD8AAIA/AAAAP0IWMj+rqqo+rUwePv8A//8AAAC/AAAAvwAAAD9CFjI/AACAPwAAgD8AAAA/QhYyP6uqqj6tTB4+/wD//w==" name="mesh_copy" />
-						<property value="AACAP1KbnD9Sm5w/hjHGQImWvT8MP0w/VOKKPlv6mz+TT+C9ek/gPVv6mz8MP0w/VOKKPgEAAAC9ZVA/89iVPeLYlb29ZVA/sC8hv4nyjr4=" name="before_transformation" />
+						<property value="AAAAAFKbnD9Sm5w/hjHGQImWvT8MP0w/VOKKPlv6mz+TT+C9ek/gPVv6mz8MP0w/VOKKPgEAbQC9ZVA/89iVPeLYlb29ZVA/sC8hv4nyjr4=" name="before_transformation" />
 					</properties>
 					<children />
 				</child>

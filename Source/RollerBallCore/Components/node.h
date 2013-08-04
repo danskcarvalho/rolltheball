@@ -214,6 +214,8 @@ namespace rb {
         bool blocked() const;
         bool blocked(const bool value);
     };
+    
+    bool is_node(const typed_object* obj);
 }
     
 #endif /* defined(__RollerBallCore__node__) */

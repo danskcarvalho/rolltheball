@@ -12,7 +12,7 @@
 #include "mesh.h"
 #include "polygon.h"
 #include "null_texture_map.h"
-#include "misc_classes.h"
+#include "misc_classes_2.h"
 #include "director.h"
 #include "editor_delegate.h"
 
@@ -705,6 +705,10 @@ bool node::blocked(const bool value) {
         const_cast<scene*>(parent_scene())->current(const_cast<node_container*>(parent()));
     }
     return _blocked;
+}
+
+bool rb::is_node(const typed_object* obj){
+    return dynamic_cast<const node*>(obj) != nullptr;
 }
 
 

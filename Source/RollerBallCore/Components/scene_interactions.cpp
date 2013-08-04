@@ -16,6 +16,8 @@
 #include "state_manager.h"
 #include "extended_dynamic_mesh_batch.h"
 #include "misc_classes.h"
+#include "misc_classes_2.h"
+#include "misc_classes_3.h"
 
 using namespace rb;
 
