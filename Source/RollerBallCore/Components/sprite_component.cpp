@@ -46,19 +46,22 @@ void sprite_component::destroy(){
 void sprite_component::create(){
     if(!_map){
         _map = (texture_map*)create_mapping(_image, transform_space());
-        if(!_m){
-            _m = new mesh();
-            rectangle _rc(0, 0, 1, 1);
-            if(_map)
-                _rc.to_mesh(*_m, _map->bounds());
-            else
-                _rc.to_mesh(*_m, rectangle(0.5, 0.5, 1, 1)); //no texture coordinates
-            _m->set_alpha(_opacity);
-            _m->set_color(_tint);
-            _m->set_blend(_blend);
-            _m_copy = new mesh();
-            *_m_copy = *_m;
-        }
+    }
+    
+    if(!_m){
+        _m = new mesh();
+        rectangle _rc(0, 0, 1, 1);
+        if(_map)
+            _rc.to_mesh(*_m, _map->bounds());
+        else
+            _rc.to_mesh(*_m, rectangle(0.5, 0.5, 1, 1)); //no texture coordinates
+        _m->set_alpha(_opacity);
+        _m->set_color(_tint);
+        _m->set_blend(_blend);
+        _m_copy = new mesh();
+        *_m_copy = *_m;
+        _collapsed = false;
+        _before = transform_space();
     }
 }
 
