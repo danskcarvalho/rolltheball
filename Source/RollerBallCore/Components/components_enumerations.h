@@ -117,6 +117,13 @@ namespace rb {
         non_renderable = 2,
         all = renderable | non_renderable
     };
+    
+    enum class camera_invariant {
+        none = 0,
+        position = 1 << 0,
+        scale = 1 << 1,
+        rotation = 1 << 2
+    };
 }
 
 BEGIN_STRINGIFY_ENUM(node_filter)
