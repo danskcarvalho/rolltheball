@@ -71,6 +71,7 @@ namespace rb {
         void clear_dirty_transform();
     protected:
         virtual const scene* parent_scene() const = 0;
+        virtual const layer* parent_layer() const = 0;
         virtual const node_container* parent_node_container() const = 0;
     public:
         const node_container* parent() const;

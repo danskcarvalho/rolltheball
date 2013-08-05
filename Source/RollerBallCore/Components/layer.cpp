@@ -32,6 +32,8 @@ layer::layer(){
     _ambient_color = color::from_rgba(1, 1, 1, 1);
     _blend_mode = blend_mode::normal;
     _textureless_process = nullptr;
+    _camera_position_factor = vec2(1, 1);
+    _camera_invariant_flags = camera_invariant::none;
 }
 
 layer::layer(scene* parent_scene){
@@ -44,6 +46,8 @@ layer::layer(scene* parent_scene){
     _ambient_color = color::from_rgba(1, 1, 1, 1);
     _blend_mode = blend_mode::normal;
     _textureless_process = nullptr;
+    _camera_position_factor = vec2(1, 1);
+    _camera_invariant_flags = camera_invariant::none;
 }
 
 layer::~layer(){
@@ -69,6 +73,10 @@ scene* layer::parent_scene(){
 
 const scene* layer::parent_scene() const {
     return _parent_scene;
+}
+
+const layer* layer::parent_layer() const {
+    return nullptr;
 }
 
 
@@ -447,9 +455,18 @@ enum blend_mode layer::blend_mode(const enum blend_mode value){
 void layer::setup_processes(){
     const vec2& _viewport_size = parent_scene()->viewport_size();
     float _aspect = _viewport_size.y() / _viewport_size.x();
-    transform_space _correction = transform_space(vec2::zero, vec2(_aspect, 1), 0);
+    transform_space _correction = parent_scene()->_enabled_aspect_correction ? transform_space(vec2::zero, vec2(_aspect, 1), 0) : transform_space();
+    auto _camera = parent_scene()->camera();
+    if(rb::has_flag(this->camera_invariant_flags(), camera_invariant::position))
+        _camera.origin(vec2::zero);
+    else
+        _camera.origin(_camera.origin() * this->camera_position_factor());
+    if(rb::has_flag(this->camera_invariant_flags(), camera_invariant::scale))
+        _camera.scale(vec2(1, 1));
+    if(rb::has_flag(this->camera_invariant_flags(), camera_invariant::rotation))
+        _camera.rotation(0);
     
-    auto _final_transform = _correction * parent_scene()->camera().inverse() * transform();
+    auto _final_transform = _correction * _camera.inverse() * transform();
     _textureless_process->ambient_color(_ambient_color.pre_multiplied());
     _textureless_process->position_transform(_final_transform);
     for (auto _p : _processes){
@@ -715,6 +732,23 @@ void layer::describe_type(){
             site->force_notify_property_changed(u"secondary_g08_g09");
         }
     });
+    //camera
+    vec2_property<layer>(u"camera_position_factor", u"Cam Factor", true, {
+        [](const layer* site){
+            return site->_camera_position_factor;
+        },
+        [](layer* site, const vec2& value){
+            site->camera_position_factor(value);
+        }
+    });
+    flags_property<layer, uint32_t>(u"camera_invariant", u"Cam Invariant", { u"Position", u"Scale", u"Rotate" }, true, {
+        [](const layer* site){
+            return (uint32_t)site->_camera_invariant_flags;
+        },
+        [](layer* site, uint32 value){
+            site->camera_invariant_flags((camera_invariant)value);
+        }
+    });
     end_type();
 }
 
@@ -755,6 +789,29 @@ void layer::set_children(const std::vector<typed_object *> &children){
     }
 }
 
+const vec2& layer::camera_position_factor() const {
+    return _camera_position_factor;
+}
+
+const vec2& layer::camera_position_factor(const rb::vec2 &value){
+    if(_camera_position_factor == value)
+        return _camera_position_factor;
+    _camera_position_factor = value;
+    _dirty_transform = true;
+    return _camera_position_factor;
+}
+
+camera_invariant layer::camera_invariant_flags() const {
+    return _camera_invariant_flags;
+}
+
+camera_invariant layer::camera_invariant_flags(rb::camera_invariant value){
+    if(_camera_invariant_flags == value)
+        return _camera_invariant_flags;
+    _camera_invariant_flags = value;
+    _dirty_transform = true;
+    return _camera_invariant_flags;
+}
 
 
 

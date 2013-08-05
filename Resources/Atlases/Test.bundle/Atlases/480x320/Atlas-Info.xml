@@ -3,10 +3,10 @@
 	<all-groups>
 		<group name="g00">
 			<textures>
-				<texture size-y="118" center-x="45" center-y="329" atlas-index="0" size-x="90" name="cannon" />
-				<texture size-y="150" center-x="76" center-y="75" atlas-index="0" size-x="152" name="factory" />
-				<texture size-y="120" center-x="90" center-y="210" atlas-index="0" size-x="180" name="bushes" />
-				<texture size-y="60" center-x="120" center-y="300" atlas-index="0" size-x="60" name="character" />
+				<texture size-y="118" center-x="47" center-y="339" atlas-index="0" size-x="90" name="cannon" />
+				<texture size-y="150" center-x="78" center-y="77" atlas-index="0" size-x="152" name="factory" />
+				<texture size-y="120" center-x="92" center-y="216" atlas-index="0" size-x="180" name="bushes" />
+				<texture size-y="60" center-x="126" center-y="310" atlas-index="0" size-x="60" name="character" />
 			</textures>
 			<atlases>
 				<atlas index="0" />
@@ -14,9 +14,9 @@
 		</group>
 	</all-groups>
 	<all-textures>
-		<texture border="rb::texture_border::none" scale="1" name="bushes" />
-		<texture border="rb::texture_border::none" scale="1" name="character" />
-		<texture border="rb::texture_border::none" scale="1" name="factory" />
-		<texture border="rb::texture_border::none" scale="1" name="cannon" />
+		<texture border="rb::texture_border::empty" scale="1" name="bushes" />
+		<texture border="rb::texture_border::empty" scale="1" name="character" />
+		<texture border="rb::texture_border::empty" scale="1" name="factory" />
+		<texture border="rb::texture_border::empty" scale="1" name="cannon" />
 	</all-textures>
 </texture-atlas>

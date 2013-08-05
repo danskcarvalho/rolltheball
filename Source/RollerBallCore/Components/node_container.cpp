@@ -186,7 +186,20 @@ transform_space node_container::from_space_to(const rb::space another) const{
     assert(parent_scene()); //has to be active...
     if(another == space::camera){
         transform_space _to_scene = from_space_to(space::scene);
-        return parent_scene()->camera().inverse() * _to_scene;
+        auto _camera = parent_scene()->camera();
+        auto _l = parent_layer();
+        if(!_l)
+            _l = dynamic_cast<const layer*>(this);
+        assert(_l);
+        if(rb::has_flag(_l->camera_invariant_flags(), camera_invariant::position))
+            _camera.origin(vec2::zero);
+        else
+            _camera.origin(_camera.origin() * _l->camera_position_factor());
+        if(rb::has_flag(_l->camera_invariant_flags(), camera_invariant::scale))
+            _camera.scale(vec2(1, 1));
+        if(rb::has_flag(_l->camera_invariant_flags(), camera_invariant::rotation))
+            _camera.rotation(0);
+        return _camera.inverse() * _to_scene;
     }
     else if(another == space::layer){
         const node_container* _current = this;

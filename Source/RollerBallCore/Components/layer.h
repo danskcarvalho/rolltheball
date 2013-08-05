@@ -51,6 +51,9 @@ namespace rb {
         //some parameters
         color _ambient_color;
         blend_mode _blend_mode;
+        //Camera
+        vec2 _camera_position_factor;
+        camera_invariant _camera_invariant_flags;
         //constructor/destructors
     private:
         layer();
@@ -71,6 +74,9 @@ namespace rb {
         
         scene* parent_scene();
         const scene* parent_scene() const;
+    private:
+        const layer* parent_layer() const;
+    public:
         
         //Active Flag
         bool active() const;
@@ -94,6 +100,13 @@ namespace rb {
         void scene_playing();
         void scene_paused();
         
+        //camera
+    public:
+        const vec2& camera_position_factor() const;
+        const vec2& camera_position_factor(const vec2& value);
+        
+        camera_invariant camera_invariant_flags() const;
+        camera_invariant camera_invariant_flags(camera_invariant value);
         //Rendering
         //Some rendering states
     public:

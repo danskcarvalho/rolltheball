@@ -100,6 +100,8 @@ namespace rb {
             for (auto& _k : _enum_map){
                 _actions.push_back(_k.first);
             }
+            std::sort(_actions.begin(), _actions.end(), [&](const rb_string& n1, const rb_string& n2) {
+                return _enum_map.at(n1) < _enum_map.at(n2); });
             return _actions;
         }
         inline std::vector<rb_string> flag_names() const {
@@ -108,6 +110,8 @@ namespace rb {
             for (auto& _k : _enum_map){
                 _actions.push_back(_k.first);
             }
+            std::sort(_actions.begin(), _actions.end(), [&](const rb_string& n1, const rb_string& n2) {
+                return _enum_map.at(n1) < _enum_map.at(n2); });
             return _actions;
         }
         inline bool dynamic_type() const {

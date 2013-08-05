@@ -237,8 +237,10 @@ namespace rb {
             if(dynamic_type())
                 _associated_types.insert(_td_flags);
             _td_flags->_display_name = display_name;
+            long _order = 0;
             for (auto& _p : flags){
-                _td_flags->_enum_map[_p] = 0; //doesn't matter...
+                _td_flags->_enum_map[_p] = _order;
+                _order++;
             }
             _td_flags->_gtd = general_type_descriptor::flags;
             _td_flags->_name = type_name() + rb_string(u"_%_flags_") + name;
@@ -262,8 +264,10 @@ namespace rb {
                 _associated_types.insert(_td_action);
             _td_action->_display_name = display_name;
             _td_action->_action_flags = flags;
+            long _order = 0;
             for (auto& _p : action_names){
-                _td_action->_enum_map[_p] = 0; //doesn't matter...
+                _td_action->_enum_map[_p] = _order;
+                _order++;
             }
             _td_action->_gtd = general_type_descriptor::action;
             _td_action->_name = type_name() + rb_string(u"_%_action_") + name;
@@ -367,8 +371,10 @@ namespace rb {
             if(dynamic_type())
                 _associated_types.insert(_td_flags);
             _td_flags->_display_name = display_name;
+            long _order = 0;
             for (auto& _p : flags){
-                _td_flags->_enum_map[_p] = 0; //doesn't matter...
+                _td_flags->_enum_map[_p] = _order;
+                _order++;
             }
             _td_flags->_gtd = general_type_descriptor::flags;
             _td_flags->_name = type_name() + rb_string(u"_%_n_flags_") + name;
