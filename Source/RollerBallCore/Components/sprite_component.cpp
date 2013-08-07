@@ -88,6 +88,9 @@ void sprite_component::update_collapsed_mesh(){
 
 void sprite_component::update_collapsed_flag(){
     auto _previous = _collapsed;
+    if(!_map)
+        _map = (texture_map*)create_mapping(_image, transform_space());
+    
     if((!_visible && (!in_editor() || is_playing())) || !_map)
         _collapsed = true;
     else
@@ -329,6 +332,22 @@ void sprite_component::describe_type(){
         },
         [](sprite_component* site, const buffer value){
             site->_before = transform_space(value);
+        }
+    });
+    boolean_property<sprite_component>(u"collapsed", u"Collapsed", true, {
+        [](const sprite_component* site){
+            return site->_collapsed;
+        },
+        [](sprite_component* site, bool value){
+            site->_collapsed = value;
+        }
+    });
+    boolean_property<sprite_component>(u"reapply_mapping", u"Reapply Mapping", true, {
+        [](const sprite_component* site){
+            return site->_reapply_mapping;
+        },
+        [](sprite_component* site, bool value){
+            site->_reapply_mapping = value;
         }
     });
     end_private_properties();
