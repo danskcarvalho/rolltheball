@@ -18,7 +18,7 @@ null_texture_map::null_texture_map(){
 }
 
 void null_texture_map::set_texture_coords(vertex& v) const {
-    v.set_texture_coords(vec2(0, 0));
+    v.set_texture_coords(v.get_position());
 }
 
 null_texture_map::~null_texture_map(){

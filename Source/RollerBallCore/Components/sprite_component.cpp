@@ -114,7 +114,8 @@ void sprite_component::before_becoming_inactive(bool node_was_moved){
 void sprite_component::reapply_mapping(){
     auto _temp = (texture_map*)create_mapping(_image, transform_space(), _map);
     if(!_temp){ //delete refurbished...
-        delete _map;
+        if(_map)
+            delete _map;
         _map = nullptr;
         return;
     }

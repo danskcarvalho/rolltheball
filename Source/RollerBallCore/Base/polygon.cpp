@@ -14,6 +14,7 @@
 #include "vertex.h"
 #include "transform_space.h"
 #include "matrix3x3.h"
+#include "null_texture_map.h"
 #include <boost/geometry.hpp>
 #include <boost/geometry/geometries/polygon.hpp>
 #include <boost/geometry/geometries/point_xy.hpp>
@@ -394,19 +395,19 @@ nullable<bool> polygon::is_convex() const{
 bool polygon::is_closed() const{
     return _is_closed;
 }
-const vec2& polygon::get_point(int32_t at) const{
+const vec2& polygon::get_point(uint32_t at) const{
     assert(at >= 0);
     assert(at < _points.size());
     return _points[at];
 }
-const int32_t polygon::point_count() const{
-    return (int32_t)_points.size();
+const uint32_t polygon::point_count() const{
+    return (uint32_t)_points.size();
 }
-const int32_t polygon::edge_count() const{
+const uint32_t polygon::edge_count() const{
     const_cast<polygon*>(this)->get_edges(); //update edges
-    return (int32_t)_edges.size();
+    return (uint32_t)_edges.size();
 }
-const edge& polygon::get_edge(int32_t at) const{
+const edge& polygon::get_edge(uint32_t at) const{
     const_cast<polygon*>(this)->get_edges(); //update edges
     assert(at >= 0);
     assert(at < _edges.size());
@@ -1225,6 +1226,19 @@ void subdivide_triangle(uint32_t subdv, vector<vec2>& points, const vec2& v1, co
     subdivide_triangle(subdv - 1, points, v5, v3, v1);
     subdivide_triangle(subdv - 1, points, v2, v5, v4);
     subdivide_triangle(subdv - 1, points, v2, v3, v5);
+}
+
+mesh& polygon::to_untextured_mesh(rb::mesh &storage, const uint32_t subdivisions){
+    optimize();
+    assert(!is_empty());
+    assert(is_simple().has_value() && is_simple().value() == true);
+    assert(area().has_value());
+    assert(get_ordering() != point_ordering::unknown);
+    assert(subdivisions >= 0);
+    vector<vertex> _vertexes;
+    vector<uint16_t> _indexes;
+    this->_to_mesh(_vertexes, _indexes, subdivisions, null_texture_map());
+    return storage;
 }
 
 mesh& polygon::to_mesh(mesh& storage, const uint32_t subdivisions, const texture_map& map){

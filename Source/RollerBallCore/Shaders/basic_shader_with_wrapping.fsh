@@ -28,5 +28,5 @@ void main()
 {
     vec2 tex_coords = texture_bounds_varying.xy + fract(texture_varying) * texture_bounds_varying.zw;
     vec4 tex_color = texture2D(texture_sampler, tex_coords);
-    gl_FragColor = (1.0 - blend_varying) * tex_color.a * color_varying + blend_varying * tex_color * color_varying;
+    gl_FragColor = (1.0 - blend_varying) * tex_color.a * color_varying + blend_varying * tex_color * color_varying.a;
 }

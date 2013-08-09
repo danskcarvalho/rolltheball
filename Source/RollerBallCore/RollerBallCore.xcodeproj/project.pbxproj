@@ -150,6 +150,9 @@
 		452FEB79164B03B70002A601 /* director.mm in Sources */ = {isa = PBXBuildFile; fileRef = 452FEB77164B03B70002A601 /* director.mm */; };
 		452FEB7A164B03B70002A601 /* director.mm in Sources */ = {isa = PBXBuildFile; fileRef = 452FEB77164B03B70002A601 /* director.mm */; };
 		452FEB7B164B03B70002A601 /* director.mm in Sources */ = {isa = PBXBuildFile; fileRef = 452FEB77164B03B70002A601 /* director.mm */; };
+		4531D70B17B421DD004F0AA8 /* polygon_component.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4531D70917B421DC004F0AA8 /* polygon_component.cpp */; };
+		4531D70C17B421DD004F0AA8 /* polygon_component.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4531D70917B421DC004F0AA8 /* polygon_component.cpp */; };
+		4531D70D17B421DD004F0AA8 /* polygon_component.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4531D70917B421DC004F0AA8 /* polygon_component.cpp */; };
 		4536B0E615FE1B3B004AE82A /* mesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4536B0E415FE1B3B004AE82A /* mesh.cpp */; };
 		4536B0E715FE1B3B004AE82A /* mesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4536B0E415FE1B3B004AE82A /* mesh.cpp */; };
 		4536B0E815FE1B3B004AE82A /* mesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4536B0E415FE1B3B004AE82A /* mesh.cpp */; };
@@ -774,6 +777,8 @@
 		452FEB69164AF56F0002A601 /* layer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = layer.h; path = Components/layer.h; sourceTree = "<group>"; };
 		452FEB77164B03B70002A601 /* director.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = director.mm; path = Components/director.mm; sourceTree = "<group>"; };
 		452FEB78164B03B70002A601 /* director.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = director.h; path = Components/director.h; sourceTree = "<group>"; };
+		4531D70917B421DC004F0AA8 /* polygon_component.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = polygon_component.cpp; path = Components/polygon_component.cpp; sourceTree = "<group>"; };
+		4531D70A17B421DC004F0AA8 /* polygon_component.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = polygon_component.h; path = Components/polygon_component.h; sourceTree = "<group>"; };
 		4536B0E415FE1B3B004AE82A /* mesh.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = mesh.cpp; path = Base/mesh.cpp; sourceTree = "<group>"; };
 		4536B0E515FE1B3B004AE82A /* mesh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mesh.h; path = Base/mesh.h; sourceTree = "<group>"; };
 		4536B0EA15FE205A004AE82A /* brush.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = brush.cpp; path = Base/brush.cpp; sourceTree = "<group>"; };
@@ -25553,6 +25558,7 @@
 				456D7502164C26670022FC12 /* node_container.cpp */,
 				45252758165BE6DA0035C8AE /* scene_interactions.cpp */,
 				4563A485165D6B0400F38B64 /* sprite_component.cpp */,
+				4531D70917B421DC004F0AA8 /* polygon_component.cpp */,
 				458CE14316DE150D006C5D03 /* type_descriptor.cpp */,
 				458CE14816DE2E78006C5D03 /* typed_object.cpp */,
 				458CE15016DE4003006C5D03 /* observer.cpp */,
@@ -25589,6 +25595,7 @@
 				458CE14916DE2E78006C5D03 /* typed_object.h */,
 				458CE14416DE150D006C5D03 /* type_descriptor.h */,
 				4563A486165D6B0400F38B64 /* sprite_component.h */,
+				4531D70A17B421DC004F0AA8 /* polygon_component.h */,
 				456D7503164C26670022FC12 /* node_container.h */,
 				452FEB78164B03B70002A601 /* director.h */,
 				452FEB69164AF56F0002A601 /* layer.h */,
@@ -26076,6 +26083,7 @@
 				45AACCDC17AC620700C04218 /* tokenizer.cpp in Sources */,
 				45A06C1417AEB794009087B7 /* misc_classes_2.cpp in Sources */,
 				45A06C1917AEB7AA009087B7 /* misc_classes_3.cpp in Sources */,
+				4531D70C17B421DD004F0AA8 /* polygon_component.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -26213,6 +26221,7 @@
 				45AACCDD17AC620700C04218 /* tokenizer.cpp in Sources */,
 				45A06C1517AEB794009087B7 /* misc_classes_2.cpp in Sources */,
 				45A06C1A17AEB7AA009087B7 /* misc_classes_3.cpp in Sources */,
+				4531D70D17B421DD004F0AA8 /* polygon_component.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -26341,6 +26350,7 @@
 				45AACCDB17AC620700C04218 /* tokenizer.cpp in Sources */,
 				45A06C1317AEB794009087B7 /* misc_classes_2.cpp in Sources */,
 				45A06C1817AEB7AA009087B7 /* misc_classes_3.cpp in Sources */,
+				4531D70B17B421DD004F0AA8 /* polygon_component.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

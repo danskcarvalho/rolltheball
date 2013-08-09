@@ -69,10 +69,10 @@ namespace rb {
         nullable<bool> is_simple() const;
         nullable<bool> is_convex() const;
         bool is_closed() const;
-        const vec2& get_point(int32_t at) const;
-        const int32_t point_count() const;
-        const int32_t edge_count() const;
-        const edge& get_edge(int32_t at) const;
+        const vec2& get_point(uint32_t at) const;
+        const uint32_t point_count() const;
+        const uint32_t edge_count() const;
+        const edge& get_edge(uint32_t at) const;
         const nullable<float> signed_area() const;
         const nullable<float> area() const;
         const nullable<float> perimeter() const;
@@ -94,6 +94,7 @@ namespace rb {
         //conversion to mesh
         mesh& to_line_mesh(mesh& storage, const rectangle& texture_bounds, const float max_s);
         mesh& to_mesh(mesh& storage, const uint32_t subdivisions, const texture_map& map);
+        mesh& to_untextured_mesh(mesh& storage, const uint32_t subdivisions);
         mesh& textured_outline(mesh& storage, const rectangle& texture_bounds, const float max_s, const float stroke_width);
         
         //operators
