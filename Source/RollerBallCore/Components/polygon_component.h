@@ -19,6 +19,27 @@ namespace rb {
     class mesh;
     class texture_map;
     class polygon_point_component : public node {
+    private:
+        bool _in_live_edit;
+    public:
+        polygon_point_component();
+    protected:
+        virtual void after_becoming_active(bool node_was_moved) override;
+    protected:
+        virtual void transform_changed();
+    public:
+        virtual const transform_space& transform(const rb::transform_space &value);
+        //Live editing
+    protected:
+        virtual void begin_live_edit(rb::live_edit kind);
+        virtual void end_live_edit();
+        //Render Gizmo
+    protected:
+        virtual void render_gizmo() override;
+        //Hit Test
+    protected:
+        //returns the bounds in self space...
+        virtual rectangle bounds() const override;
     protected:
         //Typed Object
         virtual void describe_type() override;
@@ -27,6 +48,8 @@ namespace rb {
         virtual rb_string displayable_type_name() const override;
     };
     class polygon_component : public node {
+    public:
+        friend class polygon_point_component;
     private:
         enum PolType : unsigned int {
             kPolQuad = 0,
@@ -83,7 +106,7 @@ namespace rb {
         rb_string _border_texture;
         float _max_s;
         //methods
-        void reset_children();
+        void reset_children(PolType pt);
         void create_polygon_data();
         void destroy_polygon();
         void update_polygon(bool refill_buffers);
@@ -121,6 +144,10 @@ namespace rb {
         virtual bool hit_test(const rectangle& rc) const override;
     public:
         virtual bool is_degenerated() const;
+        //Adding nodes
+    public:
+        virtual bool add_node_at(node* n, uint32_t at) override;
+        virtual bool remove_node(node* n, bool cleanup) override;
     public:
         //properties
         const polygon& to_polygon() const;

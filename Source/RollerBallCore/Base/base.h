@@ -25,7 +25,7 @@
 #define ENABLE_MESSAGES
 #endif
 
-#define C_EPSILON 0.00001
+#define C_EPSILON 0.0001f
 #define TO_RADIANS(_x_) ((float)((_x_)*(M_PI / 180.0f)))
 #define TO_DEGREES(_x_) ((float)((_x_)*(180.0f / M_PI)))
 

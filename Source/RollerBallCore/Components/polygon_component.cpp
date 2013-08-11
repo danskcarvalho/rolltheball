@@ -19,6 +19,89 @@
 
 using namespace rb;
 
+polygon_point_component::polygon_point_component(){
+    _in_live_edit = false;
+}
+
+void polygon_point_component::after_becoming_active(bool node_was_moved){
+    register_for(registrable_event::live_edit, 0);
+    register_for(registrable_event::transform_changed, 0);
+    enabled(node_capability::rendering, false);
+    enabled(node_capability::children_rendering, false);
+    enabled(node_capability::can_become_current, false);
+    enabled(node_capability::selection_rectangle, false);
+    enabled(node_capability::gizmo_rendering, true);
+}
+
+void polygon_point_component::render_gizmo(){
+    //Do nothing
+}
+
+const transform_space& polygon_point_component::transform(const rb::transform_space &value){
+    auto _t = value;
+    _t.rotation(0);
+    _t.scale(1);
+    return node::transform(_t);
+}
+
+void polygon_point_component::transform_changed(){
+    if(!_in_live_edit){
+        auto _p = dynamic_cast<polygon_component*>(parent());
+        if(_p){
+            _p->_flags.type = polygon_component::kPolFreeform;
+            _p->_flags.dirty_polygon = true;
+            _p->_flags.dirty_border_polygon = true;
+            if(active())
+                invalidate_buffers();
+        }
+    }
+    else {
+        auto _p = dynamic_cast<polygon_component*>(parent());
+        if(_p){
+            auto _index = _p->search_node(this);
+            assert(_index.has_value());
+            _p->_polygon.set_point(this->node::transform().origin(), _index.value());
+        }
+    }
+}
+
+void polygon_point_component::begin_live_edit(rb::live_edit kind){
+    _in_live_edit = true;
+    auto _p = dynamic_cast<polygon_component*>(parent());
+    if(_p){
+        _p->_flags.in_live_edit = true;
+        _p->_flags.type = polygon_component::kPolFreeform;
+        _p->_flags.dirty_polygon = true;
+        _p->_flags.dirty_border_polygon = true;
+        if(active())
+            invalidate_buffers();
+    }
+}
+
+void polygon_point_component::end_live_edit(){
+    _in_live_edit = false;
+    auto _p = dynamic_cast<polygon_component*>(parent());
+    if(_p){
+        _p->_flags.in_live_edit = false;
+        _p->_flags.dirty_polygon = true;
+        _p->_flags.dirty_border_polygon = true;
+        if(active())
+            invalidate_buffers();
+    }
+}
+
+rectangle polygon_point_component::bounds() const {
+    rectangle _rc(0, 0, POINT_SIZE, POINT_SIZE);
+    auto _t = from_node_space_to(space::screen);
+    if(_t.test_direction(transform_direction::from_base_to_space)){
+        auto _center = _t.from_space_to_base().transformed_point(vec2::zero);
+        _rc.center(_center);
+        return _t.from_base_to_space().transformed_rectangle(_rc);
+    }
+    else
+        return node::bounds();
+}
+
 void polygon_point_component::describe_type() {
     node::describe_type();
     
@@ -76,7 +159,7 @@ polygon_component::polygon_component(){
     _border_texture = u"";
     _max_s = 1;
     
-    reset_children();
+    reset_children(kPolQuad);
 }
 
 void polygon_component::destroy_polygon(){
@@ -123,7 +206,7 @@ void polygon_component::create_polygon_data(){
     else { //Freeform
         _polygon.reset();
         for (auto _n : *this){
-            _polygon.add_point_after(_n->transform().origin(), _polygon.point_count() - 1);
+            _polygon.add_point_after(_n->transform().origin(), _polygon.point_count() == 0 ? 0 : _polygon.point_count() - 1);
         }
         
         if(_flags.open)
@@ -133,18 +216,20 @@ void polygon_component::create_polygon_data(){
     }
 }
 
-void polygon_component::reset_children(){
+void polygon_component::reset_children(polygon_component::PolType pt){
     if(_flags.type != kPolFreeform){
         std::vector<node*> _nodes;
         this->copy_nodes_to_vector(_nodes);
         for (auto _n : _nodes)
             this->remove_node(_n, true);
+        _flags.type = pt;
         auto _p = to_polygon();
         for (uint32_t i = 0; i < _p.point_count(); i++) {
             auto _pt = new polygon_point_component();
             _pt->transform(transform_space(_p.get_point(i)));
             this->add_node(_pt);
         }
+        _flags.type = pt;
     }
 }
 
@@ -174,7 +259,7 @@ void polygon_component::recreate_polygon(){
     
     polygon _f_pol;
     
-    if(_flags.smooth){
+    if(_flags.smooth && _polygon.point_count() >= 4){
         smooth_curve _sc;
         std::vector<vec2> _points;
         for (uint32_t i = 0; i < _polygon.point_count(); i++)
@@ -229,7 +314,7 @@ void polygon_component::recreate_border(){
         return;
     
     polygon _f_pol;
-    if(_flags.smooth){
+    if(_flags.smooth && _polygon.point_count() >= 4){
         smooth_curve _sc;
         std::vector<vec2> _points;
         for (uint32_t i = 0; i < _polygon.point_count(); i++)
@@ -539,11 +624,12 @@ mesh* polygon_component::create_skeleton(const polygon& p){
     if(this->parent_scene() && this->parent_scene()->current() == this){
         for (uint32_t i = 0; i < p.point_count(); i++) {
             auto _pt = _t.transformed_point(p.get_point(i));
-            rectangle _rc = rectangle(_pt.x(), _pt.y(), POINT_SIZE, POINT_SIZE);
+            auto _s_factor = this->node_at(i)->is_selected() ? 2.0f : 1.0f;
+            rectangle _rc = rectangle(_pt.x(), _pt.y(), POINT_SIZE * _s_factor, POINT_SIZE * _s_factor);
             mesh* _p = new mesh();
             _rc.to_mesh(*_p, _u_rc);
             _p->set_blend(0);
-            _p->set_color(parent_scene()->gizmo_color());
+            _p->set_color(this->node_at(i)->is_selected() ? parent_scene()->alternate_gizmo_color() : parent_scene()->gizmo_color());
             
             auto _temp = mesh::merge_meshes({_sk, _p});
             delete _sk;
@@ -553,6 +639,38 @@ mesh* polygon_component::create_skeleton(const polygon& p){
     }
     
     return _sk;
+}
+
+bool polygon_component::add_node_at(rb::node *n, uint32_t at){
+    if (dynamic_cast<polygon_point_component*>(n)){
+        bool _b = node::add_node_at(n, at);
+        if(_b)
+        {
+            _flags.type = kPolFreeform;
+            _polygon.reset();
+            _flags.dirty_polygon = true;
+            _flags.dirty_border_polygon = true;
+            if(active())
+                invalidate_buffers();
+                
+        }
+        return _b;
+    }
+    else
+        return false;
+}
+
+bool polygon_component::remove_node(rb::node *n, bool cleanup){
+    bool _b = node::remove_node(n, cleanup);
+    if(_b){
+        _flags.type = kPolFreeform;
+        _polygon.reset();
+        _flags.dirty_polygon = true;
+        _flags.dirty_border_polygon = true;
+        if(active())
+            invalidate_buffers();
+    }
+    return _b;
 }
 
 void polygon_component::after_becoming_active(bool node_was_moved){
@@ -1138,7 +1256,7 @@ bool polygon_component::marker(const bool value){
 
 void polygon_component::render_gizmo() {
     auto _p = to_polygon();
-    if((is_currently_selected() || !_flags.renderable || !_m) && !_p.is_empty()){
+    if((is_currently_selected() || !_flags.renderable || !_m || is_current()) && !_p.is_empty()){
         auto _g = create_skeleton(_p);
         add_gizmo(_g, no_texture, false);
     }
@@ -1150,7 +1268,8 @@ void polygon_component::reset_to_quad(){
     _flags.dirty_border_polygon = true;
     if(parent_scene() && parent_scene()->active())
         invalidate_buffers();
-    reset_children();
+    _polygon.reset();
+    reset_children(kPolQuad);
 }
 
 void polygon_component::reset_to_circle(){
@@ -1159,7 +1278,8 @@ void polygon_component::reset_to_circle(){
     _flags.dirty_border_polygon = true;
     if(parent_scene() && parent_scene()->active())
         invalidate_buffers();
-    reset_children();
+    _polygon.reset();
+    reset_children(kPolCircle);
 }
 
 bool polygon_component::is_degenerated() const{
