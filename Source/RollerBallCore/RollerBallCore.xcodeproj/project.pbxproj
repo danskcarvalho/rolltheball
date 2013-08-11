@@ -509,6 +509,8 @@
 		45A731AC174A563100FE9AAB /* editor_delegate.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 45A731A5174A542C00FE9AAB /* editor_delegate.h */; };
 		45A731AD174A563100FE9AAB /* nvnode.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 45A731A0174A4B9C00FE9AAB /* nvnode.h */; };
 		45A731AE174A563100FE9AAB /* generic_object.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 458A5E9A17030472009DF7D1 /* generic_object.h */; };
+		45A883D117B6D48200827C80 /* polygon_component.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4531D70A17B421DC004F0AA8 /* polygon_component.h */; };
+		45A883D217B6D49200827C80 /* polygon_component.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4531D70A17B421DC004F0AA8 /* polygon_component.h */; };
 		45A9C7B615F6505700C6499F /* ray.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 45A9C7B415F6505700C6499F /* ray.cpp */; };
 		45A9C7B715F6505700C6499F /* ray.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 45A9C7B415F6505700C6499F /* ray.cpp */; };
 		45A9C7B815F6505700C6499F /* ray.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 45A9C7B415F6505700C6499F /* ray.cpp */; };
@@ -562,6 +564,7 @@
 			dstPath = include;
 			dstSubfolderSpec = 16;
 			files = (
+				45A883D217B6D49200827C80 /* polygon_component.h in CopyFiles */,
 				45A06C1B17AEB816009087B7 /* misc_classes_2.h in CopyFiles */,
 				45A06C1C17AEB816009087B7 /* misc_classes_3.h in CopyFiles */,
 				45AACCDF17AC62A200C04218 /* tokenizer.h in CopyFiles */,
@@ -650,6 +653,7 @@
 			dstPath = include;
 			dstSubfolderSpec = 16;
 			files = (
+				45A883D117B6D48200827C80 /* polygon_component.h in CopyFiles */,
 				45A06C1F17AEB839009087B7 /* TextureAtlasLoader.h in CopyFiles */,
 				45A06C1D17AEB825009087B7 /* misc_classes_2.h in CopyFiles */,
 				45A06C1E17AEB825009087B7 /* misc_classes_3.h in CopyFiles */,

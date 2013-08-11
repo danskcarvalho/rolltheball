@@ -23,6 +23,7 @@ namespace rb {
     class matrix3x3;
     class mesh;
     class texture_map;
+    class buffer;
     class polygon {
     private:
         std::vector<vec2> _points;
@@ -86,6 +87,7 @@ namespace rb {
         polygon& join(const polygon& other);
         polygon& intersection(const polygon& other, std::vector<polygon>& other_polygons);
         bool test_intersection(const polygon& other) const;
+        bool test_intersection(const vec2& other) const;
         mesh& to_outline_mesh(mesh& storage, const texture_map& map, const float stroke_width, const corner_type ct = corner_type::miter, const bool textureless = false);
         polygon& offset(const float strength);
         const edge closest_edge(const vec2& pt) const;
@@ -96,6 +98,10 @@ namespace rb {
         mesh& to_mesh(mesh& storage, const uint32_t subdivisions, const texture_map& map);
         mesh& to_untextured_mesh(mesh& storage, const uint32_t subdivisions);
         mesh& textured_outline(mesh& storage, const rectangle& texture_bounds, const float max_s, const float stroke_width);
+        
+        //serialization
+        buffer to_buffer() const;
+        polygon(const buffer b);
         
         //operators
         friend bool operator ==(const polygon&, const polygon&);

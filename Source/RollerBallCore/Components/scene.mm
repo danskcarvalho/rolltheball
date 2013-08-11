@@ -910,7 +910,11 @@ void scene::paste_nodes(rb_string copied){
     assert(_obj);
     vec2 _center = current()->from_space_to(space::normalized_screen).inverse().from_space_to_base().transformed_point(vec2::zero);
     _obj->transform(_obj->transform().moved(_center));
-    current()->add_node(_obj);
+    bool _added = current()->add_node(_obj);
+    if(!_added){
+        delete _obj;
+        return;
+    }
     auto _grp = dynamic_cast<group_component*>(_obj);
     if(_grp)
         _grp->ungroup(true, true);

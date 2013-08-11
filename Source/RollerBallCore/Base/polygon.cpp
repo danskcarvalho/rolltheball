@@ -15,6 +15,7 @@
 #include "transform_space.h"
 #include "matrix3x3.h"
 #include "null_texture_map.h"
+#include "buffer.h"
 #include <boost/geometry.hpp>
 #include <boost/geometry/geometries/polygon.hpp>
 #include <boost/geometry/geometries/point_xy.hpp>
@@ -24,14 +25,12 @@ using namespace std;
 using namespace rb;
 
 polygon::polygon(){
-    _points = vector<vec2>();
     _is_closed = false;
     _is_simple = nullptr;
     _is_convex = nullptr;
     _area = nullptr;
     _perimeter = nullptr;
     _bounds = nullptr;
-    _edges = vector<edge>();
 }
 
 void polygon::clear_cache() {
@@ -139,6 +138,29 @@ bool polygon::test_intersection(const rb::polygon &other) const {
     
     //we then compute the convex hull
     return boost::geometry::intersects(_poly, _poly2);
+}
+
+bool polygon::test_intersection(const rb::vec2 &other) const {
+    auto _this = *this;
+    _this.optimize();
+    
+    typedef boost::geometry::model::d2::point_xy<float> b_point;
+    typedef boost::geometry::model::polygon<b_point, false> b_polygon;
+    b_polygon _poly;
+    vector<b_point> _b_points;
+    vector<vec2> _c_points = _this._points;
+    //we add the points
+    if(_this.get_ordering() == point_ordering::cw)
+        std::reverse(_c_points.begin(), _c_points.end());
+    for (auto& _p : _c_points)
+        _b_points.push_back(b_point(_p.x(), _p.y()));
+    
+    //we initialize the polygon
+    boost::geometry::append(_poly, _b_points);
+    boost::geometry::correct(_poly);
+    
+    //we then compute the convex hull
+    return boost::geometry::within(b_point(other.x(), other.y()), _poly);
 }
 
 
@@ -1837,6 +1859,42 @@ mesh& polygon::to_line_mesh(mesh& storage, const rectangle& texture_bounds, cons
     storage.set_buffers(_vb, _pt_count, _ib, _idx_count, true);
     
     return storage;
+}
+
+buffer polygon::to_buffer() const {
+    auto _mem_size = sizeof(bool) + sizeof(uint32_t) + sizeof(vec2) * point_count();
+    void * _mem = malloc(_mem_size);
+    bool* _bMem = (bool*)_mem;
+    *_bMem = _is_closed;
+    _bMem++;
+    uint32_t* _ui32Mem = (uint32_t*)_bMem;
+    *_ui32Mem = point_count();
+    _ui32Mem++;
+    vec2* _vMem = (vec2*)_ui32Mem;
+    for(uint32_t i = 0; i < point_count(); i++){
+        _vMem[i] = get_point(i);
+    }
+    
+    buffer _b(_mem, _mem_size);
+    free(_mem);
+    return _b;
+}
+
+polygon::polygon(const buffer b){
+    const bool* bMem = (const bool*)b.internal_buffer();
+    auto _closed = *bMem;
+    bMem++;
+    const uint32_t* ui32Mem = (const uint32_t*)bMem;
+    auto _s = *ui32Mem;
+    ui32Mem++;
+    const vec2* vMem = (const vec2*)ui32Mem;
+    this->reset();
+    for (uint32_t i = 0; i < _s; i++)
+        this->_points.push_back(vMem[i]);
+    if(_closed)
+        this->close_polygon();
+    else
+        this->open_polygon();
 }
 
 

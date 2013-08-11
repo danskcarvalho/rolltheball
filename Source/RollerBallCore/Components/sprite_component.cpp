@@ -108,8 +108,8 @@ void sprite_component::after_becoming_active(bool node_was_moved){
 //        destroy();
 }
 void sprite_component::before_becoming_inactive(bool node_was_moved){
-    if(!node_was_moved)
-        destroy();
+//    if(!node_was_moved)
+//        destroy();
 }
 void sprite_component::reapply_mapping(){
     auto _temp = (texture_map*)create_mapping(_image, transform_space(), _map);

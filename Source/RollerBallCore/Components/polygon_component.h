@@ -19,7 +19,12 @@ namespace rb {
     class mesh;
     class texture_map;
     class polygon_point_component : public node {
-        
+    protected:
+        //Typed Object
+        virtual void describe_type() override;
+    public:
+        virtual rb_string type_name() const override;
+        virtual rb_string displayable_type_name() const override;
     };
     class polygon_component : public node {
     private:
@@ -48,6 +53,7 @@ namespace rb {
             //border flags
             bool dirty_border_polygon : 1;
             bool dirty_border_color : 1;
+            bool border_collapsed : 1;
             
             //renderable
             bool renderable : 1;
@@ -56,9 +62,11 @@ namespace rb {
         mesh* _m;
         mesh* _m_copy;
         mesh* _b; //border mesh
+        mesh* _b_copy;
         
         texture_map* _map;
         transform_space _before;
+        transform_space _before_b;
         rb_string _image;
         
         uint32_t _circle_sides;
@@ -75,16 +83,85 @@ namespace rb {
         rb_string _border_texture;
         float _max_s;
         //methods
-        void destroy_polygon(bool destroy_map);
-        void update_polygon();
+        void reset_children();
+        void create_polygon_data();
+        void destroy_polygon();
+        void update_polygon(bool refill_buffers);
         void transform_mesh();
         void update_collapsed_mesh();
+        void update_collapsed_border_mesh();
         void update_collapsed_flag();
         void recreate_polygon();
         void recreate_border();
+        //create skeleton
+        mesh* create_skeleton(const polygon& p);
     public:
         polygon_component();
         ~polygon_component();
+    protected:
+        virtual void after_becoming_active(bool node_was_moved) override;
+        virtual void before_becoming_inactive(bool node_was_moved) override;
+        virtual void render(const bool refill_buffers) override;
+    protected:
+        //Typed Object
+        virtual void describe_type() override;
+    public:
+        virtual rb_string type_name() const override;
+        virtual rb_string displayable_type_name() const override;
+        //Render Gizmo
+    protected:
+        virtual void render_gizmo() override;
+        //Hit Test and Bounds
+    protected:
+        //returns the bounds in self space...
+        virtual rectangle bounds() const override;
+        //pt in screen coordinates
+        virtual bool hit_test(const vec2& pt) const override;
+        //rc in screen coordinates
+        virtual bool hit_test(const rectangle& rc) const override;
+    public:
+        virtual bool is_degenerated() const;
+    public:
+        //properties
+        const polygon& to_polygon() const;
+        const rb_string& image_name() const;
+        const rb_string& image_name(const rb_string& value);
+        uint32_t circle_sides() const;
+        uint32_t circle_sides(const uint32_t value);
+        float opacity() const;
+        float opacity(const float value);
+        const color& tint() const;
+        const color& tint(const color& value);
+        float blend() const;
+        float blend(const float value);
+        float smooth_quality() const;
+        float smooth_quality(const float value);
+        float smooth_divisions() const;
+        float smooth_divisions(const float value);
+        const transform_space& texture_space() const;
+        const transform_space& texture_space(const transform_space& value);
+        float border_size() const;
+        float border_size(const float value);
+        corner_type border_corner_type() const;
+        corner_type border_corner_type(const corner_type value);
+        const nullable<color>& border_color() const;
+        const nullable<color>& border_color(const nullable<color>& value);
+        const rb_string& border_image_name() const;
+        const rb_string& border_image_name(const rb_string& value);
+        float max_s() const;
+        float max_s(const float value);
+        bool transformable() const;
+        bool transformable(const bool value);
+        bool visible() const;
+        bool visible(const bool value);
+        bool smooth() const;
+        bool smooth(const bool value);
+        bool opened() const;
+        bool opened(const bool value);
+        bool marker() const;
+        bool marker(const bool value);
+        void reset_to_quad();
+        void reset_to_circle();
     };
 }
 

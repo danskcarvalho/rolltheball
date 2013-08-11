@@ -401,7 +401,11 @@ group_component* node_container::group_nodes(const std::vector<node *> &nodes){
     transform_space _grp_space = transform_space(_rc.value().center(), 1, 0);
     auto _new_grp = new group_component();
     _new_grp->transform(_grp_space);
-    this->add_node(_new_grp);
+    bool _added_grp = this->add_node(_new_grp);
+    if(!_added_grp){
+        delete _new_grp;
+        return nullptr;
+    }
     
     for (auto _n : nodes){
         auto _new_t = _grp_space.inverse() * _n->transform();
@@ -419,6 +423,8 @@ group_component* node_container::group_selected(){
     fill_with_selection(_selection, node_filter::all, true);
     assert(_selection.size() != 0);
     auto _grp = group_nodes(_selection);
+    if(!_grp)
+        return nullptr;
     clear_selection();
     add_to_selection(_grp);
     return _grp;

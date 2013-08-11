@@ -215,6 +215,8 @@ typed_object* scene_loader::deserialize_from_xnode(const rb::xnode &node, const 
     for(auto& _n : _properties.children()){
         auto _p = _n.get_attribute_value(u"name");
         auto _tdp = _to->type_descriptor()->property_type(_p);
+        if(_tdp->gtd() == general_type_descriptor::action)
+            continue;
         
         if(_tdp->gtd() == general_type_descriptor::angle || _tdp->gtd() == general_type_descriptor::ranged || _tdp->gtd() == general_type_descriptor::single){
             if(_n.has_attribute(u"is-null"))
@@ -262,7 +264,15 @@ typed_object* scene_loader::deserialize_from_xnode(const rb::xnode &node, const 
                 _to->type_descriptor()->set_property(_to, _p, color::from_rgba(_r, _g, _b, _a));
             }
         }
-        else if(_tdp->gtd() == general_type_descriptor::enumeration || _tdp->gtd() == general_type_descriptor::integer || _tdp->gtd() == general_type_descriptor::flags){
+        else if(_tdp->gtd() == general_type_descriptor::enumeration){
+            if(_n.has_attribute(u"is-null"))
+                _to->type_descriptor()->set_property(_to, _p, nullptr);
+            else {
+                auto _en_val = _n.get_attribute_value(u"value");
+                _to->type_descriptor()->set_property(_to, _p,  _en_val);
+            }
+        }
+        else if(_tdp->gtd() == general_type_descriptor::integer || _tdp->gtd() == general_type_descriptor::flags){
             if(_n.has_attribute(u"is-null"))
                 _to->type_descriptor()->set_property(_to, _p, nullptr);
             else {
