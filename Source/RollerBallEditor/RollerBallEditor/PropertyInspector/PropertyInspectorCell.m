@@ -125,6 +125,20 @@ float normalizeAngle(float angle){
     return angle;
 }
 
+PropertyInspectorCell* cellSuperView(NSResponder* responder){
+    if(!responder)
+        return nil;
+    if([responder isKindOfClass:[NSView class]]){
+        NSView* r = (NSView*)responder;
+        if([r isKindOfClass:[PropertyInspectorCell class]])
+            return (PropertyInspectorCell*)r;
+        else
+            return cellSuperView([r superview]);
+    }
+    else
+        return nil;
+}
+
 @implementation PropertyInspectorCell
 -(void)setComboboxItems:(id)sender{
     NSMutableArray* mutableArray = [NSMutableArray array];
@@ -138,6 +152,11 @@ float normalizeAngle(float angle){
 }
 -(void)flagsSegmentChanged:(id)sender{
     if(pict == pictFlags){
+        PropertyInspectorCell* r = cellSuperView([[self window] firstResponder]);
+        
+        if(r){
+            [r commitValues];
+        }
         long fl = 0;
         for (NSUInteger i = 0; i < segmented.segmentCount; i++) {
             if([segmented isSelectedForSegment:i])
