@@ -437,27 +437,13 @@ std::vector<rb_string> node_container::transformables(){
 void node_container::start_transformation(long index){
 }
 
-bool node_container::adjust_transformation(const rb::transform_space &transform, bool only_if_all){
+bool node_container::adjust_transformation(const rb::transform_space &transform){
     auto _previous_t = this->transform();
     if(!transform.test_direction(transform_direction::from_base_to_space))
         return false;
     auto _i_t = transform.inverse();
     
-    std::unordered_map<node*, transform_space> _inverses;
-    
     for(auto _n : *this){
-        if(only_if_all){
-            if(!_n->transform().test_direction(transform_direction::from_base_to_space))
-                return false;
-        }
-        
-        _inverses.insert({_n, _n->transform().inverse()});
-    }
-    
-    for(auto _n : *this){
-        if(_inverses.count(_n) == 0)
-            continue;
-        
         _n->transform(_i_t * _previous_t * _n->transform());
     }
     

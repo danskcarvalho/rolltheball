@@ -1862,9 +1862,9 @@ mesh& polygon::to_line_mesh(mesh& storage, const rectangle& texture_bounds, cons
 }
 
 buffer polygon::to_buffer() const {
-    auto _mem_size = sizeof(bool) + sizeof(uint32_t) + sizeof(vec2) * point_count();
+    auto _mem_size = sizeof(uint32_t) + sizeof(uint32_t) + sizeof(vec2) * point_count();
     void * _mem = malloc(_mem_size);
-    bool* _bMem = (bool*)_mem;
+    uint32_t* _bMem = (uint32_t*)_mem;
     *_bMem = _is_closed;
     _bMem++;
     uint32_t* _ui32Mem = (uint32_t*)_bMem;
@@ -1881,8 +1881,8 @@ buffer polygon::to_buffer() const {
 }
 
 polygon::polygon(const buffer b){
-    const bool* bMem = (const bool*)b.internal_buffer();
-    auto _closed = *bMem;
+    const uint32_t* bMem = (const uint32_t*)b.internal_buffer();
+    bool _closed = *bMem;
     bMem++;
     const uint32_t* ui32Mem = (const uint32_t*)bMem;
     auto _s = *ui32Mem;

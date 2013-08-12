@@ -18,6 +18,7 @@ using namespace rb;
 
 transform_gizmo_space::transform_gizmo_space(){
     _saved_current = nullptr;
+    _call_end_function = false;
 }
 
 transform_gizmo_space::~transform_gizmo_space(){
@@ -40,6 +41,8 @@ rb_string transform_gizmo_space::displayable_type_name() const {
 void transform_gizmo_space::resign_current() {
     auto _ss = _saved_current;
     auto _scene = parent_scene();
+    auto _s_end_function = _end_function;
+    auto _s_call_end_function = _call_end_function;
     
     if(parent_node())
         parent_node()->remove_node(this, true);
@@ -48,6 +51,9 @@ void transform_gizmo_space::resign_current() {
     
     if(_ss)
         _scene->current(_ss);
+    
+    if(_s_call_end_function)
+        _s_end_function();
 }
 
 transform_gizmo::transform_gizmo(const rectangle& bounds, const bool live, std::function<void (transform_gizmo*, const transform_space&)> update_function){
@@ -73,6 +79,22 @@ void transform_gizmo::start_transformation(rb::node_container *parent, const rb:
     _tg->transform(transform);
     _tgs->_saved_current = _tg->_saved_current = director::active_scene()->current();
     _tgs->add_node(_tg);
+    _tgs->_call_end_function = false;
+    parent->add_node(_tgs);
+    director::active_scene()->current(_tgs);
+    _tg->add_to_selection();
+    _tg->_activated = true;
+}
+
+void transform_gizmo::start_transformation(rb::node_container *parent, const rb::transform_space &transform, const rb::rectangle &bounds, const bool live, std::function<void (transform_gizmo*, const transform_space &)> update_function, std::function<void (void)> end_function){
+    auto _tg = new transform_gizmo(bounds, live, update_function);
+    auto _tgs = new transform_gizmo_space();
+    _tgs->name(u"Gizmo Space");
+    _tg->transform(transform);
+    _tgs->_saved_current = _tg->_saved_current = director::active_scene()->current();
+    _tgs->add_node(_tg);
+    _tgs->_call_end_function = true;
+    _tgs->_end_function = end_function;
     parent->add_node(_tgs);
     director::active_scene()->current(_tgs);
     _tg->add_to_selection();

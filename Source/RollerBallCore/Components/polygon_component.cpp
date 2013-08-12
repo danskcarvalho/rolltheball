@@ -16,6 +16,7 @@
 #include "circle.h"
 #include "null_texture_map.h"
 #include "scene.h"
+#include "transform_gizmo.h"
 
 using namespace rb;
 
@@ -35,13 +36,6 @@ void polygon_point_component::after_becoming_active(bool node_was_moved){
 
 void polygon_point_component::render_gizmo(){
     //Do nothing
-}
-
-const transform_space& polygon_point_component::transform(const rb::transform_space &value){
-    auto _t = value;
-    _t.rotation(0);
-    _t.scale(1);
-    return node::transform(_t);
 }
 
 void polygon_point_component::transform_changed(){
@@ -296,7 +290,7 @@ void polygon_component::recreate_polygon(){
     }
     
     if(_m && !this->_m->is_empty()){
-        add_mesh_for_rendering(_m, _map ? _image : no_texture, _flags.transformable);
+        add_mesh_for_rendering(_m, _map ? _image : no_texture, _flags.transformable || _flags.in_texture_transformation);
     }
 }
 
@@ -395,7 +389,7 @@ void polygon_component::update_polygon(bool refill_buffers){
     }
     
     if(!_already_added && refill_buffers && _m && !_m->is_empty())
-        add_mesh_for_rendering(_m, _map ? _image : no_texture, _flags.transformable);
+        add_mesh_for_rendering(_m, _map ? _image : no_texture, _flags.transformable || _flags.in_texture_transformation);
     
     update_collapsed_flag();
     
@@ -405,7 +399,7 @@ void polygon_component::update_polygon(bool refill_buffers){
             assert(_t); //must be transformable because if it's not... there's nothing we can do
             if(_m && _map){
                 _m->expand_from_atlas_bounds(*_map, false);
-                set_texture_for_mesh(_m, _image, _flags.transformable);
+                set_texture_for_mesh(_m, _image, _flags.transformable || _flags.in_texture_transformation);
             }
             if(_m_copy && _map){
                 _m_copy->expand_from_atlas_bounds(*_map, false);
@@ -437,10 +431,30 @@ void polygon_component::update_polygon(bool refill_buffers){
             if(!_flags.collapsed){
                 if(_m){
                     _m->remap(_map->bounds(), _flags.polygon_transformable ? texture_mapping_type::transformable : texture_mapping_type::untransformable);
-                    set_texture_for_mesh(_m, _image, _flags.transformable);
+                    set_texture_for_mesh(_m, _image, _flags.transformable || _flags.in_texture_transformation);
+                    
+                    if(_flags.polygon_transformable){ //apply the transform
+                        _m->lock_vertex_buffer([=](vertex* vb){
+                            _m_copy->lock_vertex_buffer([=](vertex* vb2){
+                                for (uint32_t i = 0; i < _m->vertex_count(); i++) {
+                                    auto _saved_pos = vb[i].get_position();
+                                    vb[i].set_position(vb2[i].get_position());
+                                    _map->set_texture_coords(vb[i]);
+                                    vb[i].set_position(_saved_pos);
+                                }
+                            });
+                        });
+                    }
                 }
                 if(_m_copy){
                     _m_copy->remap(_map->bounds(), _flags.polygon_transformable ? texture_mapping_type::transformable : texture_mapping_type::untransformable);
+                    if(_flags.polygon_transformable){ //apply the transform
+                        _m_copy->lock_vertex_buffer([=](vertex* vb){
+                            for (uint32_t i = 0; i < _m_copy->vertex_count(); i++) {
+                                _map->set_texture_coords(vb[i]);
+                            }
+                        });
+                    }
                 }
             }
         }
@@ -1109,13 +1123,13 @@ const transform_space& polygon_component::texture_space(const transform_space& v
     if(_tx_space == value)
         return _tx_space;
     _tx_space = value;
-    if(!_flags.transformable){
+    if(_flags.transformable || _flags.in_texture_transformation){
+        _flags.dirty_map = true;
+    }
+    else {
         _flags.dirty_polygon = true;
         if(parent_scene() && parent_scene()->active())
             invalidate_buffers();
-    }
-    else {
-        _flags.dirty_map = true;
     }
     return _tx_space;
 }
@@ -1293,6 +1307,35 @@ bool polygon_component::is_degenerated() const{
         return false;
     else
         return true;
+}
+
+std::vector<rb_string> polygon_component::transformables() {
+    return { u"Polygon's Center", u"Texture" };
+}
+
+void polygon_component::start_transformation(long index){
+    if(index == 0){
+        transform_gizmo::start_transformation(this->parent(), this->transform(), rectangle(0, 0, 1, 1), false, [=](transform_gizmo* g, const transform_space& t){
+            auto _new_t = this->transform();
+            _new_t.origin(t.origin());
+            _new_t.rotation(t.rotation());
+            this->adjust_transformation(_new_t);
+        });
+    }
+    else {
+        if(!this->transform().both_directions())
+            return;
+        _flags.in_texture_transformation = true;
+        _flags.dirty_transformable = true;
+        transform_gizmo::start_transformation(this->parent(), this->transform() * this->texture_space(), rectangle(0, 0, 1, 1), true, [=](transform_gizmo* g, const transform_space& t){
+            this->texture_space(this->transform().inverse() * t);
+        }, [=](){ //end
+            _flags.in_texture_transformation = false;
+            _flags.dirty_transformable = true;
+            _flags.dirty_polygon = true;
+            this->invalidate_buffers();
+        });
+    }
 }
 
 

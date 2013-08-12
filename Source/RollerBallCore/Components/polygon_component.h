@@ -27,8 +27,6 @@ namespace rb {
         virtual void after_becoming_active(bool node_was_moved) override;
     protected:
         virtual void transform_changed();
-    public:
-        virtual const transform_space& transform(const rb::transform_space &value);
         //Live editing
     protected:
         virtual void begin_live_edit(rb::live_edit kind);
@@ -189,6 +187,10 @@ namespace rb {
         bool marker(const bool value);
         void reset_to_quad();
         void reset_to_circle();
+        //start transformation
+    public:
+        virtual std::vector<rb_string> transformables() override;
+        virtual void start_transformation(long index) override;
     };
 }
 
