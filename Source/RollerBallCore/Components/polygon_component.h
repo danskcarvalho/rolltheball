@@ -16,6 +16,7 @@
 #include "polygon.h"
 
 namespace rb {
+    class smooth_curve;
     class mesh;
     class texture_map;
     class polygon_point_component : public node {
@@ -44,6 +45,11 @@ namespace rb {
     public:
         virtual rb_string type_name() const override;
         virtual rb_string displayable_type_name() const override;
+        //Make it first
+    public:
+        void make_itself_first();
+    private:
+        void split();
     };
     class polygon_component : public node {
     public:
@@ -146,6 +152,10 @@ namespace rb {
     public:
         virtual bool add_node_at(node* n, uint32_t at) override;
         virtual bool remove_node(node* n, bool cleanup) override;
+        virtual bool bring_to_front(node* n) override;
+        virtual bool send_to_back(node* n) override;
+        virtual bool send_backward(node* n) override;
+        virtual bool bring_forward(node* n) override;
     public:
         //properties
         const polygon& to_polygon() const;
@@ -187,6 +197,7 @@ namespace rb {
         bool marker(const bool value);
         void reset_to_quad();
         void reset_to_circle();
+        polygon to_smooth_polygon() const;
         //start transformation
     public:
         virtual std::vector<rb_string> transformables() override;

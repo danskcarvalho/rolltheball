@@ -940,7 +940,9 @@ void join_edges(const float stroke_width, point_ordering ordering, const edge& e
     }
     else {
         if(edge::test_intersection(e1, e2) || e1.pt1() == e2.pt0()) { //line segment
-            edges.push_back(edge(e1.pt0(), e2.pt1(), e1.normal()));
+            auto _mid = (e1.pt0() + e2.pt1()) / 2.0f;
+            edges.push_back(edge(e1.pt0(), _mid, e1.normal()));
+            edges.push_back(edge(_mid, e2.pt1(), e1.normal())); //just so we have 2 edges or more always
         }
         else { //no intersection, we must join then anyway
             auto r1 = ray(e1.pt1(), e1.pt1() - e1.pt0());
@@ -1709,6 +1711,7 @@ mesh& polygon::textured_outline(mesh& storage, const rectangle& texture_bounds, 
             //join edges
             auto _current = _edges[i].translate(_edges[i].normal() * stroke_width, false);
             join_edges(stroke_width, _ordering, _previous, _current, corner_type::miter, _joined);
+            assert(_joined.size() == 2 || _joined.size() == 3);
             if(_joined.size() == 3){
                 auto _welded =  (_previous.pt1() + _current.pt0()) / 2.0f;
                 _upper_edges.push_back(edge(_previous.pt0(), _welded, compute_normal(_previous.pt0(), _welded, _ordering)));

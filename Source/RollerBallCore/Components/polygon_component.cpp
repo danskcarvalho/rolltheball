@@ -38,6 +38,53 @@ void polygon_point_component::render_gizmo(){
     //Do nothing
 }
 
+void polygon_point_component::make_itself_first(){
+    std::vector<node*> _nodes;
+    parent()->copy_nodes_to_vector(_nodes);
+    auto _index = parent()->search_node(this);
+    assert(_index.has_value());
+    if(_index.value() == 0)
+        return;
+    
+    auto _i = 0;
+    while (_i != _index.value()){
+        parent()->send_to_back(_nodes[_i]);
+        _i++;
+    }
+}
+
+void polygon_point_component::split(){
+    auto _i = 0;
+    
+    while (_i < parent()->node_count()) {
+        nullable<uint32_t> _insertion_pt = nullptr;
+        vec2 _pt0, _pt1;
+        if(_i != (parent()->node_count() - 1)){
+            if(parent()->node_at(_i)->is_selected() && parent()->node_at(_i + 1)->is_selected()){
+                _insertion_pt = _i + 1;
+                _pt0 = parent()->node_at(_i)->transform().origin();
+                _pt1 = parent()->node_at(_i + 1)->transform().origin();
+            }
+        }
+        else {
+            if(parent()->node_at(_i)->is_selected() && parent()->node_at(0)->is_selected()){
+                _insertion_pt = (uint32_t)0;
+                _pt0 = parent()->node_at(_i)->transform().origin();
+                _pt1 = parent()->node_at(0)->transform().origin();
+            }
+        }
+        
+        if(_insertion_pt.has_value()){
+            auto _new_pt = new polygon_point_component();
+            _new_pt->transform(_new_pt->transform().moved((_pt0 + _pt1) / 2.0f));
+            parent()->add_node_at(_new_pt, _insertion_pt.value());
+            _i++;
+        }
+        else
+            _i++;
+    }
+}
+
 void polygon_point_component::transform_changed(){
     if(!_in_live_edit){
         auto _p = dynamic_cast<polygon_component*>(parent());
@@ -100,6 +147,12 @@ void polygon_point_component::describe_type() {
     node::describe_type();
     
     start_type<polygon_point_component>([](){ return new polygon_point_component(); });
+    action<polygon_point_component>(u"make_itself_first", u"", action_flags::single_dispatch, {u"Make Itself First"}, [](polygon_point_component* site, const rb_string& action_name){
+        site->make_itself_first();
+    });
+    action<polygon_point_component>(u"split", u"", action_flags::single_dispatch, {u"Split"}, [](polygon_point_component* site, const rb_string& action_name){
+        site->split();
+    });
     end_type();
 }
 
@@ -687,6 +740,58 @@ bool polygon_component::remove_node(rb::node *n, bool cleanup){
     return _b;
 }
 
+bool polygon_component::bring_to_front(rb::node *n){
+    bool _b = node::bring_to_front(n);
+    if(_b){
+        _flags.type = kPolFreeform;
+        _polygon.reset();
+        _flags.dirty_polygon = true;
+        _flags.dirty_border_polygon = true;
+        if(active())
+            invalidate_buffers();
+    }
+    return _b;
+}
+
+bool polygon_component::send_to_back(rb::node *n){
+    bool _b = node::send_to_back(n);
+    if(_b){
+        _flags.type = kPolFreeform;
+        _polygon.reset();
+        _flags.dirty_polygon = true;
+        _flags.dirty_border_polygon = true;
+        if(active())
+            invalidate_buffers();
+    }
+    return _b;
+}
+
+bool polygon_component::send_backward(rb::node *n){
+    bool _b = node::send_backward(n);
+    if(_b){
+        _flags.type = kPolFreeform;
+        _polygon.reset();
+        _flags.dirty_polygon = true;
+        _flags.dirty_border_polygon = true;
+        if(active())
+            invalidate_buffers();
+    }
+    return _b;
+}
+
+bool polygon_component::bring_forward(rb::node *n){
+    bool _b = node::bring_forward(n);
+    if(_b){
+        _flags.type = kPolFreeform;
+        _polygon.reset();
+        _flags.dirty_polygon = true;
+        _flags.dirty_border_polygon = true;
+        if(active())
+            invalidate_buffers();
+    }
+    return _b;
+}
+
 void polygon_component::after_becoming_active(bool node_was_moved){
     enabled(node_capability::children_rendering, false);
     enabled(node_capability::rendering, true);
@@ -1027,6 +1132,27 @@ const polygon& polygon_component::to_polygon() const{
         const_cast<polygon_component*>(this)->create_polygon_data();
     return _polygon;
 }
+polygon polygon_component::to_smooth_polygon() const {
+    auto& _polygon = to_polygon();
+    
+    if (_flags.smooth && _polygon.point_count() >= 4){
+        smooth_curve _sc;
+        std::vector<vec2> _points;
+        for (uint32_t i = 0; i < _polygon.point_count(); i++)
+            _points.push_back(_polygon.get_point(i));
+        
+        if(_flags.open)
+            _sc = smooth_curve::build_open_curve(_points, _sc);
+        else
+            _sc = smooth_curve::build_closed_curve(_points, _sc);
+        
+        polygon _f_pol;
+        return _sc.to_polygon(_f_pol, _smooth_quality, _smooth_divisions);
+    }
+    else
+        return _polygon;
+}
+
 const rb_string& polygon_component::image_name() const{
     return _image;
 }
