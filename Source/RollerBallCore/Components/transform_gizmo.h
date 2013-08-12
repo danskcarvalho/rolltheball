@@ -32,6 +32,7 @@ namespace rb {
     public:
         virtual ~transform_gizmo();
         static void start_transformation(node_container* parent, const transform_space& transform, const rectangle& bounds, const bool live, std::function<void (transform_gizmo*, const transform_space&)> update_function);
+        static void start_transformation(node_container* parent, const transform_space& transform, const rectangle& bounds, const bool live, std::function<void (transform_gizmo*, const transform_space&)> update_function, std::function<void (void)> end_function);
     protected:
         //Typed Object
         virtual void describe_type() override;
@@ -50,6 +51,8 @@ namespace rb {
     
     class transform_gizmo_space : public node {
     private:
+        std::function<void (void)> _end_function;
+        bool _call_end_function;
         node_container* _saved_current;
     public:
         friend class transform_gizmo;

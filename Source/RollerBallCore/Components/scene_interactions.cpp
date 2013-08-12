@@ -314,6 +314,7 @@ void scene::mouse_down(const vec2& normalized_position) {
         _current_new->transform(_new_tr);
         if(!current()->add_node(_current_new)) {
             delete _current_new;
+            _current_new = nullptr;
             alert(u"Can't add " + _new_template->displayable_type_name() + u" to current node.");
         }
         return;

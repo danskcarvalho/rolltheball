@@ -14,6 +14,8 @@
 #include "vertex.h"
 #include "transform_space.h"
 #include "matrix3x3.h"
+#include "null_texture_map.h"
+#include "buffer.h"
 #include <boost/geometry.hpp>
 #include <boost/geometry/geometries/polygon.hpp>
 #include <boost/geometry/geometries/point_xy.hpp>
@@ -23,14 +25,12 @@ using namespace std;
 using namespace rb;
 
 polygon::polygon(){
-    _points = vector<vec2>();
     _is_closed = false;
     _is_simple = nullptr;
     _is_convex = nullptr;
     _area = nullptr;
     _perimeter = nullptr;
     _bounds = nullptr;
-    _edges = vector<edge>();
 }
 
 void polygon::clear_cache() {
@@ -138,6 +138,29 @@ bool polygon::test_intersection(const rb::polygon &other) const {
     
     //we then compute the convex hull
     return boost::geometry::intersects(_poly, _poly2);
+}
+
+bool polygon::test_intersection(const rb::vec2 &other) const {
+    auto _this = *this;
+    _this.optimize();
+    
+    typedef boost::geometry::model::d2::point_xy<float> b_point;
+    typedef boost::geometry::model::polygon<b_point, false> b_polygon;
+    b_polygon _poly;
+    vector<b_point> _b_points;
+    vector<vec2> _c_points = _this._points;
+    //we add the points
+    if(_this.get_ordering() == point_ordering::cw)
+        std::reverse(_c_points.begin(), _c_points.end());
+    for (auto& _p : _c_points)
+        _b_points.push_back(b_point(_p.x(), _p.y()));
+    
+    //we initialize the polygon
+    boost::geometry::append(_poly, _b_points);
+    boost::geometry::correct(_poly);
+    
+    //we then compute the convex hull
+    return boost::geometry::within(b_point(other.x(), other.y()), _poly);
 }
 
 
@@ -394,19 +417,19 @@ nullable<bool> polygon::is_convex() const{
 bool polygon::is_closed() const{
     return _is_closed;
 }
-const vec2& polygon::get_point(int32_t at) const{
+const vec2& polygon::get_point(uint32_t at) const{
     assert(at >= 0);
     assert(at < _points.size());
     return _points[at];
 }
-const int32_t polygon::point_count() const{
-    return (int32_t)_points.size();
+const uint32_t polygon::point_count() const{
+    return (uint32_t)_points.size();
 }
-const int32_t polygon::edge_count() const{
+const uint32_t polygon::edge_count() const{
     const_cast<polygon*>(this)->get_edges(); //update edges
-    return (int32_t)_edges.size();
+    return (uint32_t)_edges.size();
 }
-const edge& polygon::get_edge(int32_t at) const{
+const edge& polygon::get_edge(uint32_t at) const{
     const_cast<polygon*>(this)->get_edges(); //update edges
     assert(at >= 0);
     assert(at < _edges.size());
@@ -917,7 +940,9 @@ void join_edges(const float stroke_width, point_ordering ordering, const edge& e
     }
     else {
         if(edge::test_intersection(e1, e2) || e1.pt1() == e2.pt0()) { //line segment
-            edges.push_back(edge(e1.pt0(), e2.pt1(), e1.normal()));
+            auto _mid = (e1.pt0() + e2.pt1()) / 2.0f;
+            edges.push_back(edge(e1.pt0(), _mid, e1.normal()));
+            edges.push_back(edge(_mid, e2.pt1(), e1.normal())); //just so we have 2 edges or more always
         }
         else { //no intersection, we must join then anyway
             auto r1 = ray(e1.pt1(), e1.pt1() - e1.pt0());
@@ -1225,6 +1250,19 @@ void subdivide_triangle(uint32_t subdv, vector<vec2>& points, const vec2& v1, co
     subdivide_triangle(subdv - 1, points, v5, v3, v1);
     subdivide_triangle(subdv - 1, points, v2, v5, v4);
     subdivide_triangle(subdv - 1, points, v2, v3, v5);
+}
+
+mesh& polygon::to_untextured_mesh(rb::mesh &storage, const uint32_t subdivisions){
+    optimize();
+    assert(!is_empty());
+    assert(is_simple().has_value() && is_simple().value() == true);
+    assert(area().has_value());
+    assert(get_ordering() != point_ordering::unknown);
+    assert(subdivisions >= 0);
+    vector<vertex> _vertexes;
+    vector<uint16_t> _indexes;
+    this->_to_mesh(_vertexes, _indexes, subdivisions, null_texture_map());
+    return storage;
 }
 
 mesh& polygon::to_mesh(mesh& storage, const uint32_t subdivisions, const texture_map& map){
@@ -1673,6 +1711,7 @@ mesh& polygon::textured_outline(mesh& storage, const rectangle& texture_bounds, 
             //join edges
             auto _current = _edges[i].translate(_edges[i].normal() * stroke_width, false);
             join_edges(stroke_width, _ordering, _previous, _current, corner_type::miter, _joined);
+            assert(_joined.size() == 2 || _joined.size() == 3);
             if(_joined.size() == 3){
                 auto _welded =  (_previous.pt1() + _current.pt0()) / 2.0f;
                 _upper_edges.push_back(edge(_previous.pt0(), _welded, compute_normal(_previous.pt0(), _welded, _ordering)));
@@ -1823,6 +1862,42 @@ mesh& polygon::to_line_mesh(mesh& storage, const rectangle& texture_bounds, cons
     storage.set_buffers(_vb, _pt_count, _ib, _idx_count, true);
     
     return storage;
+}
+
+buffer polygon::to_buffer() const {
+    auto _mem_size = sizeof(uint32_t) + sizeof(uint32_t) + sizeof(vec2) * point_count();
+    void * _mem = malloc(_mem_size);
+    uint32_t* _bMem = (uint32_t*)_mem;
+    *_bMem = _is_closed;
+    _bMem++;
+    uint32_t* _ui32Mem = (uint32_t*)_bMem;
+    *_ui32Mem = point_count();
+    _ui32Mem++;
+    vec2* _vMem = (vec2*)_ui32Mem;
+    for(uint32_t i = 0; i < point_count(); i++){
+        _vMem[i] = get_point(i);
+    }
+    
+    buffer _b(_mem, _mem_size);
+    free(_mem);
+    return _b;
+}
+
+polygon::polygon(const buffer b){
+    const uint32_t* bMem = (const uint32_t*)b.internal_buffer();
+    bool _closed = *bMem;
+    bMem++;
+    const uint32_t* ui32Mem = (const uint32_t*)bMem;
+    auto _s = *ui32Mem;
+    ui32Mem++;
+    const vec2* vMem = (const vec2*)ui32Mem;
+    this->reset();
+    for (uint32_t i = 0; i < _s; i++)
+        this->_points.push_back(vMem[i]);
+    if(_closed)
+        this->close_polygon();
+    else
+        this->open_polygon();
 }
 
 

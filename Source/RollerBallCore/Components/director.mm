@@ -13,6 +13,7 @@
 #include "misc_classes_2.h"
 #include "group_component.h"
 #include "layer.h"
+#include "polygon_component.h"
 #import <Foundation/Foundation.h>
 
 using namespace rb;
@@ -37,6 +38,7 @@ scene* director::active_scene() {
 
 void director::register_creatable_types(){
     register_creatable_type(type_descriptor::get<sprite_component>());
+    register_creatable_type(type_descriptor::get<polygon_component>());
     
     //register serializable types
     register_serializable_type<scene>();
@@ -45,6 +47,7 @@ void director::register_creatable_types(){
     register_serializable_type<component_id>();
     register_serializable_type<transformation_values>();
     register_serializable_type<group_component>();
+    register_serializable_type<polygon_point_component>();
 }
 
 void director::active_scene(rb::scene *scene, bool cleanup){

@@ -381,8 +381,6 @@ void layer::create_texture_group_mapping(){
 }
 
 void layer::invalidate_buffers(){
-    if (_dynamic_batch)
-        _dynamic_batch->clear_meshes();
     _validated = false;
 }
 
@@ -510,9 +508,15 @@ void layer::render(){
     _dynamic_batch->blend_mode(_blend_mode);
     _dynamic_batch->geometry_type(geometry_type::triangle);
     
+    auto _backup_validated = _validated;
+    _validated = true;
+    
+    if (_dynamic_batch && !_backup_validated)
+        _dynamic_batch->clear_meshes();
+    
     for(auto _child : *this){
         if(_child->renderable() && !_child->_new_template && !is_hidden_in_editor() && !_child->is_hidden_in_editor())
-            _child->internal_render(!_validated);
+            _child->internal_render(!_backup_validated);
     }
     _dynamic_batch->draw();
     
@@ -522,8 +526,7 @@ void layer::render(){
             _child->internal_render_gizmo();
     }
     
-    _validated = true;
-    if(_static_layer && !_static_batch && parent_scene()->_playing){
+    if(_static_layer && !_static_batch && parent_scene()->_playing && _validated){
         _static_batch = _dynamic_batch->compile();
         delete _dynamic_batch;
         _dynamic_batch = nullptr;

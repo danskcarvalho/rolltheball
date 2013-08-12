@@ -401,7 +401,11 @@ group_component* node_container::group_nodes(const std::vector<node *> &nodes){
     transform_space _grp_space = transform_space(_rc.value().center(), 1, 0);
     auto _new_grp = new group_component();
     _new_grp->transform(_grp_space);
-    this->add_node(_new_grp);
+    bool _added_grp = this->add_node(_new_grp);
+    if(!_added_grp){
+        delete _new_grp;
+        return nullptr;
+    }
     
     for (auto _n : nodes){
         auto _new_t = _grp_space.inverse() * _n->transform();
@@ -419,6 +423,8 @@ group_component* node_container::group_selected(){
     fill_with_selection(_selection, node_filter::all, true);
     assert(_selection.size() != 0);
     auto _grp = group_nodes(_selection);
+    if(!_grp)
+        return nullptr;
     clear_selection();
     add_to_selection(_grp);
     return _grp;
@@ -431,27 +437,13 @@ std::vector<rb_string> node_container::transformables(){
 void node_container::start_transformation(long index){
 }
 
-bool node_container::adjust_transformation(const rb::transform_space &transform, bool only_if_all){
+bool node_container::adjust_transformation(const rb::transform_space &transform){
     auto _previous_t = this->transform();
     if(!transform.test_direction(transform_direction::from_base_to_space))
         return false;
     auto _i_t = transform.inverse();
     
-    std::unordered_map<node*, transform_space> _inverses;
-    
     for(auto _n : *this){
-        if(only_if_all){
-            if(!_n->transform().test_direction(transform_direction::from_base_to_space))
-                return false;
-        }
-        
-        _inverses.insert({_n, _n->transform().inverse()});
-    }
-    
-    for(auto _n : *this){
-        if(_inverses.count(_n) == 0)
-            continue;
-        
         _n->transform(_i_t * _previous_t * _n->transform());
     }
     

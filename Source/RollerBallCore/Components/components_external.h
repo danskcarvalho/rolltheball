@@ -31,4 +31,5 @@
 #include "scene_loader.h"
 #include "misc_classes_2.h"
 #include "misc_classes_3.h"
+#include "polygon_component.h"
 #endif

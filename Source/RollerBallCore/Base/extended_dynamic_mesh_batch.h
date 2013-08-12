@@ -43,7 +43,7 @@ namespace rb {
         geometry_type _geom_type;
         void realloc_batches();
         uint32_t realloc_batches_for_process(uint32_t start_index, class process* p,
-                                         std::vector<mesh*, boost::pool_allocator<class mesh*>> meshes);
+                                         const std::vector<mesh*, boost::pool_allocator<class mesh*>>& meshes);
     public:
         class mesh_range {
         public:

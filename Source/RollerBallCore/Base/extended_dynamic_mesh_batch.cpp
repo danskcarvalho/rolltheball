@@ -210,8 +210,7 @@ void extended_dynamic_mesh_batch::entire_range(mesh_range& r){
     r._parent = this;
 }
 
-uint32_t extended_dynamic_mesh_batch::realloc_batches_for_process(uint32_t start_index, class process* p,
-                                                              std::vector<mesh*, boost::pool_allocator<class mesh*>> meshes){
+uint32_t extended_dynamic_mesh_batch::realloc_batches_for_process(uint32_t start_index, class process* p, const std::vector<mesh*, boost::pool_allocator<class mesh*>>& meshes){
     
     //we calculate the needed number of batches
     size_t _n_vb = 0;

@@ -110,7 +110,7 @@ namespace rb {
     public:
         virtual std::vector<rb_string> transformables();
         virtual void start_transformation(long index);
-        bool adjust_transformation(const rb::transform_space &transform, bool only_if_all = true);
+        bool adjust_transformation(const rb::transform_space &transform);
     public:
         virtual typed_object* clone() const override;
     protected:
