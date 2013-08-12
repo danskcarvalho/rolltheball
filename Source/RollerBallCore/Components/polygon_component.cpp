@@ -979,6 +979,13 @@ void polygon_component::describe_type(){
         }
     });
     
+    action<polygon_component>(u"bool_operations", u"Bool Ops", action_flags::single_dispatch, {u"Union", u"Intersection"}, [](polygon_component* site, const rb_string& action_name){
+        if(action_name == u"Union")
+            site->compute_union();
+        else
+            site->compute_intersection();
+    });
+    
     begin_private_properties();
     buffer_property<polygon_component>(u"flags", u"Flags", {
         [](const polygon_component* site){
@@ -1462,6 +1469,139 @@ void polygon_component::start_transformation(long index){
             this->invalidate_buffers();
         });
     }
+}
+
+void polygon_component::compute_union(){
+    std::vector<node *> _selection;
+    std::vector<polygon_component*> _polygons;
+    parent()->fill_with_selection(_selection);
+    for (auto _n : _selection){
+        if(_n->is_selected() && dynamic_cast<polygon_component*>(_n))
+            _polygons.push_back(dynamic_cast<polygon_component*>(_n));
+    }
+    
+    if(_polygons.size() <= 1)
+        return;
+    
+    polygon _p;
+    for (size_t i = 0; i < _polygons.size(); i++) {
+        auto _pol = _polygons[i]->to_polygon();
+        _polygons[i]->from_node_space_to(parent()).from_space_to_base().transform_polygon(_pol);
+        if(i == 0)
+            _p = _pol;
+        else {
+            _p.join(_pol);
+        }
+    }
+    
+    auto _rc = _p.bounds();
+    transform_space _t = this->transform();
+    if(_rc.has_value()){
+        _t = transform_space();
+        _t.origin(_rc.value().center());
+    }
+    
+    _t.from_base_to_space().transform_polygon(_p);
+    
+    polygon_component* _new_p = new polygon_component();
+    std::vector<node*> _nodes;
+    _new_p->copy_nodes_to_vector(_nodes);
+    for (auto _n : _nodes)
+        _new_p->remove_node(_n, true);
+    for (uint32_t i = 0; i < _p.point_count(); i++) {
+        auto _pt = new polygon_point_component();
+        _pt->transform(transform_space(_p.get_point(i)));
+        _new_p->add_node(_pt);
+    }
+    _new_p->transform(_t);
+    _new_p->image_name(this->image_name());
+    _new_p->opacity(this->opacity());
+    _new_p->tint(this->tint());
+    _new_p->blend(this->blend());
+    _new_p->smooth_quality(this->smooth_quality());
+    _new_p->smooth_divisions(this->smooth_divisions());
+    _new_p->smooth(this->smooth());
+    _new_p->texture_space(this->texture_space());
+    _new_p->border_size(this->border_size());
+    _new_p->border_corner_type(this->border_corner_type());
+    _new_p->border_color(this->border_color());
+    _new_p->border_image_name(this->border_image_name());
+    _new_p->max_s(this->max_s());
+    _new_p->transformable(this->transformable());
+    _new_p->visible(this->visible());
+    _new_p->opened(this->opened());
+    _new_p->marker(this->marker());
+    
+    parent()->clear_selection();
+    parent()->add_node(_new_p);
+    _new_p->add_to_selection();
+}
+
+void polygon_component::compute_intersection(){
+    std::vector<node *> _selection;
+    std::vector<polygon_component*> _polygons;
+    parent()->fill_with_selection(_selection);
+    for (auto _n : _selection){
+        if(_n->is_selected() && dynamic_cast<polygon_component*>(_n))
+            _polygons.push_back(dynamic_cast<polygon_component*>(_n));
+    }
+    
+    if(_polygons.size() <= 1)
+        return;
+    
+    polygon _p;
+    for (size_t i = 0; i < _polygons.size(); i++) {
+        auto _pol = _polygons[i]->to_polygon();
+        _polygons[i]->from_node_space_to(parent()).from_space_to_base().transform_polygon(_pol);
+        if(i == 0)
+            _p = _pol;
+        else {
+            std::vector<polygon> _others;
+            _p.intersection(_pol, _others);
+        }
+    }
+    
+    auto _rc = _p.bounds();
+    transform_space _t = this->transform();
+    if(_rc.has_value()){
+        _t = transform_space();
+        _t.origin(_rc.value().center());
+    }
+    
+    _t.from_base_to_space().transform_polygon(_p);
+    
+    polygon_component* _new_p = new polygon_component();
+    std::vector<node*> _nodes;
+    _new_p->copy_nodes_to_vector(_nodes);
+    for (auto _n : _nodes)
+        _new_p->remove_node(_n, true);
+    for (uint32_t i = 0; i < _p.point_count(); i++) {
+        auto _pt = new polygon_point_component();
+        _pt->transform(transform_space(_p.get_point(i)));
+        _new_p->add_node(_pt);
+    }
+    _new_p->transform(_t);
+    _new_p->image_name(this->image_name());
+    _new_p->opacity(this->opacity());
+    _new_p->tint(this->tint());
+    _new_p->blend(this->blend());
+    _new_p->smooth_quality(this->smooth_quality());
+    _new_p->smooth_divisions(this->smooth_divisions());
+    _new_p->smooth(this->smooth());
+    _new_p->texture_space(this->texture_space());
+    _new_p->border_size(this->border_size());
+    _new_p->border_corner_type(this->border_corner_type());
+    _new_p->border_color(this->border_color());
+    _new_p->border_image_name(this->border_image_name());
+    _new_p->max_s(this->max_s());
+    _new_p->transformable(this->transformable());
+    _new_p->visible(this->visible());
+    _new_p->opened(this->opened());
+    _new_p->marker(this->marker());
+    
+    parent()->clear_selection();
+    parent()->add_node(_new_p);
+    _new_p->add_to_selection();
 }
 
 

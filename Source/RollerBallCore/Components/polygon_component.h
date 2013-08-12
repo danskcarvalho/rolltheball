@@ -202,6 +202,10 @@ namespace rb {
     public:
         virtual std::vector<rb_string> transformables() override;
         virtual void start_transformation(long index) override;
+    private:
+        //actions
+        void compute_union();
+        void compute_intersection();
     };
 }
 
