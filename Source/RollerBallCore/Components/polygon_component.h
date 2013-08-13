@@ -198,6 +198,7 @@ namespace rb {
         void reset_to_quad();
         void reset_to_circle();
         polygon to_smooth_polygon() const;
+        virtual typed_object* clone() const override;
         //start transformation
     public:
         virtual std::vector<rb_string> transformables() override;

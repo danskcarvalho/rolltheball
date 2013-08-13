@@ -18,6 +18,7 @@ namespace rb {
     class example_class;
     class sprite_component : public node {
     private:
+        vec2 _matrix;
         mesh* _m;
         mesh* _m_copy;
         texture_map* _map;
@@ -66,6 +67,8 @@ namespace rb {
         const color& tint(const color& value);
         float blend() const;
         float blend(float value);
+        const vec2& matrix() const;
+        const vec2& matrix(const vec2& value);
     private:
         vec2 size_of_tex() const;
         transform_space aspect_correction_factor() const;
