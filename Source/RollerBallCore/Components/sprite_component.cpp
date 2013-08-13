@@ -29,6 +29,7 @@ sprite_component::sprite_component(){
     _collapsed = true;
     _visible = true;
     _aspect_correction = true;
+    _matrix = vec2(1, 1);
 }
 
 void sprite_component::destroy(){
@@ -49,12 +50,20 @@ void sprite_component::create(){
     }
     
     if(!_m){
+        auto _new_matrix = _matrix;
+        _new_matrix.x(roundf(_new_matrix.x()));
+        _new_matrix.y(roundf(_new_matrix.y()));
+        if(_new_matrix.x() < 1)
+            _new_matrix.x(1);
+        if(_new_matrix.y() < 1)
+            _new_matrix.y(1);
+        
         _m = new mesh();
         rectangle _rc(0, 0, 1, 1);
         if(_map)
-            _rc.to_mesh(*_m, _map->bounds());
+            _rc.to_mesh(*_m, _map->bounds(), _new_matrix.x(), _new_matrix.y());
         else
-            _rc.to_mesh(*_m, rectangle(0.5, 0.5, 1, 1)); //no texture coordinates
+            _rc.to_mesh(*_m, rectangle(0.5, 0.5, 1, 1), _new_matrix.x(), _new_matrix.y()); //no texture coordinates
         _m->set_alpha(_opacity);
         _m->set_color(_tint);
         _m->set_blend(_blend);
@@ -308,6 +317,14 @@ void sprite_component::describe_type(){
             site->blend(value);
         }
     });
+    vec2_property<sprite_component>(u"matrix", u"Matrix", true, {
+        [](const sprite_component* site){
+            return site->_matrix;
+        },
+        [](sprite_component* site, const vec2& value){
+            site->matrix(value);
+        }
+    });
     
     begin_private_properties();
     nullable_buffer_property<sprite_component>(u"mesh", u"Mesh", {
@@ -389,6 +406,28 @@ vec2 sprite_component::size_of_tex() const {
     }
     else
         return vec2::zero;
+}
+
+const vec2& sprite_component::matrix() const {
+    return _matrix;
+}
+
+const vec2& sprite_component::matrix(const rb::vec2 &value){
+    if(_matrix == value)
+        return _matrix;
+    _matrix = value;
+    
+    if(_m)
+        delete _m;
+    _m = nullptr;
+    if(_m_copy)
+        delete _m_copy;
+    _m_copy = nullptr;
+    
+    if(active())
+        invalidate_buffers();
+    
+    return _matrix;
 }
 
 

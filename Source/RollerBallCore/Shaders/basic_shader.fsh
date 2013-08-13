@@ -23,9 +23,10 @@ varying HIGHP vec2 texture_varying;
 varying HIGHP vec4 texture_bounds_varying;
 
 uniform sampler2D texture_sampler;
+uniform LOWP vec4 ambient_color;
 
 void main()
 {
     vec4 tex_color = texture2D(texture_sampler, texture_varying);
-    gl_FragColor = (1.0 - blend_varying) * tex_color.a * color_varying + blend_varying * tex_color * color_varying.a;
+    gl_FragColor = ((1.0 - blend_varying) * tex_color.a * color_varying + blend_varying * tex_color * color_varying.a) * ambient_color;
 }

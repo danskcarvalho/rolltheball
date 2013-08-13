@@ -23,10 +23,11 @@ varying HIGHP vec4 texture_bounds_varying;
 varying LOWP float blend_varying;
 
 uniform sampler2D texture_sampler;
+uniform LOWP vec4 ambient_color;
 
 void main()
 {
     vec2 tex_coords = texture_bounds_varying.xy + fract(texture_varying) * texture_bounds_varying.zw;
     vec4 tex_color = texture2D(texture_sampler, tex_coords);
-    gl_FragColor = (1.0 - blend_varying) * tex_color.a * color_varying + blend_varying * tex_color * color_varying.a;
+    gl_FragColor = ((1.0 - blend_varying) * tex_color.a * color_varying + blend_varying * tex_color * color_varying.a) * ambient_color;
 }

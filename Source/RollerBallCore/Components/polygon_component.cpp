@@ -808,6 +808,13 @@ void polygon_component::render(const bool refill_buffers){
     update_polygon(refill_buffers);
 }
 
+typed_object* polygon_component::clone() const {
+    auto _p = dynamic_cast<polygon_component*>(node::clone());
+    _p->_flags.dirty_polygon = false;
+    _p->_flags.dirty_border_polygon = false;
+    return _p;
+}
+
 void polygon_component::describe_type(){
     node::describe_type();
     

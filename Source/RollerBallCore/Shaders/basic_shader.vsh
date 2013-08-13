@@ -31,13 +31,12 @@ varying HIGHP vec4 texture_bounds_varying;
 
 uniform HIGHP mat3 position_transform;
 uniform HIGHP mat3 texture_transform;
-uniform LOWP vec4 ambient_color;
 
 void main()
 {
     vec3 tex_coords = texture_transform * vec3(texture, 1);
     vec3 pos_coords = position_transform * vec3(position, 1);
-    color_varying = alpha * color * ambient_color;
+    color_varying = alpha * color;
     texture_varying = tex_coords.xy;
     texture_bounds_varying = texture_bounds;
     blend_varying = blend;
