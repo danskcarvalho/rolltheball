@@ -10,6 +10,11 @@
 		450FBFA3161B9185001B3BF2 /* texture_atlas.mm in Sources */ = {isa = PBXBuildFile; fileRef = 450FBFA1161B9185001B3BF2 /* texture_atlas.mm */; };
 		450FBFA4161B9185001B3BF2 /* texture_atlas.mm in Sources */ = {isa = PBXBuildFile; fileRef = 450FBFA1161B9185001B3BF2 /* texture_atlas.mm */; };
 		450FBFA5161B9185001B3BF2 /* texture_atlas.mm in Sources */ = {isa = PBXBuildFile; fileRef = 450FBFA1161B9185001B3BF2 /* texture_atlas.mm */; };
+		45139D7117BAAAFF003AC03D /* physics_engine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 45139D6F17BAAAFF003AC03D /* physics_engine.cpp */; };
+		45139D7417BAD38B003AC03D /* main_character.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 45139D7217BAD38B003AC03D /* main_character.cpp */; };
+		45139D7517BAD38B003AC03D /* main_character.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 45139D7217BAD38B003AC03D /* main_character.cpp */; };
+		45139D7617BAD38B003AC03D /* main_character.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 45139D7217BAD38B003AC03D /* main_character.cpp */; };
+		45139D7717BAEF7A003AC03D /* physics_engine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 45139D6F17BAAAFF003AC03D /* physics_engine.cpp */; };
 		4513DAE1161F27E2005AD7CB /* texture_atlas.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 450FBFA2161B9185001B3BF2 /* texture_atlas.h */; };
 		4513DAE3161F2857005AD7CB /* texture_atlas.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 450FBFA2161B9185001B3BF2 /* texture_atlas.h */; };
 		4515C10717106F3600867972 /* misc_classes.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 45E6979F16EE649D0005DB47 /* misc_classes.h */; };
@@ -742,6 +747,10 @@
 		4506BD7216232078009AA030 /* basic_shader_with_wrapping.fsh */ = {isa = PBXFileReference; explicitFileType = sourcecode.glsl; name = basic_shader_with_wrapping.fsh; path = Shaders/basic_shader_with_wrapping.fsh; sourceTree = "<group>"; };
 		450FBFA1161B9185001B3BF2 /* texture_atlas.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = texture_atlas.mm; path = Base/texture_atlas.mm; sourceTree = "<group>"; };
 		450FBFA2161B9185001B3BF2 /* texture_atlas.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = texture_atlas.h; path = Base/texture_atlas.h; sourceTree = "<group>"; };
+		45139D6F17BAAAFF003AC03D /* physics_engine.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = physics_engine.cpp; path = Gameplay/physics_engine.cpp; sourceTree = "<group>"; };
+		45139D7017BAAAFF003AC03D /* physics_engine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = physics_engine.h; path = Gameplay/physics_engine.h; sourceTree = "<group>"; };
+		45139D7217BAD38B003AC03D /* main_character.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main_character.cpp; path = Gameplay/main_character.cpp; sourceTree = "<group>"; };
+		45139D7317BAD38B003AC03D /* main_character.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = main_character.h; path = Gameplay/main_character.h; sourceTree = "<group>"; };
 		4519846715F567A10034BD2D /* matrix3x3.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = matrix3x3.cpp; path = Base/matrix3x3.cpp; sourceTree = "<group>"; };
 		4519846815F567A10034BD2D /* matrix3x3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = matrix3x3.h; path = Base/matrix3x3.h; sourceTree = "<group>"; };
 		4519846C15F5682F0034BD2D /* transform_space.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = transform_space.cpp; path = Base/transform_space.cpp; sourceTree = "<group>"; };
@@ -10102,6 +10111,25 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		45139D6D17BAAAC0003AC03D /* Gameplay */ = {
+			isa = PBXGroup;
+			children = (
+				45139D6E17BAAAD2003AC03D /* Include */,
+				45139D6F17BAAAFF003AC03D /* physics_engine.cpp */,
+				45139D7217BAD38B003AC03D /* main_character.cpp */,
+			);
+			name = Gameplay;
+			sourceTree = "<group>";
+		};
+		45139D6E17BAAAD2003AC03D /* Include */ = {
+			isa = PBXGroup;
+			children = (
+				45139D7317BAD38B003AC03D /* main_character.h */,
+				45139D7017BAAAFF003AC03D /* physics_engine.h */,
+			);
+			name = Include;
+			sourceTree = "<group>";
+		};
 		4525C34D1630673800A301D7 /* Xml */ = {
 			isa = PBXGroup;
 			children = (
@@ -15392,6 +15420,7 @@
 				45DDCE8E15F25A1300DA33F5 /* Base */,
 				4525C34D1630673800A301D7 /* Xml */,
 				45777505162C83EB002EB77C /* Components */,
+				45139D6D17BAAAC0003AC03D /* Gameplay */,
 				456771A915F04A7900C91B3C /* Precompiled */,
 				4567270B15F0401500C91B3C /* Libs */,
 				4567334615F02560008F5966 /* RollerBallCoreMacOSX */,
@@ -25966,6 +25995,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				45139D7717BAEF7A003AC03D /* physics_engine.cpp in Sources */,
 				45E5295416126492002159FF /* polygon.cpp in Sources */,
 				45C68E9D15F30CF000E1637B /* platform.mm in Sources */,
 				456770F115F040B900C91B3C /* b2BroadPhase.cpp in Sources */,
@@ -26088,6 +26118,7 @@
 				45A06C1417AEB794009087B7 /* misc_classes_2.cpp in Sources */,
 				45A06C1917AEB7AA009087B7 /* misc_classes_3.cpp in Sources */,
 				4531D70C17B421DD004F0AA8 /* polygon_component.cpp in Sources */,
+				45139D7517BAD38B003AC03D /* main_character.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -26226,6 +26257,7 @@
 				45A06C1517AEB794009087B7 /* misc_classes_2.cpp in Sources */,
 				45A06C1A17AEB7AA009087B7 /* misc_classes_3.cpp in Sources */,
 				4531D70D17B421DD004F0AA8 /* polygon_component.cpp in Sources */,
+				45139D7617BAD38B003AC03D /* main_character.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -26355,6 +26387,8 @@
 				45A06C1317AEB794009087B7 /* misc_classes_2.cpp in Sources */,
 				45A06C1817AEB7AA009087B7 /* misc_classes_3.cpp in Sources */,
 				4531D70B17B421DD004F0AA8 /* polygon_component.cpp in Sources */,
+				45139D7117BAAAFF003AC03D /* physics_engine.cpp in Sources */,
+				45139D7417BAD38B003AC03D /* main_character.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

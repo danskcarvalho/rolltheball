@@ -184,6 +184,8 @@ polygon_component::polygon_component(){
     _flags.dirty_border_polygon = true;
     _flags.dirty_border_color = true;
     _flags.renderable = true;
+    _flags.dirty_border_map = false;
+    _flags._new = true;
     _m = nullptr;
     _m_copy = nullptr;
     _b = nullptr;
@@ -514,6 +516,22 @@ void polygon_component::update_polygon(bool refill_buffers){
     }
     _flags.dirty_map = false;
     
+    if(_flags.dirty_border_map){
+        auto _b_map = create_mapping(_border_texture, transform_space());
+        if(_b && _b_map){
+            _b->remap(_b_map->bounds(), texture_mapping_type::untransformable);
+            set_texture_for_mesh(_b, _border_texture, false);
+        }
+        
+        if(_b_copy && _b_map){
+            _b_copy->remap(_b_map->bounds(), texture_mapping_type::untransformable);
+        }
+        
+        if(_b_map)
+            delete _b_map;
+    }
+    _flags.dirty_border_map = false;
+    
     if(_flags.dirty_opacity){
         if(_m)
             _m->set_alpha(_opacity);
@@ -674,6 +692,8 @@ mesh* polygon_component::create_skeleton(const polygon& p){
     for (uint32_t i = 0; i < p.edge_count(); i++) {
         auto _e1 = _t.transformed_point(p.get_edge(i).pt0());
         auto _e2 = _t.transformed_point(p.get_edge(i).pt1());
+        if(_e1 == _e2)
+            continue;
         polygon _p;
         polygon::build_open_polygon({_e1, _e2}, _p);
         mesh* _e = new mesh();
@@ -806,12 +826,15 @@ void polygon_component::before_becoming_inactive(bool node_was_moved){
 
 void polygon_component::render(const bool refill_buffers){
     update_polygon(refill_buffers);
+    _flags._new = false;
 }
 
 typed_object* polygon_component::clone() const {
     auto _p = dynamic_cast<polygon_component*>(node::clone());
-    _p->_flags.dirty_polygon = false;
-    _p->_flags.dirty_border_polygon = false;
+    if(!_flags._new){
+        _p->_flags.dirty_polygon = false;
+        _p->_flags.dirty_border_polygon = false;
+    }
     return _p;
 }
 
@@ -993,6 +1016,13 @@ void polygon_component::describe_type(){
             site->compute_intersection();
     });
     
+    action<polygon_component>(u"misc_operations", u"Misc Ops", action_flags::multi_dispatch, {u"Convex Hull", u"To CCW"}, [](polygon_component* site, const rb_string& action_name){
+        if(action_name == u"Convex Hull")
+            site->to_convex_hull();
+        else
+            site->to_ccw();
+    });
+    
     begin_private_properties();
     buffer_property<polygon_component>(u"flags", u"Flags", {
         [](const polygon_component* site){
@@ -1001,6 +1031,7 @@ void polygon_component::describe_type(){
         [](polygon_component* site, buffer value){
             memcpy(&site->_flags, value.internal_buffer(), sizeof(site->_flags));
             site->_flags.dirty_map = true;
+            site->_flags.dirty_border_map = true;
         }
     });
     
@@ -1609,6 +1640,40 @@ void polygon_component::compute_intersection(){
     parent()->clear_selection();
     parent()->add_node(_new_p);
     _new_p->add_to_selection();
+}
+
+void polygon_component::to_convex_hull() {
+    auto _p = to_polygon();
+    _p.convex_hull(_p);
+    
+    std::vector<node*> _nodes;
+    this->copy_nodes_to_vector(_nodes);
+    for (auto _n : _nodes)
+        this->remove_node(_n, true);
+    for (uint32_t i = 0; i < _p.point_count(); i++) {
+        auto _pt = new polygon_point_component();
+        _pt->transform(transform_space(_p.get_point(i)));
+        this->add_node(_pt);
+    }
+}
+
+void polygon_component::to_ccw(){
+    auto _p = to_polygon();
+    auto _o = _p.get_ordering();
+    if(_o == point_ordering::unknown || _o == point_ordering::ccw)
+        return;
+    _p.revert();
+    assert(_p.get_ordering() == point_ordering::ccw);
+    
+    std::vector<node*> _nodes;
+    this->copy_nodes_to_vector(_nodes);
+    for (auto _n : _nodes)
+        this->remove_node(_n, true);
+    for (uint32_t i = 0; i < _p.point_count(); i++) {
+        auto _pt = new polygon_point_component();
+        _pt->transform(transform_space(_p.get_point(i)));
+        this->add_node(_pt);
+    }
 }
 
 

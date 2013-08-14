@@ -81,6 +81,8 @@ namespace rb {
             bool dirty_border_polygon : 1;
             bool dirty_border_color : 1;
             bool border_collapsed : 1;
+            bool dirty_border_map : 1; //Used to adjust the texture mapping on the ipad...
+            bool _new : 1;
             
             //renderable
             bool renderable : 1;
@@ -207,6 +209,9 @@ namespace rb {
         //actions
         void compute_union();
         void compute_intersection();
+    public:
+        void to_convex_hull();
+        void to_ccw();
     };
 }
 

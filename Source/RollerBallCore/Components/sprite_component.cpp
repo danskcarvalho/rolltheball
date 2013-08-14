@@ -360,14 +360,6 @@ void sprite_component::describe_type(){
             site->_collapsed = value;
         }
     });
-    boolean_property<sprite_component>(u"reapply_mapping", u"Reapply Mapping", true, {
-        [](const sprite_component* site){
-            return site->_reapply_mapping;
-        },
-        [](sprite_component* site, bool value){
-            site->_reapply_mapping = value;
-        }
-    });
     end_private_properties();
     
     end_type();

@@ -681,6 +681,16 @@ const rb_string& node::classes(const rb_string &value){
     return _id->classes();
 }
 
+bool node::has_class(const rb_string &cls) const {
+    auto _classes = rb::tokenize(classes());
+    for(auto& _cls : _classes){
+        if(_cls == cls)
+            return true;
+    }
+    
+    return false;
+}
+
 void node::set_children(const std::vector<typed_object *> &children){
     node_container::set_children(children);
     for (auto _c : children){

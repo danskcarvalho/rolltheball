@@ -63,6 +63,7 @@ namespace rb {
         const rb_string& name(const rb_string& value);
         const rb_string& classes() const;
         const rb_string& classes(const rb_string& value);
+        bool has_class(const rb_string& cls) const;
     public:
         //adding/removing nodes
         virtual bool add_node_at(node* n, uint32_t at) override;
