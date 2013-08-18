@@ -39,7 +39,10 @@ rb_string physics_engine::displayable_type_name() const {
 }
 
 void physics_engine::after_becoming_active(bool node_was_moved){
-    _world = new b2World(b2Vec2(0, 0));
+    if(!_world){
+        _world = new b2World(b2Vec2(0, 0));
+        _world->SetAutoClearForces(false);
+    }
     register_for(registrable_event::update, PHYS_ENGINE_UPDATE_PRIORITY);
 }
 
@@ -50,8 +53,10 @@ void physics_engine::before_becoming_inactive(bool node_was_moved){
 }
 
 b2World* physics_engine::world() const {
-    if(_world == nullptr)
+    if(_world == nullptr){
         const_cast<physics_engine*>(this)->_world = new b2World(b2Vec2(0, 0));
+        _world->SetAutoClearForces(false);
+    }
     return _world;
 }
 
@@ -60,6 +65,7 @@ void physics_engine::update(float dt){
         if(_world)
             _world->Step(PHYS_ENGINE_TIME_STEP, 6, 2);
     }
+    _world->ClearForces();
 }
 
 

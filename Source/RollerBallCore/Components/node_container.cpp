@@ -458,6 +458,9 @@ typed_object* node_container::clone() const {
 }
 
 typed_object* node_container::clone_children(node_container* cloned) const {
+    if(!should_serialize_children())
+        return cloned;
+    
     std::vector<node*> _current_children;
     cloned->copy_nodes_to_vector(_current_children);
     for (auto _n : _current_children)
@@ -611,6 +614,8 @@ void node_container::ver_align_by_bottom_edge(const std::vector<node *> &nodes){
 
 void node_container::unblock_all_children(){
     for (auto _n : *this){
+        if(!_n->renderable())
+            continue;
         _n->blocked(false);
         _n->unblock_all_children();
     }

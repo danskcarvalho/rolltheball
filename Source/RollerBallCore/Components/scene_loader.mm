@@ -168,17 +168,19 @@ void scene_loader::serialize_to_xnode(const typed_object* obj, rb::xnode &node){
     }
     node.children().push_back(properties);
     
-    xnode children;
-    children.name(u"children");
-    std::vector<typed_object*> _children;
-    obj->fill_vector_with_children(_children);
-    for (auto _n : _children){
-        xnode child;
-        child.name(u"child");
-        serialize_to_xnode(_n, child);
-        children.children().push_back(child);
+    if(obj->should_serialize_children()){
+        xnode children;
+        children.name(u"children");
+        std::vector<typed_object*> _children;
+        obj->fill_vector_with_children(_children);
+        for (auto _n : _children){
+            xnode child;
+            child.name(u"child");
+            serialize_to_xnode(_n, child);
+            children.children().push_back(child);
+        }
+        node.children().push_back(children);
     }
-    node.children().push_back(children);
 }
 
 typed_object* scene_loader::deserialize_from_xnode(const rb::xnode &node, const type_descriptor* td){
@@ -195,20 +197,25 @@ typed_object* scene_loader::deserialize_from_xnode(const rb::xnode &node, const 
     
     xnode _properties;
     xnode _children;
+    bool _has_children = false;
     for (auto& _n : node.children()){
         if(_n.name() == u"properties")
             _properties = _n;
-        else if(_n.name() == u"children")
+        else if(_n.name() == u"children"){
             _children = _n;
+            _has_children = true;
+        }
     }
     
-    std::vector<typed_object*> _children_v;
-    for(auto& _n : _children.children()){
-        _children_v.push_back(deserialize_from_xnode(_n, nullptr));
+    if(_has_children){
+        std::vector<typed_object*> _children_v;
+        for(auto& _n : _children.children()){
+            _children_v.push_back(deserialize_from_xnode(_n, nullptr));
+        }
+        
+        if(_children_v.size() != 0)
+            _to->set_children(_children_v);
     }
-    
-    if(_children_v.size() != 0)
-        _to->set_children(_children_v);
     
     NSString* someStr = nil;
     

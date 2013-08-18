@@ -565,6 +565,7 @@ namespace rb {
     protected:
         virtual void fill_vector_with_children(std::vector<typed_object*>& children) const;
         virtual void set_children(const std::vector<typed_object*>& children);
+        virtual bool should_serialize_children() const;
         virtual void begin_serialization();
         virtual void end_serialization();
         virtual void was_deserialized();
