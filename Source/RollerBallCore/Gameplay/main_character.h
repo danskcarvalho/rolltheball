@@ -11,13 +11,14 @@
 
 #include "components_base.h"
 #include "node.h"
+#include <Box2D/Box2D.h>
 
 class b2World;
 class b2Body;
 
 namespace rb {
     class sprite_component;
-    class main_character : public node {
+    class main_character : public node, public b2ContactListener {
     private:
         sprite_component* _sprite;
         b2World* _world;
@@ -26,6 +27,13 @@ namespace rb {
         float _direction;
         nullable<vec2> _previous_g;
         float _damping;
+        //Jumping
+        bool _jumpButton;
+        bool _didJump;
+        uint32_t _jumpCount;
+        //Reverse Jumping
+        bool _rev_jumpButton;
+        bool _rev_didJump;
     public:
         main_character();
         ~main_character();
@@ -39,6 +47,8 @@ namespace rb {
     public:
         virtual rb_string type_name() const override;
         virtual rb_string displayable_type_name() const override;
+    private:
+        void update_character();
     protected:
         //Update
         virtual void update(float dt) override;
@@ -52,6 +62,11 @@ namespace rb {
     protected:
         virtual void keydown(const uint32_t keycode, const keyboard_modifier modifier, bool& swallow);
         virtual void keyup(const uint32_t keycode, const keyboard_modifier modifier, bool& swallow);
+    public:
+        virtual void BeginContact(b2Contact* contact) override;
+        virtual void EndContact(b2Contact* contact) override;
+        virtual void PreSolve(b2Contact* contact, const b2Manifold* oldManifold) override;
+        virtual void PostSolve(b2Contact* contact, const b2ContactImpulse* impulse) override;
     };
 }
 
