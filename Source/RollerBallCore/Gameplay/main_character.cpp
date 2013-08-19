@@ -25,11 +25,11 @@
 //Camera Linear Constants
 //Camera Linear Velocity
 #define CAMERA_LINEAR_ACCELERATION 0.015f
-#define CAMERA_LINEAR_DECELERATION 0.0002f
+#define CAMERA_LINEAR_DECELERATION 0.002f
 #define CAMERA_MAX_LINEAR_ACCELERATION 0.15f
 #define CAMERA_MIN_LINEAR_ACCELERATION 0.06f
 //Camera Focus Linear Velocity
-#define CAMERA_LINEAR_FOCUS_VELOCITY_RATIO 0.95f
+#define CAMERA_LINEAR_FOCUS_VELOCITY_RATIO 0.9f
 #define CAMERA_LINEAR_FOCUS_MIN_VELOCITY 3.5f
 //Camera Focus Linear Radius
 #define CAMERA_LINEAR_FOCUS_RADIUS 0.2f
@@ -151,6 +151,7 @@ void main_character::update_camera(const rb::vec2 &cam_gravity){
         _cam_focus_velocity = std::max(_cam_focus_velocity - CAMERA_LINEAR_DECELERATION, CAMERA_MIN_LINEAR_ACCELERATION);
     else
         _cam_focus_velocity = std::min(_cam_focus_velocity + CAMERA_LINEAR_ACCELERATION, CAMERA_MAX_LINEAR_ACCELERATION);
+    MSG("v: ", _cam_focus_velocity);
     auto _final_pos = vec2::lerp(_cam_focus_velocity, _current_pos, _focus_pos);
     auto _final_up = vec2::slerp(_cam_focus_velocity, _current_up, _dest_up);
     
