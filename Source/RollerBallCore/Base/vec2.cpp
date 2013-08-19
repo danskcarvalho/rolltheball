@@ -116,6 +116,41 @@ bool vec2::is_perpendicular_to(const vec2& other) const{
 vec2 vec2::lerp(const float f, const vec2& v1, const vec2& v2){
     return (1 - f)*v1 + f*v2;
 }
+vec2 vec2::slerp(const float f, const rb::vec2 &v1, const rb::vec2 &v2, const rotation_direction rd){
+    if(v1 == vec2::zero || v2 == vec2::zero)
+        return lerp(f, v1, v2);
+    
+    auto _l1 = v1.length();
+    auto _l2 = v2.length();
+    auto _n_v1 = v1 / _l1;
+    auto _n_v2 = v2 / _l2;
+    auto _d = dot(_n_v1, _n_v2);
+    if(_d < -1)
+        _d = -1;
+    if(_d > 1)
+        _d = 1;
+    auto _theta = acosf(_d);
+    if(almost_equal(_theta, 0)){
+        return lerp(f, v1, v2);
+    }
+    else if(almost_equal(_theta, (float)M_PI) || rd != rotation_direction::shortest){
+        auto _rd = rd;
+        if(_rd == rotation_direction::shortest)
+            _rd = rotation_direction::ccw;
+        
+        auto _a = _n_v1.angle_between(_n_v2, _rd);
+        _a = f * _a;
+        auto _v = _n_v1.rotated(_rd == rotation_direction::ccw ? _a : -_a);
+        auto _m = (1 - f) * _l1 + f * _l2;
+        return _v * _m;
+    }
+    else {
+        auto _sin = sinf(_theta);
+        auto _v = (sinf((1 - f) * _theta) / _sin) * _n_v1 + (sinf(f * _theta) / _sin) * _n_v2;
+        auto _m = (1 - f) * _l1 + f * _l2;
+        return _v * _m;
+    }
+}
 bool vec2::is_parallel_to(const vec2& other) const{
     if(is_zero() || other.is_zero())
         WARN("is_parallel_to: testing ", *this, other);
@@ -136,8 +171,16 @@ float vec2::angle_between(const vec2& other, const rotation_direction rd) const{
     assert(!is_zero());
     assert(!other.is_zero());
     
+    if(*this == other)
+        return 0;
+    
     auto _dt = dot(*this, other);
     _dt /= (length() * other.length());
+    
+    if(_dt < -1)
+        _dt = -1;
+    if(_dt > 1)
+        _dt = 1;
     
     if(rd == rotation_direction::shortest){
         return acosf(_dt);

@@ -48,7 +48,7 @@ namespace rb {
         type shape_type(const type value);
         float gravity() const;
         float gravity(const float value);
-        vec2 gravity_vector(const vec2& position);
+        vec2 gravity_vector(const vec2& position, vec2& cam_gravity, vec2& point_on_surface);
         const rb_string& planet_name() const;
         const rb_string& planet_name(const rb_string& value);
         physics_shape* planet() const;

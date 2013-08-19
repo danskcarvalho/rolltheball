@@ -146,13 +146,35 @@ float physics_shape::gravity(const float value){
     return _gravity;
 }
 
-vec2 physics_shape::gravity_vector(const rb::vec2 &position){
+vec2 physics_shape::gravity_vector(const rb::vec2 &position, vec2& cam_gravity, vec2& point_on_surface){
     auto _pol = to_polygon();
     transform().from_space_to_base().transform_polygon(_pol); //we will cache this thing...
     
-    auto _e = _pol.closest_edge(position).normal();
-    _e.normalize();
-    return _e * (-_gravity);
+    uint32_t _index;
+    auto _e = _pol.closest_edge(position, _index);
+    
+    auto _prev_e = _index == 0 ? _pol.get_edge(_pol.edge_count() - 1) : _pol.get_edge(_index - 1);
+    auto _next_e = _index == _pol.edge_count() - 1 ? _pol.get_edge(0) : _pol.get_edge(_index + 1);
+    cam_gravity = vec2::zero;
+    auto _pt_on_e = position - _e.distance_vector(position);
+    point_on_surface = _pt_on_e;
+    auto _t = (_pt_on_e - _e.pt0()).length() / _e.length();
+    
+    auto _p_normal = ((_prev_e.normal() + _e.normal()) / 2.0f).normalized();
+    auto _n_normal = ((_next_e.normal() + _e.normal()) / 2.0f).normalized();
+    
+    if(almost_equal(_t, 0.5f)){
+        cam_gravity = _e.normal();
+    }
+    else if(_t < 0.5f){
+        cam_gravity = vec2::slerp(_t * 2, _p_normal, _e.normal());
+    }
+    else { //t > 0.5
+        cam_gravity = vec2::slerp((_t - 0.5f) * 2, _e.normal(), _n_normal);
+    }
+    
+    auto _n = _e.normal().normalized();
+    return _n * (-_gravity);
 }
 
 const rb_string& physics_shape::planet_name() const {

@@ -11,6 +11,7 @@
 
 #include "components_base.h"
 #include "node.h"
+#include "circle.h"
 #include <Box2D/Box2D.h>
 
 class b2World;
@@ -34,6 +35,9 @@ namespace rb {
         //Reverse Jumping
         bool _rev_jumpButton;
         bool _rev_didJump;
+        //Camera
+        nullable<circle> _cam_focus;
+        float _cam_focus_velocity;
     public:
         main_character();
         ~main_character();
@@ -48,7 +52,8 @@ namespace rb {
         virtual rb_string type_name() const override;
         virtual rb_string displayable_type_name() const override;
     private:
-        void update_character();
+        void update_character(vec2& cam_gravity, vec2& point_on_surface);
+        void update_camera(const vec2& cam_gravity);
     protected:
         //Update
         virtual void update(float dt) override;

@@ -19,6 +19,20 @@
 #define PHYS_CHARACTER_ACCEL (PHYS_CHARACTER_VELOCITY / (0.25f * 30.0f))
 #define PHYS_CHARACTER_JUMP 4.5f
 #define PHYS_CHARACTER_JUMP_COUNT 2
+//Camera Constants
+#define CAMERA_SCALE_X 6
+#define CAMERA_SCALE_Y 6
+//Camera Linear Constants
+//Camera Linear Velocity
+#define CAMERA_LINEAR_ACCELERATION 0.015f
+#define CAMERA_LINEAR_DECELERATION 0.0002f
+#define CAMERA_MAX_LINEAR_ACCELERATION 0.15f
+#define CAMERA_MIN_LINEAR_ACCELERATION 0.06f
+//Camera Focus Linear Velocity
+#define CAMERA_LINEAR_FOCUS_VELOCITY_RATIO 0.95f
+#define CAMERA_LINEAR_FOCUS_MIN_VELOCITY 3.5f
+//Camera Focus Linear Radius
+#define CAMERA_LINEAR_FOCUS_RADIUS 0.2f
 
 using namespace rb;
 
@@ -39,6 +53,8 @@ main_character::main_character(){
     //Reverse Jumping
     _rev_jumpButton = false;
     _rev_didJump = false;
+    //Camera
+    _cam_focus_velocity = 0;
 }
 
 main_character::~main_character(){
@@ -96,17 +112,60 @@ inline float signed_length(const vec2& v, const vec2& axis){
 }
 
 void main_character::update(float dt){
-    update_character();
+    vec2 _cam_g;
+    vec2 _pt_s;
+    update_character(_cam_g, _pt_s);
     
     this->transform(this->transform().moved(_body->GetPosition().x, _body->GetPosition().y).rotated(_body->GetAngle(), _body->GetAngle() + M_PI_2));
+    update_camera(_cam_g);
 }
 
-void main_character::update_character(){
+void main_character::update_camera(const rb::vec2 &cam_gravity){
+    auto _char_velocity = vec2(_body->GetLinearVelocity().x, _body->GetLinearVelocity().y).length();
+    auto _current_camera = parent_scene()->camera();
+    auto _final_camera = transform_space::from_matrix(matrix3x3(cam_gravity.rotated90(rotation_direction::cw) * CAMERA_SCALE_X, cam_gravity * CAMERA_SCALE_Y, this->transform().origin()));
+    
+    if(!_cam_focus.has_value())
+        _cam_focus = circle(this->transform().origin(), CAMERA_LINEAR_FOCUS_RADIUS);
+    else {
+        if(!_cam_focus.value().contains_point(this->transform().origin())){
+            //we advance _cam_focus based on a speed...
+            auto _focus_distance = vec2::distance(_cam_focus.value().origin(), this->transform().origin());
+            auto _focus_velocity = std::max((CAMERA_LINEAR_FOCUS_VELOCITY_RATIO * _char_velocity), CAMERA_LINEAR_FOCUS_MIN_VELOCITY) / 30.0f;
+            if (_focus_distance < _focus_velocity)
+                _focus_velocity = _focus_distance;
+            auto _final_focus_center = _cam_focus.value().origin() + (this->transform().origin() - _cam_focus.value().origin()) * _focus_velocity;
+            _cam_focus = circle(_final_focus_center, CAMERA_LINEAR_FOCUS_RADIUS);
+        }
+    }
+    
+    //we then interpolate from the current camera to the focus...
+    //radius
+    auto _current_up = _current_camera.from_space_to_base().y_vector().normalized();
+    auto _dest_up =_final_camera.from_space_to_base().y_vector().normalized();
+    
+    //position
+    auto _focus_pos = _cam_focus.value().origin();
+    auto _current_pos = _current_camera.origin();
+    if(_cam_focus.value().contains_point(_current_pos))
+        _cam_focus_velocity = std::max(_cam_focus_velocity - CAMERA_LINEAR_DECELERATION, CAMERA_MIN_LINEAR_ACCELERATION);
+    else
+        _cam_focus_velocity = std::min(_cam_focus_velocity + CAMERA_LINEAR_ACCELERATION, CAMERA_MAX_LINEAR_ACCELERATION);
+    auto _final_pos = vec2::lerp(_cam_focus_velocity, _current_pos, _focus_pos);
+    auto _final_up = vec2::slerp(_cam_focus_velocity, _current_up, _dest_up);
+    
+    
+    _final_camera = transform_space::from_matrix(matrix3x3(_final_up.rotated90(rotation_direction::cw) * CAMERA_SCALE_X, _final_up * CAMERA_SCALE_Y, _final_pos));
+    
+    parent_scene()->camera(_final_camera);
+}
+
+void main_character::update_character(vec2& cam_gravity, vec2& point_on_surface){
     auto _g = vec2::zero;
     for (b2ContactEdge* ce = _body->GetContactList(); ce; ce = ce->next) {
         auto _other = dynamic_cast<physics_shape*>((node*)ce->other->GetUserData());
         if(_other && _other->shape_type() == physics_shape::kStaticGravityZone && ce->contact->IsTouching() && ce->contact->IsEnabled()){
-            _g = _other->planet()->gravity_vector(transform().origin());
+            _g = _other->planet()->gravity_vector(transform().origin(), cam_gravity, point_on_surface);
         }
     }
     
