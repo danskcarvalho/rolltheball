@@ -41,8 +41,8 @@
 #define JUMP_TOUCHES 2
 #define MOVE_TOUCHES 1
 #else
-#define RESTING_TOUCH_DURATION 2 //in frames
-#define ZERO_VELOCITY_LENGTH 0.00005f
+#define RESTING_TOUCH_DURATION 4 //in frames
+#define ZERO_VELOCITY_LENGTH 0.025f
 #define JUMP_TOUCHES 3
 #define MOVE_TOUCHES 2
 #endif
@@ -181,9 +181,6 @@ void main_character::update_camera(const rb::vec2 &cam_gravity){
     
     if(!_cam_focus.has_value()){
         _cam_focus = circle(this->transform().origin(), CAMERA_LINEAR_FOCUS_RADIUS);
-        _cam_focus_velocity = 0;
-        parent_scene()->camera(_final_camera);
-        return;
     }
     else {
         if(!_cam_focus.value().contains_point(this->transform().origin())){
@@ -304,6 +301,7 @@ void main_character::update_character(vec2& cam_gravity, vec2& point_on_surface)
             if(!_current_gZone->invert_velocity()){
                 if(_previous_g.has_value() && _g.angle_between(_previous_g.value()) > TO_RADIANS(90)){
                     _body->SetAngularVelocity(-_body->GetAngularVelocity());
+                    _direction = -_direction;
                 }
             }
             else {
@@ -409,6 +407,8 @@ void main_character::playing(){
         _c.m_radius = 0.5;
         _fDef.shape = &_c;
         _body->CreateFixture(&_fDef);
+        
+        parent_scene()->camera(parent_scene()->camera().scaled(CAMERA_SCALE_X, CAMERA_SCALE_Y).moved(this->transform().origin()));
     }
 }
 
@@ -479,12 +479,18 @@ void main_character::touches_moved(const std::vector<touch> &touches, bool &swal
         vec2 _d = vec2::zero;
         if(std::get<kTouchVelocity>(_t).length() > ZERO_VELOCITY_LENGTH){
             auto _v = std::get<kTouchVelocity>(_t);
-            if(fabsf(_v.x()) > fabsf(_v.y())){
-                _d = _v.x() > 0 ? vec2::right : vec2::left;
-            }
-            else {
-                _d = _v.y() > 0 ? vec2::up : vec2::down;
-            }
+            auto _v_n = _v.normalized();
+            float _dots[] = { 1 - vec2::dot(_v_n, vec2::up), 1 - vec2::dot(_v_n, vec2::right), 1 - vec2::dot(_v_n, vec2::down), 1 - vec2::dot(_v_n, vec2::left) };
+            float _min = std::min(std::min(_dots[0], _dots[1]), std::min(_dots[2], _dots[3]));
+            
+            if(_min == _dots[0])
+                _d = vec2::up;
+            else if(_min == _dots[1])
+                _d = vec2::right;
+            else if(_min == _dots[2])
+                _d = vec2::down;
+            else
+                _d = vec2::left;
             
             if(_d != vec2::zero){
                 if(_d == vec2::right)
@@ -532,11 +538,6 @@ void main_character::touches_moved(const std::vector<touch> &touches, bool &swal
             this->_clear_rev_jump = _frame_count + (uint64_t)(RESTING_TOUCH_DURATION * 1.5);
             this->_direction = 0;
         }
-        else { //zero
-#if !defined(IOS_TARGET)
-            this->_direction = 0;
-#endif
-        }
     }
 }
 
@@ -566,7 +567,7 @@ void main_character::touches_ended(const std::vector<touch> &touches, bool &swal
         _ended_touches = 0;
     }
 #else
-    if(_ended_touches == MOVE_TOUCHES){
+    if(_ended_touches >= MOVE_TOUCHES && _touches.size() == 0){
         this->_direction = 0;
         _ended_touches = 0;
     }
