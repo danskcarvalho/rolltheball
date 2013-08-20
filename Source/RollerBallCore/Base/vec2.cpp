@@ -223,7 +223,7 @@ vec2 vec2::normalized() const{
     if(!almost_equal(_len, 0))
         return vec2(_x / _len, _y / _len);
     else{
-        WARN("normalized zero vector ", *this);
+        //WARN("normalized zero vector ", *this);
         return *this;
     }
 }
@@ -235,8 +235,8 @@ vec2& vec2::normalize(){
         _x /= _len;
         _y /= _len;
     }
-    else
-        WARN("normalized zero vector ", *this);
+//    else
+//        WARN("normalized zero vector ", *this);
     
     return *this;
 }

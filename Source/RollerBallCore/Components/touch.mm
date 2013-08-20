@@ -32,9 +32,9 @@ bool touch::compare_identity(const rb::touch &another) const{
 #if defined(IOS_TARGET)
     return _native_touch == another._native_touch;
 #else
-    NSTouch* _id1 = _native_touch;
-    NSTouch* _id2 = another._native_touch;
-    return [[_id1 identity] isEqual: [_id2 identity]];
+    id _id1 = _native_touch;
+    id _id2 = another._native_touch;
+    return [_id1 isEqual: _id2];
 #endif
 }
 
@@ -47,8 +47,7 @@ touch::touch(const touch& another){
     _native_touch = another._native_touch;
     _normalized_pos = another._normalized_pos;
 #else
-    id _n_t = another._native_touch;
-    _native_touch = _n_t;
+    _native_touch = [another._native_touch copyWithZone: NULL];
     _normalized_pos = another._normalized_pos;
 #endif
 }
@@ -66,8 +65,7 @@ touch& touch::operator=(const touch& another){
     _native_touch = another._native_touch;
     _normalized_pos = another._normalized_pos;
 #else
-    id _n_t = another._native_touch;
-    _native_touch = _n_t;
+    _native_touch = [another._native_touch copyWithZone: NULL];
     _normalized_pos = another._normalized_pos;
 #endif
     return *this;

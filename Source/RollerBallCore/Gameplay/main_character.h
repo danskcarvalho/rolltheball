@@ -12,6 +12,7 @@
 #include "components_base.h"
 #include "node.h"
 #include "circle.h"
+#include "touch.h"
 #include <Box2D/Box2D.h>
 
 class b2World;
@@ -22,6 +23,10 @@ namespace rb {
     class physics_shape;
     class main_character : public node, public b2ContactListener {
     private:
+        //touches
+        std::vector<std::tuple<touch, uint32_t, vec2>> _touches; //current touches (touch, duration in frames, last position, velocity)
+        uint32_t _ended_touches;
+        //others
         sprite_component* _sprite;
         physics_shape* _current_gZone;
         b2World* _world;
@@ -40,6 +45,10 @@ namespace rb {
         //Camera
         nullable<circle> _cam_focus;
         float _cam_focus_velocity;
+        //Frame
+        uint64_t _frame_count;
+        nullable<uint64_t> _clear_jump;
+        nullable<uint64_t> _clear_rev_jump;
     public:
         main_character();
         ~main_character();
@@ -74,6 +83,14 @@ namespace rb {
         virtual void EndContact(b2Contact* contact) override;
         virtual void PreSolve(b2Contact* contact, const b2Manifold* oldManifold) override;
         virtual void PostSolve(b2Contact* contact, const b2ContactImpulse* impulse) override;
+        //touches
+    private:
+        nullable<vec2> resting_touches();
+    protected:
+        virtual void touches_began(const std::vector<touch>& touches, bool& swallow) override;
+        virtual void touches_moved(const std::vector<touch>& touches, bool& swallow) override;
+        virtual void touches_ended(const std::vector<touch>& touches, bool& swallow) override;
+        virtual void touches_cancelled(const std::vector<touch>& touches, bool& swallow) override;
     };
 }
 

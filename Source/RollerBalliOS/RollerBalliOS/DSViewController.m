@@ -37,6 +37,7 @@ using namespace rb;
     view.context = self.context;
     view.drawableColorFormat = GLKViewDrawableColorFormatRGBA8888;
     view.drawableDepthFormat = GLKViewDrawableDepthFormatNone;
+    view.multipleTouchEnabled = YES;
     self.preferredFramesPerSecond = 1.0 / DESIRED_FPS;
     
     [self setupGL];
