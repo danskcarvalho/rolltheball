@@ -193,10 +193,6 @@ void main_character::update_character(vec2& cam_gravity, vec2& point_on_surface)
         }
     }
     
-    if(_possible_shapes.size() == 2){
-        MSG("2 shapes...");
-    }
-    
     if(_possible_shapes.size() > 1 && _current_gZone != nullptr){
         bool _removed = false;
         _possible_shapes.erase(std::remove_if(_possible_shapes.begin(), _possible_shapes.end(), [&](const physics_shape* ps){
@@ -205,7 +201,6 @@ void main_character::update_character(vec2& cam_gravity, vec2& point_on_surface)
             return _r;
         }), _possible_shapes.end());
         if(_removed){
-            MSG("current gZone: ", _current_gZone->planet()->name());
             _current_gZone->_active_gravity = false;
             _current_gZone = nullptr;
         }
@@ -413,7 +408,8 @@ void main_character::BeginContact(b2Contact *contact){
         auto _pB = dynamic_cast<physics_shape*>(_nB);
         if(_pB->shape_type() == physics_shape::kStaticPlanet){
             auto _ma = dynamic_cast<main_character*>(_nA);
-            _ma->_jumpCount = PHYS_CHARACTER_JUMP_COUNT;
+            if(!_ma->_didJump)
+                _ma->_jumpCount = PHYS_CHARACTER_JUMP_COUNT;
         }
     }
     
@@ -421,7 +417,8 @@ void main_character::BeginContact(b2Contact *contact){
         auto _pA = dynamic_cast<physics_shape*>(_nA);
         if(_pA->shape_type() == physics_shape::kStaticPlanet){
             auto _mB = dynamic_cast<main_character*>(_nB);
-            _mB->_jumpCount = PHYS_CHARACTER_JUMP_COUNT;
+            if(!_mB->_didJump)
+                _mB->_jumpCount = PHYS_CHARACTER_JUMP_COUNT;
         }
     }
 }
@@ -437,17 +434,23 @@ void main_character::EndContact(b2Contact *contact){
     if(dynamic_cast<main_character*>(_nA) && dynamic_cast<physics_shape*>(_nB)){
         auto _pB = dynamic_cast<physics_shape*>(_nB);
         if(_pB->shape_type() == physics_shape::kStaticGravityZone){
-            MSG("name: ", _pB->planet()->name());
             _pB->_active_gravity = true;
         }
+//        else if(_pB->shape_type() == physics_shape::kStaticPlanet){
+//            auto _ma = dynamic_cast<main_character*>(_nA);
+//            _ma->_jumpCount = 0;
+//        }
     }
     
     if(dynamic_cast<main_character*>(_nB) && dynamic_cast<physics_shape*>(_nA)){
         auto _pA = dynamic_cast<physics_shape*>(_nA);
         if(_pA->shape_type() == physics_shape::kStaticGravityZone){
-            MSG("name: ", _pA->planet()->name());
             _pA->_active_gravity = true;
         }
+//        else if(_pA->shape_type() == physics_shape::kStaticPlanet){
+//            auto _mB = dynamic_cast<main_character*>(_nB);
+//            _mB->_jumpCount = 0;
+//        }
     }
 }
 

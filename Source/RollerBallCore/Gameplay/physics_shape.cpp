@@ -120,34 +120,41 @@ void physics_shape::playing() {
         _fDef.restitution = 0;
         _fDef.filter.categoryBits = _type == kStaticPlanet ? PHYS_MASK_SHAPE : PHYS_MASK_GRAVITY_REGION;
         _fDef.filter.maskBits = PHYS_MASK_CHARACTER;
+        
+        if(_type == kStaticPlanet && smooth()){
+            _cached_pol = to_smooth_polygon();
+        }
+        else if(_type == kStaticPlanet || _type == kStaticGravityZone){
+            _cached_pol = to_smooth_polygon();
+        }
+        
         if(_type == kStaticPlanet){
             b2ChainShape _c;
-            b2Vec2* _v = new b2Vec2[node_count()];
-            for (uint32_t i = 0; i < node_count(); i++) {
-                auto _p = _t.from_space_to_base().transformed_point(node_at(i)->transform().origin());
+            b2Vec2* _v = new b2Vec2[_cached_pol.point_count()];
+            for (uint32_t i = 0; i < _cached_pol.point_count(); i++) {
+                auto _p = _t.from_space_to_base().transformed_point(_cached_pol.get_point(i));
                 _p = _new_t.from_base_to_space().transformed_point(_p);
                 _v[i] = b2Vec2(_p.x(), _p.y());
             }
-            _c.CreateLoop(_v, node_count());
+            _c.CreateLoop(_v, _cached_pol.point_count());
             _fDef.shape = &_c;
             _body->CreateFixture(&_fDef);
         }
         else {
             b2PolygonShape _c;
-            b2Vec2* _v = new b2Vec2[node_count()];
-            for (uint32_t i = 0; i < node_count(); i++) {
-                auto _p = _t.from_space_to_base().transformed_point(node_at(i)->transform().origin());
+            b2Vec2* _v = new b2Vec2[_cached_pol.point_count()];
+            for (uint32_t i = 0; i < _cached_pol.point_count(); i++) {
+                auto _p = _t.from_space_to_base().transformed_point(_cached_pol.get_point(i));
                 _p = _new_t.from_base_to_space().transformed_point(_p);
                 _v[i] = b2Vec2(_p.x(), _p.y());
             }
-            _c.Set(_v, node_count());
+            _c.Set(_v, _cached_pol.point_count());
             _fDef.shape = &_c;
             _body->CreateFixture(&_fDef);
         }
         
         if(_type == kStaticPlanet || _type == kStaticGravityZone){
-            _cached_pol = to_polygon();
-            transform().from_space_to_base().transform_polygon(_cached_pol); //we will
+            transform().from_space_to_base().transform_polygon(_cached_pol); //we transform the polygon
         }
     }
 }
