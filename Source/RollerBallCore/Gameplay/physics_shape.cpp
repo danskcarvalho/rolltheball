@@ -22,6 +22,9 @@ physics_shape::physics_shape(){
     _type = kStaticPlanet;
     _planet_name = u"";
     _planet = nullptr;
+    _priority = 0;
+    _active_gravity = true;
+    _invert_velocity = true;
 }
 
 physics_shape::~physics_shape(){
@@ -54,6 +57,22 @@ void physics_shape::describe_type(){
         },
         [](physics_shape* site, const rb_string& value){
             site->_planet_name = value;
+        }
+    });
+    integer_property<physics_shape>(u"priority", u"Priority", true, {
+        [](const physics_shape* site){
+            return site->_priority;
+        },
+        [](physics_shape* site, const long value){
+            site->_priority = (uint32_t)value;
+        }
+    });
+    boolean_property<physics_shape>(u"invert_velocity", u"Inv Vel", true, {
+        [](const physics_shape* site){
+            return site->_invert_velocity;
+        },
+        [](physics_shape* site, const bool value){
+            site->_invert_velocity = (bool)value;
         }
     });
     end_type();
@@ -125,6 +144,11 @@ void physics_shape::playing() {
             _fDef.shape = &_c;
             _body->CreateFixture(&_fDef);
         }
+        
+        if(_type == kStaticPlanet || _type == kStaticGravityZone){
+            _cached_pol = to_polygon();
+            transform().from_space_to_base().transform_polygon(_cached_pol); //we will
+        }
     }
 }
 
@@ -147,8 +171,7 @@ float physics_shape::gravity(const float value){
 }
 
 vec2 physics_shape::gravity_vector(const rb::vec2 &position, vec2& cam_gravity, vec2& point_on_surface){
-    auto _pol = to_polygon();
-    transform().from_space_to_base().transform_polygon(_pol); //we will cache this thing...
+    auto& _pol = _cached_pol;
     
     uint32_t _index;
     auto _e = _pol.closest_edge(position, _index);
@@ -188,6 +211,22 @@ const rb_string& physics_shape::planet_name(const rb_string &value){
 
 physics_shape* physics_shape::planet() const {
     return _planet;
+}
+
+uint32_t physics_shape::priority() const {
+    return _priority;
+}
+
+uint32_t physics_shape::priority(const uint32_t value){
+    return _priority = value;
+}
+
+bool physics_shape::invert_velocity() const {
+    return _invert_velocity;
+}
+
+bool physics_shape::invert_velocity(const bool value){
+    return _invert_velocity = value;
 }
 
 

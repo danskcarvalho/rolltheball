@@ -19,9 +19,11 @@ class b2Body;
 
 namespace rb {
     class sprite_component;
+    class physics_shape;
     class main_character : public node, public b2ContactListener {
     private:
         sprite_component* _sprite;
+        physics_shape* _current_gZone;
         b2World* _world;
         b2Body* _body;
         bool _phys_initialized;

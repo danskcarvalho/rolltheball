@@ -16,6 +16,7 @@ class b2World;
 class b2Body;
 
 namespace rb {
+    class main_character;
     class physics_shape : public polygon_component {
     public:
         enum type {
@@ -30,7 +31,12 @@ namespace rb {
         bool _phys_initialized;
         rb_string _planet_name;
         physics_shape* _planet;
+        polygon _cached_pol;
+        uint32_t _priority;
+        bool _active_gravity;
+        bool _invert_velocity;
     public:
+        friend class main_character;
         physics_shape();
         ~physics_shape();
     protected:
@@ -52,6 +58,10 @@ namespace rb {
         const rb_string& planet_name() const;
         const rb_string& planet_name(const rb_string& value);
         physics_shape* planet() const;
+        uint32_t priority() const;
+        uint32_t priority(const uint32_t value);
+        bool invert_velocity() const;
+        bool invert_velocity(const bool value);
     };
 }
 

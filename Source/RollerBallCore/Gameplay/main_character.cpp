@@ -17,8 +17,8 @@
 //Some constants
 #define PHYS_CHARACTER_VELOCITY 5.5f
 #define PHYS_CHARACTER_ACCEL (PHYS_CHARACTER_VELOCITY / (0.25f * 30.0f))
-#define PHYS_CHARACTER_JUMP 4.5f
-#define PHYS_CHARACTER_JUMP_COUNT 2
+#define PHYS_CHARACTER_JUMP 5.5f
+#define PHYS_CHARACTER_JUMP_COUNT 1
 //Camera Constants
 #define CAMERA_SCALE_X 6
 #define CAMERA_SCALE_Y 6
@@ -55,6 +55,7 @@ main_character::main_character(){
     _rev_didJump = false;
     //Camera
     _cam_focus_velocity = 0;
+    _current_gZone = nullptr;
 }
 
 main_character::~main_character(){
@@ -117,7 +118,8 @@ void main_character::update(float dt){
     update_character(_cam_g, _pt_s);
     
     this->transform(this->transform().moved(_body->GetPosition().x, _body->GetPosition().y).rotated(_body->GetAngle(), _body->GetAngle() + M_PI_2));
-    update_camera(_cam_g);
+    if(_cam_g != vec2::zero)
+        update_camera(_cam_g);
 }
 
 void main_character::update_camera(const rb::vec2 &cam_gravity){
@@ -125,8 +127,12 @@ void main_character::update_camera(const rb::vec2 &cam_gravity){
     auto _current_camera = parent_scene()->camera();
     auto _final_camera = transform_space::from_matrix(matrix3x3(cam_gravity.rotated90(rotation_direction::cw) * CAMERA_SCALE_X, cam_gravity * CAMERA_SCALE_Y, this->transform().origin()));
     
-    if(!_cam_focus.has_value())
+    if(!_cam_focus.has_value()){
         _cam_focus = circle(this->transform().origin(), CAMERA_LINEAR_FOCUS_RADIUS);
+        _cam_focus_velocity = 0;
+        parent_scene()->camera(_final_camera);
+        return;
+    }
     else {
         if(!_cam_focus.value().contains_point(this->transform().origin())){
             //we advance _cam_focus based on a speed...
@@ -151,7 +157,7 @@ void main_character::update_camera(const rb::vec2 &cam_gravity){
         _cam_focus_velocity = std::max(_cam_focus_velocity - CAMERA_LINEAR_DECELERATION, CAMERA_MIN_LINEAR_ACCELERATION);
     else
         _cam_focus_velocity = std::min(_cam_focus_velocity + CAMERA_LINEAR_ACCELERATION, CAMERA_MAX_LINEAR_ACCELERATION);
-    MSG("v: ", _cam_focus_velocity);
+    
     auto _final_pos = vec2::lerp(_cam_focus_velocity, _current_pos, _focus_pos);
     auto _final_up = vec2::slerp(_cam_focus_velocity, _current_up, _dest_up);
     
@@ -163,12 +169,61 @@ void main_character::update_camera(const rb::vec2 &cam_gravity){
 
 void main_character::update_character(vec2& cam_gravity, vec2& point_on_surface){
     auto _g = vec2::zero;
+    cam_gravity = vec2::zero;
+    point_on_surface = vec2::zero;
+    
+    std::multimap<uint32_t, physics_shape*> _shapes_by_priority;
     for (b2ContactEdge* ce = _body->GetContactList(); ce; ce = ce->next) {
         auto _other = dynamic_cast<physics_shape*>((node*)ce->other->GetUserData());
         if(_other && _other->shape_type() == physics_shape::kStaticGravityZone && ce->contact->IsTouching() && ce->contact->IsEnabled()){
-            _g = _other->planet()->gravity_vector(transform().origin(), cam_gravity, point_on_surface);
+            //is in contact with gravity zone
+            if(_other->_active_gravity)
+                _shapes_by_priority.insert({_other->priority(), _other});
         }
     }
+    
+    std::list<physics_shape*> _possible_shapes;
+    nullable<uint32_t> _priority = nullptr;
+    for (auto _p : _shapes_by_priority){
+        if(_priority.has_value() && _priority.value() != _p.first)
+            break;
+        else {
+            _priority = _p.first;
+            _possible_shapes.push_back(_p.second);
+        }
+    }
+    
+    if(_possible_shapes.size() == 2){
+        MSG("2 shapes...");
+    }
+    
+    if(_possible_shapes.size() > 1 && _current_gZone != nullptr){
+        bool _removed = false;
+        _possible_shapes.erase(std::remove_if(_possible_shapes.begin(), _possible_shapes.end(), [&](const physics_shape* ps){
+            auto _r = (ps == _current_gZone);
+            _removed |= _r;
+            return _r;
+        }), _possible_shapes.end());
+        if(_removed){
+            MSG("current gZone: ", _current_gZone->planet()->name());
+            _current_gZone->_active_gravity = false;
+            _current_gZone = nullptr;
+        }
+    }
+    
+    if(_possible_shapes.size() != 0){
+        _current_gZone = _possible_shapes.front();
+        _current_gZone->_active_gravity = true;
+        _possible_shapes.pop_front();
+        for (auto _ps : _possible_shapes)
+            _ps->_active_gravity = false;
+    }
+    else {
+        _current_gZone = nullptr;
+    }
+    
+    if (_current_gZone)
+        _g = _current_gZone->planet()->gravity_vector(transform().origin(), cam_gravity, point_on_surface);
     
     auto _gy = vec2::zero;
     auto _gx = vec2::zero;
@@ -179,6 +234,7 @@ void main_character::update_character(vec2& cam_gravity, vec2& point_on_surface)
     vec2 _v;
     vec2 _vx;
     vec2 _vy;
+    
     
     if(_g != vec2::zero){
         //we get the velocity
@@ -196,6 +252,19 @@ void main_character::update_character(vec2& cam_gravity, vec2& point_on_surface)
         else {
             _vx = _v.projection(_gx);
             _vy = _v.projection(_gy);
+            
+            //TODO: Also, invert the controls (when using touch controls...)
+            if(!_current_gZone->invert_velocity()){
+                if(_previous_g.has_value() && _g.angle_between(_previous_g.value()) > TO_RADIANS(90)){
+                    _body->SetAngularVelocity(-_body->GetAngularVelocity());
+                }
+            }
+            else {
+                if(_previous_g.has_value() && _g.angle_between(_previous_g.value()) > TO_RADIANS(90)){
+                    _vx = -_vx;
+                    _v = _vx + _vy;
+                }
+            }
         }
         
         _previous_g = _g;
@@ -342,19 +411,44 @@ void main_character::BeginContact(b2Contact *contact){
     
     if(dynamic_cast<main_character*>(_nA) && dynamic_cast<physics_shape*>(_nB)){
         auto _pB = dynamic_cast<physics_shape*>(_nB);
-        if(_pB->shape_type() == physics_shape::kStaticPlanet)
-            dynamic_cast<main_character*>(_nA)->_jumpCount = PHYS_CHARACTER_JUMP_COUNT;
+        if(_pB->shape_type() == physics_shape::kStaticPlanet){
+            auto _ma = dynamic_cast<main_character*>(_nA);
+            _ma->_jumpCount = PHYS_CHARACTER_JUMP_COUNT;
+        }
     }
     
     if(dynamic_cast<main_character*>(_nB) && dynamic_cast<physics_shape*>(_nA)){
         auto _pA = dynamic_cast<physics_shape*>(_nA);
-        if(_pA->shape_type() == physics_shape::kStaticPlanet)
-            dynamic_cast<main_character*>(_nB)->_jumpCount = PHYS_CHARACTER_JUMP_COUNT;
+        if(_pA->shape_type() == physics_shape::kStaticPlanet){
+            auto _mB = dynamic_cast<main_character*>(_nB);
+            _mB->_jumpCount = PHYS_CHARACTER_JUMP_COUNT;
+        }
     }
 }
 
 void main_character::EndContact(b2Contact *contact){
+    auto _bA = contact->GetFixtureA()->GetBody();
+    auto _bB = contact->GetFixtureB()->GetBody();
     
+    //renew jumps
+    auto _nA = (node*)_bA->GetUserData();
+    auto _nB = (node*)_bB->GetUserData();
+    
+    if(dynamic_cast<main_character*>(_nA) && dynamic_cast<physics_shape*>(_nB)){
+        auto _pB = dynamic_cast<physics_shape*>(_nB);
+        if(_pB->shape_type() == physics_shape::kStaticGravityZone){
+            MSG("name: ", _pB->planet()->name());
+            _pB->_active_gravity = true;
+        }
+    }
+    
+    if(dynamic_cast<main_character*>(_nB) && dynamic_cast<physics_shape*>(_nA)){
+        auto _pA = dynamic_cast<physics_shape*>(_nA);
+        if(_pA->shape_type() == physics_shape::kStaticGravityZone){
+            MSG("name: ", _pA->planet()->name());
+            _pA->_active_gravity = true;
+        }
+    }
 }
 
 void main_character::PreSolve(b2Contact *contact, const b2Manifold *oldManifold){
