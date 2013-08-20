@@ -36,7 +36,7 @@
 
 //Touch Events
 #if defined(IOS_TARGET)
-#define RESTING_TOUCH_DURATION 2 //in frames
+#define RESTING_TOUCH_DURATION 4 //in frames
 #define ZERO_VELOCITY_LENGTH 0.025f
 #define JUMP_TOUCHES 2
 #define MOVE_TOUCHES 1
@@ -136,23 +136,14 @@ inline float signed_length(const vec2& v, const vec2& axis){
 }
 
 nullable<vec2> main_character::resting_touches(){
-#if defined(IOS_TARGET)
-    return nullptr;
-#else
-    auto _all_stopped = std::all_of(_touches.begin(), _touches.end(), [](const std::tuple<touch, uint32_t, vec2, vec2>& t){
+    auto _all_stopped = std::all_of(_touches.begin(), _touches.end(), [](const std::tuple<touch, uint32_t, vec2>& t){
         return std::get<kTouchVelocity>(t).length() <= ZERO_VELOCITY_LENGTH && std::get<kTouchDuration>(t) >= RESTING_TOUCH_DURATION;
     });
     if(_all_stopped && _touches.size() == MOVE_TOUCHES){
         _touches.clear();
         return vec2::zero;
     }
-    //DISABLED
-//    else if(_all_stopped && _touches.size() == JUMP_TOUCHES){
-//        _touches.clear();
-//        return vec2::up;
-//    }
     return nullptr;
-#endif
 }
 
 void main_character::update(float dt){
@@ -523,22 +514,6 @@ void main_character::touches_moved(const std::vector<touch> &touches, bool &swal
     
     if(_direction_taken.has_value()){
         _touches.clear();
-    }
-    else {
-#if !defined(IOS_TARGET)
-        auto _all_stopped = std::all_of(_touches.begin(), _touches.end(), [](const std::tuple<touch, uint32_t, vec2>& t){
-            return std::get<kTouchVelocity>(t).length() <= ZERO_VELOCITY_LENGTH;
-        });
-        if(_all_stopped && _touches.size() == MOVE_TOUCHES){
-            _direction_taken = vec2::zero;
-            _touches.clear();
-        }
-#endif
-        //DISABLED
-//        else if(_all_stopped && _touches.size() == JUMP_TOUCHES){
-//            _direction_taken = vec2::up;
-//            _touches.clear();
-//        }
     }
     
     if(_direction_taken.has_value()){
