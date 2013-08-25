@@ -35,6 +35,8 @@ namespace rb {
         uint32_t _priority;
         bool _active_gravity;
         bool _invert_velocity;
+        nullable<rb_string> _gravity_ref;
+        node* _gravity_ref2;
     public:
         friend class main_character;
         physics_shape();
@@ -54,7 +56,7 @@ namespace rb {
         type shape_type(const type value);
         float gravity() const;
         float gravity(const float value);
-        vec2 gravity_vector(const vec2& position, vec2& cam_gravity, vec2& point_on_surface);
+        vec2 gravity_vector(const vec2& position, vec2& cam_gravity);
         const rb_string& planet_name() const;
         const rb_string& planet_name(const rb_string& value);
         physics_shape* planet() const;
@@ -62,6 +64,8 @@ namespace rb {
         uint32_t priority(const uint32_t value);
         bool invert_velocity() const;
         bool invert_velocity(const bool value);
+        const nullable<rb_string>& gravity_reference() const;
+        const nullable<rb_string>& gravity_reference(const nullable<rb_string>& value);
     };
 }
 

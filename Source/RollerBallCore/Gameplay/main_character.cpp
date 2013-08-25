@@ -148,8 +148,7 @@ nullable<vec2> main_character::resting_touches(){
 
 void main_character::update(float dt){
     vec2 _cam_g;
-    vec2 _pt_s;
-    update_character(_cam_g, _pt_s);
+    update_character(_cam_g);
     
     this->transform(this->transform().moved(_body->GetPosition().x, _body->GetPosition().y).rotated(_body->GetAngle(), _body->GetAngle() + M_PI_2));
     if(_cam_g != vec2::zero)
@@ -216,10 +215,9 @@ void main_character::update_camera(const rb::vec2 &cam_gravity){
     parent_scene()->camera(_final_camera);
 }
 
-void main_character::update_character(vec2& cam_gravity, vec2& point_on_surface){
+void main_character::update_character(vec2& cam_gravity){
     auto _g = vec2::zero;
     cam_gravity = vec2::zero;
-    point_on_surface = vec2::zero;
     
     std::multimap<uint32_t, physics_shape*> _shapes_by_priority;
     for (b2ContactEdge* ce = _body->GetContactList(); ce; ce = ce->next) {
@@ -267,7 +265,13 @@ void main_character::update_character(vec2& cam_gravity, vec2& point_on_surface)
     }
     
     if (_current_gZone)
-        _g = _current_gZone->planet()->gravity_vector(transform().origin(), cam_gravity, point_on_surface);
+        _g = _current_gZone->planet()->gravity_vector(transform().origin(), cam_gravity);
+    
+    if(_g == vec2::zero){
+        _g = _default_gravity;
+        if(_g != vec2::zero)
+            cam_gravity = -_g.normalized();
+    }
     
     auto _gy = vec2::zero;
     auto _gx = vec2::zero;
@@ -298,7 +302,7 @@ void main_character::update_character(vec2& cam_gravity, vec2& point_on_surface)
             _vy = _v.projection(_gy);
             
             //TODO: Also, invert the controls (when using touch controls...)
-            if(!_current_gZone->invert_velocity()){
+            if(_current_gZone && !_current_gZone->invert_velocity()){
                 if(_previous_g.has_value() && _g.angle_between(_previous_g.value()) > TO_RADIANS(90)){
                     _body->SetAngularVelocity(-_body->GetAngularVelocity());
                     _direction = -_direction;
@@ -385,6 +389,7 @@ void main_character::playing(){
         auto _engine = dynamic_cast<physics_engine*>(parent_scene()->node_with_name(u"Physic's Engine"));
         _world = _engine->world();
         _world->SetContactListener(this);
+        _default_gravity = _engine->default_gravity();
         b2BodyDef _bDef;
         _bDef.active = true;
         _bDef.allowSleep = false;

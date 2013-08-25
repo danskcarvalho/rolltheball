@@ -22,6 +22,7 @@ namespace rb {
     class physics_engine : public nvnode {
     private:
         b2World* _world;
+        vec2 _default_gravity;
     public:
         physics_engine();
         ~physics_engine();
@@ -39,6 +40,9 @@ namespace rb {
     protected:
         //Update
         virtual void update(float dt) override;
+    public:
+        const vec2& default_gravity() const;
+        const vec2& default_gravity(const vec2& value);
     };
 }
 

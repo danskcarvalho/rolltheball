@@ -26,7 +26,14 @@ physics_engine::~physics_engine(){
 void physics_engine::describe_type(){
     nvnode::describe_type();
     start_type<physics_engine>([](){ return new physics_engine(); });
-    
+    vec2_property<physics_engine>(u"default_gravity", u"Def Gravity", true, {
+        [](const physics_engine* site){
+            return site->_default_gravity;
+        },
+        [](physics_engine* site, const vec2& value){
+            site->_default_gravity = value;
+        }
+    });
     end_type();
 }
 
@@ -66,6 +73,14 @@ void physics_engine::update(float dt){
             _world->Step(PHYS_ENGINE_TIME_STEP, 6, 2);
     }
     _world->ClearForces();
+}
+
+const vec2& physics_engine::default_gravity() const {
+    return _default_gravity;
+}
+
+const vec2& physics_engine::default_gravity(const rb::vec2 &value){
+    return _default_gravity = value;
 }
 
 

@@ -31,6 +31,7 @@ namespace rb {
         physics_shape* _current_gZone;
         b2World* _world;
         b2Body* _body;
+        vec2 _default_gravity;
         bool _phys_initialized;
         float _direction;
         nullable<vec2> _previous_g;
@@ -63,7 +64,7 @@ namespace rb {
         virtual rb_string type_name() const override;
         virtual rb_string displayable_type_name() const override;
     private:
-        void update_character(vec2& cam_gravity, vec2& point_on_surface);
+        void update_character(vec2& cam_gravity);
         void update_camera(const vec2& cam_gravity);
     protected:
         //Update

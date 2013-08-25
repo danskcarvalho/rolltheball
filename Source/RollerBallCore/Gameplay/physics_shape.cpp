@@ -25,6 +25,7 @@ physics_shape::physics_shape(){
     _priority = 0;
     _active_gravity = true;
     _invert_velocity = true;
+    _gravity_ref2 = nullptr;
 }
 
 physics_shape::~physics_shape(){
@@ -49,6 +50,14 @@ void physics_shape::describe_type(){
         },
         [](physics_shape* site, float value){
             site->_gravity = value;
+        }
+    });
+    nullable_string_property<physics_shape>(u"gravity_reference", u"Gravity Ref", true, true, {
+        [](const physics_shape* site){
+            return site->_gravity_ref;
+        },
+        [](physics_shape* site, const nullable<rb_string>& value){
+            site->_gravity_ref = value;
         }
     });
     string_property<physics_shape>(u"planet_name", u"Planet", true, true, {
@@ -94,6 +103,14 @@ rb_string physics_shape::displayable_type_name() const {
     return u"Physic's Shape";
 }
 
+const nullable<rb_string>& physics_shape::gravity_reference() const {
+    return _gravity_ref;
+}
+
+const nullable<rb_string>& physics_shape::gravity_reference(const nullable<rb_string> &value){
+    return _gravity_ref = value;
+}
+
 void physics_shape::playing() {
     if(!_phys_initialized){
         _phys_initialized = true;
@@ -101,6 +118,8 @@ void physics_shape::playing() {
         auto _engine = dynamic_cast<physics_engine*>(parent_scene()->node_with_name(u"Physic's Engine"));
         _planet = dynamic_cast<physics_shape*>(parent_scene()->node_with_name(_planet_name));
         _world = _engine->world();
+        if(_gravity_ref.has_value())
+            _gravity_ref2 = parent_scene()->node_with_name(_gravity_ref.value());
         
         b2BodyDef _bDef;
         _bDef.active = true;
@@ -177,7 +196,14 @@ float physics_shape::gravity(const float value){
     return _gravity;
 }
 
-vec2 physics_shape::gravity_vector(const rb::vec2 &position, vec2& cam_gravity, vec2& point_on_surface){
+vec2 physics_shape::gravity_vector(const rb::vec2 &position, vec2& cam_gravity){
+    if(_gravity_ref2)
+    {
+        auto _g = _gravity_ref2->transform().from_space_to_base().y_vector().normalized();
+        cam_gravity = -_g;
+        return _g * _gravity;
+    }
+    
     auto& _pol = _cached_pol;
     
     uint32_t _index;
@@ -187,7 +213,6 @@ vec2 physics_shape::gravity_vector(const rb::vec2 &position, vec2& cam_gravity, 
     auto _next_e = _index == _pol.edge_count() - 1 ? _pol.get_edge(0) : _pol.get_edge(_index + 1);
     cam_gravity = vec2::zero;
     auto _pt_on_e = position - _e.distance_vector(position);
-    point_on_surface = _pt_on_e;
     auto _t = (_pt_on_e - _e.pt0()).length() / _e.length();
     
     auto _p_normal = ((_prev_e.normal() + _e.normal()) / 2.0f).normalized();
