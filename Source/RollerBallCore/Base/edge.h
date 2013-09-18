@@ -37,6 +37,7 @@ namespace rb {
         //other methods
         float length() const;
         float distance(const vec2& pt) const;
+        vec2 distance_vector(const vec2& pt) const;
         bool is_degenerate() const;
         edge translate(const vec2& m, bool flip_normal) const;
         static nullable<vec2> intersection(const edge& e1, const edge& e2);

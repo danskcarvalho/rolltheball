@@ -520,10 +520,12 @@ void layer::render(){
     }
     _dynamic_batch->draw();
     
-    setup_processes_for_gizmo_layer();
-    for (auto _child : *this){
-        if(_child->renderable() && !_child->_new_template && !is_hidden_in_editor() && !_child->is_hidden_in_editor())
-            _child->internal_render_gizmo();
+    if(parent_scene()->_gizmo_layer){
+        setup_processes_for_gizmo_layer();
+        for (auto _child : *this){
+            if(_child->renderable() && !_child->_new_template && !is_hidden_in_editor() && !_child->is_hidden_in_editor())
+                _child->internal_render_gizmo();
+        }
     }
     
     if(_static_layer && !_static_batch && parent_scene()->_playing && _validated){

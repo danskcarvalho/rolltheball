@@ -1227,6 +1227,8 @@ uint32_t polygon_component::circle_sides(const uint32_t value){
     _flags.dirty_border_polygon = true;
     if(parent_scene() && parent_scene()->active())
         invalidate_buffers();
+    if(_flags.type == kPolCircle)
+        reset_children(kPolCircle);
     return _circle_sides;
 }
 float polygon_component::opacity() const{

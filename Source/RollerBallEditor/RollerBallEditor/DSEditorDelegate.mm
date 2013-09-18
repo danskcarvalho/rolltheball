@@ -333,15 +333,19 @@ inline rb_string from_platform_string(NSString* str){
     
     if(fComponentsTabHidden || director::active_scene()->playing()){
         if(!fSavedComponentsHiddenConstraint){
-            [self.componentScrollView removeConstraint:cnt];
             fComponentsHiddenConstraint = [NSLayoutConstraint constraintWithItem:cnt.firstItem attribute:cnt.firstAttribute relatedBy:cnt.relation toItem:cnt.secondItem attribute:cnt.secondAttribute multiplier:cnt.multiplier constant:0];
             fSavedComponentsHiddenConstraint = [NSLayoutConstraint constraintWithItem:cnt.firstItem attribute:cnt.firstAttribute relatedBy:cnt.relation toItem:cnt.secondItem attribute:cnt.secondAttribute multiplier:cnt.multiplier constant:cnt.constant];
+            [self.componentScrollView removeConstraint:cnt];
             [self.componentScrollView addConstraint: fComponentsHiddenConstraint];
             
             
-            [self.mainView removeConstraint:self.spaceToComponentsTab];
+            
             fSpaceToComponentsTabConstraint = [NSLayoutConstraint constraintWithItem:self.spaceToComponentsTab.firstItem attribute:self.spaceToComponentsTab.firstAttribute relatedBy:self.spaceToComponentsTab.relation toItem:self.spaceToComponentsTab.secondItem attribute:self.spaceToComponentsTab.secondAttribute multiplier:self.spaceToComponentsTab.multiplier constant:-2];
+            
+            
             fSavedSpaceToComponentsTabConstraint = [NSLayoutConstraint constraintWithItem:self.spaceToComponentsTab.firstItem attribute:self.spaceToComponentsTab.firstAttribute relatedBy:self.spaceToComponentsTab.relation toItem:self.spaceToComponentsTab.secondItem attribute:self.spaceToComponentsTab.secondAttribute multiplier:self.spaceToComponentsTab.multiplier constant:self.spaceToComponentsTab.constant];
+            
+            [self.mainView removeConstraint:self.spaceToComponentsTab];
             [self.mainView addConstraint:fSpaceToComponentsTabConstraint];
         }
     }

@@ -85,6 +85,7 @@ namespace rb {
         static float dot(const vec2& v1, const vec2& v2);
         static float cross(const vec2& v1, const vec2& v2);
         static vec2 lerp(const float f, const vec2& v1, const vec2& v2);
+        static vec2 slerp(const float f, const vec2& v1, const vec2& v2, const rotation_direction rd = rotation_direction::shortest);
         vec2 projection(const vec2& v) const;
         vec2& project(const vec2& v);
         

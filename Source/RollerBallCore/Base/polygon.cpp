@@ -1185,18 +1185,33 @@ polygon& polygon::offset(const float strength) {
 }
 
 
-const edge polygon::closest_edge(const vec2& pt) const{
+const edge polygon::closest_edge(const vec2& pt, uint32_t& index) const{
     assert(!is_empty());
     assert(is_simple());
     auto& _edges = const_cast<polygon*>(this)->get_edges();
     nullable<edge> _best_edge = nullptr;
     float _last_distance = numeric_limits<float>::max();
+    index = 0;
+    uint32_t _i = 0;
     for (auto& _e : _edges){
-        auto _distance = _e.distance(pt);
-        if(_distance < _last_distance){
-            _last_distance = _distance;
+        auto _distance_vector = _e.distance_vector(pt);
+        auto _distance_length = _distance_vector.length();
+        if(_distance_length < _last_distance){
+            _last_distance = _distance_length;
             _best_edge = _e;
+            index = _i;
         }
+        else if(almost_equal(_distance_length, _last_distance) && _best_edge.has_value()){
+            //we get the edge that aligns best with the normal of the edge and the distance vector
+            auto _last_d_v = _best_edge.value().distance_vector(pt).normalized();
+            auto _d_v = _distance_vector.normalized();
+            if ( vec2::dot(_d_v, _e.normal()) > vec2::dot(_last_d_v, _best_edge.value().normal())){
+                _last_distance = _distance_length;
+                _best_edge = _e;
+                index = _i;
+            }
+        }
+        _i++;
     }
     assert(_best_edge.has_value());
     return _best_edge.value();

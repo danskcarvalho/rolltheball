@@ -31,6 +31,24 @@ bool edge::is_degenerate() const{
 float edge::length() const{
     return vec2::distance(_pt0, _pt1);
 }
+vec2 edge::distance_vector(const vec2& pt) const{
+    //let's construct a ray that starts at pt0
+    ray r = ray(_pt0, _pt1 - _pt0);
+    auto t = r.get_parameter(pt);
+    
+    if(almost_less_or_equal(t, 0))
+        return pt - _pt0; //vec2::distance(_pt0, pt);
+    else if(almost_greather_or_equal(t, length()))
+        return pt - _pt1; //vec2::distance(_pt1, pt);
+    else {
+        //return r.distance(pt);
+        vec2 pt_origin = pt - r.origin();
+        vec2 perp = pt_origin - pt_origin.projection(r.direction());
+        return almost_less(r.get_parameter(pt), 0) ?
+            pt - r.origin() :
+            perp;
+    }
+}
 float edge::distance(const vec2& pt) const{
     //let's construct a ray that starts at pt0
     ray r = ray(_pt0, _pt1 - _pt0);

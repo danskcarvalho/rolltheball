@@ -228,6 +228,10 @@ void scene::playing(const bool value){
         }
     }
     
+    if(_playing && in_editor()){
+        _saved_scene = scene_loader::serialize_to_string(this);
+    }
+    
     for (int i = 0; i < (MAX_LAYERS + 1); i++) {
         _layers[i]->invalidate_buffers(); //only when the full scene pauses...
         //this invalidation is useful inside the editor...
@@ -235,10 +239,6 @@ void scene::playing(const bool value){
             _layers[i]->scene_playing();
         else
             _layers[i]->scene_paused();
-    }
-    
-    if(_playing && in_editor()){
-        _saved_scene = scene_loader::serialize_to_string(this);
     }
     
     if(!_playing && in_editor() && _saved_scene != u""){

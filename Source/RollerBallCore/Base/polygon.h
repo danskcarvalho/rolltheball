@@ -90,7 +90,7 @@ namespace rb {
         bool test_intersection(const vec2& other) const;
         mesh& to_outline_mesh(mesh& storage, const texture_map& map, const float stroke_width, const corner_type ct = corner_type::miter, const bool textureless = false);
         polygon& offset(const float strength);
-        const edge closest_edge(const vec2& pt) const;
+        const edge closest_edge(const vec2& pt, uint32_t& index) const;
         rb_string to_string() const;
         
         //conversion to mesh

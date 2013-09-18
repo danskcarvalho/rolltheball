@@ -311,6 +311,10 @@ BRIGE_TYPE typed_object::get_bridge(){
     return _cpp_bridge;
 }
 
+bool typed_object::should_serialize_children() const {
+    return true;
+}
+
 typed_object* typed_object::clone(std::unordered_map<typed_object*, typed_object*>& already_cloned) const {
     if(already_cloned.count(const_cast<typed_object*>(this)))
         return already_cloned[const_cast<typed_object*>(this)];
@@ -404,26 +408,34 @@ void typed_object::was_deserialized(){
 
 void typed_object::internal_begin_serialization(){
     begin_serialization();
-    std::vector<typed_object*> _objs;
-    fill_vector_with_children(_objs);
-    for (auto _n : _objs)
-        _n->internal_begin_serialization();
+    if(should_serialize_children()){
+        std::vector<typed_object*> _objs;
+        fill_vector_with_children(_objs);
+        for (auto _n : _objs)
+            _n->internal_begin_serialization();
+    }
 }
 
 void typed_object::internal_end_serialization(){
     std::vector<typed_object*> _objs;
-    fill_vector_with_children(_objs);
+    if(should_serialize_children())
+        fill_vector_with_children(_objs);
     end_serialization();
-    for (auto _n : _objs)
-        _n->internal_end_serialization();
+    if(should_serialize_children()){
+        for (auto _n : _objs)
+            _n->internal_end_serialization();
+    }
 }
 
 void typed_object::internal_was_deserialized(){
     std::vector<typed_object*> _objs;
-    fill_vector_with_children(_objs);
+    if(should_serialize_children())
+        fill_vector_with_children(_objs);
     was_deserialized();
-    for (auto _n : _objs)
-        _n->internal_was_deserialized();
+    if(should_serialize_children()){
+        for (auto _n : _objs)
+            _n->internal_was_deserialized();
+    }
 }
 
 void typed_object::serialize_to_url(const rb_string& url){

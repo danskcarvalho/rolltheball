@@ -548,6 +548,9 @@
 		45C68E9D15F30CF000E1637B /* platform.mm in Sources */ = {isa = PBXBuildFile; fileRef = 45C68E9815F2FF5A00E1637B /* platform.mm */; };
 		45CDD5731644807E009A3A50 /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45CDD5721644807E009A3A50 /* CoreServices.framework */; };
 		45CDD5751644808A009A3A50 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45CDD5741644808A009A3A50 /* MobileCoreServices.framework */; };
+		45D007A417BEE92700112966 /* physics_shape.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 45D007A217BEE92700112966 /* physics_shape.cpp */; };
+		45D007A517BEE92700112966 /* physics_shape.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 45D007A217BEE92700112966 /* physics_shape.cpp */; };
+		45D007A617BEE92700112966 /* physics_shape.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 45D007A217BEE92700112966 /* physics_shape.cpp */; };
 		45DDCE8B15F25A0B00DA33F5 /* vec2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 45DDCE8915F25A0B00DA33F5 /* vec2.cpp */; };
 		45DDCE8C15F25A0B00DA33F5 /* vec2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 45DDCE8915F25A0B00DA33F5 /* vec2.cpp */; };
 		45DDCE8D15F25A0B00DA33F5 /* vec2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 45DDCE8915F25A0B00DA33F5 /* vec2.cpp */; };
@@ -10065,6 +10068,9 @@
 		45C68E9B15F3025700E1637B /* definitions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = definitions.h; path = Base/definitions.h; sourceTree = "<group>"; };
 		45CDD5721644807E009A3A50 /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = System/Library/Frameworks/CoreServices.framework; sourceTree = SDKROOT; };
 		45CDD5741644808A009A3A50 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS6.0.sdk/System/Library/Frameworks/MobileCoreServices.framework; sourceTree = DEVELOPER_DIR; };
+		45D007A117BD5EFA00112966 /* physics_mask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = physics_mask.h; path = Gameplay/physics_mask.h; sourceTree = "<group>"; };
+		45D007A217BEE92700112966 /* physics_shape.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = physics_shape.cpp; path = Gameplay/physics_shape.cpp; sourceTree = "<group>"; };
+		45D007A317BEE92700112966 /* physics_shape.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = physics_shape.h; path = Gameplay/physics_shape.h; sourceTree = "<group>"; };
 		45DDCE8915F25A0B00DA33F5 /* vec2.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = vec2.cpp; path = Base/vec2.cpp; sourceTree = "<group>"; };
 		45DDCE8A15F25A0B00DA33F5 /* vec2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = vec2.h; path = Base/vec2.h; sourceTree = "<group>"; };
 		45DDCE9315F25EB200DA33F5 /* stringification.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = stringification.h; path = Stringification/stringification.h; sourceTree = "<group>"; };
@@ -10117,6 +10123,7 @@
 				45139D6E17BAAAD2003AC03D /* Include */,
 				45139D6F17BAAAFF003AC03D /* physics_engine.cpp */,
 				45139D7217BAD38B003AC03D /* main_character.cpp */,
+				45D007A217BEE92700112966 /* physics_shape.cpp */,
 			);
 			name = Gameplay;
 			sourceTree = "<group>";
@@ -10126,6 +10133,8 @@
 			children = (
 				45139D7317BAD38B003AC03D /* main_character.h */,
 				45139D7017BAAAFF003AC03D /* physics_engine.h */,
+				45D007A317BEE92700112966 /* physics_shape.h */,
+				45D007A117BD5EFA00112966 /* physics_mask.h */,
 			);
 			name = Include;
 			sourceTree = "<group>";
@@ -26119,6 +26128,7 @@
 				45A06C1917AEB7AA009087B7 /* misc_classes_3.cpp in Sources */,
 				4531D70C17B421DD004F0AA8 /* polygon_component.cpp in Sources */,
 				45139D7517BAD38B003AC03D /* main_character.cpp in Sources */,
+				45D007A517BEE92700112966 /* physics_shape.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -26258,6 +26268,7 @@
 				45A06C1A17AEB7AA009087B7 /* misc_classes_3.cpp in Sources */,
 				4531D70D17B421DD004F0AA8 /* polygon_component.cpp in Sources */,
 				45139D7617BAD38B003AC03D /* main_character.cpp in Sources */,
+				45D007A617BEE92700112966 /* physics_shape.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -26389,6 +26400,7 @@
 				4531D70B17B421DD004F0AA8 /* polygon_component.cpp in Sources */,
 				45139D7117BAAAFF003AC03D /* physics_engine.cpp in Sources */,
 				45139D7417BAD38B003AC03D /* main_character.cpp in Sources */,
+				45D007A417BEE92700112966 /* physics_shape.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
