@@ -6,6 +6,7 @@
 //  Copyright (c) 2012 Danilo Carvalho. All rights reserved.
 //
 #define GL_DO_NOT_WARN_IF_MULTI_GL_VERSION_HEADERS_INCLUDED
+#import <OpenGL/gl3.h>
 #import "DSCustomOpenGLView.h"
 #define MACOSX_TARGET
 #include "components_external.h"
