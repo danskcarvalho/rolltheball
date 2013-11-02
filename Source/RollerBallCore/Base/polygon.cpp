@@ -1088,8 +1088,8 @@ mesh& polygon::to_outline_mesh(rb::mesh &storage, const texture_map& map, const 
     std::vector<uint16_t> _indexes;
     
     for(auto& _p : _polygons){
-        mesh* _m = new mesh();
         if(!textureless){
+            mesh* _m = new mesh();
             _p.to_mesh(*_m, 0, map);
             _meshes.push_back(_m);
         }

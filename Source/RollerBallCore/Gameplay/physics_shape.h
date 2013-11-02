@@ -37,6 +37,7 @@ namespace rb {
         bool _invert_velocity;
         nullable<rb_string> _gravity_ref;
         node* _gravity_ref2;
+        bool _circular_planet;
     public:
         friend class main_character;
         physics_shape();
