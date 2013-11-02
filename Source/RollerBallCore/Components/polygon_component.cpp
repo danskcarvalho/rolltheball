@@ -190,6 +190,7 @@ polygon_component::polygon_component(){
     _m_copy = nullptr;
     _b = nullptr;
     _b_copy = nullptr;
+    _skeleton = nullptr;
     
     _map = nullptr;
     _before = transform_space();
@@ -227,6 +228,9 @@ void polygon_component::destroy_polygon(){
     if(_map)
         delete _map;
     _map = nullptr;
+    if(_skeleton)
+        delete _skeleton;
+    _skeleton = nullptr;
 }
 
 polygon_component::~polygon_component(){
@@ -1445,7 +1449,10 @@ void polygon_component::render_gizmo() {
     auto _p = to_polygon();
     if((is_currently_selected() || !_flags.renderable || !_m || is_current()) && !_p.is_empty()){
         auto _g = create_skeleton(_p);
-        add_gizmo(_g, no_texture, false);
+        if(_skeleton)
+            delete _skeleton;
+        _skeleton = _g;
+        add_gizmo(_skeleton, no_texture, false);
     }
 }
 
