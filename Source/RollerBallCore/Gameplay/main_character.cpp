@@ -560,23 +560,23 @@ void main_character::touches_ended(const std::vector<touch> &touches, bool &swal
         return false;
     }), _touches.end());
     
-#if defined(IOS_TARGET)
-    if(_ended_touches >= JUMP_TOUCHES && !this->_clear_jump.has_value()){
-        _ended_touches = 0;
-        this->_jumpButton = true;
-        this->_clear_jump = _frame_count + (uint64_t)(RESTING_TOUCH_DURATION * 1.5);
-    }
-    
+//#if defined(IOS_TARGET)
+//    if(_ended_touches >= JUMP_TOUCHES && !this->_clear_jump.has_value()){
+//        _ended_touches = 0;
+//        this->_jumpButton = true;
+//        this->_clear_jump = _frame_count + (uint64_t)(RESTING_TOUCH_DURATION * 1.5);
+//    }
+//    
+//    if(_ended_touches >= MOVE_TOUCHES && _touches.size() == 0){
+//        this->_direction = 0;
+//        _ended_touches = 0;
+//    }
+//#else
     if(_ended_touches >= MOVE_TOUCHES && _touches.size() == 0){
         this->_direction = 0;
         _ended_touches = 0;
     }
-#else
-    if(_ended_touches >= MOVE_TOUCHES && _touches.size() == 0){
-        this->_direction = 0;
-        _ended_touches = 0;
-    }
-#endif
+//#endif
 }
 
 void main_character::touches_cancelled(const std::vector<touch> &touches, bool &swallow){

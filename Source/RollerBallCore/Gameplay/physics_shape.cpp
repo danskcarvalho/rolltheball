@@ -26,6 +26,7 @@ physics_shape::physics_shape(){
     _active_gravity = true;
     _invert_velocity = true;
     _gravity_ref2 = nullptr;
+    _circular_planet = false;
 }
 
 physics_shape::~physics_shape(){
@@ -82,6 +83,14 @@ void physics_shape::describe_type(){
         },
         [](physics_shape* site, const bool value){
             site->_invert_velocity = (bool)value;
+        }
+    });
+    boolean_property<physics_shape>(u"circular_planet", u"Circ Planet", true, {
+        [](const physics_shape* site){
+            return site->_circular_planet;
+        },
+        [](physics_shape* site, const bool value){
+            site->_circular_planet = (bool)value;
         }
     });
     end_type();
@@ -148,16 +157,26 @@ void physics_shape::playing() {
         }
         
         if(_type == kStaticPlanet){
-            b2ChainShape _c;
-            b2Vec2* _v = new b2Vec2[_cached_pol.point_count()];
-            for (uint32_t i = 0; i < _cached_pol.point_count(); i++) {
-                auto _p = _t.from_space_to_base().transformed_point(_cached_pol.get_point(i));
-                _p = _new_t.from_base_to_space().transformed_point(_p);
-                _v[i] = b2Vec2(_p.x(), _p.y());
+            if(!_circular_planet){
+                b2ChainShape _c;
+                b2Vec2* _v = new b2Vec2[_cached_pol.point_count()];
+                for (uint32_t i = 0; i < _cached_pol.point_count(); i++) {
+                    auto _p = _t.from_space_to_base().transformed_point(_cached_pol.get_point(i));
+                    _p = _new_t.from_base_to_space().transformed_point(_p);
+                    _v[i] = b2Vec2(_p.x(), _p.y());
+                }
+                _c.CreateLoop(_v, _cached_pol.point_count());
+                _fDef.shape = &_c;
+                _body->CreateFixture(&_fDef);
             }
-            _c.CreateLoop(_v, _cached_pol.point_count());
-            _fDef.shape = &_c;
-            _body->CreateFixture(&_fDef);
+            else {
+                b2CircleShape _c;
+                vec2 _anyPoint = _t.from_space_to_base().transformed_point(_cached_pol.get_point(0));
+                _c.m_p = b2Vec2(0, 0);
+                _c.m_radius = vec2::distance(_t.origin(), _anyPoint);
+                _fDef.shape = &_c;
+                _body->CreateFixture(&_fDef);
+            }
         }
         else {
             b2PolygonShape _c;
@@ -197,11 +216,19 @@ float physics_shape::gravity(const float value){
 }
 
 vec2 physics_shape::gravity_vector(const rb::vec2 &position, vec2& cam_gravity){
-    if(_gravity_ref2)
+    if(_gravity_ref2) //if gravity is fixed
     {
         auto _g = _gravity_ref2->transform().from_space_to_base().y_vector().normalized();
         cam_gravity = -_g;
         return _g * _gravity;
+    }
+    
+    if(_circular_planet){
+        auto _g = transform().origin() - position;
+        _g.normalize();
+        _g *= _gravity;
+        cam_gravity = -_g;
+        return _g;
     }
     
     auto& _pol = _cached_pol;
