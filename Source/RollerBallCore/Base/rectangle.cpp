@@ -92,6 +92,42 @@ mesh& rectangle::to_mesh(mesh& storage, const rectangle& texture_bounds, const f
     delete _map;
     return storage;
 }
+
+std::vector<mesh*> rectangle::to_meshes(const rectangle& texture_bounds, const uint32_t h_subdivs, const uint32_t v_subdivs){
+    //Texture
+    auto _tw = texture_bounds.size().x() / (float)h_subdivs;
+    auto _th = texture_bounds.size().y() / (float)v_subdivs;
+    auto _tstart = texture_bounds.bottom_left();
+    //Rectangle
+    auto _w = size().x() / (float)h_subdivs;
+    auto _h = size().y() / (float)v_subdivs;
+    auto _start = bottom_left();
+    
+    std::vector<mesh*> _meshes;
+    
+    for (uint32_t i = 0; i < h_subdivs; i++) {
+        for (uint32_t j = 0; j < v_subdivs; j++) {
+            //Texture
+            auto _tsw = _tstart + vec2::right * i * _tw;
+            auto _tew = _tsw + vec2::right * _tw;
+            auto _tsh = _tstart + vec2::up * i * _th;
+            auto _teh = _tsh + vec2::up * _th;
+            auto _tr = rectangle((_tsw.x() + _tew.x()) / 2.0f, (_tsh.y() + _teh.y()) / 2.0f, fabsf(_tew.x() - _tsw.x()), fabs(_teh.y() - _tsh.y()));
+            //Rectangle
+            auto _sw = _start + vec2::right * i * _w;
+            auto _ew = _sw + vec2::right * _w;
+            auto _sh = _start + vec2::up * i * _h;
+            auto _eh = _sh + vec2::up * _h;
+            auto _r = rectangle((_sw.x() + _ew.x()) / 2.0f, (_sh.y() + _eh.y()) / 2.0f, fabsf(_ew.x() - _sw.x()), fabs(_eh.y() - _sh.y()));
+            
+            mesh* _m = new mesh();
+            _r.to_mesh(*_m, _tr);
+            _meshes.push_back(_m);
+        }
+    }
+    return _meshes;
+}
+
 polygon& rectangle::to_polygon(polygon& storage) const{
     std::vector<vec2> _points;
     _points.push_back(top_left());

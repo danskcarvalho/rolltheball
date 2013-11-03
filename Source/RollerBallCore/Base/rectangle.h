@@ -65,6 +65,7 @@ namespace rb {
         rectangle& move_by(const vec2& v);
         polygon& to_polygon(polygon& storage) const;
         mesh& to_mesh(mesh& storage, const rectangle& texture_bounds, const float max_s = 1, const float max_t = 1, const uint32_t subdivisions = 0);
+        std::vector<mesh*> to_meshes(const rectangle& texture_bounds, const uint32_t h_subdivs, const uint32_t v_subdivs);
         bool intersects(const vec2& pt) const;
         bool intersects(const rectangle& another) const;
         bool contains(const rectangle& another) const;

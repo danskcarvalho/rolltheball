@@ -2,46 +2,37 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
 	<key>IDESourceControlProjectIdentifier</key>
-	<string>82E62F62-45B9-48D1-A2E5-EEE9B838F1C0</string>
+	<string>7B104E96-989A-4E83-BAB1-F8C7F3EC88CE</string>
 	<key>IDESourceControlProjectName</key>
 	<string>GameRollerBall</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>41069F2E-B78B-42DD-9975-3E8B53BCCEDB</key>
-		<string>svn+ssh://svn.code.sf.net/p/gamerollerball/code/trunk</string>
+		<key>D8F57644-AC5C-45CA-B71D-5F1BBA6E2A73</key>
+		<string>https://github.com/danskcarvalho/rolltheball.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
 	<string>Source/GameRollerBall.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>41069F2E-B78B-42DD-9975-3E8B53BCCEDB</key>
+		<key>D8F57644-AC5C-45CA-B71D-5F1BBA6E2A73</key>
 		<string>../..</string>
 	</dict>
-	<key>IDESourceControlProjectRepositoryRootDictionary</key>
-	<dict>
-		<key>41069F2E-B78B-42DD-9975-3E8B53BCCEDB</key>
-		<string>svn+ssh://svn.code.sf.net/p/gamerollerball/code</string>
-	</dict>
 	<key>IDESourceControlProjectURL</key>
-	<string>svn+ssh://svn.code.sf.net/p/gamerollerball/code/trunk/Source/GameRollerBall.xcworkspace</string>
+	<string>https://github.com/danskcarvalho/rolltheball.git</string>
 	<key>IDESourceControlProjectVersion</key>
 	<integer>110</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>41069F2E-B78B-42DD-9975-3E8B53BCCEDB</string>
+	<string>D8F57644-AC5C-45CA-B71D-5F1BBA6E2A73</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
-			<key>IDESourceControlRepositoryBranchesRelativeLocationKey</key>
-			<string>branches</string>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
-			<string>public.vcs.subversion</string>
-			<key>IDESourceControlRepositoryTagsRelativeLocationKey</key>
-			<string>tags</string>
-			<key>IDESourceControlRepositoryTrunkRelativeLocationKey</key>
-			<string>trunk</string>
+			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>41069F2E-B78B-42DD-9975-3E8B53BCCEDB</string>
+			<string>D8F57644-AC5C-45CA-B71D-5F1BBA6E2A73</string>
 			<key>IDESourceControlWCCName</key>
 			<string>GameRollerBall</string>
 		</dict>
