@@ -64,4 +64,8 @@
     }
 }
 
+-(void)dealloc{
+    CGImageRelease(backgroundImage);
+}
+
 @end
