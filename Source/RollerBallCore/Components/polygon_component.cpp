@@ -1056,6 +1056,8 @@ void polygon_component::describe_type(){
                 return (nullable<buffer>)nullptr;
         },
         [](polygon_component* site, const nullable<buffer>& value){
+            if(site->_m)
+                delete site->_m;
             if(value.has_value())
                 site->_m = new mesh(value.value());
             else
@@ -1070,6 +1072,8 @@ void polygon_component::describe_type(){
                 return (nullable<buffer>)nullptr;
         },
         [](polygon_component* site, const nullable<buffer>& value){
+            if(site->_m_copy)
+                delete site->_m_copy;
             if(value.has_value())
                 site->_m_copy = new mesh(value.value());
             else
@@ -1084,6 +1088,8 @@ void polygon_component::describe_type(){
                 return (nullable<buffer>)nullptr;
         },
         [](polygon_component* site, const nullable<buffer>& value){
+            if(site->_b)
+                delete site->_b;
             if(value.has_value())
                 site->_b = new mesh(value.value());
             else
@@ -1098,6 +1104,8 @@ void polygon_component::describe_type(){
                 return (nullable<buffer>)nullptr;
         },
         [](polygon_component* site, const nullable<buffer>& value){
+            if(site->_b_copy)
+                delete site->_b_copy;
             if(value.has_value())
                 site->_b_copy = new mesh(value.value());
             else
