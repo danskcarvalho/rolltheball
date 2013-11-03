@@ -332,6 +332,8 @@ void sprite_component::describe_type(){
             return site->_m ? site->_m->to_buffer() : (nullable<buffer>)nullptr;
         },
         [](sprite_component* site, const nullable<buffer> value){
+            if(site->_m)
+                delete site->_m;
             site->_m = value.has_value() ? new mesh(value.value()) : nullptr;
         }
     });
@@ -341,6 +343,8 @@ void sprite_component::describe_type(){
             return site->_m_copy ? site->_m_copy->to_buffer() : (nullable<buffer>)nullptr;
         },
         [](sprite_component* site, const nullable<buffer> value){
+            if(site->_m_copy)
+                delete site->_m_copy;
             site->_m_copy = value.has_value() ? new mesh(value.value()) : nullptr;
         }
     });

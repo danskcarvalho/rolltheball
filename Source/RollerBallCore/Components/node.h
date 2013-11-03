@@ -12,6 +12,7 @@
 #include "components_base.h"
 #include "node_container.h"
 #include "transform_space.h"
+#include "polygon.h"
 
 namespace rb {
     class scene;

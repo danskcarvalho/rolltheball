@@ -54,7 +54,7 @@ typed_object::~typed_object(){
             delete _cached_type_descriptor;
         
         if(_cached_nullable_type_descriptor)
-            delete _cached_type_descriptor;
+            delete _cached_nullable_type_descriptor;
         
         if(_cached_vector_type_descriptor)
             delete _cached_vector_type_descriptor;

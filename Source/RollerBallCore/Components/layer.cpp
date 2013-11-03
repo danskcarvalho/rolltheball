@@ -57,10 +57,6 @@ layer::~layer(){
         delete _static_batch;
     for (auto _p : _processes)
         delete _p;
-    if(_dynamic_batch)
-        delete _dynamic_batch;
-    if(_static_batch)
-        delete _static_batch;
     if(_textureless_process)
         delete _textureless_process;
     _validated = false;

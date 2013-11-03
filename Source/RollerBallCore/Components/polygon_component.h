@@ -92,6 +92,7 @@ namespace rb {
         mesh* _m_copy;
         mesh* _b; //border mesh
         mesh* _b_copy;
+        mesh* _skeleton;
         
         texture_map* _map;
         transform_space _before;
