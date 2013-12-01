@@ -12,6 +12,7 @@
 #include "physics_engine.h"
 #include "scene.h"
 #include "physics_shape.h"
+#include "destructible_sprite_component.h"
 #include <Box2D/Box2D.h>
 
 //Some constants

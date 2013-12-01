@@ -28,6 +28,8 @@ namespace rb {
         //updates the matrix only if dirty
         void update_matrix();
         void update_from_matrix(const matrix3x3& m);
+        void load_from_buffer(const void* buffer, const void** next);
+        void store_in_buffer(void* buffer, size_t* size, void** next) const;
     public:
         //constructors
         static transform_space from_matrix(const matrix3x3& m);
@@ -97,6 +99,10 @@ namespace rb {
         transform_space& invert();
         transform_space canonical() const;
         transform_space& to_canonical();
+        
+        //vectors of mesh
+        static buffer to_buffer(const std::vector<transform_space>& ts);
+        static std::vector<transform_space> from_buffer(buffer b);
         
         //matrix operations
         const matrix3x3& from_space_to_base() const;

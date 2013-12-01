@@ -17,6 +17,7 @@
 #include "physics_engine.h"
 #include "main_character.h"
 #include "physics_shape.h"
+#include "destructible_sprite_component.h"
 #import <Foundation/Foundation.h>
 
 using namespace rb;
@@ -41,6 +42,7 @@ scene* director::active_scene() {
 
 void director::register_creatable_types(){
     register_creatable_type(type_descriptor::get<sprite_component>());
+    register_creatable_type(type_descriptor::get<destructible_sprite_component>());
     register_creatable_type(type_descriptor::get<polygon_component>());
     
     //gameplay
@@ -52,6 +54,7 @@ void director::register_creatable_types(){
     register_serializable_type<scene>();
     register_serializable_type<layer>();
     register_serializable_type<sprite_component>();
+    register_serializable_type<destructible_sprite_component>();
     register_serializable_type<component_id>();
     register_serializable_type<transformation_values>();
     register_serializable_type<group_component>();

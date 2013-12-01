@@ -189,7 +189,6 @@ void sprite_component::transform_mesh(const bool refill_buffers){
 void sprite_component::render(const bool refill_buffers){
     if(!_m || refill_buffers || _reapply_mapping){
         if(!_m){
-            MSG(this->_image);
             destroy();
             create();
             _before = transform_space();

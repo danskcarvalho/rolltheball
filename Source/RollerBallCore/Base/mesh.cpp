@@ -386,31 +386,10 @@ mesh::~mesh(){
     _ib = nullptr;
 }
 
-buffer mesh::to_buffer() const {
-    if(!_vb || !_ib)
-        return buffer();
-    
-    size_t _size =  sizeof(uint32_t) * 2 +
-                    sizeof(vertex) * _vb_count +
-                    sizeof(uint16_t) * _ib_count;
-    void* _mem = malloc(_size);
-    uint32_t* _u32_mem = (uint32_t*)_mem;
-    *_u32_mem = _ib_count;
-    _u32_mem++;
-    *_u32_mem = _vb_count;
-    _u32_mem++;
-    uint16_t* _u16_mem = (uint16_t*)_u32_mem;
-    memcpy(_u16_mem, _ib, sizeof(uint16_t) * _ib_count);
-    _u16_mem += _ib_count;
-    vertex* _v_mem = (vertex*)_u16_mem;
-    memcpy(_v_mem, _vb, sizeof(vertex) * _vb_count);
-    buffer b(_mem, _size);
-    free(_mem);
-    return b;
-}
-
-mesh::mesh(buffer buffer){
-    const void* _mem = buffer.internal_buffer();
+void mesh::load_from_buffer(const void *buffer, const void **next){
+    if(next)
+        *next = nullptr;
+    const void* _mem = buffer;
     assert(_mem);
     const uint32_t* _u32_mem = (const uint32_t*)_mem;
     _ib_count = *_u32_mem;
@@ -427,6 +406,101 @@ mesh::mesh(buffer buffer){
     _external = false;
     _dirty_ib = true;
     _dirty_vb = true;
+    if(next)
+        *next = _v_mem + _vb_count;
+}
+
+void mesh::store_in_buffer(void *buffer, size_t* size, void **next) const{
+   if(next)
+       *next = nullptr;
+    if(size)
+        *size = 0;
+    if(!_vb || !_ib)
+        return;
+    
+    size_t _size =  sizeof(uint32_t) * 2 +
+    sizeof(vertex) * _vb_count +
+    sizeof(uint16_t) * _ib_count;
+    if(!buffer && size){
+        *size = _size;
+        return;
+    }
+    void* _mem = malloc(_size);
+    uint32_t* _u32_mem = (uint32_t*)_mem;
+    *_u32_mem = _ib_count;
+    _u32_mem++;
+    *_u32_mem = _vb_count;
+    _u32_mem++;
+    uint16_t* _u16_mem = (uint16_t*)_u32_mem;
+    memcpy(_u16_mem, _ib, sizeof(uint16_t) * _ib_count);
+    _u16_mem += _ib_count;
+    vertex* _v_mem = (vertex*)_u16_mem;
+    memcpy(_v_mem, _vb, sizeof(vertex) * _vb_count);
+    //Copy to memory
+    memcpy(buffer, _mem, _size);
+    free(_mem);
+    if(next)
+        *next = ((char*)buffer) + _size;
+}
+
+buffer mesh::to_buffer() const {
+    if(!_vb || !_ib)
+        return buffer();
+    
+    size_t _size;
+    store_in_buffer(nullptr, &_size, nullptr);
+    void* _mem = malloc(_size);
+    store_in_buffer(_mem, nullptr, nullptr);
+    buffer _b(_mem, _size);
+    free(_mem);
+    return _b;
+}
+
+mesh::mesh(buffer buffer){
+    const void* _mem = buffer.internal_buffer();
+    assert(_mem);
+    load_from_buffer(_mem, nullptr);
+}
+
+buffer mesh::to_buffer(const std::vector<mesh *> &meshes){
+    size_t _full_size = 0;
+    size_t _s;
+    uint32_t _count = (uint32_t)meshes.size();
+    for (auto _m : meshes){
+        _m->store_in_buffer(nullptr, &_s, nullptr);
+        _full_size += _s;
+    }
+    void* _mem = malloc(sizeof(uint32_t) + _full_size);
+    uint32_t* _u32_mem = (uint32_t*)_mem;
+    *_u32_mem = (uint32_t)_count;
+    _u32_mem += 1;
+    void * _cont = _u32_mem;
+    for (auto _m : meshes){
+        void* _n_cont;
+        _m->store_in_buffer(_cont, nullptr, &_n_cont);
+        _cont = _n_cont;
+    }
+    buffer _b(_mem, _full_size + sizeof(uint32_t));
+    free(_mem);
+    return _b;
+}
+
+std::vector<mesh*> mesh::from_buffer(rb::buffer b){
+    const void* _mem = b.internal_buffer();
+    assert(_mem);
+    const uint32_t* _u32_mem = (const uint32*)_mem;
+    auto _count = *_u32_mem;
+    _u32_mem += 1;
+    const void* _cont = _u32_mem;
+    std::vector<mesh*> _meshes;
+    for (uint32_t i = 0; i < _count; i++) {
+        auto _m = new mesh();
+        const void* _n_cont;
+        _m->load_from_buffer(_cont, &_n_cont);
+        _cont = _n_cont;
+        _meshes.push_back(_m);
+    }
+    return _meshes;
 }
 
 

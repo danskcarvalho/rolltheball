@@ -32,4 +32,5 @@
 #include "misc_classes_2.h"
 #include "misc_classes_3.h"
 #include "polygon_component.h"
+#include "destructible_sprite_component.h"
 #endif

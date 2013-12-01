@@ -9,7 +9,7 @@
 		<property value-a="1" value-b="0" value-g="0.64" value-r="1" name="alternate_gizmo" />
 		<property value-a="1" value-b="1" value-g="1" value-r="1" name="selection_color" />
 		<property value="0|" name="current" />
-		<property value="AKMA/4C0K0GAtCtBgF+UQHejxkADjfhBuuefPzTbT7+CNivBgzYrQRfbT78DjfhBuuefPwEU30OdBOe7t0q+PbhKvr29BOe7MJSrPuYwOMA=" name="camera" />
+		<property value="AAAAAIC0K0GAtCtBgF+UQHejxkADjfhBuuefPzTbT7+CNivBgzYrQRfbT78DjfhBuuefPwEAZQCdBOe7t0q+PbhKvr29BOe7MJSrPuYwOMA=" name="camera" />
 	</properties>
 	<children>
 		<child type-name="rb::layer">
@@ -79,8 +79,8 @@
 						<property is-null="true" name="b" />
 						<property is-null="true" name="b" />
 						<property value="AQAAAAAAgD8AAIA/AAAAANsPyT8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" name="before" />
-						<property value="AQAAAAAAgD8AAIA/AAAAANsPyT8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" name="before_b" />
-						<property value="AQAAAAAAgD8AAIA/AAAAANsPyT8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" name="tx_space" />
+						<property value="AQAAAAAAgD8AAIA/AAAAANsPyT8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAAAA3wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" name="before_b" />
+						<property value="AQD5AAAAgD8AAIA/AAAAANsPyT8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" name="tx_space" />
 						<property value="Static Gravity Zone" name="shape_type" />
 						<property value="10" name="gravity" />
 						<property is-null="true" name="gravity_reference" />
@@ -534,7 +534,7 @@
 						<property value-a="1" value-b="1" value-g="1" value-r="1" name="tint" />
 						<property value="1" name="blend" />
 						<property value-y="1" value-x="1" name="matrix" />
-						<property value="BgAAAAQAAAAAAAEAAgAAAAMAAQC9p6NBafgpvwA0hTviLB4/AACAPwAAgD8ANIU7j+mwPpDBeT80cIs+/////yl4rkG6YR3A+Mt6P4/psD4AAIA/AACAPwA0hTuP6bA+kMF5PzRwiz7/////N8WxQb4zpL/4y3o/4iwePwAAgD8AAIA/ADSFO4/psD6QwXk/NHCLPv/////LWqBB+4vrvwA0hTuP6bA+AACAPwAAgD8ANIU7j+mwPpDBeT80cIs+/////w==" name="mesh" />
+						<property value="BgAAAAQAAAAAAAEAAgAAAAMAAQC9p6NBnvgpvwA0hTviLB4/AACAPwAAgD8ANIU7j+mwPpDBeT80cIs+/////yl4rkHvYR3A+Mt6P4/psD4AAIA/AACAPwA0hTuP6bA+kMF5PzRwiz7/////N8WxQfMzpL/4y3o/4iwePwAAgD8AAIA/ADSFO4/psD6QwXk/NHCLPv/////LWqBBZYzrvwA0hTuP6bA+AACAPwAAgD8ANIU7j+mwPpDBeT80cIs+/////w==" name="mesh" />
 						<property value="BgAAAAQAAAAAAAEAAgAAAAMAAQAAAAC/AAAAPwA0hTviLB4/AACAPwAAgD8ANIU7j+mwPpDBeT80cIs+/////wAAAD8AAAC/+Mt6P4/psD4AAIA/AACAPwA0hTuP6bA+kMF5PzRwiz7/////AAAAPwAAAD/4y3o/4iwePwAAgD8AAIA/ADSFO4/psD6QwXk/NHCLPv////8AAAC/AAAAvwA0hTuP6bA+AACAPwAAgD8ANIU7j+mwPpDBeT80cIs+/////w==" name="mesh_copy" />
 						<property value="AAAAAPNU7z/3jZ8/G0S+QOHgnT8uEKlBvOjHvxfX4T8McR6/TEHTPmePlj8uEKlBvOjHvwEAAABGMgE/n/WHPmpHNb5my0E/LxEvwSm+jcA=" name="before_transformation" />
 						<property value="false" name="collapsed" />
