@@ -282,6 +282,90 @@ transform_space transform_space::scaled(const float s) const{
     return transform_space(origin(), vec2(s, s), rotation());
 }
 
+void transform_space::load_from_buffer(const void *buffer, const void **next){
+    if(next)
+        *next = nullptr;
+    memcpy(this, buffer, sizeof(transform_space));
+    if (next)
+        *next = ((char*)buffer) + sizeof(transform_space);
+}
+
+void transform_space::store_in_buffer(void *buffer, size_t *size, void **next) const{
+    if(next)
+        *next = nullptr;
+    if(size)
+        *size = 0;
+    if(size && !buffer){
+        *size = sizeof(transform_space);
+        return;
+    }
+    memcpy(buffer, this, sizeof(transform_space));
+    if (next)
+        *next = ((char*)buffer) + sizeof(transform_space);
+}
+
+buffer transform_space::to_buffer(const std::vector<transform_space> &ts){
+    size_t _full_size = 0;
+    size_t _s;
+    uint32_t _count = (uint32_t)ts.size();
+    for (auto _t : ts){
+        _t.store_in_buffer(nullptr, &_s, nullptr);
+        _full_size += _s;
+    }
+    void* _mem = malloc(sizeof(uint32_t) + _full_size);
+    uint32_t* _u32_mem = (uint32_t*)_mem;
+    *_u32_mem = (uint32_t)_count;
+    _u32_mem += 1;
+    void * _cont = _u32_mem;
+    for (auto _t : ts){
+        void* _n_cont;
+        _t.store_in_buffer(_cont, nullptr, &_n_cont);
+        _cont = _n_cont;
+    }
+    buffer _b(_mem, _full_size + sizeof(uint32_t));
+    free(_mem);
+    return _b;
+}
+
+std::vector<transform_space> transform_space::from_buffer(rb::buffer b){
+    const void* _mem = b.internal_buffer();
+    assert(_mem);
+    const uint32_t* _u32_mem = (const uint32*)_mem;
+    auto _count = *_u32_mem;
+    _u32_mem += 1;
+    const void* _cont = _u32_mem;
+    std::vector<transform_space> _ts;
+    for (uint32_t i = 0; i < _count; i++) {
+        transform_space _t;
+        const void* _n_cont;
+        _t.load_from_buffer(_cont, &_n_cont);
+        _cont = _n_cont;
+        _ts.push_back(_t);
+    }
+    return _ts;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

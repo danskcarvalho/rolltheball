@@ -723,6 +723,8 @@ bool node_container::is_hidden_in_editor() const {
 
 void node_container::unhide_all_children() {
     for (auto _n : *this){
+        if(!_n->renderable())
+            continue;
         _n->in_editor_hidden(false);
         _n->unhide_all_children();
     }

@@ -29,6 +29,9 @@ namespace rb {
         bool _external;
         bool _dirty_vb;
         bool _dirty_ib;
+    private:
+        void load_from_buffer(const void* buffer, const void** next);
+        void store_in_buffer(void* buffer, size_t* size, void** next) const;
     public:
         mesh();
         mesh(vertex* vb, uint32_t vb_count, uint16_t* ib, uint32_t ib_count);
@@ -89,6 +92,10 @@ namespace rb {
         
         //to_buffer
         buffer to_buffer() const;
+        
+        //vectors of mesh
+        static buffer to_buffer(const std::vector<mesh*>& meshes);
+        static std::vector<mesh*> from_buffer(buffer b);
         
         ~mesh();
     };
