@@ -30,12 +30,14 @@ namespace rb {
     class transform_space;
     class color;
     class texture_map;
+    class particle_layer;
     
     class layer : public node_container {
     private:
         //fields
         bool _playing;
         scene* _parent_scene;
+        particle_layer* _particle_layer;
         
         //rendering
         extended_dynamic_mesh_batch* _dynamic_batch;
@@ -51,6 +53,7 @@ namespace rb {
         //some parameters
         color _ambient_color;
         blend_mode _blend_mode;
+        blend_mode _p_blend_mode;
         //Camera
         vec2 _camera_position_factor;
         camera_invariant _camera_invariant_flags;
@@ -67,6 +70,7 @@ namespace rb {
         void after_becoming_inactive();
     public:
         //friend classes
+        friend class particle_layer;
         friend class scene;
         friend class node;
         friend class director;
@@ -74,6 +78,7 @@ namespace rb {
         
         scene* parent_scene();
         const scene* parent_scene() const;
+        particle_layer* particle_layer();
     private:
         const layer* parent_layer() const;
     public:

@@ -124,6 +124,13 @@ namespace rb {
         scale = 1 << 1,
         rotation = 1 << 2
     };
+    
+    enum class particle_state {
+        showing = 3,
+        hidden = 1,
+        paused = 2,
+        stopped = 0
+    };
 }
 
 BEGIN_STRINGIFY_ENUM(node_filter)

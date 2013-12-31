@@ -140,11 +140,11 @@ const mesh& mesh::operator=(const mesh& other){
         }
         else
             _ib = nullptr;
+        _external = false;
     }
     
     _vb_count = other._vb_count;
     _ib_count = other._ib_count;
-    _external = false;
     _dirty_vb = true;
     _dirty_ib = true;
     return *this;
@@ -501,6 +501,15 @@ std::vector<mesh*> mesh::from_buffer(rb::buffer b){
         _meshes.push_back(_m);
     }
     return _meshes;
+}
+
+void mesh::copy_position_to(rb::mesh &another){
+    assert(another._vb_count == _vb_count);
+    for (size_t i = 0; i < _vb_count; i++) {
+        another._vb[i].x = _vb[i].x;
+        another._vb[i].y = _vb[i].y;
+    }
+    another._dirty_vb = true;
 }
 
 

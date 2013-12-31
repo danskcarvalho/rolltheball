@@ -134,8 +134,8 @@ namespace rb {
         void unblock_all_children();
     //In-Editor Hidden
     public:
-        bool in_editor_hidden() const;
-        bool in_editor_hidden(const bool value);
+        virtual bool in_editor_hidden() const;
+        virtual bool in_editor_hidden(const bool value);
         bool is_hidden_in_editor() const;
         void unhide_all_children();
     protected:

@@ -82,6 +82,7 @@ namespace rb {
         void set_blend(const float blend);
         void set_color(const color& color);
         void set_texture_bounds(const rectangle& bounds);
+        void copy_position_to(mesh& another);
         
         //operations
         void paint(const vec2& position, const brush& brush);

@@ -19,6 +19,7 @@
 #include "director.h"
 #include "editor_delegate.h"
 #include "transform_gizmo.h"
+#include "particle_layer.h"
 
 using namespace rb;
 
@@ -31,9 +32,11 @@ layer::layer(){
     _static_layer = false;
     _ambient_color = color::from_rgba(1, 1, 1, 1);
     _blend_mode = blend_mode::normal;
+    _p_blend_mode = blend_mode::normal;
     _textureless_process = nullptr;
     _camera_position_factor = vec2(1, 1);
     _camera_invariant_flags = camera_invariant::none;
+    _particle_layer = nullptr;
 }
 
 layer::layer(scene* parent_scene){
@@ -45,9 +48,11 @@ layer::layer(scene* parent_scene){
     _static_layer = false;
     _ambient_color = color::from_rgba(1, 1, 1, 1);
     _blend_mode = blend_mode::normal;
+    _p_blend_mode = blend_mode::normal;
     _textureless_process = nullptr;
     _camera_position_factor = vec2(1, 1);
     _camera_invariant_flags = camera_invariant::none;
+    _particle_layer = nullptr;
 }
 
 layer::~layer(){
@@ -59,7 +64,17 @@ layer::~layer(){
         delete _p;
     if(_textureless_process)
         delete _textureless_process;
+    if(_particle_layer)
+        delete _particle_layer;
     _validated = false;
+}
+
+class particle_layer* layer::particle_layer(){
+    if(_particle_layer == nullptr){
+        _particle_layer = new class particle_layer(this);
+        _particle_layer->blend_mode(_p_blend_mode);
+    }
+    return _particle_layer;
 }
 
 //Parent scene
@@ -329,6 +344,8 @@ const rb_string& layer::secondary_group_name(const rb_string& value) {
 
 void layer::texture_atlas_changed(){
     invalidate_buffers(); //we invalidate buffers
+    if(_particle_layer)
+        _particle_layer->invalidate_buffers();
     for (auto _p : _processes)
         delete _p;
     _processes.clear();
@@ -497,7 +514,7 @@ void layer::render(){
         _static_batch->blend_mode(_blend_mode);
         _static_batch->geometry_type(geometry_type::triangle);
         _static_batch->draw();
-        return;
+        return; //no particle rendering for static layers
     }
     clear_dirty_transform();
     
@@ -515,6 +532,9 @@ void layer::render(){
             _child->internal_render(!_backup_validated);
     }
     _dynamic_batch->draw();
+    
+    if(_particle_layer)
+        _particle_layer->render();
     
     if(parent_scene()->_gizmo_layer){
         setup_processes_for_gizmo_layer();
@@ -748,6 +768,20 @@ void layer::describe_type(){
         },
         [](layer* site, uint32 value){
             site->camera_invariant_flags((camera_invariant)value);
+        }
+    });
+    //particle system
+    enumeration_property<layer, enum blend_mode>(u"particle_blend_mode", u"P Blend Mode", _e_vals, true, {
+        [](const layer* site){
+            if(site->_particle_layer)
+                return site->_particle_layer->blend_mode();
+            else
+                return site->_p_blend_mode;
+        },
+        [](layer* site, enum blend_mode value){
+            site->_p_blend_mode = value;
+            if(site->_particle_layer)
+                site->_particle_layer->blend_mode(value);
         }
     });
     end_type();

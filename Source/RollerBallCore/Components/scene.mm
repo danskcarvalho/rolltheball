@@ -22,6 +22,7 @@
 #include "group_component.h"
 #include "texture_atlas_loader.h"
 #include "scene_loader.h"
+#include "particle_layer.h"
 
 using namespace rb;
 
@@ -293,6 +294,10 @@ void scene::cancel_user_selection(){
 }
 
 void scene::fixed_update(float dt){
+    for (int i = 0; i < (MAX_LAYERS + 1); i++) {
+        if(_layers[i]->_particle_layer)
+            _layers[i]->_particle_layer->update(dt);
+    }
     for (auto& _kvp : registered_nodes(registrable_event::update)){
         if(unregistered(registrable_event::update, _kvp.second))
             continue;
@@ -313,6 +318,10 @@ void scene::fixed_update(float dt){
 }
 
 void scene::in_editor_update(float dt){
+    for (int i = 0; i < (MAX_LAYERS + 1); i++) {
+        if(_layers[i]->_particle_layer)
+            _layers[i]->_particle_layer->update(dt);
+    }
     for (auto& _kvp : registered_nodes(registrable_event::in_editor_update)){
         if(unregistered(registrable_event::in_editor_update, _kvp.second))
             continue;

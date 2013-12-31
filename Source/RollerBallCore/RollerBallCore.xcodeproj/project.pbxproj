@@ -172,6 +172,8 @@
 		4536B0F115FE664F004AE82A /* texture_map.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4536B0EF15FE664F004AE82A /* texture_map.cpp */; };
 		4536B0F215FE664F004AE82A /* texture_map.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4536B0EF15FE664F004AE82A /* texture_map.cpp */; };
 		4536B0F315FE664F004AE82A /* texture_map.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4536B0EF15FE664F004AE82A /* texture_map.cpp */; };
+		4539F5881868D1BA0078DB6B /* particle_layer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4539F5861868D1BA0078DB6B /* particle_layer.cpp */; };
+		4539F5891868D1BA0078DB6B /* particle_layer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4539F5861868D1BA0078DB6B /* particle_layer.cpp */; };
 		455730F415F3ECFB00730BBD /* compute_hash.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 455730F215F3ECFB00730BBD /* compute_hash.cpp */; };
 		455730F515F3ECFB00730BBD /* compute_hash.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 455730F215F3ECFB00730BBD /* compute_hash.cpp */; };
 		455730F615F3ECFB00730BBD /* compute_hash.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 455730F215F3ECFB00730BBD /* compute_hash.cpp */; };
@@ -431,6 +433,8 @@
 		4585F4D816E60D0800B605C4 /* sweep_context.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4585F4CA16E60D0800B605C4 /* sweep_context.cc */; };
 		4585F4D916E60D0800B605C4 /* sweep_context.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4585F4CA16E60D0800B605C4 /* sweep_context.cc */; };
 		4585F4DA16E60D0800B605C4 /* sweep_context.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4585F4CA16E60D0800B605C4 /* sweep_context.cc */; };
+		458969C7186F2CD400BAFDBB /* particle_emitter_component.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 458969C5186F2CD400BAFDBB /* particle_emitter_component.cpp */; };
+		458969C8186F2CD400BAFDBB /* particle_emitter_component.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 458969C5186F2CD400BAFDBB /* particle_emitter_component.cpp */; };
 		458A013D1778966800E8D7AD /* TextureAtlasLoader.mm in Sources */ = {isa = PBXBuildFile; fileRef = 458A013C1778966800E8D7AD /* TextureAtlasLoader.mm */; };
 		458A013E1778966800E8D7AD /* TextureAtlasLoader.mm in Sources */ = {isa = PBXBuildFile; fileRef = 458A013C1778966800E8D7AD /* TextureAtlasLoader.mm */; };
 		458A01411778974F00E8D7AD /* Resolutions.m in Sources */ = {isa = PBXBuildFile; fileRef = 458A01401778974F00E8D7AD /* Resolutions.m */; };
@@ -568,6 +572,8 @@
 		45E697A016EE649D0005DB47 /* misc_classes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 45E6979E16EE649C0005DB47 /* misc_classes.cpp */; };
 		45E697A116EE649D0005DB47 /* misc_classes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 45E6979E16EE649C0005DB47 /* misc_classes.cpp */; };
 		45E697A216EE649D0005DB47 /* misc_classes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 45E6979E16EE649C0005DB47 /* misc_classes.cpp */; };
+		45F3117C18720D4100BE67EA /* particle_emitter_component_properties.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 45F3117B18720D4100BE67EA /* particle_emitter_component_properties.cpp */; };
+		45F3117D18720D4100BE67EA /* particle_emitter_component_properties.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 45F3117B18720D4100BE67EA /* particle_emitter_component_properties.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -810,6 +816,8 @@
 		4536B0EB15FE205A004AE82A /* brush.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = brush.h; path = Base/brush.h; sourceTree = "<group>"; };
 		4536B0EF15FE664F004AE82A /* texture_map.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = texture_map.cpp; path = Base/texture_map.cpp; sourceTree = "<group>"; };
 		4536B0F015FE664F004AE82A /* texture_map.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = texture_map.h; path = Base/texture_map.h; sourceTree = "<group>"; };
+		4539F5861868D1BA0078DB6B /* particle_layer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = particle_layer.cpp; path = Components/particle_layer.cpp; sourceTree = "<group>"; };
+		4539F5871868D1BA0078DB6B /* particle_layer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = particle_layer.h; path = Components/particle_layer.h; sourceTree = "<group>"; };
 		455730EC15F3C7CA00730BBD /* almost_equal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = almost_equal.h; path = Base/almost_equal.h; sourceTree = "<group>"; };
 		455730F115F3E92200730BBD /* base_enumerations.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = base_enumerations.h; path = Base/base_enumerations.h; sourceTree = "<group>"; };
 		455730F215F3ECFB00730BBD /* compute_hash.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = compute_hash.cpp; path = Utils/compute_hash.cpp; sourceTree = "<group>"; };
@@ -9995,6 +10003,8 @@
 		4585F4C916E60D0800B605C4 /* sweep.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sweep.h; sourceTree = "<group>"; };
 		4585F4CA16E60D0800B605C4 /* sweep_context.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = sweep_context.cc; sourceTree = "<group>"; };
 		4585F4CB16E60D0800B605C4 /* sweep_context.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sweep_context.h; sourceTree = "<group>"; };
+		458969C5186F2CD400BAFDBB /* particle_emitter_component.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = particle_emitter_component.cpp; path = Components/particle_emitter_component.cpp; sourceTree = "<group>"; };
+		458969C6186F2CD400BAFDBB /* particle_emitter_component.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = particle_emitter_component.h; path = Components/particle_emitter_component.h; sourceTree = "<group>"; };
 		458A013B1778966800E8D7AD /* TextureAtlasLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TextureAtlasLoader.h; path = Components/TextureAtlasLoader.h; sourceTree = "<group>"; };
 		458A013C1778966800E8D7AD /* TextureAtlasLoader.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = TextureAtlasLoader.mm; path = Components/TextureAtlasLoader.mm; sourceTree = "<group>"; };
 		458A013F1778974F00E8D7AD /* Resolutions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Resolutions.h; path = ../TextureAtlasEditor/TextureAtlasEditor/Resolutions.h; sourceTree = "<group>"; };
@@ -10087,6 +10097,7 @@
 		45DF22121754BD0500EADAEE /* group_component.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = group_component.h; path = Components/group_component.h; sourceTree = "<group>"; };
 		45E6979E16EE649C0005DB47 /* misc_classes.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = misc_classes.cpp; path = Components/misc_classes.cpp; sourceTree = "<group>"; };
 		45E6979F16EE649D0005DB47 /* misc_classes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = misc_classes.h; path = Components/misc_classes.h; sourceTree = "<group>"; };
+		45F3117B18720D4100BE67EA /* particle_emitter_component_properties.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = particle_emitter_component_properties.cpp; path = Components/particle_emitter_component_properties.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -25625,6 +25636,9 @@
 				458110BC177774F800C1ECD4 /* scene_loader.mm */,
 				458A013C1778966800E8D7AD /* TextureAtlasLoader.mm */,
 				457EFACF177B78DA0042AF9F /* texture_atlas_loader.mm */,
+				4539F5861868D1BA0078DB6B /* particle_layer.cpp */,
+				458969C5186F2CD400BAFDBB /* particle_emitter_component.cpp */,
+				45F3117B18720D4100BE67EA /* particle_emitter_component_properties.cpp */,
 			);
 			name = Components;
 			sourceTree = "<group>";
@@ -25632,6 +25646,7 @@
 		45777507162C8406002EB77C /* Include */ = {
 			isa = PBXGroup;
 			children = (
+				458969C6186F2CD400BAFDBB /* particle_emitter_component.h */,
 				457EFAD0177B78DA0042AF9F /* texture_atlas_loader.h */,
 				458A013F1778974F00E8D7AD /* Resolutions.h */,
 				458A013B1778966800E8D7AD /* TextureAtlasLoader.h */,
@@ -25657,6 +25672,7 @@
 				452FEB45164A9C750002A601 /* components_base.h */,
 				452FEB46164A9CAB0002A601 /* components_enumerations.h */,
 				452FEB48164AA83E0002A601 /* touch.h */,
+				4539F5871868D1BA0078DB6B /* particle_layer.h */,
 				452FEB5F164AF4220002A601 /* node.h */,
 				45252757165BE4480035C8AE /* components_constants.h */,
 				4563CBDC165D93B900F38B64 /* components_external.h */,
@@ -26047,10 +26063,12 @@
 				4567715915F040BA00C91B3C /* b2CircleContact.cpp in Sources */,
 				4567715D15F040BA00C91B3C /* b2Contact.cpp in Sources */,
 				4567716115F040BA00C91B3C /* b2ContactSolver.cpp in Sources */,
+				4539F5891868D1BA0078DB6B /* particle_layer.cpp in Sources */,
 				4567716515F040BA00C91B3C /* b2EdgeAndCircleContact.cpp in Sources */,
 				4567716915F040BA00C91B3C /* b2EdgeAndPolygonContact.cpp in Sources */,
 				4567716D15F040BA00C91B3C /* b2PolygonAndCircleContact.cpp in Sources */,
 				4567717115F040BA00C91B3C /* b2PolygonContact.cpp in Sources */,
+				45F3117D18720D4100BE67EA /* particle_emitter_component_properties.cpp in Sources */,
 				4567717515F040BA00C91B3C /* b2DistanceJoint.cpp in Sources */,
 				4567717915F040BA00C91B3C /* b2FrictionJoint.cpp in Sources */,
 				4567717D15F040BA00C91B3C /* b2GearJoint.cpp in Sources */,
@@ -26064,6 +26082,7 @@
 				4567719D15F040BA00C91B3C /* b2WheelJoint.cpp in Sources */,
 				456771A115F040BA00C91B3C /* b2Rope.cpp in Sources */,
 				456771A515F040BA00C91B3C /* Triangulate.cpp in Sources */,
+				458969C8186F2CD400BAFDBB /* particle_emitter_component.cpp in Sources */,
 				45DDCE8C15F25A0B00DA33F5 /* vec2.cpp in Sources */,
 				455730F515F3ECFB00730BBD /* compute_hash.cpp in Sources */,
 				4519846A15F567A10034BD2D /* matrix3x3.cpp in Sources */,
@@ -26321,10 +26340,12 @@
 				4567716415F040BA00C91B3C /* b2EdgeAndCircleContact.cpp in Sources */,
 				4567716815F040BA00C91B3C /* b2EdgeAndPolygonContact.cpp in Sources */,
 				4567716C15F040BA00C91B3C /* b2PolygonAndCircleContact.cpp in Sources */,
+				4539F5881868D1BA0078DB6B /* particle_layer.cpp in Sources */,
 				4567717015F040BA00C91B3C /* b2PolygonContact.cpp in Sources */,
 				4567717415F040BA00C91B3C /* b2DistanceJoint.cpp in Sources */,
 				4567717815F040BA00C91B3C /* b2FrictionJoint.cpp in Sources */,
 				4567717C15F040BA00C91B3C /* b2GearJoint.cpp in Sources */,
+				45F3117C18720D4100BE67EA /* particle_emitter_component_properties.cpp in Sources */,
 				4567718015F040BA00C91B3C /* b2Joint.cpp in Sources */,
 				4567718415F040BA00C91B3C /* b2MouseJoint.cpp in Sources */,
 				4567718815F040BA00C91B3C /* b2PrismaticJoint.cpp in Sources */,
@@ -26338,6 +26359,7 @@
 				45DDCE8B15F25A0B00DA33F5 /* vec2.cpp in Sources */,
 				45C68E9A15F2FF5A00E1637B /* platform.mm in Sources */,
 				455730F415F3ECFB00730BBD /* compute_hash.cpp in Sources */,
+				458969C7186F2CD400BAFDBB /* particle_emitter_component.cpp in Sources */,
 				4519846915F567A10034BD2D /* matrix3x3.cpp in Sources */,
 				4519846E15F5682F0034BD2D /* transform_space.cpp in Sources */,
 				456CC36915F63D100057F82C /* rectangle.cpp in Sources */,
