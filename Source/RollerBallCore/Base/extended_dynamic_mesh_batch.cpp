@@ -14,7 +14,6 @@ using namespace rb;
 
 extended_dynamic_mesh_batch::extended_dynamic_mesh_batch(){
     _blend_mode = blend_mode::normal;
-    _dirty = false;
     _dirty = true;
     _line_width = 1;
     _geom_type = geometry_type::triangle;
@@ -23,191 +22,30 @@ extended_dynamic_mesh_batch::~extended_dynamic_mesh_batch(){
     for(auto _b : _batches)
         delete _b;
 }
-extended_dynamic_mesh_batch::mesh_range::mesh_range(){
-    _parent = nullptr;
-}
-extended_dynamic_mesh_batch::const_iterator extended_dynamic_mesh_batch::mesh_range::begin() const{
-    return _begin;
-}
-extended_dynamic_mesh_batch::const_iterator extended_dynamic_mesh_batch::mesh_range::end() const{
-    if(!_parent)
-        return _end;
-    else {
-        if(_end == _parent->_meshes.end())
-            return _end;
-        else
-            return std::next(_end);
-    }
-}
-
-void extended_dynamic_mesh_batch::mesh_range::move_before(const mesh_range& other){
-    if(!_parent)
-        return;
-    
-    auto _it = begin();
-    auto _old_end = end();
-    auto _ins_point = other.begin();
-    
-    nullable<const_iterator> _new_begin;
-    const_iterator _new_end;
-    
-    while (_it != _old_end) {
-        auto _m = *_it;
-        _it = _parent->_meshes.erase(_it);
-        _parent->_mesh_pos_map[_m] = _parent->_meshes.insert(_ins_point, _m);
-        if(_it == _old_end)
-            _new_end = _parent->_mesh_pos_map[_m];
-        if(!_new_begin.has_value())
-            _new_begin = _parent->_mesh_pos_map[_m];
-    }
-    
-    assert(_new_begin.has_value());
-    _begin = _new_begin.value();
-    _end = _new_end;
-    _parent->_dirty = true;
-}
-void extended_dynamic_mesh_batch::mesh_range::move_after(const mesh_range& other){
-    if(!_parent)
-        return;
-    
-    auto _it = begin();
-    auto _old_end = end();
-    auto _ins_point = other.end();
-    
-    nullable<const_iterator> _new_begin;
-    const_iterator _new_end;
-    
-    while (_it != _old_end) {
-        auto _m = *_it;
-        _it = _parent->_meshes.erase(_it);
-        _parent->_mesh_pos_map[_m] = _parent->_meshes.insert(_ins_point, _m);
-        if(_it == _old_end)
-            _new_end = _parent->_mesh_pos_map[_m];
-        if(!_new_begin.has_value())
-            _new_begin = _parent->_mesh_pos_map[_m];
-    }
-    
-    assert(_new_begin.has_value());
-    _begin = _new_begin.value();
-    _end = _new_end;
-    _parent->_dirty = true;
-}
-
 uint32_t extended_dynamic_mesh_batch::mesh_count() const{
     return (uint32_t)_meshes.size();
-}
-const mesh* extended_dynamic_mesh_batch::first_mesh() const{
-    if(_meshes.size() == 0)
-        return nullptr;
-    return _meshes.front();
-}
-mesh* extended_dynamic_mesh_batch::first_mesh(){
-    if(_meshes.size() == 0)
-        return nullptr;
-    return _meshes.front();
-}
-const mesh* extended_dynamic_mesh_batch::last_mesh() const{
-    if(_meshes.size() == 0)
-        return nullptr;
-    return _meshes.back();
-}
-mesh* extended_dynamic_mesh_batch::last_mesh(){
-    if(_meshes.size() == 0)
-        return nullptr;
-    return _meshes.back();
-}
-void extended_dynamic_mesh_batch::remove_meshes(const mesh_range& r){
-    auto _it = r.begin();
-    while (_it != r.end()) {
-        auto _m = const_cast<mesh*>(*_it);
-        _mesh_proc_map.erase(_m);
-        
-        _mesh_pos_map.erase(*_it);
-        _it = _meshes.erase(_it);
-        _dirty = true;
-    }
-}
-void extended_dynamic_mesh_batch::add_mesh_before(mesh* m, const class process* p, const mesh_range& r){
-    assert(m);
-    assert(p);
-    assert(_mesh_pos_map.count(m) == 0);
-    _mesh_pos_map.insert({m, _meshes.insert(r.begin(), m)});
-    auto _p = const_cast<class process*>(p);
-    _mesh_proc_map[m] = _p;
-    _dirty = true;
-}
-void extended_dynamic_mesh_batch::add_mesh_after(mesh* m, const class process* p, const mesh_range& r){
-    assert(m);
-    assert(p);
-    assert(_mesh_pos_map.count(m) == 0);
-    auto _end = r.end();
-    _mesh_pos_map.insert({m, _meshes.insert(_end, m)});
-    auto _p = const_cast<class process*>(p);
-    _mesh_proc_map[m] = _p;
-    _dirty = true;
 }
 void extended_dynamic_mesh_batch::add_mesh(mesh* m, const class process* p){
     assert(m);
     assert(p);
-    assert(_mesh_pos_map.count(m) == 0);
     _meshes.push_back(m);
-    _mesh_pos_map.insert({m, std::prev(_meshes.end())});
     auto _p = const_cast<class process*>(p);
     _mesh_proc_map[m] = _p;
     _dirty = true;
 }
 void extended_dynamic_mesh_batch::clear_meshes(){
     _meshes.clear();
-    _mesh_pos_map.clear();
     _mesh_proc_map.clear();
     _dirty = true;
 }
 
-void extended_dynamic_mesh_batch::range(const mesh* start, const mesh* end, mesh_range& r){
-    assert(start);
-    assert(end);
-    auto _start = const_cast<mesh*>(start);
-    auto _end =const_cast<mesh*>(end);
-    assert(_mesh_pos_map.count(const_cast<mesh*>(_start)) != 0);
-    assert(_mesh_pos_map.count(const_cast<mesh*>(_end)) != 0);
-    
-    auto _start_it = _mesh_pos_map.at(_start);
-    auto _end_it = _mesh_pos_map.at(_end);
-#if defined(DEBUG)
-    auto _test = _start_it;
-    bool _reached_end = false;
-    while (_test != _meshes.end()) {
-        if(_test == _end_it){
-            _reached_end = true;
-            break;
-        }
-        _test++;
-    }
-    assert(_reached_end);
-#endif
-    r._begin = _start_it;
-    r._end = _end_it;
-    r._parent = this;
-}
 bool extended_dynamic_mesh_batch::contains_mesh(const mesh* m) const{
     assert(m);
-    auto _m = const_cast<mesh*>(m);
-    return _mesh_pos_map.count(_m) != 0;
-}
-void extended_dynamic_mesh_batch::range(const mesh* m, mesh_range& r){
-    assert(m);
-    auto _m = const_cast<mesh*>(m);
-    assert(_mesh_pos_map.count(const_cast<mesh*>(_m)) != 0);
-    
-    auto _m_it = _mesh_pos_map.at(_m);
-    r._begin = _m_it;
-    r._end = _m_it;
-    r._parent = this;
-}
-void extended_dynamic_mesh_batch::entire_range(mesh_range& r){
-    r._begin = _meshes.begin();
-    r._end = _meshes.end();
-    r._parent = this;
+    for (auto _item : _meshes){
+        if(_item == m)
+            return true;
+    }
+    return false;
 }
 
 uint32_t extended_dynamic_mesh_batch::realloc_batches_for_process(uint32_t start_index, class process* p, const std::vector<mesh*, boost::pool_allocator<class mesh*>>& meshes){

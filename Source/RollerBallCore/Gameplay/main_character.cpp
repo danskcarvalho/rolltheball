@@ -7,12 +7,16 @@
 //
 
 #include "main_character.h"
-#include "sprite_component.h"
+#include "destructible_sprite_component.h"
 #include "physics_mask.h"
 #include "physics_engine.h"
 #include "scene.h"
 #include "physics_shape.h"
-#include "destructible_sprite_component.h"
+#include "animation_manager_component.h"
+#include "animation_function.h"
+#include "particle_emitter_component.h"
+#include "base_enemy.h"
+#include <random>
 #include <Box2D/Box2D.h>
 
 //Some constants
@@ -21,8 +25,8 @@
 #define PHYS_CHARACTER_JUMP 5.5f
 #define PHYS_CHARACTER_JUMP_COUNT 1
 //Camera Constants
-#define CAMERA_SCALE_X 6
-#define CAMERA_SCALE_Y 6
+#define CAMERA_SCALE_X 8
+#define CAMERA_SCALE_Y 8
 //Camera Linear Constants
 //Camera Linear Velocity
 #define CAMERA_LINEAR_ACCELERATION 0.015f
@@ -52,13 +56,25 @@
 #define kTouchDuration 1
 #define kTouchVelocity 2
 
+#define SHAKE_CAMERA_ANIM_DURATION 0.5f
+#define SHAKE_FREQUENCY 10.0f
+#define SHAKE_MAGNITUDE 0.15f
+
+#define DESTRUCTION_MATRIX 6
+#define DESTRUCTION_ANIM_DURATION 1.0f
+#define MAX_DESTRUCTION_VELOCITY 6
+#define MIN_DESTRUCTION_VELOCITY 4
+
+#define EXPLOSION_GRAVITY_MAGNITUDE 25
+
 using namespace rb;
 
 main_character::main_character(){
     _body = nullptr;
     _world = nullptr;
     _phys_initialized = false;
-    _sprite = new sprite_component();
+    _sprite = new destructible_sprite_component();
+    _sprite->matrix(vec2(DESTRUCTION_MATRIX, DESTRUCTION_MATRIX));
     add_node(_sprite);
     name(u"Main Character");
     _direction = 0;
@@ -74,11 +90,46 @@ main_character::main_character(){
     //Camera
     _cam_focus_velocity = 0;
     _current_gZone = nullptr;
+    _cam_scale = vec2(CAMERA_SCALE_X, CAMERA_SCALE_Y);
     //Frame
     _frame_count = 0;
     _clear_jump = nullptr;
     _clear_rev_jump = nullptr;
     _ended_touches = 0;
+    //animation
+    _an_manager = nullptr;
+    //shake camera animation
+    _shake_camera_an = nullptr;
+    _camera_x_shake = 0;
+    //die animation
+    _died = false;
+    _die_an = nullptr;
+    _die_emitter = new particle_emitter_component();
+    _die_emitter->perpendicular_velocity_01(MAX_DESTRUCTION_VELOCITY);
+    _die_emitter->perpendicular_velocity_02(MIN_DESTRUCTION_VELOCITY);
+    _die_emitter->angle_02(M_PI * 2);
+    _die_emitter->radial_velocity_02(M_PI_2);
+    _die_emitter->size_01(vec2(0.1, 0.1));
+    _die_emitter->size_02(vec2(0.2, 0.2));
+    _die_emitter->size_rate_01(vec2(0.05, 0.05));
+    _die_emitter->size_rate_02(vec2(0.125, 0.125));
+    _die_emitter->start_color_01(color::from_rgba(1, 0, 0, 1));
+    _die_emitter->start_color_02(color::from_rgba(1, 0, 0, 1));
+    _die_emitter->life_01(1);
+    _die_emitter->life_02(1);
+    _die_emitter->blend_01(0.1);
+    _die_emitter->blend_02(0.1);
+    _die_emitter->inv_emission_rate(0.005);
+    _die_emitter->emission_radius_01(0);
+    _die_emitter->emission_radius_02(0.4);
+    _die_emitter->duration(0.15);
+    _die_emitter->delay(0);
+    _die_emitter->in_editor_hidden(true);
+    _die_emitter->loop(false);
+    _die_emitter->state(particle_state::stopped);
+    add_node(_die_emitter);
+    //resetting
+    _resetted = false;
 }
 
 main_character::~main_character(){
@@ -104,7 +155,24 @@ void main_character::describe_type(){
             site->damping(value);
         }
     });
+    vec2_property<main_character>(u"camera_scale", u"Cam Scale", true, {
+        [](const main_character* site){
+            return site->_cam_scale;
+        },
+        [](main_character* site, const vec2& value){
+            site->_cam_scale = value;
+        }
+    });
     end_type();
+}
+
+const vec2& main_character::camera_scale() const {
+    return _cam_scale;
+}
+
+const vec2& main_character::camera_scale(const vec2& value){
+    _cam_scale = value;
+    return _cam_scale;
 }
 
 rb_string main_character::type_name() const{
@@ -147,7 +215,40 @@ nullable<vec2> main_character::resting_touches(){
     return nullptr;
 }
 
+bool main_character::check_die(){
+    for (b2ContactEdge* ce = _body->GetContactList(); ce; ce = ce->next) {
+        auto _other = dynamic_cast<base_enemy*>((node*)ce->other->GetUserData());
+        if(_other && ce->contact->IsTouching() && ce->contact->IsEnabled()){
+            die();
+            return true;
+        }
+    }
+    return false;
+}
+
 void main_character::update(float dt){
+    if(_died){
+        for (size_t i = 0; i < (DESTRUCTION_MATRIX * DESTRUCTION_MATRIX); i++) {
+            _parts_velocities[i] += _gravity_died * dt;
+        }
+        for (uint32_t i = 0; i < DESTRUCTION_MATRIX; i++) {
+            for (uint32_t j = 0; j < DESTRUCTION_MATRIX; j++) {
+                auto _t = _sprite->transform(i, j);
+                auto _v = _parts_velocities[i + j * DESTRUCTION_MATRIX];
+                _t.origin(_t.origin() + _v * dt);
+                _sprite->transform(i, j, _t);
+            }
+        }
+        auto _final_camera = _camera_died;
+        _final_camera.origin(vec2(_final_camera.origin().x() + _camera_x_shake, _final_camera.origin().y() - _camera_x_shake));
+        
+        parent_scene()->camera(_final_camera);
+        return;
+    }
+
+    if(check_die())
+        return;
+    
     vec2 _cam_g;
     update_character(_cam_g);
     
@@ -177,7 +278,7 @@ void main_character::update(float dt){
 void main_character::update_camera(const rb::vec2 &cam_gravity){
     auto _char_velocity = vec2(_body->GetLinearVelocity().x, _body->GetLinearVelocity().y).length();
     auto _current_camera = parent_scene()->camera();
-    auto _final_camera = transform_space::from_matrix(matrix3x3(cam_gravity.rotated90(rotation_direction::cw) * CAMERA_SCALE_X, cam_gravity * CAMERA_SCALE_Y, this->transform().origin()));
+    auto _final_camera = transform_space::from_matrix(matrix3x3(cam_gravity.rotated90(rotation_direction::cw) * _cam_scale.x(), cam_gravity * _cam_scale.y(), this->transform().origin()));
     
     if(!_cam_focus.has_value()){
         _cam_focus = circle(this->transform().origin(), CAMERA_LINEAR_FOCUS_RADIUS);
@@ -211,7 +312,8 @@ void main_character::update_camera(const rb::vec2 &cam_gravity){
     auto _final_up = vec2::slerp(_cam_focus_velocity, _current_up, _dest_up);
     
     
-    _final_camera = transform_space::from_matrix(matrix3x3(_final_up.rotated90(rotation_direction::cw) * CAMERA_SCALE_X, _final_up * CAMERA_SCALE_Y, _final_pos));
+    _final_camera = transform_space::from_matrix(matrix3x3(_final_up.rotated90(rotation_direction::cw) * _cam_scale.x(), _final_up * _cam_scale.y(), _final_pos));
+    _final_camera.origin(vec2(_final_camera.origin().x() + _camera_x_shake, _final_camera.origin().y() - _camera_x_shake));
     
     parent_scene()->camera(_final_camera);
 }
@@ -273,7 +375,8 @@ void main_character::update_character(vec2& cam_gravity){
         if(_g != vec2::zero)
             cam_gravity = -_g.normalized();
     }
-    
+    if(!_died)
+        _gravity_died = _g.normalized() * EXPLOSION_GRAVITY_MAGNITUDE;
     auto _gy = vec2::zero;
     auto _gx = vec2::zero;
     if(_g != vec2::zero){
@@ -383,10 +486,118 @@ bool main_character::should_serialize_children() const {
     return false;
 }
 
+void main_character::shake_camera(){
+    _an_manager->animation(_shake_camera_an)->state = animation_state::playing;
+    _an_manager->reset_animation(_shake_camera_an);
+}
+
+void main_character::shake_camera(float t){
+    float _angle = t * M_PI * 2;
+    _camera_x_shake = (1 - t) * SHAKE_MAGNITUDE * sinf(SHAKE_FREQUENCY * _angle);
+}
+
+void main_character::die_animation(float t){
+    if(t <= 0.5f)
+        parent_scene()->fade_color(color::from_rgba(1, 0, 0, t * 2));
+    else
+        parent_scene()->fade_color(color::from_rgba(1, 0, 0, 2 - t * 2));
+    if(t >= 0.5f && t < 1.0f && !_resetted){
+        resettable_component::reset_components(parent_scene());
+        _resetted = true;
+    }
+    if(t >= 1.0f)
+        _resetted = false;
+}
+
+void main_character::die(){
+    if(_died)
+        return;
+    
+    shake_camera();
+    _camera_died = parent_scene()->camera();
+    _die_emitter->reset_emitter();
+    _die_emitter->state(particle_state::showing);
+    _die_emitter->gravity_acceleration(_gravity_died);
+    _an_manager->animation(_die_an)->state = animation_state::playing;
+    _an_manager->reset_animation(_die_an);
+    parent_scene()->fade_color(color::from_rgba(1, 0, 0, 0));
+    _parts_velocities.clear();
+    auto _parts_count = DESTRUCTION_MATRIX * DESTRUCTION_MATRIX;
+    std::mt19937 _generator;
+    std::uniform_real_distribution<float> _distribution(0.0f, 1.0f);
+    
+    for (size_t i = 0; i < _parts_count; i++) {
+        auto _angle = (float)(_distribution(_generator) * 2 * M_PI);
+        auto _v = _distribution(_generator);
+        _v = (1 - _v) * MIN_DESTRUCTION_VELOCITY + _v * MAX_DESTRUCTION_VELOCITY;
+        auto _vv = vec2::right.rotated(_angle) * _v;
+        _parts_velocities.push_back(_vv);
+    }
+    _died = true;
+}
+
+void main_character::reset_component(){
+    _sprite->opacity(1);
+    for (uint32_t i = 0; i < DESTRUCTION_MATRIX; i++) {
+        for (uint32_t j = 0; j < DESTRUCTION_MATRIX; j++) {
+            _sprite->transform(i, j, transform_space());
+        }
+    }
+    _current_gZone = nullptr;
+    _direction = 0;
+    _jumpButton = false;
+    _didJump = false;
+    _jumpCount = 0;
+    _rev_jumpButton = false;
+    _rev_didJump = false;
+    _cam_focus = nullptr;
+    _cam_focus_velocity = 0;
+    _frame_count = 0;
+    _clear_jump = nullptr;
+    _clear_rev_jump = nullptr;
+    _an_manager->reset_animation(_shake_camera_an);
+    _an_manager->animation(_shake_camera_an)->state = animation_state::stopped;
+    _camera_x_shake = 0;
+    _died = false;
+    _gravity_died = vec2::zero;
+    _camera_died = transform_space();
+//    _an_manager->reset_animation(_die_an);
+//    _an_manager->animation(_die_an)->state = animation_state::stopped;
+    _die_emitter->reset_emitter();
+    _die_emitter->state(particle_state::stopped);
+    _parts_velocities.clear();
+    parent_scene()->camera(_saved_camera);
+    transform(_saved_transform);
+    //reset physics
+    auto _t = transform();
+    _body->SetTransform(b2Vec2(_t.origin().x(), _t.origin().y()), _t.rotation().x());
+    _body->SetLinearVelocity(b2Vec2(0, 0));
+    _body->SetAngularVelocity(0);
+}
+
 void main_character::playing(){
     if(!_phys_initialized){
         auto _t = transform();
         _phys_initialized = true;
+        _an_manager = dynamic_cast<animation_manager_component*>(parent_scene()->node_with_name(u"Animation Manager"));
+        //shake camera
+        animation_info _ai;
+        _ai.auto_destroy = false;
+        _ai.duration = SHAKE_CAMERA_ANIM_DURATION;
+        _ai.state = animation_state::stopped;
+        _ai.update_function = [this](float t, animation_info* ai){
+            this->shake_camera(t);
+        };
+        _shake_camera_an = _an_manager->add_animation(&_ai);
+        //die animation
+        _ai.auto_destroy = false;
+        _ai.duration = DESTRUCTION_ANIM_DURATION;
+        _ai.state = animation_state::stopped;
+        _ai.update_function = [this](float t, animation_info* ai){
+            this->die_animation(t);
+        };
+        _die_an = _an_manager->add_animation(&_ai);
+        
         auto _engine = dynamic_cast<physics_engine*>(parent_scene()->node_with_name(u"Physic's Engine"));
         _world = _engine->world();
         _world->SetContactListener(this);
@@ -408,13 +619,15 @@ void main_character::playing(){
         _fDef.restitution = 0;
         _fDef.density = 8050;
         _fDef.filter.categoryBits = PHYS_MASK_CHARACTER;
-        _fDef.filter.maskBits = PHYS_MASK_GRAVITY_REGION | PHYS_MASK_SHAPE;
+        _fDef.filter.maskBits = PHYS_MASK_GRAVITY_REGION | PHYS_MASK_SHAPE | PHYS_MASK_ENEMY;
         b2CircleShape _c;
         _c.m_radius = 0.5;
         _fDef.shape = &_c;
         _body->CreateFixture(&_fDef);
         
-        parent_scene()->camera(parent_scene()->camera().scaled(CAMERA_SCALE_X, CAMERA_SCALE_Y).moved(this->transform().origin()));
+        parent_scene()->camera(parent_scene()->camera().scaled(_cam_scale.x(), _cam_scale.y()).moved(this->transform().origin()));
+        _saved_camera = parent_scene()->camera();
+        _saved_transform = transform();
     }
 }
 
@@ -600,52 +813,51 @@ float main_character::damping(const float value) {
     return _damping = value;
 }
 
-void main_character::BeginContact(b2Contact *contact){
+template<class A, class B>
+std::tuple<A*, B*> get_objects(b2Contact* contact){
     auto _bA = contact->GetFixtureA()->GetBody();
     auto _bB = contact->GetFixtureB()->GetBody();
-    
-    //renew jumps
+
     auto _nA = (node*)_bA->GetUserData();
     auto _nB = (node*)_bB->GetUserData();
     
-    if(dynamic_cast<main_character*>(_nA) && dynamic_cast<physics_shape*>(_nB)){
-        auto _pB = dynamic_cast<physics_shape*>(_nB);
-        if(_pB->shape_type() == physics_shape::kStaticPlanet){
-            auto _ma = dynamic_cast<main_character*>(_nA);
-            if(!_ma->_didJump)
-                _ma->_jumpCount = PHYS_CHARACTER_JUMP_COUNT;
-        }
-    }
+    auto _a = dynamic_cast<A*>(_nA);
+    auto _b = dynamic_cast<B*>(_nB);
     
-    if(dynamic_cast<main_character*>(_nB) && dynamic_cast<physics_shape*>(_nA)){
-        auto _pA = dynamic_cast<physics_shape*>(_nA);
-        if(_pA->shape_type() == physics_shape::kStaticPlanet){
-            auto _mB = dynamic_cast<main_character*>(_nB);
-            if(!_mB->_didJump)
-                _mB->_jumpCount = PHYS_CHARACTER_JUMP_COUNT;
+    if(_a && _b)
+        return std::make_tuple(_a, _b);
+    
+    _a = dynamic_cast<A*>(_nB);
+    _b = dynamic_cast<B*>(_nA);
+    
+    if(_a && _b)
+        return std::make_tuple(_a, _b);
+    
+    return std::make_tuple<A*, B*>(nullptr, nullptr);
+}
+
+void main_character::BeginContact(b2Contact *contact){
+    auto _groundContact = get_objects<main_character, physics_shape>(contact);
+    
+    if(std::get<0>(_groundContact) && std::get<1>(_groundContact)){
+        auto _character = std::get<0>(_groundContact);
+        auto _ground = std::get<1>(_groundContact);
+        
+        if(_ground->shape_type() == physics_shape::kStaticPlanet){
+            if(!_character->_didJump)
+                _character->_jumpCount = PHYS_CHARACTER_JUMP_COUNT;
         }
     }
 }
 
 void main_character::EndContact(b2Contact *contact){
-    auto _bA = contact->GetFixtureA()->GetBody();
-    auto _bB = contact->GetFixtureB()->GetBody();
-
-    //renew gravity
-    auto _nA = (node*)_bA->GetUserData();
-    auto _nB = (node*)_bB->GetUserData();
+    auto _groundContact = get_objects<main_character, physics_shape>(contact);
     
-    if(dynamic_cast<main_character*>(_nA) && dynamic_cast<physics_shape*>(_nB)){
-        auto _pB = dynamic_cast<physics_shape*>(_nB);
-        if(_pB->shape_type() == physics_shape::kStaticGravityZone){
-            _pB->_active_gravity = true;
-        }
-    }
-    
-    if(dynamic_cast<main_character*>(_nB) && dynamic_cast<physics_shape*>(_nA)){
-        auto _pA = dynamic_cast<physics_shape*>(_nA);
-        if(_pA->shape_type() == physics_shape::kStaticGravityZone){
-            _pA->_active_gravity = true;
+    if(std::get<0>(_groundContact) && std::get<1>(_groundContact)){
+        auto _ground = std::get<1>(_groundContact);
+        
+        if(_ground->shape_type() == physics_shape::kStaticGravityZone){
+            _ground->_active_gravity = true;
         }
     }
 }

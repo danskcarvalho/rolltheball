@@ -539,7 +539,10 @@ void particle_layer::update_particle_mesh(ex_particle_info* pinfo){
         matrix3x3 _mSize = matrix3x3::build_scale(pinfo->pinfo.size);
         matrix3x3 _mTrans = matrix3x3::build_translation(pinfo->pinfo.translation);
         matrix3x3 _mRot = matrix3x3::build_rotation(pinfo->pinfo.angle);
-        matrix3x3 _m = pinfo->pinfo.base_transform * _mTrans * _mRot * _mSize;
+        matrix3x3 _m = pinfo->pinfo.base_transform;
+        _m *= _mTrans;
+        _m *= _mRot;
+        _m *= _mSize;
         _m.transform_mesh(*pinfo->assigned_mesh);
         pinfo->assigned_mesh->set_alpha(pinfo->pinfo.opacity);
         pinfo->assigned_mesh->set_blend(pinfo->pinfo.blend);
@@ -565,11 +568,12 @@ UpdateEmitterAgain:
         einfo->einfo.initialized = true;
     }
     
-    einfo->delay_remaining -= dt;
-    if(einfo->delay_remaining <= 0)
-        einfo->delay_remaining = 0;
-    else
-        return; //still there is delay
+    if(einfo->delay_remaining != 0){
+        einfo->delay_remaining -= dt;
+        if(einfo->delay_remaining <= 0)
+            einfo->delay_remaining = 0;
+        return;
+    }
     
     if(einfo->duration_remaining != INFINITE_DURATION){
         einfo->duration_remaining -= dt;

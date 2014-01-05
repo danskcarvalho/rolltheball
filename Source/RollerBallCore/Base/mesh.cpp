@@ -355,10 +355,11 @@ void mesh::set_blend(const float blend){
 }
 
 void mesh::set_color(const rb::color &color){
+    auto _rgba = color.pre_multiplied().packed_rgba();
     this->lock_vertex_buffer([&](vertex* vb) {
         //bound_coord + bound_size * _v1
         for (size_t i = 0; i < this->vertex_count(); i++) {
-            vb[i].set_color(color);
+            vb[i].rgba = _rgba;
         }
     });
 }

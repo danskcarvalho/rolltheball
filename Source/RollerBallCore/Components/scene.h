@@ -31,12 +31,20 @@ namespace rb {
     class type_descriptor;
     class node_without_transform;
     class component_id;
+    class mesh;
+    class dynamic_mesh_batch;
+    class basic_process;
     class scene : private responder, public typed_object {
     private:
         typedef std::unordered_set<node*, std::hash<node*>, std::equal_to<node*>, boost::pool_allocator<node*>> node_set;
         typedef std::unordered_map<rb_string, node_set, std::hash<rb_string>, std::equal_to<rb_string>,
             boost::pool_allocator<std::pair<const rb_string, node_set>>> node_dictionary;
     private:
+        //fading
+        color _fade_color;
+        mesh* _fade_mesh;
+        dynamic_mesh_batch* _fade_batch;
+        basic_process* _textureless_process;
         //names and classes
         node_dictionary _by_name;
         node_dictionary _by_class;
@@ -90,6 +98,12 @@ namespace rb {
         node_without_transform* _new_template;
         vec2 _new_start_point;
         node* _current_new; //the current node being manipulated by the user
+        //fading..
+    private:
+        void create_fading_machinery();
+    public:
+        const color& fade_color() const;
+        const color& fade_color(const color& value);
     public:
         void enter_new_mode(const class type_descriptor* td);
         void exit_new_mode();

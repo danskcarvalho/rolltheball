@@ -22,7 +22,7 @@ void particle_emitter_component::after_becoming_active(bool node_was_moved){
     }
     _id = parent_layer()->particle_layer()->register_emitter(&_ei);
     parent_layer()->particle_layer()->reset_emitter(_id);
-    parent_layer()->particle_layer()->emitter_state(_id, in_editor() ? particle_state::showing : _state);
+    parent_layer()->particle_layer()->emitter_state(_id, in_editor() ? (node_container::in_editor_hidden() ? particle_state::hidden : particle_state::showing) : _state);
     if(in_editor()){
         _ei.duration = _saved_duration;
         _ei.delay = _saved_delay;
@@ -46,7 +46,7 @@ void particle_emitter_component::reset_emitter(){
 void particle_emitter_component::playing(){
     if(in_editor()){
         if(!is_playing()){
-            parent_layer()->particle_layer()->emitter_state(_id, particle_state::showing);
+            parent_layer()->particle_layer()->emitter_state(_id, node_container::in_editor_hidden() ? particle_state::hidden : particle_state::showing);
             parent_layer()->particle_layer()->emitter(_id)->duration = _editor_duration;
             parent_layer()->particle_layer()->emitter(_id)->delay = _editor_delay;
             parent_layer()->particle_layer()->emitter(_id)->loop = _editor_loop;
@@ -83,6 +83,18 @@ rb_string particle_emitter_component::displayable_type_name() const {
 
 rectangle particle_emitter_component::bounds() const {
     return rectangle(0, 0, 1, 1);
+}
+
+bool particle_emitter_component::in_editor_hidden(const bool value) {
+    auto _r = node::in_editor_hidden(value);
+    if(_id && in_editor() && !is_playing())
+    {
+        if(_r)
+            parent_layer()->particle_layer()->emitter_state(_id, particle_state::hidden);
+        else
+            parent_layer()->particle_layer()->emitter_state(_id, particle_state::showing);
+    }
+    return _r;
 }
 
 particle_emitter_component::particle_emitter_component(){

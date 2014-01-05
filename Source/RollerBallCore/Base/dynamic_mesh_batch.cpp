@@ -51,171 +51,24 @@ dynamic_mesh_batch::~dynamic_mesh_batch(){
 #endif
     }
 }
-dynamic_mesh_batch::mesh_range::mesh_range(){
-    _parent = nullptr;
-}
-dynamic_mesh_batch::const_iterator dynamic_mesh_batch::mesh_range::begin() const{
-    return _begin;
-}
-dynamic_mesh_batch::const_iterator dynamic_mesh_batch::mesh_range::end() const{
-    if(!_parent)
-        return _end;
-    else {
-        if(_end == _parent->_meshes.end())
-            return _end;
-        else
-            return std::next(_end);
-    }
-}
-
-void dynamic_mesh_batch::mesh_range::move_before(const mesh_range& other){
-    if(!_parent)
-        return;
-    
-    auto _it = begin();
-    auto _old_end = end();
-    auto _ins_point = other.begin();
-    
-    nullable<const_iterator> _new_begin;
-    const_iterator _new_end;
-    
-    while (_it != _old_end) {
-        auto _m = *_it;
-        _it = _parent->_meshes.erase(_it);
-        _parent->_mesh_pos_map[_m] = _parent->_meshes.insert(_ins_point, _m);
-        if(_it == _old_end)
-            _new_end = _parent->_mesh_pos_map[_m];
-        if(!_new_begin.has_value())
-            _new_begin = _parent->_mesh_pos_map[_m];
-    }
-    
-    assert(_new_begin.has_value());
-    _begin = _new_begin.value();
-    _end = _new_end;
-    _parent->_dirty = true;
-}
-void dynamic_mesh_batch::mesh_range::move_after(const mesh_range& other){
-    if(!_parent)
-        return;
-    
-    auto _it = begin();
-    auto _old_end = end();
-    auto _ins_point = other.end();
-    
-    nullable<const_iterator> _new_begin;
-    const_iterator _new_end;
-    
-    while (_it != _old_end) {
-        auto _m = *_it;
-        _it = _parent->_meshes.erase(_it);
-        _parent->_mesh_pos_map[_m] = _parent->_meshes.insert(_ins_point, _m);
-        if(_it == _old_end)
-            _new_end = _parent->_mesh_pos_map[_m];
-        if(!_new_begin.has_value())
-            _new_begin = _parent->_mesh_pos_map[_m];
-    }
-    
-    assert(_new_begin.has_value());
-    _begin = _new_begin.value();
-    _end = _new_end;
-    _parent->_dirty = true;
-}
-
 uint32_t dynamic_mesh_batch::mesh_count() const{
     return (uint32_t)_meshes.size();
 }
-const mesh* dynamic_mesh_batch::first_mesh() const{
-    if(_meshes.size() == 0)
-        return nullptr;
-    return _meshes.front();
-}
-mesh* dynamic_mesh_batch::first_mesh(){
-    if(_meshes.size() == 0)
-        return nullptr;
-    return _meshes.front();
-}
-const mesh* dynamic_mesh_batch::last_mesh() const{
-    if(_meshes.size() == 0)
-        return nullptr;
-    return _meshes.back();
-}
-mesh* dynamic_mesh_batch::last_mesh(){
-    if(_meshes.size() == 0)
-        return nullptr;
-    return _meshes.back();
-}
-void dynamic_mesh_batch::remove_meshes(const mesh_range& r){
-    auto _it = r.begin();
-    while (_it != r.end()) {
-        _mesh_pos_map.erase(*_it);
-        _it = _meshes.erase(_it);
-        _dirty = true;
-    }
-}
-void dynamic_mesh_batch::add_mesh_before(mesh* m, const mesh_range& r){
-    assert(_mesh_pos_map.count(m) == 0);
-    _mesh_pos_map.insert({m, _meshes.insert(r.begin(), m)});
-    _dirty = true;
-}
-void dynamic_mesh_batch::add_mesh_after(mesh* m, const mesh_range& r){
-    assert(_mesh_pos_map.count(m) == 0);
-    auto _end = r.end();
-    _mesh_pos_map.insert({m, _meshes.insert(_end, m)});
-    _dirty = true;
-}
 void dynamic_mesh_batch::add_mesh(mesh* m){
-    assert(_mesh_pos_map.count(m) == 0);
     _meshes.push_back(m);
-    _mesh_pos_map.insert({m, std::prev(_meshes.end())});
     _dirty = true;
 }
 void dynamic_mesh_batch::clear_meshes(){
     _meshes.clear();
-    _mesh_pos_map.clear();
     _dirty = true;
 }
 
-void dynamic_mesh_batch::range(const mesh* start, const mesh* end, mesh_range& r){
-    auto _start = const_cast<mesh*>(start);
-    auto _end =const_cast<mesh*>(end);
-    assert(_mesh_pos_map.count(const_cast<mesh*>(_start)) != 0);
-    assert(_mesh_pos_map.count(const_cast<mesh*>(_end)) != 0);
-    
-    auto _start_it = _mesh_pos_map.at(_start);
-    auto _end_it = _mesh_pos_map.at(_end);
-#if defined(DEBUG)
-    auto _test = _start_it;
-    bool _reached_end = false;
-    while (_test != _meshes.end()) {
-        if(_test == _end_it){
-            _reached_end = true;
-            break;
-        }
-        _test++;
-    }
-    assert(_reached_end);
-#endif
-    r._begin = _start_it;
-    r._end = _end_it;
-    r._parent = this;
-}
 bool dynamic_mesh_batch::contains_mesh(const mesh* m) const{
-    auto _m = const_cast<mesh*>(m);
-    return _mesh_pos_map.count(_m) != 0;
-}
-void dynamic_mesh_batch::range(const mesh* m, mesh_range& r){
-    auto _m = const_cast<mesh*>(m);
-    assert(_mesh_pos_map.count(const_cast<mesh*>(_m)) != 0);
-    
-    auto _m_it = _mesh_pos_map.at(_m);
-    r._begin = _m_it;
-    r._end = _m_it;
-    r._parent = this;
-}
-void dynamic_mesh_batch::entire_range(mesh_range& r){
-    r._begin = _meshes.begin();
-    r._end = _meshes.end();
-    r._parent = this;
+    for (auto _item : _meshes){
+        if(_item == m)
+            return true;
+    }
+    return false;
 }
 
 void move_indexes(uint16_t* buffer, const uint16* source, size_t size, uint16_t vb_offset){
