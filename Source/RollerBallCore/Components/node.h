@@ -115,6 +115,9 @@ namespace rb {
         bool enabled(const node_capability capability) const;
         
         //Playing/Pause
+    private:
+        void scene_playing();
+        void scene_paused();
     protected:
         virtual void playing();
         virtual void paused();

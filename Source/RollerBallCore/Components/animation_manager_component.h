@@ -17,17 +17,17 @@
 namespace rb {
     class animation_function;
     struct animation_info {
-        float initial_delay;
-        float delay;
-        float duration;
+        float initial_delay = 0;
+        float delay = 0;
+        float duration = 0;
         animation_state state;
-        int loop_count;
-        bool mirror;
-        bool auto_destroy;
-        animation_function* time_function;
+        int loop_count = 0;
+        bool mirror = false;
+        bool auto_destroy = false;
+        animation_function* time_function = nullptr;
         std::function<void (float, animation_info*)> update_function;
         std::function<void (animation_info*)> destroy_function;
-        void* user_data;
+        void* user_data = nullptr;
         animation_info();
     };
     typedef void* animation_id;

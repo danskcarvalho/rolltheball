@@ -568,11 +568,12 @@ UpdateEmitterAgain:
         einfo->einfo.initialized = true;
     }
     
-    einfo->delay_remaining -= dt;
-    if(einfo->delay_remaining <= 0)
-        einfo->delay_remaining = 0;
-    else
-        return; //still there is delay
+    if(einfo->delay_remaining != 0){
+        einfo->delay_remaining -= dt;
+        if(einfo->delay_remaining <= 0)
+            einfo->delay_remaining = 0;
+        return;
+    }
     
     if(einfo->duration_remaining != INFINITE_DURATION){
         einfo->duration_remaining -= dt;

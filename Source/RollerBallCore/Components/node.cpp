@@ -340,6 +340,22 @@ bool node::bring_forward(node* n){
 }
 
 //Playing/Pause
+void node::scene_playing(){
+    playing();
+    for (auto _n : *this)
+    {
+        _n->scene_playing();
+    }
+}
+
+void node::scene_paused(){
+    paused();
+    for (auto _n : *this)
+    {
+        _n->scene_paused();
+    }
+}
+
 void node::playing(){
     
 }

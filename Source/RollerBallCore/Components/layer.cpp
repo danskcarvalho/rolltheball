@@ -245,9 +245,9 @@ void layer::playing(const bool value) {
     
     for (auto _n : *this){
         if(_now)
-            _n->playing();
+            _n->scene_playing();
         else
-            _n->paused();
+            _n->scene_paused();
     }
 }
 
@@ -259,9 +259,9 @@ void layer::scene_playing(){
     for (auto _n : *this)
     {
         if(_now)
-            _n->playing();
+            _n->scene_playing();
         else
-            _n->paused();
+            _n->scene_paused();
     }
 }
 
@@ -280,9 +280,9 @@ void layer::scene_paused(){
         return;
     for (auto _n : *this){
         if (_now)
-            _n->playing();
+            _n->scene_playing();
         else
-            _n->paused();
+            _n->scene_paused();
     }
 }
 
@@ -536,7 +536,7 @@ void layer::render(){
     if(_particle_layer && !is_hidden_in_editor())
         _particle_layer->render();
     
-    if(parent_scene()->_gizmo_layer){
+    if(parent_scene()->_gizmo_layer && parent_scene()->in_editor() && !parent_scene()->playing()){
         setup_processes_for_gizmo_layer();
         for (auto _child : *this){
             if(_child->renderable() && !_child->_new_template && !is_hidden_in_editor() && !_child->is_hidden_in_editor())

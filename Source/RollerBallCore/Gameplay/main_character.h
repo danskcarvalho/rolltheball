@@ -13,23 +13,26 @@
 #include "node.h"
 #include "circle.h"
 #include "touch.h"
+#include "resettable_component.h"
 #include <Box2D/Box2D.h>
 
 class b2World;
 class b2Body;
 
 namespace rb {
-    class sprite_component;
+    class destructible_sprite_component;
     class physics_shape;
     class animation_manager_component;
+    class particle_emitter_component;
+    class base_enemy;
     typedef void* animation_id;
-    class main_character : public node, public b2ContactListener {
+    class main_character : public node, public b2ContactListener, public resettable_component {
     private:
         //touches
         std::vector<std::tuple<touch, uint32_t, vec2>> _touches; //current touches (touch, duration in frames, last position, velocity)
         uint32_t _ended_touches;
         //others
-        sprite_component* _sprite;
+        destructible_sprite_component* _sprite;
         physics_shape* _current_gZone;
         b2World* _world;
         b2Body* _body;
@@ -53,12 +56,26 @@ namespace rb {
         uint64_t _frame_count;
         nullable<uint64_t> _clear_jump;
         nullable<uint64_t> _clear_rev_jump;
-        //animation
+        //shake animation
         animation_manager_component* _an_manager;
         animation_id _shake_camera_an;
         float _camera_x_shake;
+        //dying
+        bool _died;
+        vec2 _gravity_died;
+        transform_space _camera_died;
+        animation_id _die_an;
+        particle_emitter_component* _die_emitter;
+        std::vector<vec2> _parts_velocities;
+        //resetting
+        bool _resetted;
+        transform_space _saved_camera;
+        transform_space _saved_transform;
+    protected:
+        virtual void reset_component() override;
     private:
         void shake_camera(float t);
+        void die_animation(float t);
     public:
         main_character();
         ~main_character();
@@ -101,6 +118,10 @@ namespace rb {
         virtual void touches_moved(const std::vector<touch>& touches, bool& swallow) override;
         virtual void touches_ended(const std::vector<touch>& touches, bool& swallow) override;
         virtual void touches_cancelled(const std::vector<touch>& touches, bool& swallow) override;
+        //die
+    public:
+        void die();
+        bool check_die();
         //shake camera
     public:
         void shake_camera();

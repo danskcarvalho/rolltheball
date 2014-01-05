@@ -659,8 +659,8 @@ void node_container::was_deserialized(){
             this->parent()->remove_from_selection(dynamic_cast<node*>(this));
     }
     
-    if(dynamic_cast<node*>(this)){
-        auto _n = dynamic_cast<node*>(this);
+    auto _n = dynamic_cast<node*>(this);
+    if(_n && _n->parent_scene()){
         if(_n->name() != u"")
             _n->parent_scene()->add_named_node(_n->name(), _n);
         

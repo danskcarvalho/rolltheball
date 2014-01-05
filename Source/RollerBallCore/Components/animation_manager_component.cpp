@@ -136,22 +136,16 @@ void animation_manager_component::run_animation(rb::animation_manager_component:
     
     if(ai->initial_delay_remaining > 0){
         ai->initial_delay_remaining -= dt;
-        if(ai->initial_delay_remaining <= 0){
+        if(ai->initial_delay_remaining <= 0)
             ai->initial_delay_remaining = 0;
-            return;
-        }
-        else
-            return;
+        return;
     }
     
     if(ai->delay_remaining > 0){
         ai->delay_remaining -= dt;
-        if(ai->delay_remaining <= 0){
+        if(ai->delay_remaining <= 0)
             ai->delay_remaining = 0;
-            return;
-        }
-        else
-            return;
+        return;
     }
     
     if(ai->duration_remaining <= 0)
@@ -190,8 +184,9 @@ void animation_manager_component::run_animation(rb::animation_manager_component:
     }
     
     
-    if (_ended){
+    if (_ended && ai->ai.auto_destroy){
         destroy_animation(ai);
+        return;
     }
     if(_reset){
         ai->delay_remaining = ai->ai.delay;

@@ -166,6 +166,7 @@ void physics_shape::playing() {
                     _v[i] = b2Vec2(_p.x(), _p.y());
                 }
                 _c.CreateLoop(_v, _cached_pol.point_count());
+                delete [] _v;
                 _fDef.shape = &_c;
                 _body->CreateFixture(&_fDef);
             }
@@ -187,6 +188,7 @@ void physics_shape::playing() {
                 _v[i] = b2Vec2(_p.x(), _p.y());
             }
             _c.Set(_v, _cached_pol.point_count());
+            delete [] _v;
             _fDef.shape = &_c;
             _body->CreateFixture(&_fDef);
         }
