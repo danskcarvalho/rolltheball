@@ -761,7 +761,8 @@ static BOOL fAvoidLayout = NO;
     [self createUIFromObject:fRoot type:nil inside:grp forProperty:propertyName];
     [UIObjectSynchronizator setAvoidLayout:NO];
     [fRootGroup commitCollapsedState];
-    [self relayout];
+    //Maybe it's not needed...
+    //[self relayout];
     [self clearLayout:fRootGroup];
 }
 

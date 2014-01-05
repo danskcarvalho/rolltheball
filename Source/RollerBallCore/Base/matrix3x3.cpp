@@ -68,9 +68,9 @@ const matrix3x3& matrix3x3::operator*=(const rb::matrix3x3 &other){
     _y_vector.y(m11);
     _translation.y(m12);
     
-    _x_vector.snap();
-    _y_vector.snap();
-    _translation.snap();
+    //_x_vector.snap();
+    //_y_vector.snap();
+    //_translation.snap();
     
     return *this;
 }
@@ -92,9 +92,9 @@ matrix3x3 rb::operator*(const matrix3x3 & first, const matrix3x3 & second){
     float m12 = l1[0]*c2[0] + l1[1]*c2[1] + l1[2]*c2[2];
     
     auto _result = matrix3x3(vec2(m00, m10), vec2(m01, m11), vec2(m02, m12));
-    _result._x_vector.snap();
-    _result._y_vector.snap();
-    _result._translation.snap();
+//    _result._x_vector.snap();
+//    _result._y_vector.snap();
+//    _result._translation.snap();
     return _result;
 }
 
@@ -323,7 +323,8 @@ mesh matrix3x3::transformed_mesh(const mesh& m) const{
 }
 mesh& matrix3x3::transform_mesh(mesh& m) const{
     m.lock_vertex_buffer([this, &m](vertex* vb) {
-        for (int i = 0; i < m.vertex_count(); i++) {
+        auto _vb_count = m.vertex_count();
+        for (int i = 0; i < _vb_count; i++) {
             float _x = vb[i].x;
             vb[i].x = _x_vector.x() * _x + _y_vector.x() * vb[i].y + _translation.x();
             vb[i].y = _x_vector.y() * _x + _y_vector.y() * vb[i].y + _translation.y();

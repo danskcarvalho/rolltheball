@@ -275,10 +275,10 @@ float color::v() const{
     return fmaxf(fmaxf(_r, _g), _b);
 }
 uint32_t color::packed_rgba() const{
-    auto _pr = std::min((int32_t)roundf(_r * 255.0f), 255);
-    auto _pg = std::min((int32_t)roundf(_g * 255.0f), 255);
-    auto _pb = std::min((int32_t)roundf(_b * 255.0f), 255);
-    auto _pa = std::min((int32_t)roundf(_a * 255.0f), 255);
+    auto _pr = (int32_t)(_r * 255.0f) & 0xFF;
+    auto _pg = (int32_t)(_g * 255.0f) & 0xFF;
+    auto _pb = (int32_t)(_b * 255.0f) & 0xFF;
+    auto _pa = (int32_t)(_a * 255.0f) & 0xFF;
     return (_pr <<  0) | (_pg << 8) | (_pb << 16) | (_pa << 24);
 }
 

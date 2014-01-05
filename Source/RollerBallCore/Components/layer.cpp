@@ -533,7 +533,7 @@ void layer::render(){
     }
     _dynamic_batch->draw();
     
-    if(_particle_layer)
+    if(_particle_layer && !is_hidden_in_editor())
         _particle_layer->render();
     
     if(parent_scene()->_gizmo_layer){

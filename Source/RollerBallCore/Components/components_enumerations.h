@@ -131,6 +131,11 @@ namespace rb {
         paused = 2,
         stopped = 0
     };
+    
+    enum class animation_state {
+        stopped = 0,
+        playing = 1
+    };
 }
 
 BEGIN_STRINGIFY_ENUM(node_filter)

@@ -38,6 +38,7 @@ namespace rb {
         //Typed Object
         virtual void describe_type() override;
     public:
+        virtual bool in_editor_hidden(const bool value) override;
         virtual rb_string type_name() const override;
         virtual rb_string displayable_type_name() const override;
         virtual void render(const bool refill_buffers) override;

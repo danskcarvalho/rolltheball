@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		450323601874817000B0FB6B /* animation_function.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4503235E1874817000B0FB6B /* animation_function.cpp */; };
+		450323611874817000B0FB6B /* animation_function.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4503235E1874817000B0FB6B /* animation_function.cpp */; };
+		4503236418748DB200B0FB6B /* animation_manager_component.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4503236218748DB200B0FB6B /* animation_manager_component.cpp */; };
+		4503236518748DB200B0FB6B /* animation_manager_component.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4503236218748DB200B0FB6B /* animation_manager_component.cpp */; };
 		450FBFA3161B9185001B3BF2 /* texture_atlas.mm in Sources */ = {isa = PBXBuildFile; fileRef = 450FBFA1161B9185001B3BF2 /* texture_atlas.mm */; };
 		450FBFA4161B9185001B3BF2 /* texture_atlas.mm in Sources */ = {isa = PBXBuildFile; fileRef = 450FBFA1161B9185001B3BF2 /* texture_atlas.mm */; };
 		450FBFA5161B9185001B3BF2 /* texture_atlas.mm in Sources */ = {isa = PBXBuildFile; fileRef = 450FBFA1161B9185001B3BF2 /* texture_atlas.mm */; };
@@ -760,6 +764,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		4503235E1874817000B0FB6B /* animation_function.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = animation_function.cpp; path = Components/animation_function.cpp; sourceTree = "<group>"; };
+		4503235F1874817000B0FB6B /* animation_function.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = animation_function.h; path = Components/animation_function.h; sourceTree = "<group>"; };
+		4503236218748DB200B0FB6B /* animation_manager_component.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = animation_manager_component.cpp; path = Components/animation_manager_component.cpp; sourceTree = "<group>"; };
+		4503236318748DB200B0FB6B /* animation_manager_component.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = animation_manager_component.h; path = Components/animation_manager_component.h; sourceTree = "<group>"; };
 		4506BD7216232078009AA030 /* basic_shader_with_wrapping.fsh */ = {isa = PBXFileReference; explicitFileType = sourcecode.glsl; name = basic_shader_with_wrapping.fsh; path = Shaders/basic_shader_with_wrapping.fsh; sourceTree = "<group>"; };
 		450FBFA1161B9185001B3BF2 /* texture_atlas.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = texture_atlas.mm; path = Base/texture_atlas.mm; sourceTree = "<group>"; };
 		450FBFA2161B9185001B3BF2 /* texture_atlas.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = texture_atlas.h; path = Base/texture_atlas.h; sourceTree = "<group>"; };
@@ -25639,6 +25647,8 @@
 				4539F5861868D1BA0078DB6B /* particle_layer.cpp */,
 				458969C5186F2CD400BAFDBB /* particle_emitter_component.cpp */,
 				45F3117B18720D4100BE67EA /* particle_emitter_component_properties.cpp */,
+				4503235E1874817000B0FB6B /* animation_function.cpp */,
+				4503236218748DB200B0FB6B /* animation_manager_component.cpp */,
 			);
 			name = Components;
 			sourceTree = "<group>";
@@ -25646,6 +25656,7 @@
 		45777507162C8406002EB77C /* Include */ = {
 			isa = PBXGroup;
 			children = (
+				4503236318748DB200B0FB6B /* animation_manager_component.h */,
 				458969C6186F2CD400BAFDBB /* particle_emitter_component.h */,
 				457EFAD0177B78DA0042AF9F /* texture_atlas_loader.h */,
 				458A013F1778974F00E8D7AD /* Resolutions.h */,
@@ -25678,6 +25689,7 @@
 				4563CBDC165D93B900F38B64 /* components_external.h */,
 				458CE15116DE4003006C5D03 /* observer.h */,
 				4570F63C16E01C000093102F /* CppBridgeProtocol.h */,
+				4503235F1874817000B0FB6B /* animation_function.h */,
 			);
 			name = Include;
 			sourceTree = "<group>";
@@ -26079,6 +26091,7 @@
 				4567719115F040BA00C91B3C /* b2RevoluteJoint.cpp in Sources */,
 				4567719515F040BA00C91B3C /* b2RopeJoint.cpp in Sources */,
 				4567719915F040BA00C91B3C /* b2WeldJoint.cpp in Sources */,
+				4503236518748DB200B0FB6B /* animation_manager_component.cpp in Sources */,
 				4567719D15F040BA00C91B3C /* b2WheelJoint.cpp in Sources */,
 				456771A115F040BA00C91B3C /* b2Rope.cpp in Sources */,
 				456771A515F040BA00C91B3C /* Triangulate.cpp in Sources */,
@@ -26131,6 +26144,7 @@
 				452FEB6B164AF56F0002A601 /* layer.cpp in Sources */,
 				452FEB7A164B03B70002A601 /* director.mm in Sources */,
 				456D7505164C26670022FC12 /* node_container.cpp in Sources */,
+				450323611874817000B0FB6B /* animation_function.cpp in Sources */,
 				4525275B165BE6DA0035C8AE /* scene_interactions.cpp in Sources */,
 				4563A488165D6B0400F38B64 /* sprite_component.cpp in Sources */,
 				458CE14616DE150D006C5D03 /* type_descriptor.cpp in Sources */,
@@ -26356,6 +26370,7 @@
 				4567719C15F040BA00C91B3C /* b2WheelJoint.cpp in Sources */,
 				456771A015F040BA00C91B3C /* b2Rope.cpp in Sources */,
 				456771A415F040BA00C91B3C /* Triangulate.cpp in Sources */,
+				4503236418748DB200B0FB6B /* animation_manager_component.cpp in Sources */,
 				45DDCE8B15F25A0B00DA33F5 /* vec2.cpp in Sources */,
 				45C68E9A15F2FF5A00E1637B /* platform.mm in Sources */,
 				455730F415F3ECFB00730BBD /* compute_hash.cpp in Sources */,
@@ -26408,6 +26423,7 @@
 				452FEB79164B03B70002A601 /* director.mm in Sources */,
 				456D7504164C26670022FC12 /* node_container.cpp in Sources */,
 				4525275A165BE6DA0035C8AE /* scene_interactions.cpp in Sources */,
+				450323601874817000B0FB6B /* animation_function.cpp in Sources */,
 				4563A487165D6B0400F38B64 /* sprite_component.cpp in Sources */,
 				458CE14516DE150D006C5D03 /* type_descriptor.cpp in Sources */,
 				458CE14A16DE2E78006C5D03 /* typed_object.cpp in Sources */,

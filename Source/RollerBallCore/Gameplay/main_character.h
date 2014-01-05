@@ -21,6 +21,8 @@ class b2Body;
 namespace rb {
     class sprite_component;
     class physics_shape;
+    class animation_manager_component;
+    typedef void* animation_id;
     class main_character : public node, public b2ContactListener {
     private:
         //touches
@@ -46,10 +48,17 @@ namespace rb {
         //Camera
         nullable<circle> _cam_focus;
         float _cam_focus_velocity;
+        vec2 _cam_scale;
         //Frame
         uint64_t _frame_count;
         nullable<uint64_t> _clear_jump;
         nullable<uint64_t> _clear_rev_jump;
+        //animation
+        animation_manager_component* _an_manager;
+        animation_id _shake_camera_an;
+        float _camera_x_shake;
+    private:
+        void shake_camera(float t);
     public:
         main_character();
         ~main_character();
@@ -92,6 +101,11 @@ namespace rb {
         virtual void touches_moved(const std::vector<touch>& touches, bool& swallow) override;
         virtual void touches_ended(const std::vector<touch>& touches, bool& swallow) override;
         virtual void touches_cancelled(const std::vector<touch>& touches, bool& swallow) override;
+        //shake camera
+    public:
+        void shake_camera();
+        const vec2& camera_scale() const;
+        const vec2& camera_scale(const vec2& value);
     };
 }
 

@@ -13,6 +13,8 @@
 #include "scene.h"
 #include "physics_shape.h"
 #include "destructible_sprite_component.h"
+#include "animation_manager_component.h"
+#include "animation_function.h"
 #include <Box2D/Box2D.h>
 
 //Some constants
@@ -21,8 +23,8 @@
 #define PHYS_CHARACTER_JUMP 5.5f
 #define PHYS_CHARACTER_JUMP_COUNT 1
 //Camera Constants
-#define CAMERA_SCALE_X 6
-#define CAMERA_SCALE_Y 6
+#define CAMERA_SCALE_X 8
+#define CAMERA_SCALE_Y 8
 //Camera Linear Constants
 //Camera Linear Velocity
 #define CAMERA_LINEAR_ACCELERATION 0.015f
@@ -52,6 +54,10 @@
 #define kTouchDuration 1
 #define kTouchVelocity 2
 
+#define SHAKE_CAMERA_ANIM_DURATION 0.5f
+#define SHAKE_FREQUENCY 10.0f
+#define SHAKE_MAGNITUDE 0.15f
+
 using namespace rb;
 
 main_character::main_character(){
@@ -74,11 +80,17 @@ main_character::main_character(){
     //Camera
     _cam_focus_velocity = 0;
     _current_gZone = nullptr;
+    _cam_scale = vec2(CAMERA_SCALE_X, CAMERA_SCALE_Y);
     //Frame
     _frame_count = 0;
     _clear_jump = nullptr;
     _clear_rev_jump = nullptr;
     _ended_touches = 0;
+    //animation
+    _an_manager = nullptr;
+    //shake camera animation
+    _shake_camera_an = nullptr;
+    _camera_x_shake = 0;
 }
 
 main_character::~main_character(){
@@ -104,7 +116,24 @@ void main_character::describe_type(){
             site->damping(value);
         }
     });
+    vec2_property<main_character>(u"camera_scale", u"Cam Scale", true, {
+        [](const main_character* site){
+            return site->_cam_scale;
+        },
+        [](main_character* site, const vec2& value){
+            site->_cam_scale = value;
+        }
+    });
     end_type();
+}
+
+const vec2& main_character::camera_scale() const {
+    return _cam_scale;
+}
+
+const vec2& main_character::camera_scale(const vec2& value){
+    _cam_scale = value;
+    return _cam_scale;
 }
 
 rb_string main_character::type_name() const{
@@ -177,7 +206,7 @@ void main_character::update(float dt){
 void main_character::update_camera(const rb::vec2 &cam_gravity){
     auto _char_velocity = vec2(_body->GetLinearVelocity().x, _body->GetLinearVelocity().y).length();
     auto _current_camera = parent_scene()->camera();
-    auto _final_camera = transform_space::from_matrix(matrix3x3(cam_gravity.rotated90(rotation_direction::cw) * CAMERA_SCALE_X, cam_gravity * CAMERA_SCALE_Y, this->transform().origin()));
+    auto _final_camera = transform_space::from_matrix(matrix3x3(cam_gravity.rotated90(rotation_direction::cw) * _cam_scale.x(), cam_gravity * _cam_scale.y(), this->transform().origin()));
     
     if(!_cam_focus.has_value()){
         _cam_focus = circle(this->transform().origin(), CAMERA_LINEAR_FOCUS_RADIUS);
@@ -211,7 +240,8 @@ void main_character::update_camera(const rb::vec2 &cam_gravity){
     auto _final_up = vec2::slerp(_cam_focus_velocity, _current_up, _dest_up);
     
     
-    _final_camera = transform_space::from_matrix(matrix3x3(_final_up.rotated90(rotation_direction::cw) * CAMERA_SCALE_X, _final_up * CAMERA_SCALE_Y, _final_pos));
+    _final_camera = transform_space::from_matrix(matrix3x3(_final_up.rotated90(rotation_direction::cw) * _cam_scale.x(), _final_up * _cam_scale.y(), _final_pos));
+    _final_camera.origin(vec2(_final_camera.origin().x() + _camera_x_shake, _final_camera.origin().y() - _camera_x_shake));
     
     parent_scene()->camera(_final_camera);
 }
@@ -383,10 +413,24 @@ bool main_character::should_serialize_children() const {
     return false;
 }
 
+void main_character::shake_camera(float t){
+    float _angle = t * M_PI * 2;
+    _camera_x_shake = (1 - t) * SHAKE_MAGNITUDE * sinf(SHAKE_FREQUENCY * _angle);
+}
+
 void main_character::playing(){
     if(!_phys_initialized){
         auto _t = transform();
         _phys_initialized = true;
+        _an_manager = dynamic_cast<animation_manager_component*>(parent_scene()->node_with_name(u"Animation Manager"));
+        animation_info _ai;
+        _ai.duration = SHAKE_CAMERA_ANIM_DURATION;
+        _ai.state = animation_state::stopped;
+        _ai.update_function = [this](float t, animation_info* ai){
+            this->shake_camera(t);
+        };
+        _shake_camera_an = _an_manager->add_animation(&_ai);
+        
         auto _engine = dynamic_cast<physics_engine*>(parent_scene()->node_with_name(u"Physic's Engine"));
         _world = _engine->world();
         _world->SetContactListener(this);
@@ -414,7 +458,7 @@ void main_character::playing(){
         _fDef.shape = &_c;
         _body->CreateFixture(&_fDef);
         
-        parent_scene()->camera(parent_scene()->camera().scaled(CAMERA_SCALE_X, CAMERA_SCALE_Y).moved(this->transform().origin()));
+        parent_scene()->camera(parent_scene()->camera().scaled(_cam_scale.x(), _cam_scale.y()).moved(this->transform().origin()));
     }
 }
 
@@ -600,52 +644,51 @@ float main_character::damping(const float value) {
     return _damping = value;
 }
 
-void main_character::BeginContact(b2Contact *contact){
+template<class A, class B>
+std::tuple<A*, B*> get_objects(b2Contact* contact){
     auto _bA = contact->GetFixtureA()->GetBody();
     auto _bB = contact->GetFixtureB()->GetBody();
-    
-    //renew jumps
+
     auto _nA = (node*)_bA->GetUserData();
     auto _nB = (node*)_bB->GetUserData();
     
-    if(dynamic_cast<main_character*>(_nA) && dynamic_cast<physics_shape*>(_nB)){
-        auto _pB = dynamic_cast<physics_shape*>(_nB);
-        if(_pB->shape_type() == physics_shape::kStaticPlanet){
-            auto _ma = dynamic_cast<main_character*>(_nA);
-            if(!_ma->_didJump)
-                _ma->_jumpCount = PHYS_CHARACTER_JUMP_COUNT;
-        }
-    }
+    auto _a = dynamic_cast<A*>(_nA);
+    auto _b = dynamic_cast<B*>(_nB);
     
-    if(dynamic_cast<main_character*>(_nB) && dynamic_cast<physics_shape*>(_nA)){
-        auto _pA = dynamic_cast<physics_shape*>(_nA);
-        if(_pA->shape_type() == physics_shape::kStaticPlanet){
-            auto _mB = dynamic_cast<main_character*>(_nB);
-            if(!_mB->_didJump)
-                _mB->_jumpCount = PHYS_CHARACTER_JUMP_COUNT;
+    if(_a && _b)
+        return std::make_tuple(_a, _b);
+    
+    _a = dynamic_cast<A*>(_nB);
+    _b = dynamic_cast<B*>(_nA);
+    
+    if(_a && _b)
+        return std::make_tuple(_a, _b);
+    
+    return std::make_tuple<A*, B*>(nullptr, nullptr);
+}
+
+void main_character::BeginContact(b2Contact *contact){
+    auto _groundContact = get_objects<main_character, physics_shape>(contact);
+    
+    if(std::get<0>(_groundContact) && std::get<1>(_groundContact)){
+        auto _character = std::get<0>(_groundContact);
+        auto _ground = std::get<1>(_groundContact);
+        
+        if(_ground->shape_type() == physics_shape::kStaticPlanet){
+            if(!_character->_didJump)
+                _character->_jumpCount = PHYS_CHARACTER_JUMP_COUNT;
         }
     }
 }
 
 void main_character::EndContact(b2Contact *contact){
-    auto _bA = contact->GetFixtureA()->GetBody();
-    auto _bB = contact->GetFixtureB()->GetBody();
-
-    //renew gravity
-    auto _nA = (node*)_bA->GetUserData();
-    auto _nB = (node*)_bB->GetUserData();
+    auto _groundContact = get_objects<main_character, physics_shape>(contact);
     
-    if(dynamic_cast<main_character*>(_nA) && dynamic_cast<physics_shape*>(_nB)){
-        auto _pB = dynamic_cast<physics_shape*>(_nB);
-        if(_pB->shape_type() == physics_shape::kStaticGravityZone){
-            _pB->_active_gravity = true;
-        }
-    }
-    
-    if(dynamic_cast<main_character*>(_nB) && dynamic_cast<physics_shape*>(_nA)){
-        auto _pA = dynamic_cast<physics_shape*>(_nA);
-        if(_pA->shape_type() == physics_shape::kStaticGravityZone){
-            _pA->_active_gravity = true;
+    if(std::get<0>(_groundContact) && std::get<1>(_groundContact)){
+        auto _ground = std::get<1>(_groundContact);
+        
+        if(_ground->shape_type() == physics_shape::kStaticGravityZone){
+            _ground->_active_gravity = true;
         }
     }
 }

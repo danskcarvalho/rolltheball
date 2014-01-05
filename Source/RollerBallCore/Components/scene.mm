@@ -23,6 +23,8 @@
 #include "texture_atlas_loader.h"
 #include "scene_loader.h"
 #include "particle_layer.h"
+#include "dynamic_mesh_batch.h"
+#include "basic_process.h"
 
 using namespace rb;
 
@@ -73,6 +75,32 @@ scene::scene(){
     _new_template = nullptr;
     _current_new = nullptr;
     _delta_transform = transform_space(vec2::zero, vec2::zero, vec2::zero);
+    _fade_mesh = nullptr;
+    _fade_batch = nullptr;
+    _textureless_process = nullptr;
+    _fade_color = color::from_rgba(0, 0, 0, 0);
+}
+
+void scene::create_fading_machinery(){
+    if(!_fade_mesh){
+        _fade_mesh = new mesh();
+        rectangle _rc(0, 0, 2, 2);
+        _rc.to_mesh(*_fade_mesh, rectangle(0.5, 0.5, 1, 1));
+    }
+    
+    if(!_textureless_process){
+        _textureless_process = new basic_process(_program_manager);
+        _textureless_process->texture_sampler(nullptr);
+        _textureless_process->ambient_color(color::from_rgba(1, 1, 1, 1));
+        _textureless_process->position_transform(transform_space());
+        _textureless_process->texture_sampler(nullptr);
+    }
+    
+    if(!_fade_batch){
+        _fade_batch = new dynamic_mesh_batch();
+        _fade_batch->add_mesh(_fade_mesh);
+        _fade_batch->process(_textureless_process);
+    }
 }
 
 void scene::enter_new_mode(const class type_descriptor *td){
@@ -152,6 +180,12 @@ scene::~scene(){
         delete _m_y_axis;
     if(_texture_atlas)
         texture_atlas_loader::release_atlas(&_texture_atlas);
+    if(_fade_batch)
+        delete _fade_batch;
+    if(_textureless_process)
+        delete _textureless_process;
+    if(_fade_mesh)
+        delete _fade_mesh;
 }
 
 bool scene::in_editor() const {
@@ -527,6 +561,13 @@ void scene::render() {
         _gizmo_layer->geometry_type(geometry_type::triangle);
         _gizmo_layer->draw();
     }
+    
+    if(_fade_color.a() > 0){
+        create_fading_machinery();
+        _fade_mesh->set_color(_fade_color);
+        _fade_mesh->set_blend(0);
+        _fade_batch->draw();
+    }
 }
 
 void scene::render_selection_indicator(){
@@ -849,6 +890,14 @@ void scene::describe_type() {
         },
         [](scene* site, const color& value){
             site->selection_color(value);
+        }
+    });
+    color_property<scene>(u"fade_coloe", u"Fade Color", true, true, {
+        [](const scene* site){
+            return site->fade_color();
+        },
+        [](scene* site, const color& value){
+            site->fade_color(value);
         }
     });
     
@@ -1252,7 +1301,14 @@ uint32_t scene::remove_degenerated(){
     return (uint32_t)_nodes.size();
 }
 
+const color& scene::fade_color() const {
+    return _fade_color;
+}
 
+const color& scene::fade_color(const color& value){
+    _fade_color = value;
+    return _fade_color;
+}
 
 
 

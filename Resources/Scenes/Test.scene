@@ -8,8 +8,9 @@
 		<property value-a="1" value-b="0" value-g="0.7" value-r="0" name="gizmo_color" />
 		<property value-a="1" value-b="0" value-g="0.64" value-r="1" name="alternate_gizmo" />
 		<property value-a="1" value-b="1" value-g="1" value-r="1" name="selection_color" />
+		<property value-a="0" value-b="0" value-g="0" value-r="0" name="fade_coloe" />
 		<property value="0|" name="current" />
-		<property value="AAAAAIC0K0GAtCtBAAAAANsPyT87+a1BTH9tv4C0K0EAAAAAAAAAAIC0K0E7+a1BTH9tvwEAgD++1r49AAAAAAAAAAC+1r496bABwLMLsT0=" name="camera" />
+		<property value="AAAAAIC0K0GAtCtBAAAAANsPyT9pMbJBEjulv4C0K0EAAAAAAAAAAIC0K0FpMbJBEjulvwEAAAC+1r49AAAAAAAAAAC+1r49JtYEwONY9j0=" name="camera" />
 	</properties>
 	<children>
 		<child type-name="rb::layer">
@@ -79,9 +80,9 @@
 						<property is-null="true" name="m_copy" />
 						<property is-null="true" name="b" />
 						<property is-null="true" name="b" />
-						<property value="AQBwAAAAgD8AAIA/AAAAANsPyT8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" name="before" />
-						<property value="AQCAPwAAgD8AAIA/AAAAANsPyT8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" name="before_b" />
-						<property value="AQAAAAAAgD8AAIA/AAAAANsPyT8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAZQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" name="tx_space" />
+						<property value="AQAAAAAAgD8AAIA/AAAAANsPyT8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" name="before" />
+						<property value="AQAAAAAAgD8AAIA/AAAAANsPyT8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" name="before_b" />
+						<property value="AQAAAAAAgD8AAIA/AAAAANsPyT8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" name="tx_space" />
 						<property value="Static Gravity Zone" name="shape_type" />
 						<property value="10" name="gravity" />
 						<property is-null="true" name="gravity_reference" />
@@ -357,9 +358,9 @@
 						<property is-null="true" name="m_copy" />
 						<property is-null="true" name="b" />
 						<property is-null="true" name="b" />
-						<property value="ASJuPwAAgD8AAIA/AAAAANsPyT8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAABwiz0AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" name="before" />
-						<property value="AQCAPwAAgD8AAIA/AAAAANsPyT8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAAAibj8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" name="before_b" />
-						<property value="ASJuPwAAgD8AAIA/AAAAANsPyT8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAABwiz0AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" name="tx_space" />
+						<property value="AQAAAAAAgD8AAIA/AAAAANsPyT8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" name="before" />
+						<property value="AQAAAAAAgD8AAIA/AAAAANsPyT8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" name="before_b" />
+						<property value="AQAAAAAAgD8AAIA/AAAAANsPyT8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" name="tx_space" />
 						<property value="Static Gravity Zone" name="shape_type" />
 						<property value="10" name="gravity" />
 						<property is-null="true" name="gravity_reference" />
@@ -535,7 +536,7 @@
 						<property value-a="1" value-b="1" value-g="1" value-r="1" name="tint" />
 						<property value="1" name="blend" />
 						<property value-y="1" value-x="1" name="matrix" />
-						<property value="BgAAAAQAAAAAAAEAAgAAAAMAAQC9p6NBs/gpvwA0hTviLB4/AACAPwAAgD8ANIU7j+mwPpDBeT80cIs+/////yl4rkEEYh3A+Mt6P4/psD4AAIA/AACAPwA0hTuP6bA+kMF5PzRwiz7/////N8WxQQg0pL/4y3o/4iwePwAAgD8AAIA/ADSFO4/psD6QwXk/NHCLPv/////LWqBBj4zrvwA0hTuP6bA+AACAPwAAgD8ANIU7j+mwPpDBeT80cIs+/////w==" name="mesh" />
+						<property value="BgAAAAQAAAAAAAEAAgAAAAMAAQDQp6NBl/kpvwA0hTviLB4/AACAPwAAgD8ANIU7j+mwPpDBeT80cIs+/////zx4rkFjYh3A+Mt6P4/psD4AAIA/AACAPwA0hTuP6bA+kMF5PzRwiz7/////SsWxQaA0pL/4y3o/4iwePwAAgD8AAIA/ADSFO4/psD6QwXk/NHCLPv/////eWqBBOo3rvwA0hTuP6bA+AACAPwAAgD8ANIU7j+mwPpDBeT80cIs+/////w==" name="mesh" />
 						<property value="BgAAAAQAAAAAAAEAAgAAAAMAAQAAAAC/AAAAPwA0hTviLB4/AACAPwAAgD8ANIU7j+mwPpDBeT80cIs+/////wAAAD8AAAC/+Mt6P4/psD4AAIA/AACAPwA0hTuP6bA+kMF5PzRwiz7/////AAAAPwAAAD/4y3o/4iwePwAAgD8AAIA/ADSFO4/psD6QwXk/NHCLPv////8AAAC/AAAAvwA0hTuP6bA+AACAPwAAgD8ANIU7j+mwPpDBeT80cIs+/////w==" name="mesh_copy" />
 						<property value="AAAAAPNU7z/3jZ8/G0S+QOHgnT8uEKlBvOjHvxfX4T8McR6/TEHTPmePlj8uEKlBvOjHvwEAAABGMgE/n/WHPmpHNb5my0E/LxEvwSm+jcA=" name="before_transformation" />
 						<property value="false" name="collapsed" />
@@ -909,7 +910,7 @@
 						<property is-null="true" name="b" />
 						<property is-null="true" name="b" />
 						<property value="AAAAAK+ZyUCvmclAAAAAANsPyT/K2fVB2NN9P6+ZyUAAAAAAAAAAAK+ZyUDK2fVB2NN9PwEAAAAXiiI+AAAAAAAAAAAXiiI+cBicwPooIb4=" name="before" />
-						<property value="AQCAPwAAgD8AAIA/AAAAANsPyT8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" name="before_b" />
+						<property value="AQAAAAAAgD8AAIA/AAAAANsPyT8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" name="before_b" />
 						<property value="AAAAALWH8D21h/A9AAAAANsPyT8AAAAAAAAAALWH8D0AAAAAAAAAALWH8D0AAAAAAAAAAAEAAACBOwhBAAAAAAAAAACBOwhBAAAAAAAAAAA=" name="tx_space" />
 						<property value="Static Planet" name="shape_type" />
 						<property value="10" name="gravity" />
@@ -917,7 +918,7 @@
 						<property value="" name="planet_name" />
 						<property value="0" name="priority" />
 						<property value="true" name="invert_velocity" />
-						<property value="true" name="circular_planet" />
+						<property value="false" name="circular_planet" />
 					</properties>
 					<children>
 						<child type-name="rb::polygon_point_component">
@@ -3136,90 +3137,16 @@
 						</child>
 					</children>
 				</child>
-				<child type-name="particle_emitter_component">
+				<child type-name="rb::animation_manager_component">
 					<properties>
-						<property value="false" name="rb::in_editor_hidden" />
 						<property value="false" name="rb::selected" />
 						<property type-name="rb::component_id" name="rb::node_id">
 							<properties>
-								<property value="" name="name" />
-								<property value="" name="classes" />
+								<property value="Animation Manager" name="name" />
+								<property value="animationManager" name="classes" />
 							</properties>
 							<children />
 						</property>
-						<property type-name="rb::transformation_values" name="rb::transformation">
-							<properties>
-								<property value-y="3.65356" value-x="23.5542" name="translation" />
-								<property value-y="0.717113" value-x="0.717113" name="scale" />
-								<property value="false" name="uniform" />
-								<property value-y="90" value-x="0" name="rotation" />
-								<property value="true" name="orthogonal" />
-							</properties>
-							<children />
-						</property>
-						<property value="false" name="rb::blocked" />
-						<property name="reset" />
-						<property value="Showing" name="state" />
-						<property value="character" name="image_name" />
-						<property value="45" name="velocity_angle_01" />
-						<property value="90" name="velocity_angle_02" />
-						<property value="12" name="velocity_01" />
-						<property value="8" name="velocity_02" />
-						<property value="0" name="velocity_rate_01" />
-						<property value="0" name="velocity_rate_02" />
-						<property value="0" name="acceleration_angle_01" />
-						<property value="0" name="acceleration_angle_02" />
-						<property value="0" name="acceleration_01" />
-						<property value="0" name="acceleration_02" />
-						<property value="0" name="tangential_velocity_01" />
-						<property value="0" name="tangential_velocity_02" />
-						<property value="0" name="tangential_acceleration_01" />
-						<property value="0" name="tangential_acceleration_02" />
-						<property value="0" name="perpendicular_velocity_01" />
-						<property value="0" name="perpendicular_velocity_02" />
-						<property value="0" name="perpendicular_acceleration_01" />
-						<property value="0" name="perpendicular_acceleration_02" />
-						<property value-y="-10" value-x="0" name="gravity_acceleration" />
-						<property value="0" name="angle_01" />
-						<property value="0" name="angle_02" />
-						<property value="0" name="radial_velocity_01" />
-						<property value="0" name="radial_velocity_02" />
-						<property value="0" name="radial_acceleration_01" />
-						<property value="0" name="radial_acceleration_02" />
-						<property value="true" name="aspect_correction" />
-						<property value-y="1" value-x="1" name="size_01" />
-						<property value-y="1" value-x="1" name="size_02" />
-						<property value-y="0" value-x="0" name="size_rate_01" />
-						<property value-y="0" value-x="0" name="size_rate_02" />
-						<property value="true" name="uniform_size" />
-						<property value-y="0" value-x="0" name="max_size" />
-						<property value="1" name="opacity_01" />
-						<property value="1" name="opacity_02" />
-						<property value="-0.2" name="opacity_rate_01" />
-						<property value="-0.5" name="opacity_rate_02" />
-						<property value="0.5" name="blend_01" />
-						<property value="1" name="blend_02" />
-						<property value="-0.25" name="blend_rate_01" />
-						<property value="-0.5" name="blend_rate_02" />
-						<property value-a="1" value-b="0" value-g="0" value-r="1" name="start_color_01" />
-						<property value-a="1" value-b="1" value-g="0" value-r="1" name="start_color_02" />
-						<property value-a="1" value-b="1" value-g="0" value-r="0" name="end_color_01" />
-						<property value-a="1" value-b="1" value-g="0.812003" value-r="0.669707" name="end_color_02" />
-						<property value="0" name="start_color_mix_01" />
-						<property value="0" name="start_color_mix_02" />
-						<property value="0.6" name="color_mixing_velocity_01" />
-						<property value="0.25" name="color_mixing_velocity_02" />
-						<property value="4" name="life_01" />
-						<property value="4" name="life_02" />
-						<property value="0.1" name="inv_emission_rate" />
-						<property value="0" name="emission_radius_01" />
-						<property value="0" name="emission_radius_02" />
-						<property value="-1" name="duration" />
-						<property value="-1" name="editor_duration" />
-						<property value="0" name="delay" />
-						<property value="0" name="editor_delay" />
-						<property value="false" name="loop" />
-						<property value="true" name="editor_loop" />
 					</properties>
 					<children />
 				</child>

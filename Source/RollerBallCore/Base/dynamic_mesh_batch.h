@@ -20,13 +20,10 @@ namespace rb {
     class vertex;
     class static_mesh_batch;
     class dynamic_mesh_batch : public mesh_batch {
-    public:
-        typedef std::list<mesh*>::const_iterator const_iterator;
     private:
         //we don't track meshes... we imagine that a class is the owner of each mesh and is responsible for adding and removing meshes
         //from this class...
         std::list<mesh*, boost::fast_pool_allocator<mesh*>> _meshes;
-        std::unordered_map<mesh*, const_iterator, std::hash<mesh*>, std::equal_to<mesh*>, boost::pool_allocator<std::pair<mesh*, const_iterator>>> _mesh_pos_map;
         //initially we won't care about clipping because we won't have big worlds
         //blend mode
         blend_mode _blend_mode;
@@ -55,41 +52,15 @@ namespace rb {
         
         void realloc_buffers();
     public:
-        class mesh_range {
-        public:
-            friend class dynamic_mesh_batch;
-        private:
-            dynamic_mesh_batch* _parent;
-            const_iterator _begin;
-            const_iterator _end;
-        public:
-            mesh_range();
-            const_iterator begin() const;
-            const_iterator end() const;
-            
-            void move_before(const mesh_range& other);
-            void move_after(const mesh_range& other);
-        };
-    public:
         //constructors and destructors
         dynamic_mesh_batch();
         virtual ~dynamic_mesh_batch();
         
         //mesh management
         uint32_t mesh_count() const;
-        const mesh* first_mesh() const;
-        mesh* first_mesh();
-        const mesh* last_mesh() const;
-        mesh* last_mesh();
         bool contains_mesh(const mesh* m) const;
-        void remove_meshes(const mesh_range& r);
-        void add_mesh_before(mesh* m, const mesh_range& r);
-        void add_mesh_after(mesh* m, const mesh_range& r);
         void add_mesh(mesh* m);
         void clear_meshes();
-        void range(const mesh* start, const mesh* end, mesh_range& r);
-        void range(const mesh* m, mesh_range& r);
-        void entire_range(mesh_range& r);
         
         inline uint32_t vertex_count() const {
             return _vb_used;
