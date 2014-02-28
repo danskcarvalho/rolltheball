@@ -64,7 +64,7 @@ void animation_manager_component::describe_type(){
 }
 
 void animation_manager_component::after_becoming_active(bool node_was_moved){
-    register_for(registrable_event::update, 0);
+    register_for(registrable_event::update, ANIM_ENGINE_UPDATE_PRIORITY);
 }
 
 void animation_manager_component::before_becoming_inactive(bool node_was_moved){

@@ -13,6 +13,7 @@
 #include "nvnode.h"
 
 #define INFINITE_LOOP -1
+#define ANIM_ENGINE_UPDATE_PRIORITY -40000
 
 namespace rb {
     class animation_function;

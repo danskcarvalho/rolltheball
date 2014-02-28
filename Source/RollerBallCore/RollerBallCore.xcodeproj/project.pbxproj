@@ -193,6 +193,8 @@
 		455FD6951602030F002F1608 /* null_texture_map.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 455FD6911602030F002F1608 /* null_texture_map.cpp */; };
 		455FD6991602546B002F1608 /* ColorTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = 455FD6981602546B002F1608 /* ColorTests.mm */; };
 		455FD69E16025FCE002F1608 /* SmoothCurveTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = 455FD69D16025FCE002F1608 /* SmoothCurveTests.mm */; };
+		45611F841883040B009C16F1 /* polygon_path.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 45611F821883040B009C16F1 /* polygon_path.cpp */; };
+		45611F851883040B009C16F1 /* polygon_path.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 45611F821883040B009C16F1 /* polygon_path.cpp */; };
 		4563A487165D6B0400F38B64 /* sprite_component.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4563A485165D6B0400F38B64 /* sprite_component.cpp */; };
 		4563A488165D6B0400F38B64 /* sprite_component.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4563A485165D6B0400F38B64 /* sprite_component.cpp */; };
 		4563A489165D6B0400F38B64 /* sprite_component.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4563A485165D6B0400F38B64 /* sprite_component.cpp */; };
@@ -852,6 +854,8 @@
 		455FD6981602546B002F1608 /* ColorTests.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ColorTests.mm; sourceTree = "<group>"; };
 		455FD69A16025F11002F1608 /* SmoothCurveTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SmoothCurveTests.h; sourceTree = "<group>"; };
 		455FD69D16025FCE002F1608 /* SmoothCurveTests.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SmoothCurveTests.mm; sourceTree = "<group>"; };
+		45611F821883040B009C16F1 /* polygon_path.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = polygon_path.cpp; path = Base/polygon_path.cpp; sourceTree = "<group>"; };
+		45611F831883040B009C16F1 /* polygon_path.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = polygon_path.h; path = Base/polygon_path.h; sourceTree = "<group>"; };
 		4563A485165D6B0400F38B64 /* sprite_component.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = sprite_component.cpp; path = Components/sprite_component.cpp; sourceTree = "<group>"; };
 		4563A486165D6B0400F38B64 /* sprite_component.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = sprite_component.h; path = Components/sprite_component.h; sourceTree = "<group>"; };
 		4563CBDC165D93B900F38B64 /* components_external.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = components_external.h; path = Components/components_external.h; sourceTree = "<group>"; };
@@ -25815,6 +25819,7 @@
 		45C68E9015F2DEC700E1637B /* Include */ = {
 			isa = PBXGroup;
 			children = (
+				45611F831883040B009C16F1 /* polygon_path.h */,
 				45A0BD3F1774887D006919BE /* buffer.h */,
 				4576DF6C1624BD7F00DAA297 /* texture_layer.h */,
 				4563DDD21620B24400C831C0 /* render_target.h */,
@@ -25931,6 +25936,7 @@
 				4576DF6B1624BD7F00DAA297 /* texture_layer.cpp */,
 				4576DF711624C45E00DAA297 /* texture_composition.cpp */,
 				4576DF7A1624C94D00DAA297 /* composited_texture.cpp */,
+				45611F821883040B009C16F1 /* polygon_path.cpp */,
 			);
 			name = Base;
 			sourceTree = "<group>";
@@ -26176,6 +26182,7 @@
 				4525275B165BE6DA0035C8AE /* scene_interactions.cpp in Sources */,
 				4563A488165D6B0400F38B64 /* sprite_component.cpp in Sources */,
 				458CE14616DE150D006C5D03 /* type_descriptor.cpp in Sources */,
+				45611F851883040B009C16F1 /* polygon_path.cpp in Sources */,
 				458CE14B16DE2E78006C5D03 /* typed_object.cpp in Sources */,
 				458CE15316DE4003006C5D03 /* observer.cpp in Sources */,
 				4585F4CD16E60D0800B605C4 /* shapes.cc in Sources */,
@@ -26459,6 +26466,7 @@
 				4563A487165D6B0400F38B64 /* sprite_component.cpp in Sources */,
 				458CE14516DE150D006C5D03 /* type_descriptor.cpp in Sources */,
 				458CE14A16DE2E78006C5D03 /* typed_object.cpp in Sources */,
+				45611F841883040B009C16F1 /* polygon_path.cpp in Sources */,
 				458CE15216DE4003006C5D03 /* observer.cpp in Sources */,
 				4585F4CC16E60D0800B605C4 /* shapes.cc in Sources */,
 				4585F4CF16E60D0800B605C4 /* advancing_front.cc in Sources */,
