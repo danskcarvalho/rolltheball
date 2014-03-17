@@ -429,13 +429,13 @@ void typed_object::internal_end_serialization(){
 
 void typed_object::internal_was_deserialized(){
     std::vector<typed_object*> _objs;
-    if(should_serialize_children())
+//    if(should_serialize_children())
         fill_vector_with_children(_objs);
     was_deserialized();
-    if(should_serialize_children()){
+//    if(should_serialize_children()){
         for (auto _n : _objs)
             _n->internal_was_deserialized();
-    }
+//    }
 }
 
 void typed_object::serialize_to_url(const rb_string& url){
