@@ -12,6 +12,10 @@
 
 using namespace rb;
 
+polygon_path::polygon_path(){
+    _total_len = 0;
+}
+
 polygon_path::polygon_path(const class polygon& p){
     _polygon = p;
     _total_len = 0;
@@ -69,6 +73,19 @@ vec2 polygon_path::point_at(float l, size_t low_index, size_t hi_index) const {
         else
             return point_at(l, _mid_index_1, hi_index);
     }
+}
+
+float polygon_path::length(const rb::vec2 &pt) const {
+    uint32_t _e_i = 0;
+    auto _ce = _polygon.closest_edge(pt, _e_i); //closest edge
+    float _f = 0;
+    for (uint32_t i = 0; i < _e_i; i++)
+        _f += _polygon.get_edge(i).length();
+    auto _v = pt - _ce.pt0();
+    auto _vdir = _ce.pt1() - _ce.pt0();
+    _v.project(_vdir);
+    _f += _v.length();
+    return _f;
 }
 
 

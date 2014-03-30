@@ -48,7 +48,7 @@ bool extended_dynamic_mesh_batch::contains_mesh(const mesh* m) const{
     return false;
 }
 
-uint32_t extended_dynamic_mesh_batch::realloc_batches_for_process(uint32_t start_index, class process* p, const std::vector<mesh*, boost::pool_allocator<class mesh*>>& meshes){
+uint32_t extended_dynamic_mesh_batch::realloc_batches_for_process(uint32_t start_index, class process* p, const std::vector<mesh*>& meshes){
     
     //we calculate the needed number of batches
     size_t _n_vb = 0;
@@ -95,8 +95,8 @@ void extended_dynamic_mesh_batch::realloc_batches() {
         for (auto _b : _batches)
             _b->clear_meshes(); //removes all meshes...
         
-        typedef std::vector<mesh*, boost::pool_allocator<class mesh*>> mesh_vector;
-        std::unordered_map<class process*, mesh_vector, std::hash<class process*>, std::equal_to<class process*>, boost::pool_allocator<std::pair<class process*, mesh_vector>>>  _mesh_per_process;
+        typedef std::vector<mesh*> mesh_vector;
+        std::unordered_map<class process*, mesh_vector>  _mesh_per_process;
         
         for (auto _m : _meshes){
             auto _p = _mesh_proc_map[_m];

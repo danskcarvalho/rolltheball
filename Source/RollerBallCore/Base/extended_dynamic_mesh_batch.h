@@ -24,9 +24,8 @@ namespace rb {
     private:
         //we don't track meshes... we imagine that a class is the owner of each mesh and is responsible for adding and removing meshes
         //from this class...
-        std::list<mesh*, boost::fast_pool_allocator<mesh*>> _meshes;
-        std::unordered_map<mesh*, process*, std::hash<mesh*>, std::equal_to<mesh*>, boost::pool_allocator<std::pair<mesh*, process*>>>
-        _mesh_proc_map;
+        std::list<mesh*> _meshes;
+        std::unordered_map<mesh*, process*> _mesh_proc_map;
         //initially we won't care about clipping because we won't have big worlds
         //blend mode
         blend_mode _blend_mode;
@@ -40,7 +39,7 @@ namespace rb {
         geometry_type _geom_type;
         void realloc_batches();
         uint32_t realloc_batches_for_process(uint32_t start_index, class process* p,
-                                         const std::vector<mesh*, boost::pool_allocator<class mesh*>>& meshes);
+                                         const std::vector<mesh*>& meshes);
     public:
         //constructors and destructors
         extended_dynamic_mesh_batch();

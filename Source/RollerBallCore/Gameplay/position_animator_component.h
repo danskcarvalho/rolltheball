@@ -12,13 +12,25 @@
 #include "components_base.h"
 #include "nvnode.h"
 #include "resettable_component.h"
+#include "polygon_path.h"
 
 namespace rb {
     class position_animator_component : public nvnode, public resettable_component {
     private:
         std::vector<node*> _nodes;
+        std::vector<float> _lengths;
+        std::vector<float> _dirs;
+        std::unordered_map<node*, polygon_path> _paths;
+        std::unordered_map<node*, node*> _attached_path;
         std::vector<transform_space> _saved_transforms;
+        std::vector<float> _saved_lengths;
+        std::vector<float> _saved_dirs;
         rb_string _class;
+        rb_string _path_class;
+        
+        bool _clamp;
+        bool _invert;
+        float _velocity;
         float _asleep_duration;
         float _awake_duration;
         //bookkepping
@@ -45,6 +57,14 @@ namespace rb {
         bool paused_animation(bool value);
         const rb_string& animated_class() const;
         const rb_string& animated_class(const rb_string& value);
+        const rb_string& path_class() const;
+        const rb_string& path_class(const rb_string& value);
+        bool clamp() const;
+        bool clamp(bool value);
+        bool invert() const;
+        bool invert(bool value);
+        float velocity() const;
+        float velocity(float value);
         float asleep_duration() const;
         float asleep_duration(float value);
         float awake_duration() const;

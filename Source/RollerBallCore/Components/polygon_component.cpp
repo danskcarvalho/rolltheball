@@ -92,6 +92,7 @@ void polygon_point_component::transform_changed(){
             _p->_flags.type = polygon_component::kPolFreeform;
             _p->_flags.dirty_polygon = true;
             _p->_flags.dirty_border_polygon = true;
+            _p->_polygon.reset();
             if(active())
                 invalidate_buffers();
         }

@@ -31,13 +31,13 @@ void* composited_texture::create_image(const texture_composition* composition){
     if (!myImageSourceRef.resource()) {
         ERROR("failed loading texture reference: ", composition->base_texture());
         CGImageRelease(_blank_image);
-        return false;
+        return nullptr;
     }
     cg_resource myImageRef(CGImageSourceCreateImageAtIndex((CGImageSourceRef)myImageSourceRef.resource(), 0, NULL));
     if(!myImageRef.resource()){
         ERROR("failed loading image:", composition->base_texture());
         CGImageRelease(_blank_image);
-        return false;
+        return nullptr;
     }
     
     size_t width = CGImageGetWidth((CGImageRef)myImageRef.resource());

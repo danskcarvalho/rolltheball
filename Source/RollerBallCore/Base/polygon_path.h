@@ -20,10 +20,12 @@ namespace rb {
         float _total_len;
         vec2 point_at(float l, size_t low_index, size_t hi_index) const;
     public:
+        polygon_path();
         polygon_path(const polygon& p);
         const polygon& polygon() const;
         float length() const;
         vec2 point_at(float l, bool clamp) const;
+        float length(const vec2& pt) const;
     };
 }
 
