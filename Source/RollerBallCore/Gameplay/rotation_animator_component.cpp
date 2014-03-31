@@ -21,6 +21,8 @@ rotation_animator_component::rotation_animator_component(){
     _current_asleep = 0;
     _current_awake = 0;
     _saved_paused = false;
+    _min_angle = nullptr;
+    _max_angle = nullptr;
 }
 
 void rotation_animator_component::reset_component(){
@@ -60,6 +62,10 @@ void rotation_animator_component::update(float dt){
     for (auto _n : _nodes){
         auto _t = _n->transform();
         _t.rotate_by(vec2(_r_velocity * dt, _r_velocity * dt));
+        if(_min_angle.has_value() && _t.rotation().x() < _min_angle.value())
+            _t = _t.rotated(_min_angle.value(), _min_angle.value() + M_PI_2);
+        if(_max_angle.has_value() && _t.rotation().x() > _max_angle.value())
+            _t = _t.rotated(_max_angle.value(), _max_angle.value() + M_PI_2);
         _n->transform(_t);
     }
     
@@ -125,6 +131,36 @@ void rotation_animator_component::describe_type() {
             site->_r_velocity = TO_RADIANS(value);
         }
     });
+    nullable_single_property<rotation_animator_component>(u"min_angle", u"Min Angle", true, {
+        [](const rotation_animator_component* site){
+            auto _r = site->min_angle();
+            if(_r.has_value())
+                return (nullable<float>)TO_DEGREES(_r.value());
+            else
+                return _r;
+        },
+        [](rotation_animator_component* site, const nullable<float>& value){
+            if(value.has_value())
+                site->min_angle(TO_RADIANS(value.value()));
+            else
+                site->min_angle(nullptr);
+        }
+    });
+    nullable_single_property<rotation_animator_component>(u"max_angle", u"Max Angle", true, {
+        [](const rotation_animator_component* site){
+            auto _r = site->max_angle();
+            if(_r.has_value())
+                return (nullable<float>)TO_DEGREES(_r.value());
+            else
+                return _r;
+        },
+        [](rotation_animator_component* site, const nullable<float>& value){
+            if(value.has_value())
+                site->max_angle(TO_RADIANS(value.value()));
+            else
+                site->max_angle(nullptr);
+        }
+    });
     string_property<rotation_animator_component>(u"animated_class", u"Anim Class", true, false, {
         [](const rotation_animator_component* site){
             return site->animated_class();
@@ -180,7 +216,21 @@ float rotation_animator_component::rotation_velocity(float value){
     return _r_velocity = value;
 }
 
+const nullable<float>& rotation_animator_component::min_angle() const {
+    return _min_angle;
+}
 
+const nullable<float>& rotation_animator_component::min_angle(const nullable<float> &value){
+    return _min_angle = value;
+}
+
+const nullable<float>& rotation_animator_component::max_angle() const {
+    return _max_angle;
+}
+
+const nullable<float>& rotation_animator_component::max_angle(const nullable<float> &value){
+    return _max_angle = value;
+}
 
 
 

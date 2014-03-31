@@ -24,6 +24,8 @@ namespace rb {
         float _r_velocity;
         float _asleep_duration;
         float _awake_duration;
+        nullable<float> _min_angle;
+        nullable<float> _max_angle;
         //bookkepping
         bool _paused;
         float _current_asleep;
@@ -52,6 +54,10 @@ namespace rb {
         float asleep_duration(float value);
         float awake_duration() const;
         float awake_duration(float value);
+        const nullable<float>& min_angle() const;
+        const nullable<float>& min_angle(const nullable<float>& value);
+        const nullable<float>& max_angle() const;
+        const nullable<float>& max_angle(const nullable<float>& value);
     public:
         virtual void playing() override;
     };

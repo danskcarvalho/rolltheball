@@ -10,7 +10,7 @@
 		<property value-a="1" value-b="1" value-g="1" value-r="1" name="selection_color" />
 		<property value-a="0" value-b="0" value-g="0" value-r="0" name="fade_color" />
 		<property value="0|" name="current" />
-		<property value="AAAAAIAdVUGAHVVBAIC2vdunvT+RCsNBs5CMvwdFVEETupe/DrqXPwdFVEGRCsNBs5CMvwEAAACqJZk9Ie/aOxrv2ruqJZk9ckzqvwxspb0=" name="camera" />
+		<property value="AACAP4AdVUGAHVVBAAAAANsPyT+sGsJB/pC5v4AdVUEAAAAAAAAAAIAdVUGsGsJB/pC5vwEAAADYwZk9AAAAAAAAAADYwZk91Snpv1bo3j0=" name="camera" />
 	</properties>
 	<children>
 		<child type-name="rb::layer">
@@ -159,9 +159,9 @@
 						<property is-null="true" name="m_copy" />
 						<property is-null="true" name="b" />
 						<property is-null="true" name="b" />
-						<property value="AQAAAAAAgD8AAIA/AAAAANsPyT8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" name="before" />
-						<property value="AQAAAAAAgD8AAIA/AAAAANsPyT8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" name="before_b" />
-						<property value="AQAAAAAAgD8AAIA/AAAAANsPyT8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" name="tx_space" />
+						<property value="AQAAAAAAgD8AAIA/AAAAANsPyT8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAACSjwIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" name="before" />
+						<property value="ARIAAAAAgD8AAIA/AAAAANsPyT8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" name="before_b" />
+						<property value="ARIAAAAAgD8AAIA/AAAAANsPyT8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAAABNwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" name="tx_space" />
 						<property value="Static Gravity Zone" name="shape_type" />
 						<property value="10" name="gravity" />
 						<property is-null="true" name="gravity_reference" />
@@ -437,9 +437,9 @@
 						<property is-null="true" name="m_copy" />
 						<property is-null="true" name="b" />
 						<property is-null="true" name="b" />
-						<property value="AZk4jwAAgD8AAIA/AAAAANsPyT8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAAB/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" name="before" />
-						<property value="AWU8jwAAgD8AAIA/AAAAANsPyT8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" name="before_b" />
-						<property value="AX8AAAAAgD8AAIA/AAAAANsPyT8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAACaNI8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" name="tx_space" />
+						<property value="AQBwAAAAgD8AAIA/AAAAANsPyT8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" name="before" />
+						<property value="AQCAPwAAgD8AAIA/AAAAANsPyT8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" name="before_b" />
+						<property value="AQAAAAAAgD8AAIA/AAAAANsPyT8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAZQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" name="tx_space" />
 						<property value="Static Gravity Zone" name="shape_type" />
 						<property value="10" name="gravity" />
 						<property is-null="true" name="gravity_reference" />
@@ -615,7 +615,7 @@
 						<property value-a="1" value-b="1" value-g="1" value-r="1" name="tint" />
 						<property value="1" name="blend" />
 						<property value-y="1" value-x="1" name="matrix" />
-						<property value="BgAAAAQAAAAAAAEAAgAAAAMAAQAcqKNB2/wpvwA0hTs5gRM/AACAPwAAgD8ANIU7UPqkPpDBeT8hCII+/////4h4rkGTYx3A+Mt6P1D6pD4AAIA/AACAPwA0hTtQ+qQ+kMF5PyEIgj7/////lsWxQbQ2pL/4y3o/OYETPwAAgD8AAIA/ADSFO1D6pD6QwXk/IQiCPv////8qW6BBTo/rvwA0hTtQ+qQ+AACAPwAAgD8ANIU7UPqkPpDBeT8hCII+/////w==" name="mesh" />
+						<property value="BgAAAAQAAAAAAAEAAgAAAAMAAQBFqKNBnv4pvwA0hTs5gRM/AACAPwAAgD8ANIU7UPqkPpDBeT8hCII+/////7F4rkE3ZB3A+Mt6P1D6pD4AAIA/AACAPwA0hTtQ+qQ+kMF5PyEIgj7/////v8WxQdM3pL/4y3o/OYETPwAAgD8AAIA/ADSFO1D6pD6QwXk/IQiCPv////9TW6BBbZDrvwA0hTtQ+qQ+AACAPwAAgD8ANIU7UPqkPpDBeT8hCII+/////w==" name="mesh" />
 						<property value="BgAAAAQAAAAAAAEAAgAAAAMAAQAAAAC/AAAAPwA0hTs5gRM/AACAPwAAgD8ANIU7UPqkPpDBeT8hCII+/////wAAAD8AAAC/+Mt6P1D6pD4AAIA/AACAPwA0hTtQ+qQ+kMF5PyEIgj7/////AAAAPwAAAD/4y3o/OYETPwAAgD8AAIA/ADSFO1D6pD6QwXk/IQiCPv////8AAAC/AAAAvwA0hTtQ+qQ+AACAPwAAgD8ANIU7UPqkPpDBeT8hCII+/////w==" name="mesh_copy" />
 						<property value="AAAAAPNU7z/3jZ8/G0S+QOHgnT8uEKlBvOjHvxfX4T8McR6/TEHTPmePlj8uEKlBvOjHvwEAAABGMgE/n/WHPmpHNb5my0E/LxEvwSm+jcA=" name="before_transformation" />
 						<property value="false" name="collapsed" />
@@ -3214,6 +3214,8 @@
 							<children />
 						</property>
 						<property value="180" name="rotation_velocity" />
+						<property is-null="true" name="min_angle" />
+						<property is-null="true" name="max_angle" />
 						<property value="saw" name="animated_class" />
 						<property value="false" name="paused_animation" />
 						<property value="0" name="asleep_duration" />
@@ -3232,6 +3234,8 @@
 							<children />
 						</property>
 						<property value="30" name="rotation_velocity" />
+						<property is-null="true" name="min_angle" />
+						<property value="90" name="max_angle" />
 						<property value="sawGroup" name="animated_class" />
 						<property value="false" name="paused_animation" />
 						<property value="0" name="asleep_duration" />
@@ -3252,7 +3256,7 @@
 						</property>
 						<property type-name="rb::transformation_values" name="rb::transformation">
 							<properties>
-								<property value-y="0.59895" value-x="13.5684" name="translation" />
+								<property value-y="0.811493" value-x="26.7275" name="translation" />
 								<property value-y="1" value-x="1" name="scale" />
 								<property value="false" name="uniform" />
 								<property value-y="90" value-x="0" name="rotation" />
@@ -3279,8 +3283,8 @@
 						</property>
 						<property type-name="rb::transformation_values" name="rb::transformation">
 							<properties>
-								<property value-y="-1.8437" value-x="19.4169" name="translation" />
-								<property value-y="0.00055" value-x="10.5852" name="scale" />
+								<property value-y="1.8121" value-x="17.2339" name="translation" />
+								<property value-y="1.32612" value-x="10.5852" name="scale" />
 								<property value="false" name="uniform" />
 								<property value-y="432.853" value-x="342.853" name="rotation" />
 								<property value="true" name="orthogonal" />
@@ -3292,7 +3296,7 @@
 						<property name="reset" />
 						<property value="true" name="visible" />
 						<property value="true" name="marker" />
-						<property value="false" name="opened" />
+						<property value="true" name="opened" />
 						<property value="1" name="opacity" />
 						<property value="false" name="smooth" />
 						<property value="0.1" name="smooth_quality" />
@@ -3308,44 +3312,17 @@
 						<property value="1" name="max_s" />
 						<property name="bool_operations" />
 						<property name="misc_operations" />
-						<property value="AiAAAA==" name="flags" />
-						<property value="AQAAAAQAAAAAAAC/AAAAPwAAAL8AAAC/AAAAPwAAAL8AAAA/AAAAPw==" name="polygon" />
+						<property value="AiABAA==" name="flags" />
+						<property value="AAAAAAMAAAAAAAC/AAAAvwAAAD8AAAC/IquTPwWG8L8=" name="polygon" />
 						<property is-null="true" name="m" />
 						<property is-null="true" name="m_copy" />
 						<property is-null="true" name="b" />
 						<property is-null="true" name="b" />
-						<property value="AQBjAAAAgD8AAIA/AAAAANsPyT8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" name="before" />
-						<property value="AQCAPwAAgD8AAIA/AAAAANsPyT8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAABgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" name="before_b" />
-						<property value="AWAAAAAAgD8AAIA/AAAAANsPyT8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAZAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" name="tx_space" />
+						<property value="AVYDAAAAgD8AAIA/AAAAANsPyT8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAABgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" name="before" />
+						<property value="ASYDAAAAgD8AAIA/AAAAANsPyT8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" name="before_b" />
+						<property value="AQAAAAAAgD8AAIA/AAAAANsPyT8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" name="tx_space" />
 					</properties>
 					<children>
-						<child type-name="rb::polygon_point_component">
-							<properties>
-								<property value="false" name="rb::in_editor_hidden" />
-								<property value="false" name="rb::selected" />
-								<property type-name="rb::component_id" name="rb::node_id">
-									<properties>
-										<property value="" name="name" />
-										<property value="" name="classes" />
-									</properties>
-									<children />
-								</property>
-								<property type-name="rb::transformation_values" name="rb::transformation">
-									<properties>
-										<property value-y="0.5" value-x="-0.5" name="translation" />
-										<property value-y="1" value-x="1" name="scale" />
-										<property value="false" name="uniform" />
-										<property value-y="90" value-x="0" name="rotation" />
-										<property value="true" name="orthogonal" />
-									</properties>
-									<children />
-								</property>
-								<property value="false" name="rb::blocked" />
-								<property name="make_itself_first" />
-								<property name="split" />
-							</properties>
-							<children />
-						</child>
 						<child type-name="rb::polygon_point_component">
 							<properties>
 								<property value="false" name="rb::in_editor_hidden" />
@@ -3413,7 +3390,7 @@
 								</property>
 								<property type-name="rb::transformation_values" name="rb::transformation">
 									<properties>
-										<property value-y="0.5" value-x="0.5" name="translation" />
+										<property value-y="-1.87909" value-x="1.15366" name="translation" />
 										<property value-y="1" value-x="1" name="scale" />
 										<property value="false" name="uniform" />
 										<property value-y="90" value-x="0" name="rotation" />
@@ -3442,7 +3419,7 @@
 						</property>
 						<property type-name="rb::transformation_values" name="rb::transformation">
 							<properties>
-								<property value-y="-3.39552" value-x="24.4035" name="translation" />
+								<property value-y="2.68167" value-x="12.1212" name="translation" />
 								<property value-y="3.08269" value-x="3.08269" name="scale" />
 								<property value="false" name="uniform" />
 								<property value-y="441.722" value-x="351.722" name="rotation" />
@@ -3465,11 +3442,11 @@
 							</properties>
 							<children />
 						</property>
-						<property value="1" name="velocity" />
+						<property value="2" name="velocity" />
 						<property value="posAnimSaw" name="animated_class" />
 						<property value="pathAnimSaw" name="path_class" />
 						<property value="false" name="paused_animation" />
-						<property value="false" name="clamp" />
+						<property value="true" name="clamp" />
 						<property value="false" name="invert" />
 						<property value="0" name="asleep_duration" />
 						<property value="0" name="awake_duration" />
