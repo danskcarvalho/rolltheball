@@ -434,10 +434,10 @@ void main_character::update_character(vec2& cam_gravity){
         if(_rt.has_value() && _rt.value() == vec2::zero){
             _direction = 0;
         }
-        else if(_rt.has_value() && _rt.value() == vec2::up && !this->_clear_jump.has_value()){
-            _jumpButton = true;
-            this->_clear_jump = _frame_count + (uint64_t)(RESTING_TOUCH_DURATION * 1.5);
-        }
+//        else if(_rt.has_value() && _rt.value() == vec2::up && !this->_clear_jump.has_value()){
+//            _jumpButton = true;
+//            this->_clear_jump = _frame_count + (uint64_t)(RESTING_TOUCH_DURATION * 1.5);
+//        }
         
         auto _lx = signed_length(_vx, _gx);
         if(_direction > 0) { //to right
@@ -544,6 +544,7 @@ void main_character::reset_component(){
         }
     }
     _current_gZone = nullptr;
+    _previous_g = nullptr;
     _direction = 0;
     _jumpButton = false;
     _didJump = false;
@@ -843,11 +844,27 @@ void main_character::BeginContact(b2Contact *contact){
         auto _character = std::get<0>(_groundContact);
         auto _ground = std::get<1>(_groundContact);
         
-        if(_ground->shape_type() == physics_shape::kStaticPlanet){
+        //get manifold
+        b2WorldManifold manifold;
+        contact->GetWorldManifold(&manifold);
+        
+        if(_ground->shape_type() == physics_shape::kStaticPlanet && testSlopeAngle(&manifold, _previous_g)){
             if(!_character->_didJump)
                 _character->_jumpCount = PHYS_CHARACTER_JUMP_COUNT;
         }
     }
+}
+
+bool main_character::testSlopeAngle(b2WorldManifold *manifold, const nullable<rb::vec2> &gravity) const{
+    if(!manifold)
+        return true;
+    
+    auto _normal = vec2(manifold->normal.x, manifold->normal.y).normalized();
+    auto _angle = gravity.has_value() ?
+    (nullable<float>)vec2::dot(gravity.value().normalized().rotated90().rotated90(), _normal) : (nullable<float>)nullptr; //angle between gravity(rotated 180 degrees) and normal.
+    auto _maxAngle = cosf(TO_RADIANS(45));
+    
+    return (!_angle.has_value() || _angle.value() >= _maxAngle);
 }
 
 void main_character::EndContact(b2Contact *contact){
@@ -863,11 +880,11 @@ void main_character::EndContact(b2Contact *contact){
 }
 
 void main_character::PreSolve(b2Contact *contact, const b2Manifold *oldManifold){
-    
+//    BeginContact(contact);
 }
 
 void main_character::PostSolve(b2Contact *contact, const b2ContactImpulse *impulse){
-    
+//    EndContact(contact);
 }
 
 

@@ -176,9 +176,9 @@ bool layer::remove_node(node* n, bool cleanup){
         }
         
         n->_added = false;
+        n->set_layer_recursively(nullptr);
         n->_parent_layer = nullptr;
         n->_parent_node = nullptr;
-        n->set_layer_recursively(nullptr);
         
         if(parent_scene()->active()){
             n->internal_after_becoming_inactive(n->_move_flag != 0);

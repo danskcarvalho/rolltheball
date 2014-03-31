@@ -71,6 +71,8 @@ namespace rb {
         bool _resetted;
         transform_space _saved_camera;
         transform_space _saved_transform;
+    private:
+        bool testSlopeAngle(b2WorldManifold* manifold, const nullable<vec2>& gravity) const;
     protected:
         virtual void reset_component() override;
     private:
