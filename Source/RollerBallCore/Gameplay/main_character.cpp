@@ -40,21 +40,12 @@
 #define CAMERA_LINEAR_FOCUS_RADIUS 0.2f
 
 //Touch Events
-#if defined(IOS_TARGET)
-#define RESTING_TOUCH_DURATION 4 //in frames
-#define ZERO_VELOCITY_LENGTH 0.025f
-#define JUMP_TOUCHES 2
-#define MOVE_TOUCHES 1
-#else
-#define RESTING_TOUCH_DURATION 4 //in frames
-#define ZERO_VELOCITY_LENGTH 0.025f
-#define JUMP_TOUCHES 3
-#define MOVE_TOUCHES 2
-#endif
+//Touch Control only implemented for iOS
+#define JUMP_TOUCH_DURATION 6 //in frames
+#define ZERO_VELOCITY_LENGTH 0.1f
 
 #define kTouchIndex 0
-#define kTouchDuration 1
-#define kTouchVelocity 2
+#define kTouchInitialPos 1
 
 #define SHAKE_CAMERA_ANIM_DURATION 0.5f
 #define SHAKE_FREQUENCY 10.0f
@@ -78,15 +69,13 @@ main_character::main_character(){
     add_node(_sprite);
     name(u"Main Character");
     _direction = 0;
+    _previous_direction = 0;
     _previous_g = nullptr;
     _damping = 0.9;
     //Jumping
     _jumpButton = false;
     _didJump = false;
     _jumpCount = PHYS_CHARACTER_JUMP_COUNT;
-    //Reverse Jumping
-    _rev_jumpButton = false;
-    _rev_didJump = false;
     //Camera
     _cam_focus_velocity = 0;
     _current_gZone = nullptr;
@@ -94,8 +83,6 @@ main_character::main_character(){
     //Frame
     _frame_count = 0;
     _clear_jump = nullptr;
-    _clear_rev_jump = nullptr;
-    _ended_touches = 0;
     //animation
     _an_manager = nullptr;
     //shake camera animation
@@ -204,17 +191,6 @@ inline float signed_length(const vec2& v, const vec2& axis){
     return v.length() * sgn(vec2::dot(v, axis));
 }
 
-nullable<vec2> main_character::resting_touches(){
-    auto _all_stopped = std::all_of(_touches.begin(), _touches.end(), [](const std::tuple<touch, uint32_t, vec2>& t){
-        return std::get<kTouchVelocity>(t).length() <= ZERO_VELOCITY_LENGTH && std::get<kTouchDuration>(t) >= RESTING_TOUCH_DURATION;
-    });
-    if(_all_stopped && _touches.size() == MOVE_TOUCHES){
-        _touches.clear();
-        return vec2::zero;
-    }
-    return nullptr;
-}
-
 bool main_character::check_die(){
     for (b2ContactEdge* ce = _body->GetContactList(); ce; ce = ce->next) {
         auto _other = dynamic_cast<base_enemy*>((node*)ce->other->GetUserData());
@@ -261,17 +237,6 @@ void main_character::update(float dt){
         _jumpButton = false;
         _didJump = false;
         _clear_jump = nullptr;
-    }
-    
-    if(_clear_rev_jump.has_value() && _clear_rev_jump.value() <= _frame_count){
-        _rev_jumpButton = false;
-        _rev_didJump = false;
-        _clear_rev_jump = nullptr;
-    }
-    
-    //we update touches
-    for (auto& _t : _touches){
-        std::get<kTouchDuration>(_t)++;
     }
 }
 
@@ -430,13 +395,9 @@ void main_character::update_character(vec2& cam_gravity){
     }
     
     if(_g != vec2::zero){
-        auto _rt = resting_touches();
-        if(_rt.has_value() && _rt.value() == vec2::zero){
-            _direction = 0;
-        }
-//        else if(_rt.has_value() && _rt.value() == vec2::up && !this->_clear_jump.has_value()){
-//            _jumpButton = true;
-//            this->_clear_jump = _frame_count + (uint64_t)(RESTING_TOUCH_DURATION * 1.5);
+//        auto _rt = resting_touches();
+//        if(_rt.has_value() && _rt.value() == vec2::zero){
+//            _direction = 0;
 //        }
         
         auto _lx = signed_length(_vx, _gx);
@@ -454,7 +415,8 @@ void main_character::update_character(vec2& cam_gravity){
             }
         }
         else {
-            _vx *= _damping;
+            _vx = vec2::zero;
+            //_vx *= _damping;
             _v = _vx + _vy;
         }
         
@@ -466,16 +428,10 @@ void main_character::update_character(vec2& cam_gravity){
                 _jumpCount--;
             }
         }
-        
-        if(_rev_jumpButton && !_rev_didJump){
-            _rev_didJump = true;
-            _vy = _gy * PHYS_CHARACTER_JUMP;
-            _vx = vec2::zero;
-            _v = _vx + _vy;
-            _body->SetAngularVelocity(0);
-            
-        }
     }
+    
+    if(_direction == 0)
+        _body->SetAngularVelocity(0);
     
     _body->SetLinearVelocity(b2Vec2(_v.x(), _v.y()));
     auto _fg = _g * _body->GetMass();
@@ -543,19 +499,17 @@ void main_character::reset_component(){
             _sprite->transform(i, j, transform_space());
         }
     }
+    _previous_direction = 0;
     _current_gZone = nullptr;
     _previous_g = nullptr;
     _direction = 0;
     _jumpButton = false;
     _didJump = false;
     _jumpCount = 0;
-    _rev_jumpButton = false;
-    _rev_didJump = false;
     _cam_focus = nullptr;
     _cam_focus_velocity = 0;
     _frame_count = 0;
     _clear_jump = nullptr;
-    _clear_rev_jump = nullptr;
     _an_manager->reset_animation(_shake_camera_an);
     _an_manager->animation(_shake_camera_an)->state = animation_state::stopped;
     _camera_x_shake = 0;
@@ -649,9 +603,6 @@ void main_character::keydown(const uint32_t keycode, const rb::keyboard_modifier
     else if(keycode == KEY_UP){
         _jumpButton = true;
     }
-    else if(keycode == KEY_DOWN){
-        _rev_jumpButton = true;
-    }
 }
 
 void main_character::keyup(const uint32_t keycode, const rb::keyboard_modifier modifier, bool &swallow){
@@ -662,16 +613,24 @@ void main_character::keyup(const uint32_t keycode, const rb::keyboard_modifier m
         _jumpButton = false;
         _didJump = false;
     }
-    else if(keycode == KEY_DOWN){
-        _rev_jumpButton = false;
-        _rev_didJump = false;
-    }
 }
 
 void main_character::touches_began(const std::vector<touch> &touches, bool &swallow){
     swallow = false;
     for (auto& _t : touches){
-        _touches.push_back(std::make_tuple(_t, (uint32_t)0, vec2::zero));
+        _touches.push_back(std::make_tuple(_t, _t.normalized_position()));
+
+        if(_t.normalized_position().x() < 0) //movement control
+        {
+            _previous_direction = _direction;
+            _direction = 0;
+        }
+        else { //jumping
+            if(!this->_clear_jump.has_value()){
+                this->_jumpButton = true;
+                this->_clear_jump = _frame_count + (uint64_t)(JUMP_TOUCH_DURATION);
+            }
+        }
     }
 }
 
@@ -683,127 +642,41 @@ void main_character::touches_moved(const std::vector<touch> &touches, bool &swal
             if(!std::get<kTouchIndex>(_t).compare_identity(t))
                 continue;
             
-            auto _velocity = std::get<kTouchVelocity>(_t) + (t.normalized_position() - std::get<kTouchIndex>(_t).normalized_position());
-            std::get<kTouchIndex>(_t) = t;
-            std::get<kTouchVelocity>(_t) = _velocity;
-            break; //only one matches, so we can break...
-        }
-    }
-    auto _right_count = 0;
-    auto _left_count = 0;
-    auto _up_count = 0;
-    auto _down_count = 0;
-    
-    //we check velocities
-    for (auto& _t : _touches){
-        vec2 _d = vec2::zero;
-        if(std::get<kTouchVelocity>(_t).length() > ZERO_VELOCITY_LENGTH){
-            auto _v = std::get<kTouchVelocity>(_t);
-            auto _v_n = _v.normalized();
-            float _dots[] = { 1 - vec2::dot(_v_n, vec2::up), 1 - vec2::dot(_v_n, vec2::right), 1 - vec2::dot(_v_n, vec2::down), 1 - vec2::dot(_v_n, vec2::left) };
-            float _min = std::min(std::min(_dots[0], _dots[1]), std::min(_dots[2], _dots[3]));
+            if(std::get<kTouchInitialPos>(_t).x() >= 0)
+                continue; //it's a jump touch...
             
-            if(_min == _dots[0])
-                _d = vec2::up;
-            else if(_min == _dots[1])
-                _d = vec2::right;
-            else if(_min == _dots[2])
-                _d = vec2::down;
-            else
-                _d = vec2::left;
-            
-            if(_d != vec2::zero){
-                if(_d == vec2::right)
-                    _right_count++;
-                else if(_d == vec2::left)
-                    _left_count++;
-                else if(_d == vec2::up)
-                    _up_count++;
-                else if(_d == vec2::down)
-                    _down_count++;
+            auto _movement = t.normalized_position() - std::get<kTouchInitialPos>(_t);
+            if(fabsf(_movement.x()) > ZERO_VELOCITY_LENGTH){
+                if(_movement.x() > 0){ //right
+                    this->_direction = 1;
+                    this->_previous_direction = _direction;
+                }
+                else { //left
+                    this->_direction = -1;
+                    this->_previous_direction = _direction;
+                }
             }
-        }
-    }
-    
-    nullable<vec2> _direction_taken = nullptr;
-    
-    if(_touches.size() == MOVE_TOUCHES){
-        if(_right_count == MOVE_TOUCHES)
-            _direction_taken = vec2::right;
-        else if(_left_count == MOVE_TOUCHES)
-            _direction_taken = vec2::left;
-        else if(_up_count == MOVE_TOUCHES)
-            _direction_taken = vec2::up;
-        else if(_down_count == MOVE_TOUCHES)
-            _direction_taken = vec2::down;
-    }
-    
-    if(_direction_taken.has_value()){
-        _touches.clear();
-    }
-    
-    if(_direction_taken.has_value()){
-        if(_direction_taken.value() == vec2::right){
-            this->_direction = 1;
-        }
-        else if(_direction_taken.value() == vec2::left){
-            this->_direction = -1;
-        }
-        else if(_direction_taken.value() == vec2::up && !this->_clear_jump.has_value()){
-            this->_jumpButton = true;
-            this->_clear_jump = _frame_count + (uint64_t)(RESTING_TOUCH_DURATION * 1.5);
-        }
-        else if(_direction_taken.value() == vec2::down && !this->_clear_rev_jump.has_value()){
-            this->_rev_jumpButton = true;
-            this->_clear_rev_jump = _frame_count + (uint64_t)(RESTING_TOUCH_DURATION * 1.5);
-            this->_direction = 0;
         }
     }
 }
 
 void main_character::touches_ended(const std::vector<touch> &touches, bool &swallow){
     swallow = false;
-    _touches.erase(std::remove_if(_touches.begin(), _touches.end(), [=](const std::tuple<touch, uint32_t, vec2>& t){
+    _touches.erase(std::remove_if(_touches.begin(), _touches.end(), [=](const std::tuple<touch, vec2>& t){
         for (auto& _t : touches){
             if(_t.compare_identity(std::get<kTouchIndex>(t))){
-                if(std::get<kTouchVelocity>(t).length() <= ZERO_VELOCITY_LENGTH){
-                    _ended_touches++;
-                }
+                if(std::get<kTouchInitialPos>(t).x() >= 0)
+                    return true; //it's a jump touch...
+                this->_direction = this->_previous_direction;
                 return true;
             }
         }
         return false;
     }), _touches.end());
-    
-//#if defined(IOS_TARGET)
-//    if(_ended_touches >= JUMP_TOUCHES && !this->_clear_jump.has_value()){
-//        _ended_touches = 0;
-//        this->_jumpButton = true;
-//        this->_clear_jump = _frame_count + (uint64_t)(RESTING_TOUCH_DURATION * 1.5);
-//    }
-//    
-//    if(_ended_touches >= MOVE_TOUCHES && _touches.size() == 0){
-//        this->_direction = 0;
-//        _ended_touches = 0;
-//    }
-//#else
-    if(_ended_touches >= MOVE_TOUCHES && _touches.size() == 0){
-        this->_direction = 0;
-        _ended_touches = 0;
-    }
-//#endif
 }
 
 void main_character::touches_cancelled(const std::vector<touch> &touches, bool &swallow){
-    swallow = false;
-    _touches.erase(std::remove_if(_touches.begin(), _touches.end(), [=](const std::tuple<touch, uint32_t, vec2>& t){
-        for (auto& _t : touches){
-            if(_t.compare_identity(std::get<kTouchIndex>(t)))
-                return true;
-        }
-        return false;
-    }), _touches.end());
-    _ended_touches = 0;
+    touches_ended(touches, swallow);
 }
 
 float main_character::damping() const {

@@ -10,7 +10,7 @@
 		<property value-a="1" value-b="1" value-g="1" value-r="1" name="selection_color" />
 		<property value-a="0" value-b="0" value-g="0" value-r="0" name="fade_color" />
 		<property value="0|" name="current" />
-		<property value="AGAAAIAdVUGAHVVBAAAAANsPyT+sGsJB/pC5v4AdVUEAAAAAAAAAAIAdVUGsGsJB/pC5vwE4BQDYwZk9AAAAAAAAAADYwZk91Snpv1bo3j0=" name="camera" />
+		<property value="AAAAAIAdVUGAHVVBAAAAANsPyT+NfJpBtRezwIAdVUEAAAAAAAAAAIAdVUGNfJpBtRezwAEAAADYwZk9AAAAAAAAAADYwZk91ZK5v44h1z4=" name="camera" />
 	</properties>
 	<children>
 		<child type-name="rb::layer">
@@ -32,6 +32,58 @@
 				<property value="Normal" name="particle_blend_mode" />
 			</properties>
 			<children>
+				<child type-name="rb::saw">
+					<properties>
+						<property value="false" name="rb::in_editor_hidden" />
+						<property value="false" name="rb::selected" />
+						<property type-name="rb::component_id" name="rb::node_id">
+							<properties>
+								<property value="" name="name" />
+								<property value="" name="classes" />
+							</properties>
+							<children />
+						</property>
+						<property type-name="rb::transformation_values" name="rb::transformation">
+							<properties>
+								<property value-y="-5.65228" value-x="12.5784" name="translation" />
+								<property value-y="2.39076" value-x="2.39076" name="scale" />
+								<property value="true" name="uniform" />
+								<property value-y="445.625" value-x="355.625" name="rotation" />
+								<property value="true" name="orthogonal" />
+							</properties>
+							<children />
+						</property>
+						<property value="false" name="rb::blocked" />
+						<property value="saw" name="image_name" />
+						<property value="false" name="animatable" />
+					</properties>
+				</child>
+				<child type-name="rb::saw">
+					<properties>
+						<property value="false" name="rb::in_editor_hidden" />
+						<property value="false" name="rb::selected" />
+						<property type-name="rb::component_id" name="rb::node_id">
+							<properties>
+								<property value="" name="name" />
+								<property value="" name="classes" />
+							</properties>
+							<children />
+						</property>
+						<property type-name="rb::transformation_values" name="rb::transformation">
+							<properties>
+								<property value-y="-5.6875" value-x="22.0103" name="translation" />
+								<property value-y="2.39076" value-x="2.39076" name="scale" />
+								<property value="true" name="uniform" />
+								<property value-y="445.625" value-x="355.625" name="rotation" />
+								<property value="true" name="orthogonal" />
+							</properties>
+							<children />
+						</property>
+						<property value="false" name="rb::blocked" />
+						<property value="saw" name="image_name" />
+						<property value="false" name="animatable" />
+					</properties>
+				</child>
 				<child type-name="rb::physics_shape">
 					<properties>
 						<property value="false" name="rb::in_editor_hidden" />
@@ -80,9 +132,9 @@
 						<property is-null="true" name="m_copy" />
 						<property is-null="true" name="b" />
 						<property is-null="true" name="b" />
-						<property value="Af///wAAgD8AAIA/AAAAANsPyT8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAAA/nEMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" name="before" />
-						<property value="AQCAPwAAgD8AAIA/AAAAANsPyT8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAAD///8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" name="before_b" />
-						<property value="AP///70WWz69Fls+AAAAANsPyT8AAAA0AAAAAL0WWz4AAAAAAAAAAL0WWz4AAAA0AAAAAAGl0UKfkJVAAAAAAAAAAACfkJVAAAAAAAAAAAA=" name="tx_space" />
+						<property value="AQAAAAAAgD8AAIA/AAAAANsPyT8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" name="before" />
+						<property value="AQAAAAAAgD8AAIA/AAAAANsPyT8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" name="before_b" />
+						<property value="AAAAAL0WWz69Fls+AAAAANsPyT8AAAA0AAAAAL0WWz4AAAAAAAAAAL0WWz4AAAA0AAAAAAEAAACfkJVAAAAAAAAAAACfkJVAAAAAAAAAAAA=" name="tx_space" />
 						<property value="Static Gravity Zone" name="shape_type" />
 						<property value="10" name="gravity" />
 						<property is-null="true" name="gravity_reference" />
@@ -310,6 +362,32 @@
 						</child>
 					</children>
 				</child>
+				<child type-name="rb::saw">
+					<properties>
+						<property value="false" name="rb::in_editor_hidden" />
+						<property value="false" name="rb::selected" />
+						<property type-name="rb::component_id" name="rb::node_id">
+							<properties>
+								<property value="" name="name" />
+								<property value="" name="classes" />
+							</properties>
+							<children />
+						</property>
+						<property type-name="rb::transformation_values" name="rb::transformation">
+							<properties>
+								<property value-y="-0.63539" value-x="16.5779" name="translation" />
+								<property value-y="2.39076" value-x="2.39076" name="scale" />
+								<property value="true" name="uniform" />
+								<property value-y="445.625" value-x="355.625" name="rotation" />
+								<property value="true" name="orthogonal" />
+							</properties>
+							<children />
+						</property>
+						<property value="false" name="rb::blocked" />
+						<property value="saw" name="image_name" />
+						<property value="false" name="animatable" />
+					</properties>
+				</child>
 				<child type-name="rb::sprite_component">
 					<properties>
 						<property value="false" name="rb::in_editor_hidden" />
@@ -323,10 +401,10 @@
 						</property>
 						<property type-name="rb::transformation_values" name="rb::transformation">
 							<properties>
-								<property value-y="-1.56179" value-x="21.1329" name="translation" />
+								<property value-y="-0.877562" value-x="19.4077" name="translation" />
 								<property value-y="1.86978" value-x="1.86978" name="scale" />
 								<property value="false" name="uniform" />
-								<property value-y="1150.67" value-x="1060.67" name="rotation" />
+								<property value-y="1499.98" value-x="1409.98" name="rotation" />
 								<property value="true" name="orthogonal" />
 							</properties>
 							<children />
@@ -339,9 +417,9 @@
 						<property value-a="1" value-b="1" value-g="1" value-r="1" name="tint" />
 						<property value="1" name="blend" />
 						<property value-y="1" value-x="1" name="matrix" />
-						<property value="BgAAAAQAAAAAAAEAAgAAAAMAAQBmqKNBCQAqvwA0hTs5gRM/AACAPwAAgD8ANIU7UPqkPpDBeT8hCII+/////9J4rkG7ZB3A+Mt6P1D6pD4AAIA/AACAPwA0hTtQ+qQ+kMF5PyEIgj7/////4MWxQbo4pL/4y3o/OYETPwAAgD8AAIA/ADSFO1D6pD6QwXk/IQiCPv////90W6BBVJHrvwA0hTtQ+qQ+AACAPwAAgD8ANIU7UPqkPpDBeT8hCII+/////w==" name="mesh" />
+						<property value="BgAAAAQAAAAAAAEAAgAAAAMAAQBMSJdBnQgFPgA0hTs5gRM/AACAPwAAgD8ANIU7UPqkPpDBeT8hCII+/////68+n0EERPG/+Mt6P1D6pD4AAIA/AACAPwA0hTtQ+qQ+kMF5PyEIgj7/////7TukQYE4Tr/4y3o/OYETPwAAgD8AAIA/ADSFO1D6pD6QwXk/IQiCPv////8rS5JBGg9zvwA0hTtQ+qQ+AACAPwAAgD8ANIU7UPqkPpDBeT8hCII+/////w==" name="mesh" />
 						<property value="BgAAAAQAAAAAAAEAAgAAAAMAAQAAAAC/AAAAPwA0hTs5gRM/AACAPwAAgD8ANIU7UPqkPpDBeT8hCII+/////wAAAD8AAAC/+Mt6P1D6pD4AAIA/AACAPwA0hTtQ+qQ+kMF5PyEIgj7/////AAAAPwAAAD/4y3o/OYETPwAAgD8AAIA/ADSFO1D6pD6QwXk/IQiCPv////8AAAC/AAAAvwA0hTtQ+qQ+AACAPwAAgD8ANIU7UPqkPpDBeT8hCII+/////w==" name="mesh_copy" />
-						<property value="AAAAmPNU7z/3jZ8/G0S+QOHgnT8uEKlBvOjHvxfX4T8McR6/TEHTPmePlj8uEKlBvOjHvwGZ6b9GMgE/n/WHPmpHNb5my0E/LxEvwSm+jcA=" name="before_transformation" />
+						<property value="AAAAAPNU7z/3jZ8/rEu4QCX/hT/4QptB56dgv8Q5zz8Aem+/oKYfP4Ymij/4QptB56dgvwEAAABbGO0+937NPkb/iL5A0jE/j40Twa/B5cA=" name="before_transformation" />
 						<property value="false" name="collapsed" />
 					</properties>
 					<children />
@@ -2196,7 +2274,7 @@
 						</property>
 						<property type-name="rb::transformation_values" name="rb::transformation">
 							<properties>
-								<property value-y="-3.69179" value-x="10.9749" name="translation" />
+								<property value-y="-13.0826" value-x="17.4644" name="translation" />
 								<property value-y="1" value-x="1" name="scale" />
 								<property value="false" name="uniform" />
 								<property value-y="90" value-x="0" name="rotation" />
@@ -2223,8 +2301,8 @@
 						</property>
 						<property type-name="rb::transformation_values" name="rb::transformation">
 							<properties>
-								<property value-y="3.10743" value-x="17.7782" name="translation" />
-								<property value-y="11.2692" value-x="2" name="scale" />
+								<property value-y="0.205896" value-x="17.7625" name="translation" />
+								<property value-y="2.435" value-x="2" name="scale" />
 								<property value="false" name="uniform" />
 								<property value-y="90" value-x="0" name="rotation" />
 								<property value="true" name="orthogonal" />
@@ -2254,13 +2332,13 @@
 						<property name="misc_operations" />
 						<property value="AiBAAA==" name="flags" />
 						<property value="AQAAAAQAAAAAAAC/AAAAPwAAAL8AAAC/AAAAPwAAAL8AAAA/AAAAPw==" name="polygon" />
-						<property value="GAAAABAAAAAAAAEAAgAAAAMAAQAEAAUABgAEAAcABQAIAAkACgAIAAsACQAMAA0ADgAMAA8ADQC2OYZBM+BGQDgfgz75l38/AACAPwAAgD/r/TI+9VZvPwqBJj4hCII9/////7k5jkHhvCHAer+sPnd3dz8AAIA/AACAP+v9Mj71Vm8/CoEmPiEIgj3/////tzmOQTXgRkB6v6w++Zd/PwAAgD8AAIA/6/0yPvVWbz8KgSY+IQiCPf////+4OYZB2bwhwDgfgz53d3c/AACAPwAAgD/r/TI+9VZvPwqBJj4hCII9/////7c5jkE14EZA6/0yPvmXfz8AAIA/AACAP+v9Mj71Vm8/CoEmPiEIgj3/////tzmWQeG8IcA4H4M+d3d3PwAAgD8AAIA/6/0yPvVWbz8KgSY+IQiCPf////+4OZZBNeBGQDgfgz75l38/AACAPwAAgD/r/TI+9VZvPwqBJj4hCII9/////7k5jkHhvCHA6/0yPnd3dz8AAIA/AACAP+v9Mj71Vm8/CoEmPiEIgj3/////uDmGQVDfC0E4H4M+d3d3PwAAgD8AAIA/6/0yPvVWbz8KgSY+IQiCPf////+3OY5BNeBGQHq/rD71Vm8/AACAPwAAgD/r/TI+9VZvPwqBJj4hCII9/////7Y5jkFQ3wtBer+sPnd3dz8AAIA/AACAP+v9Mj71Vm8/CoEmPiEIgj3/////tjmGQTPgRkA4H4M+9VZvPwAAgD8AAIA/6/0yPvVWbz8KgSY+IQiCPf////+2OY5BUN8LQev9Mj53d3c/AACAPwAAgD/r/TI+9VZvPwqBJj4hCII9/////7g5lkE14EZAOB+DPvVWbz8AAIA/AACAP+v9Mj71Vm8/CoEmPiEIgj3/////tzmWQVDfC0E4H4M+d3d3PwAAgD8AAIA/6/0yPvVWbz8KgSY+IQiCPf////+3OY5BNeBGQOv9Mj71Vm8/AACAPwAAgD/r/TI+9VZvPwqBJj4hCII9/////w==" name="m" />
+						<property value="GAAAABAAAAAAAAEAAgAAAAMAAQAEAAUABgAEAAcABQAIAAkACgAIAAsACQAMAA0ADgAMAA8ADQCbGYZBINZSPjgfgz75l38/AACAPwAAgD/r/TI+9VZvPwqBJj4hCII9/////54ZjkE8fIG/er+sPnd3dz8AAIA/AACAP+v9Mj71Vm8/CoEmPiEIgj3/////nBmOQSDWUj56v6w++Zd/PwAAgD8AAIA/6/0yPvVWbz8KgSY+IQiCPf////+dGYZBOHyBvzgfgz53d3c/AACAPwAAgD/r/TI+9VZvPwqBJj4hCII9/////5wZjkEg1lI+6/0yPvmXfz8AAIA/AACAP+v9Mj71Vm8/CoEmPiEIgj3/////nBmWQTx8gb84H4M+d3d3PwAAgD8AAIA/6/0yPvVWbz8KgSY+IQiCPf////+dGZZBINZSPjgfgz75l38/AACAPwAAgD/r/TI+9VZvPwqBJj4hCII9/////54ZjkE8fIG/6/0yPnd3dz8AAIA/AACAP+v9Mj71Vm8/CoEmPiEIgj3/////nRmGQcsxtj84H4M+d3d3PwAAgD8AAIA/6/0yPvVWbz8KgSY+IQiCPf////+cGY5BINZSPnq/rD71Vm8/AACAPwAAgD/r/TI+9VZvPwqBJj4hCII9/////5sZjkHLMbY/er+sPnd3dz8AAIA/AACAP+v9Mj71Vm8/CoEmPiEIgj3/////mxmGQSDWUj44H4M+9VZvPwAAgD8AAIA/6/0yPvVWbz8KgSY+IQiCPf////+bGY5ByzG2P+v9Mj53d3c/AACAPwAAgD/r/TI+9VZvPwqBJj4hCII9/////50ZlkEg1lI+OB+DPvVWbz8AAIA/AACAP+v9Mj71Vm8/CoEmPiEIgj3/////nBmWQcsxtj84H4M+d3d3PwAAgD8AAIA/6/0yPvVWbz8KgSY+IQiCPf////+cGY5BINZSPuv9Mj71Vm8/AACAPwAAgD/r/TI+9VZvPwqBJj4hCII9/////w==" name="m" />
 						<property value="GAAAABAAAAAAAAEAAgAAAAMAAQAEAAUABgAEAAcABQAIAAkACgAIAAsACQAMAA0ADgAMAA8ADQAAAAC/AAAAADgfgz75l38/AACAPwAAgD/r/TI+9VZvPwqBJj4hCII9/////wAAAAAAAAC/er+sPnd3dz8AAIA/AACAP+v9Mj71Vm8/CoEmPiEIgj3/////AAAAAAAAAAB6v6w++Zd/PwAAgD8AAIA/6/0yPvVWbz8KgSY+IQiCPf////8AAAC/AAAAvzgfgz53d3c/AACAPwAAgD/r/TI+9VZvPwqBJj4hCII9/////wAAAAAAAAAA6/0yPvmXfz8AAIA/AACAP+v9Mj71Vm8/CoEmPiEIgj3/////AAAAPwAAAL84H4M+d3d3PwAAgD8AAIA/6/0yPvVWbz8KgSY+IQiCPf////8AAAA/AAAAADgfgz75l38/AACAPwAAgD/r/TI+9VZvPwqBJj4hCII9/////wAAAAAAAAC/6/0yPnd3dz8AAIA/AACAP+v9Mj71Vm8/CoEmPiEIgj3/////AAAAvwAAAD84H4M+d3d3PwAAgD8AAIA/6/0yPvVWbz8KgSY+IQiCPf////8AAAAAAAAAAHq/rD71Vm8/AACAPwAAgD/r/TI+9VZvPwqBJj4hCII9/////wAAAAAAAAA/er+sPnd3dz8AAIA/AACAP+v9Mj71Vm8/CoEmPiEIgj3/////AAAAvwAAAAA4H4M+9VZvPwAAgD8AAIA/6/0yPvVWbz8KgSY+IQiCPf////8AAAAAAAAAP+v9Mj53d3c/AACAPwAAgD/r/TI+9VZvPwqBJj4hCII9/////wAAAD8AAAAAOB+DPvVWbz8AAIA/AACAP+v9Mj71Vm8/CoEmPiEIgj3/////AAAAPwAAAD84H4M+d3d3PwAAgD8AAIA/6/0yPvVWbz8KgSY+IQiCPf////8AAAAAAAAAAOv9Mj71Vm8/AACAPwAAgD/r/TI+9VZvPwqBJj4hCII9/////w==" name="m_copy" />
 						<property is-null="true" name="b" />
 						<property is-null="true" name="b" />
-						<property value="AC1iAAAAAECMTjRBAAAAANsPyT+6OY5BNOBGQAAAAEAAAAAAAAAAAIxONEG6OY5BNOBGQAFgAAAAAAA/AAAAAAAAAAATvLU9ujkOwaAujb4=" name="before" />
-						<property value="AWdDAAAAgD8AAIA/AAAAANsPyT8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAABgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" name="before_b" />
-						<property value="AQAAAAAAgD8AAIA/AAAAANsPyT8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAAA9AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" name="tx_space" />
+						<property value="AAAAAAAAAEAC1xtAAAAAANsPyT+pGY5BWNZSPgAAAEAAAAAAAAAAAALXG0CpGY5BWNZSPgEAAAAAAAA/AAAAAAAAAABhRNI+qRkOwSUsrb0=" name="before" />
+						<property value="AQAAAAAAgD8AAIA/AAAAANsPyT8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" name="before_b" />
+						<property value="AQAAAAAAgD8AAIA/AAAAANsPyT8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" name="tx_space" />
 						<property value="Static Planet" name="shape_type" />
 						<property value="10" name="gravity" />
 						<property is-null="true" name="gravity_reference" />
@@ -2379,32 +2457,6 @@
 							<children />
 						</child>
 					</children>
-				</child>
-				<child type-name="rb::saw">
-					<properties>
-						<property value="false" name="rb::in_editor_hidden" />
-						<property value="false" name="rb::selected" />
-						<property type-name="rb::component_id" name="rb::node_id">
-							<properties>
-								<property value="" name="name" />
-								<property value="" name="classes" />
-							</properties>
-							<children />
-						</property>
-						<property type-name="rb::transformation_values" name="rb::transformation">
-							<properties>
-								<property value-y="2.56019" value-x="15.6526" name="translation" />
-								<property value-y="2.39076" value-x="2.39076" name="scale" />
-								<property value="true" name="uniform" />
-								<property value-y="445.625" value-x="355.625" name="rotation" />
-								<property value="true" name="orthogonal" />
-							</properties>
-							<children />
-						</property>
-						<property value="false" name="rb::blocked" />
-						<property value="saw" name="image_name" />
-						<property value="false" name="animatable" />
-					</properties>
 				</child>
 			</children>
 		</child>
