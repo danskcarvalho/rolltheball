@@ -46,7 +46,7 @@ rb_string multiple_nodes::to_string(const std::list<rb::multiple_nodes::path_com
     for(auto& _c : path){
         auto _continuation = (i == (path.size() - 1)) ? u"" : u"->";
         if(_c.index != -1){
-            _p += _c.value + u"[" + to_string(_c.index) + u"]" + _continuation;
+            _p += _c.value + u"[" + rb::to_string(_c.index) + u"]" + _continuation;
         }
         else
             _p += _c.value + _continuation;

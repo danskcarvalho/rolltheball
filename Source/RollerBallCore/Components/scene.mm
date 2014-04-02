@@ -892,7 +892,7 @@ void scene::describe_type() {
             site->selection_color(value);
         }
     });
-    color_property<scene>(u"fade_coloe", u"Fade Color", true, true, {
+    color_property<scene>(u"fade_color", u"Fade Color", true, true, {
         [](const scene* site){
             return site->fade_color();
         },

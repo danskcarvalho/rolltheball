@@ -146,8 +146,8 @@
 		4525C3531630677800A301D7 /* xnode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4525C34F1630677800A301D7 /* xnode.cpp */; };
 		452E06D81879D283000FCA27 /* base_enemy.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 452E06D61879D283000FCA27 /* base_enemy.cpp */; };
 		452E06D91879D283000FCA27 /* base_enemy.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 452E06D61879D283000FCA27 /* base_enemy.cpp */; };
-		452E06DC1879D805000FCA27 /* saw_rotation_animator_component.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 452E06DA1879D805000FCA27 /* saw_rotation_animator_component.cpp */; };
-		452E06DD1879D805000FCA27 /* saw_rotation_animator_component.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 452E06DA1879D805000FCA27 /* saw_rotation_animator_component.cpp */; };
+		452E06DC1879D805000FCA27 /* rotation_animator_component.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 452E06DA1879D805000FCA27 /* rotation_animator_component.cpp */; };
+		452E06DD1879D805000FCA27 /* rotation_animator_component.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 452E06DA1879D805000FCA27 /* rotation_animator_component.cpp */; };
 		452F453E184B7FA400270215 /* destructible_sprite_component.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 451516621838FD1000811088 /* destructible_sprite_component.h */; };
 		452F453F184B7FB600270215 /* destructible_sprite_component.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 451516621838FD1000811088 /* destructible_sprite_component.h */; };
 		452FEB40164A8C480002A601 /* responder.mm in Sources */ = {isa = PBXBuildFile; fileRef = 452FEB3E164A8C480002A601 /* responder.mm */; };
@@ -390,6 +390,8 @@
 		4570F64216E02A1D0093102F /* typed_object.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 458CE14916DE2E78006C5D03 /* typed_object.h */; };
 		4570F64316E02A1D0093102F /* type_descriptor.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 458CE14416DE150D006C5D03 /* type_descriptor.h */; };
 		4570F64416E02A1D0093102F /* observer.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 458CE15116DE4003006C5D03 /* observer.h */; };
+		4575ADCC18C554B40017815A /* position_animator_component.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4575ADCA18C554B40017815A /* position_animator_component.cpp */; };
+		4575ADCD18C554B40017815A /* position_animator_component.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4575ADCA18C554B40017815A /* position_animator_component.cpp */; };
 		4576DF6D1624BD7F00DAA297 /* texture_layer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4576DF6B1624BD7F00DAA297 /* texture_layer.cpp */; };
 		4576DF6E1624BD7F00DAA297 /* texture_layer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4576DF6B1624BD7F00DAA297 /* texture_layer.cpp */; };
 		4576DF6F1624BD7F00DAA297 /* texture_layer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4576DF6B1624BD7F00DAA297 /* texture_layer.cpp */; };
@@ -814,8 +816,8 @@
 		4525C3501630677800A301D7 /* xnode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = xnode.h; path = Xml/xnode.h; sourceTree = "<group>"; };
 		452E06D61879D283000FCA27 /* base_enemy.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = base_enemy.cpp; path = Gameplay/base_enemy.cpp; sourceTree = "<group>"; };
 		452E06D71879D283000FCA27 /* base_enemy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = base_enemy.h; path = Gameplay/base_enemy.h; sourceTree = "<group>"; };
-		452E06DA1879D805000FCA27 /* saw_rotation_animator_component.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = saw_rotation_animator_component.cpp; path = Gameplay/saw_rotation_animator_component.cpp; sourceTree = "<group>"; };
-		452E06DB1879D805000FCA27 /* saw_rotation_animator_component.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = saw_rotation_animator_component.h; path = Gameplay/saw_rotation_animator_component.h; sourceTree = "<group>"; };
+		452E06DA1879D805000FCA27 /* rotation_animator_component.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = rotation_animator_component.cpp; path = Gameplay/rotation_animator_component.cpp; sourceTree = "<group>"; };
+		452E06DB1879D805000FCA27 /* rotation_animator_component.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = rotation_animator_component.h; path = Gameplay/rotation_animator_component.h; sourceTree = "<group>"; };
 		452FEB3E164A8C480002A601 /* responder.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = responder.mm; path = Components/responder.mm; sourceTree = "<group>"; };
 		452FEB3F164A8C480002A601 /* responder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = responder.h; path = Components/responder.h; sourceTree = "<group>"; };
 		452FEB45164A9C750002A601 /* components_base.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = components_base.h; path = Components/components_base.h; sourceTree = "<group>"; };
@@ -9991,6 +9993,8 @@
 		456D7502164C26670022FC12 /* node_container.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = node_container.cpp; path = Components/node_container.cpp; sourceTree = "<group>"; };
 		456D7503164C26670022FC12 /* node_container.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = node_container.h; path = Components/node_container.h; sourceTree = "<group>"; };
 		4570F63C16E01C000093102F /* CppBridgeProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = CppBridgeProtocol.h; path = Components/CppBridgeProtocol.h; sourceTree = "<group>"; };
+		4575ADCA18C554B40017815A /* position_animator_component.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = position_animator_component.cpp; path = Gameplay/position_animator_component.cpp; sourceTree = "<group>"; };
+		4575ADCB18C554B40017815A /* position_animator_component.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = position_animator_component.h; path = Gameplay/position_animator_component.h; sourceTree = "<group>"; };
 		4576DF6B1624BD7F00DAA297 /* texture_layer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = texture_layer.cpp; path = Base/texture_layer.cpp; sourceTree = "<group>"; };
 		4576DF6C1624BD7F00DAA297 /* texture_layer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = texture_layer.h; path = Base/texture_layer.h; sourceTree = "<group>"; };
 		4576DF711624C45E00DAA297 /* texture_composition.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = texture_composition.cpp; path = Base/texture_composition.cpp; sourceTree = "<group>"; };
@@ -10173,9 +10177,10 @@
 				45139D7217BAD38B003AC03D /* main_character.cpp */,
 				45D007A217BEE92700112966 /* physics_shape.cpp */,
 				452E06D61879D283000FCA27 /* base_enemy.cpp */,
-				452E06DA1879D805000FCA27 /* saw_rotation_animator_component.cpp */,
 				45F33E091879E22D00EFDE64 /* saw.cpp */,
 				4545441F187A09F300F59753 /* resettable_component.cpp */,
+				452E06DA1879D805000FCA27 /* rotation_animator_component.cpp */,
+				4575ADCA18C554B40017815A /* position_animator_component.cpp */,
 			);
 			name = Gameplay;
 			sourceTree = "<group>";
@@ -10183,8 +10188,9 @@
 		45139D6E17BAAAD2003AC03D /* Include */ = {
 			isa = PBXGroup;
 			children = (
+				4575ADCB18C554B40017815A /* position_animator_component.h */,
+				452E06DB1879D805000FCA27 /* rotation_animator_component.h */,
 				45454420187A09F300F59753 /* resettable_component.h */,
-				452E06DB1879D805000FCA27 /* saw_rotation_animator_component.h */,
 				452E06D71879D283000FCA27 /* base_enemy.h */,
 				45139D7317BAD38B003AC03D /* main_character.h */,
 				45139D7017BAAAFF003AC03D /* physics_engine.h */,
@@ -26019,6 +26025,7 @@
 		4567333415F02560008F5966 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastTestingUpgradeCheck = 0510;
 				LastUpgradeCheck = 0500;
 				ORGANIZATIONNAME = "Danilo Carvalho";
 			};
@@ -26127,7 +26134,7 @@
 				4567719D15F040BA00C91B3C /* b2WheelJoint.cpp in Sources */,
 				456771A115F040BA00C91B3C /* b2Rope.cpp in Sources */,
 				456771A515F040BA00C91B3C /* Triangulate.cpp in Sources */,
-				452E06DD1879D805000FCA27 /* saw_rotation_animator_component.cpp in Sources */,
+				452E06DD1879D805000FCA27 /* rotation_animator_component.cpp in Sources */,
 				458969C8186F2CD400BAFDBB /* particle_emitter_component.cpp in Sources */,
 				45DDCE8C15F25A0B00DA33F5 /* vec2.cpp in Sources */,
 				455730F515F3ECFB00730BBD /* compute_hash.cpp in Sources */,
@@ -26141,6 +26148,7 @@
 				45AC45F815FCC2AC00231A2D /* color.cpp in Sources */,
 				45AC460915FD3B6100231A2D /* vertex.cpp in Sources */,
 				4536B0E715FE1B3B004AE82A /* mesh.cpp in Sources */,
+				4575ADCD18C554B40017815A /* position_animator_component.cpp in Sources */,
 				4536B0ED15FE205A004AE82A /* brush.cpp in Sources */,
 				4536B0F215FE664F004AE82A /* texture_map.cpp in Sources */,
 				458F24F915FF787A00182250 /* texture_packer.cpp in Sources */,
@@ -26411,7 +26419,7 @@
 				45DDCE8B15F25A0B00DA33F5 /* vec2.cpp in Sources */,
 				45C68E9A15F2FF5A00E1637B /* platform.mm in Sources */,
 				455730F415F3ECFB00730BBD /* compute_hash.cpp in Sources */,
-				452E06DC1879D805000FCA27 /* saw_rotation_animator_component.cpp in Sources */,
+				452E06DC1879D805000FCA27 /* rotation_animator_component.cpp in Sources */,
 				458969C7186F2CD400BAFDBB /* particle_emitter_component.cpp in Sources */,
 				4519846915F567A10034BD2D /* matrix3x3.cpp in Sources */,
 				4519846E15F5682F0034BD2D /* transform_space.cpp in Sources */,
@@ -26425,6 +26433,7 @@
 				45AC460815FD3B6100231A2D /* vertex.cpp in Sources */,
 				4536B0E615FE1B3B004AE82A /* mesh.cpp in Sources */,
 				4536B0EC15FE205A004AE82A /* brush.cpp in Sources */,
+				4575ADCC18C554B40017815A /* position_animator_component.cpp in Sources */,
 				4536B0F115FE664F004AE82A /* texture_map.cpp in Sources */,
 				458F24F815FF787A00182250 /* texture_packer.cpp in Sources */,
 				455FD6931602030F002F1608 /* null_texture_map.cpp in Sources */,

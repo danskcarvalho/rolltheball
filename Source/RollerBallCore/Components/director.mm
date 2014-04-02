@@ -20,8 +20,9 @@
 #include "destructible_sprite_component.h"
 #include "particle_emitter_component.h"
 #include "animation_manager_component.h"
-#include "saw_rotation_animator_component.h"
+#include "rotation_animator_component.h"
 #include "saw.h"
+#include "position_animator_component.h"
 #import <Foundation/Foundation.h>
 
 using namespace rb;
@@ -50,13 +51,14 @@ void director::register_creatable_types(){
     register_creatable_type(type_descriptor::get<polygon_component>());
     register_creatable_type(type_descriptor::get<particle_emitter_component>());
     register_creatable_type(type_descriptor::get<animation_manager_component>());
-    register_creatable_type(type_descriptor::get<saw_rotation_animator_component>());
+    register_creatable_type(type_descriptor::get<rotation_animator_component>());
     register_creatable_type(type_descriptor::get<saw>());
     
     //gameplay
     register_creatable_type(type_descriptor::get<physics_engine>());
     register_creatable_type(type_descriptor::get<main_character>());
     register_creatable_type(type_descriptor::get<physics_shape>());
+    register_creatable_type(type_descriptor::get<position_animator_component>());
     
     //register serializable types
     register_serializable_type<scene>();
@@ -69,8 +71,9 @@ void director::register_creatable_types(){
     register_serializable_type<polygon_point_component>();
     register_serializable_type<particle_emitter_component>();
     register_serializable_type<animation_manager_component>();
-    register_serializable_type<saw_rotation_animator_component>();
+    register_serializable_type<rotation_animator_component>();
     register_serializable_type<saw>();
+    register_serializable_type<position_animator_component>();
 }
 
 void director::active_scene(rb::scene *scene, bool cleanup){

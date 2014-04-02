@@ -14,6 +14,7 @@
 #include "circle.h"
 #include "touch.h"
 #include "resettable_component.h"
+#include "polygon.h"
 #include <Box2D/Box2D.h>
 
 class b2World;
@@ -29,8 +30,10 @@ namespace rb {
     class main_character : public node, public b2ContactListener, public resettable_component {
     private:
         //touches
-        std::vector<std::tuple<touch, uint32_t, vec2>> _touches; //current touches (touch, duration in frames, last position, velocity)
-        uint32_t _ended_touches;
+        std::vector<std::tuple<touch, vec2>> _touches; //current touches (touch, Initial position)
+        bool _invert_xaxis;
+        float _saved_direction;
+        float _previous_direction;
         //others
         destructible_sprite_component* _sprite;
         physics_shape* _current_gZone;
@@ -45,9 +48,6 @@ namespace rb {
         bool _jumpButton;
         bool _didJump;
         uint32_t _jumpCount;
-        //Reverse Jumping
-        bool _rev_jumpButton;
-        bool _rev_didJump;
         //Camera
         nullable<circle> _cam_focus;
         float _cam_focus_velocity;
@@ -55,7 +55,6 @@ namespace rb {
         //Frame
         uint64_t _frame_count;
         nullable<uint64_t> _clear_jump;
-        nullable<uint64_t> _clear_rev_jump;
         //shake animation
         animation_manager_component* _an_manager;
         animation_id _shake_camera_an;
@@ -71,6 +70,15 @@ namespace rb {
         bool _resetted;
         transform_space _saved_camera;
         transform_space _saved_transform;
+        //constrained camera
+        rb_string _camera_class;
+        bool _camera_constrained;
+        bool _saved_camera_constrained;
+        std::vector<polygon> _camera_polygons;
+    private:
+        bool testSlopeAngle(b2WorldManifold* manifold, const nullable<vec2>& gravity) const;
+        //get closest point from camera track...
+        nullable<vec2> getClosestPointFromCameraTrack(const vec2& charPos) const;
     protected:
         virtual void reset_component() override;
     private:
@@ -111,8 +119,6 @@ namespace rb {
         virtual void PreSolve(b2Contact* contact, const b2Manifold* oldManifold) override;
         virtual void PostSolve(b2Contact* contact, const b2ContactImpulse* impulse) override;
         //touches
-    private:
-        nullable<vec2> resting_touches();
     protected:
         virtual void touches_began(const std::vector<touch>& touches, bool& swallow) override;
         virtual void touches_moved(const std::vector<touch>& touches, bool& swallow) override;

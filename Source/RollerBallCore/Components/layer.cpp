@@ -176,9 +176,9 @@ bool layer::remove_node(node* n, bool cleanup){
         }
         
         n->_added = false;
+        n->set_layer_recursively(nullptr);
         n->_parent_layer = nullptr;
         n->_parent_node = nullptr;
-        n->set_layer_recursively(nullptr);
         
         if(parent_scene()->active()){
             n->internal_after_becoming_inactive(n->_move_flag != 0);
@@ -567,7 +567,7 @@ transform_space layer::from_layer_space_to(const rb::node_container *another) co
         return transform_space(); //identity
     auto _to_scene_1 = another->from_space_to(space::scene);
     auto _to_scene_2 = from_space_to(space::scene);
-    return _to_scene_2.inverse() * _to_scene_1;
+    return _to_scene_1.inverse() * _to_scene_2;
 }
 
 rb_string to_group_name(uint32_t flags){

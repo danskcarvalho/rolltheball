@@ -16,10 +16,15 @@ using namespace rb;
 
 saw::saw(){
     _initialized = false;
+    _animatable = false;
     _sprite = new sprite_component();
     _sprite->classes(u"saw");
     _sprite->image_name(u"saw");
     add_node(_sprite);
+}
+
+bool saw::should_serialize_children() const {
+    return false;
 }
 
 void saw::describe_type(){
@@ -33,7 +38,67 @@ void saw::describe_type(){
             site->_sprite->image_name(value);
         }
     });
+    boolean_property<saw>(u"animatable", u"Animatable", true, {
+        [](const saw* site){
+            return site->animatable();
+        },
+        [](saw* site, const bool value){
+            site->animatable(value);
+        }
+    });
     end_type();
+}
+
+bool saw::animatable() const {
+    return _animatable;
+}
+
+void saw::after_becoming_active(bool node_was_moved){
+    if(_animatable)
+        register_for(registrable_event::update, PHYS_OBJECT_UPDATE_PRIORITY);
+    else
+        unregister_for(registrable_event::update);
+}
+
+bool saw::animatable(bool value){
+    _animatable = value;
+    if(active()){
+        if(_animatable)
+            register_for(registrable_event::update, PHYS_OBJECT_UPDATE_PRIORITY);
+        else
+            unregister_for(registrable_event::update);
+    }
+    return _animatable;
+}
+
+void saw::reset_component(){
+    transform(_saved_transform);
+    _body->SetTransform(b2Vec2(_saved_transform.origin().x(), _saved_transform.origin().y()), _saved_transform.rotation().x());
+    _before = nullptr;
+}
+
+void saw::update(float dt){
+    if(!_initialized)
+        return;
+    
+    if(!_before.has_value())
+    {
+        auto _t = this->from_node_space_to(space::layer);
+        _before = _t;
+        _body->SetTransform(b2Vec2(_t.origin().x(), _t.origin().y()), _t.rotation().x());
+    }
+    else {
+        auto _t = this->from_node_space_to(space::layer);
+        auto _v = _t.origin() - _before.value().origin();
+        auto _o = _t.rotation().x() - _before.value().rotation().x();
+        
+        _v *= 30.0f;
+        _o *= 30.0f;
+        
+        _body->SetLinearVelocity(b2Vec2(_v.x(), _v.y()));
+        _body->SetAngularVelocity(_o);
+        _before = _t;
+    }
 }
 
 rb_string saw::type_name() const {
@@ -47,6 +112,7 @@ rb_string saw::displayable_type_name() const {
 void saw::playing(){
     if(!_initialized){
         _initialized = true;
+        _saved_transform = transform();
         
         auto _engine = dynamic_cast<physics_engine*>(parent_scene()->node_with_name(u"Physic's Engine"));
         _world = _engine->world();
@@ -69,6 +135,11 @@ void saw::playing(){
         _c.m_radius = _t.scale().x() / 2;
         _fDef.shape = &_c;
         _body->CreateFixture(&_fDef);
+        
+        if(_animatable)
+            register_for(registrable_event::update, PHYS_OBJECT_UPDATE_PRIORITY);
+        else
+            unregister_for(registrable_event::update);
     }
 }
 
