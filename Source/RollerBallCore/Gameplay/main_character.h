@@ -14,6 +14,7 @@
 #include "circle.h"
 #include "touch.h"
 #include "resettable_component.h"
+#include "polygon.h"
 #include <Box2D/Box2D.h>
 
 class b2World;
@@ -30,6 +31,8 @@ namespace rb {
     private:
         //touches
         std::vector<std::tuple<touch, vec2>> _touches; //current touches (touch, Initial position)
+        bool _invert_xaxis;
+        float _saved_direction;
         float _previous_direction;
         //others
         destructible_sprite_component* _sprite;
@@ -67,8 +70,15 @@ namespace rb {
         bool _resetted;
         transform_space _saved_camera;
         transform_space _saved_transform;
+        //constrained camera
+        rb_string _camera_class;
+        bool _camera_constrained;
+        bool _saved_camera_constrained;
+        std::vector<polygon> _camera_polygons;
     private:
         bool testSlopeAngle(b2WorldManifold* manifold, const nullable<vec2>& gravity) const;
+        //get closest point from camera track...
+        nullable<vec2> getClosestPointFromCameraTrack(const vec2& charPos) const;
     protected:
         virtual void reset_component() override;
     private:
