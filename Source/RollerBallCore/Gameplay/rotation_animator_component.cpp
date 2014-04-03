@@ -17,31 +17,50 @@ rotation_animator_component::rotation_animator_component(){
     _r_velocity = M_PI;
     _asleep_duration = 0;
     _awake_duration = 0;
+    _asleep_duration_start = 0;
+    _asleep_duration_endpoint = 0;
     _paused = false;
-    _current_asleep = 0;
-    _current_awake = 0;
+    _current_asleep_start = 0;
     _saved_paused = false;
     _min_angle = nullptr;
     _max_angle = nullptr;
+    _change_dir_endpoint = false;
 }
 
 void rotation_animator_component::reset_component(){
     for (size_t i = 0; i < _nodes.size(); i++) {
         _nodes[i]->transform(_saved_transforms[i]);
+        _directions[i] = 1;
+        _current_asleep_endpoint[i] = 0;
+        _current_asleep[i] = 0;
+        _current_awake[i] = _awake_duration;
     }
-    _current_asleep = _asleep_duration;
-    _current_awake = _awake_duration;
     _paused = _saved_paused;
+    _current_asleep_start = _asleep_duration_start;
 }
 
 void rotation_animator_component::playing(){
     if(_nodes.size() == 0){
         _nodes = parent_scene()->node_with_one_class(_class);
-        for (auto _n : _nodes)
+        for (auto _n : _nodes){
             _saved_transforms.push_back(_n->transform());
+            _directions.push_back(1);
+            _current_asleep_endpoint.push_back(0);
+            _current_asleep.push_back(0);
+            _current_awake.push_back(_awake_duration);
+            
+            if(_min_angle.has_value())
+                _current_min_angles.push_back(_n->transform().rotation().x() + _min_angle.value());
+            else
+                _current_min_angles.push_back(nullptr);
+            
+            if(_max_angle.has_value())
+                _current_max_angles.push_back(_n->transform().rotation().x() + _max_angle.value());
+            else
+                _current_max_angles.push_back(nullptr);
+        }
         
-        _current_asleep = _asleep_duration;
-        _current_awake = _awake_duration;
+        _current_asleep_start = _asleep_duration_start;
         _saved_paused = _paused;
     }
 }
@@ -50,37 +69,75 @@ void rotation_animator_component::update(float dt){
     if(_paused)
         return;
     
-    if(_current_asleep > 0){
-        _current_asleep -= dt;
-        if(_current_asleep <= 0){
-            _current_awake = _awake_duration;
-            _current_asleep = 0;
+    if(_current_asleep_start > 0){
+        _current_asleep_start -= dt;
+        if(_current_asleep_start <= 0){
+            for (size_t i = 0; i < _nodes.size(); i++)
+                _current_awake[i] = _awake_duration;
+            _current_asleep_start = 0;
         }
         return;
     }
     
+    size_t _index = 0;
     for (auto _n : _nodes){
-        auto _t = _n->transform();
-        _t.rotate_by(vec2(_r_velocity * dt, _r_velocity * dt));
-        if(_min_angle.has_value() && _t.rotation().x() < _min_angle.value())
-            _t = _t.rotated(_min_angle.value(), _min_angle.value() + M_PI_2);
-        if(_max_angle.has_value() && _t.rotation().x() > _max_angle.value())
-            _t = _t.rotated(_max_angle.value(), _max_angle.value() + M_PI_2);
-        _n->transform(_t);
-    }
-    
-    if(_current_awake > 0){
-        _current_awake -= dt;
-        if(_current_awake <= 0){
-            _current_asleep = _asleep_duration;
-            _current_awake = 0;
+        if(_current_asleep_endpoint[_index] > 0){
+            _current_asleep_endpoint[_index] -= dt;
+            if(_current_asleep_endpoint[_index] <= 0){
+                _current_awake[_index] = _awake_duration;
+                _current_asleep_endpoint[_index] = 0;
+            }
+            _index++;
+            continue;
         }
+        
+        if(_current_asleep[_index] > 0){
+            _current_asleep[_index] -= dt;
+            if(_current_asleep[_index] <= 0){
+                _current_awake[_index] = _awake_duration;
+                _current_asleep[_index] = 0;
+            }
+            _index++;
+            continue;
+        }
+        
+        auto _t = _n->transform();
+        _t.rotate_by(vec2(_r_velocity * dt * _directions[_index], _r_velocity * dt * _directions[_index]));
+        
+        if(_min_angle.has_value() && _t.rotation().x() < _current_min_angles[_index].value()){
+            _t = _t.rotated(_current_min_angles[_index].value(), _current_min_angles[_index].value() + M_PI_2);
+            if(_change_dir_endpoint)
+                _directions[_index] *= -1;
+            _current_asleep_endpoint[_index] = _asleep_duration_endpoint;
+        }
+        if(_max_angle.has_value() && _t.rotation().x() > _current_max_angles[_index].value()){
+            _t = _t.rotated(_current_max_angles[_index].value(), _current_max_angles[_index].value() + M_PI_2);
+            if(_change_dir_endpoint)
+                _directions[_index] *= -1;
+            _current_asleep_endpoint[_index] = _asleep_duration_endpoint;
+        }
+        
+        _n->transform(_t);
+        if(_current_awake[_index] > 0){
+            _current_awake[_index] -= dt;
+            if(_current_awake[_index] <= 0){
+                _current_asleep[_index] = _asleep_duration;
+                _current_awake[_index] = 0;
+            }
+        }
+        
+        _index++;
     }
 }
 
-void rotation_animator_component::reset_animation(){
-    _current_asleep = _asleep_duration;
-    _current_awake = _awake_duration;
+void rotation_animator_component::reset_animation(bool initial_delay){
+    for (size_t i = 0; i < _nodes.size(); i++) {
+        _current_asleep[i] = 0;
+        _current_awake[i] = _awake_duration;
+        _current_asleep_endpoint[i] = 0;
+    }
+    if(initial_delay)
+        _current_asleep_start = _asleep_duration_start;
 }
 
 bool rotation_animator_component::paused_animation() const {
@@ -177,6 +234,14 @@ void rotation_animator_component::describe_type() {
             site->paused_animation(value);
         }
     });
+    boolean_property<rotation_animator_component>(u"change_dir_endpoint",u"Change Dir", true, {
+        [](const rotation_animator_component* site){
+            return site->change_dir_endpoint();
+        },
+        [](rotation_animator_component* site, bool value){
+            site->change_dir_endpoint(value);
+        }
+    });
     single_property<rotation_animator_component>(u"asleep_duration", u"Asleep", true, {
         [](const rotation_animator_component* site){
             return site->asleep_duration();
@@ -191,6 +256,22 @@ void rotation_animator_component::describe_type() {
         },
         [](rotation_animator_component* site, float value){
             site->awake_duration(value);
+        }
+    });
+    single_property<rotation_animator_component>(u"initial_asleep_duration", u"St Asleep", true, {
+        [](const rotation_animator_component* site){
+            return site->start_asleep_duration();
+        },
+        [](rotation_animator_component* site, float value){
+            site->start_asleep_duration(value);
+        }
+    });
+    single_property<rotation_animator_component>(u"endpoint_asleep_duration", u"End Asleep", true, {
+        [](const rotation_animator_component* site){
+            return site->endpoint_asleep_duration();
+        },
+        [](rotation_animator_component* site, float value){
+            site->endpoint_asleep_duration(value);
         }
     });
     end_type();
@@ -232,6 +313,29 @@ const nullable<float>& rotation_animator_component::max_angle(const nullable<flo
     return _max_angle = value;
 }
 
+bool rotation_animator_component::change_dir_endpoint() const {
+    return _change_dir_endpoint;
+}
+
+bool rotation_animator_component::change_dir_endpoint(bool value){
+    return _change_dir_endpoint = value;
+}
+
+float rotation_animator_component::start_asleep_duration() const {
+    return _asleep_duration_start;
+}
+
+float rotation_animator_component::start_asleep_duration(float value){
+    return _asleep_duration_start = value;
+}
+
+float rotation_animator_component::endpoint_asleep_duration() const {
+    return _asleep_duration_endpoint;
+}
+
+float rotation_animator_component::endpoint_asleep_duration(float value){
+    return _asleep_duration_endpoint = value;
+}
 
 
 

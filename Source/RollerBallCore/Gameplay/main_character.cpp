@@ -122,6 +122,7 @@ main_character::main_character(){
     //constrained camera
     _camera_constrained = false;
     _saved_camera_constrained = false;
+    _cam_offset = _saved_cam_offset = nullptr;
 }
 
 main_character::~main_character(){
@@ -179,12 +180,12 @@ void main_character::describe_type(){
             site->_camera_constrained = value;
         }
     });
-    string_property<main_character>(u"camera_class", u"Cam Class Pol", true, false, {
+    nullable_vec2_property<main_character>(u"cam_offset", u"Cam Offset", true, {
         [](const main_character* site){
-            return site->_camera_class;
+            return site->_cam_offset;
         },
-        [](main_character* site, const rb_string& value){
-            site->_camera_class = value;
+        [](main_character* site, const nullable<vec2>& value){
+            site->_cam_offset = value;
         }
     });
     end_type();
@@ -293,6 +294,8 @@ nullable<vec2> main_character::getClosestPointFromCameraTrack(const rb::vec2& ch
 
 void main_character::update_camera(const rb::vec2 &cam_gravity){
     auto _thisPosition = this->transform().origin();
+    if(_cam_offset.has_value())
+        _thisPosition += _cam_offset.value();
     if(_camera_constrained){
         auto _closest = getClosestPointFromCameraTrack(_thisPosition);
         if(_closest.has_value())
@@ -573,6 +576,7 @@ void main_character::reset_component(){
     _died = false;
     _gravity_died = vec2::zero;
     _camera_died = transform_space();
+    _cam_offset = _saved_cam_offset;
 //    _an_manager->reset_animation(_die_an);
 //    _an_manager->animation(_die_an)->state = animation_state::stopped;
     _die_emitter->reset_emitter();
@@ -640,17 +644,8 @@ void main_character::playing(){
         _fDef.shape = &_c;
         _body->CreateFixture(&_fDef);
         
-        parent_scene()->camera(parent_scene()->camera().scaled(_cam_scale.x(), _cam_scale.y()).moved(this->transform().origin()));
-        if(_camera_constrained){
-            auto _closest = getClosestPointFromCameraTrack(this->transform().origin());
-            if(_closest.has_value())
-                parent_scene()->camera(parent_scene()->camera().scaled(_cam_scale.x(), _cam_scale.y()).moved(_closest.value()));
-        }
-        
-        _saved_camera = parent_scene()->camera();
-        _saved_transform = transform();
-        
         //constrained camera
+        _saved_cam_offset = _cam_offset;
         _saved_camera_constrained = _camera_constrained;
         auto _polygons = parent_scene()->node_with_one_class(u"cameraPath");
         for (auto _p : _polygons){
@@ -659,6 +654,19 @@ void main_character::playing(){
             _actualP->from_node_space_to(space::layer).from_space_to_base().transform_polygon(_untransformedP);
             _camera_polygons.push_back(_untransformedP);
         }
+        
+        auto _initialCamPos = this->transform().origin();
+        if(_cam_offset.has_value())
+            _initialCamPos += _cam_offset.value();
+        parent_scene()->camera(parent_scene()->camera().scaled(_cam_scale.x(), _cam_scale.y()).moved(_initialCamPos));
+        if(_camera_constrained){
+            auto _closest = getClosestPointFromCameraTrack(_initialCamPos);
+            if(_closest.has_value())
+                parent_scene()->camera(parent_scene()->camera().scaled(_cam_scale.x(), _cam_scale.y()).moved(_closest.value()));
+        }
+        
+        _saved_camera = parent_scene()->camera();
+        _saved_transform = transform();
     }
 }
 

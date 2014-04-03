@@ -49,6 +49,8 @@ namespace rb {
         bool _didJump;
         uint32_t _jumpCount;
         //Camera
+        nullable<vec2> _cam_offset;
+        nullable<vec2> _saved_cam_offset;
         nullable<circle> _cam_focus;
         float _cam_focus_velocity;
         vec2 _cam_scale;
@@ -71,7 +73,6 @@ namespace rb {
         transform_space _saved_camera;
         transform_space _saved_transform;
         //constrained camera
-        rb_string _camera_class;
         bool _camera_constrained;
         bool _saved_camera_constrained;
         std::vector<polygon> _camera_polygons;

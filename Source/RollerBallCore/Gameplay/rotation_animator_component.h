@@ -19,17 +19,25 @@ namespace rb {
         virtual void reset_component();
     private:
         std::vector<node*> _nodes;
+        std::vector<float> _directions;
         std::vector<transform_space> _saved_transforms;
+        std::vector<nullable<float>> _current_min_angles;
+        std::vector<nullable<float>> _current_max_angles;
         rb_string _class;
         float _r_velocity;
         float _asleep_duration;
         float _awake_duration;
+        float _asleep_duration_start;
+        float _asleep_duration_endpoint;
         nullable<float> _min_angle;
         nullable<float> _max_angle;
+        bool _change_dir_endpoint;
         //bookkepping
         bool _paused;
-        float _current_asleep;
-        float _current_awake;
+        std::vector<float> _current_asleep_endpoint;
+        float _current_asleep_start;
+        std::vector<float> _current_asleep;
+        std::vector<float> _current_awake;
         //saved
         bool _saved_paused;
     protected:
@@ -45,7 +53,7 @@ namespace rb {
         float rotation_velocity() const;
         float rotation_velocity(float value);
         rotation_animator_component();
-        void reset_animation();
+        void reset_animation(bool initial_delay);
         bool paused_animation() const;
         bool paused_animation(bool value);
         const rb_string& animated_class() const;
@@ -54,6 +62,12 @@ namespace rb {
         float asleep_duration(float value);
         float awake_duration() const;
         float awake_duration(float value);
+        bool change_dir_endpoint() const;
+        bool change_dir_endpoint(bool value);
+        float start_asleep_duration() const;
+        float start_asleep_duration(float value);
+        float endpoint_asleep_duration() const;
+        float endpoint_asleep_duration(float value);
         const nullable<float>& min_angle() const;
         const nullable<float>& min_angle(const nullable<float>& value);
         const nullable<float>& max_angle() const;

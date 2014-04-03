@@ -33,10 +33,14 @@ namespace rb {
         float _velocity;
         float _asleep_duration;
         float _awake_duration;
+        float _start_asleep_duration;
+        float _endpoint_asleep_duration;
         //bookkepping
         bool _paused;
-        float _current_asleep;
-        float _current_awake;
+        std::vector<float> _current_asleep;
+        std::vector<float> _current_awake;
+        std::vector<float> _current_asleep_endpoint;
+        float _current_asleep_start;
         //saved
         bool _saved_paused;
     protected:
@@ -52,7 +56,7 @@ namespace rb {
         virtual rb_string displayable_type_name() const override;
     public:
         position_animator_component();
-        void reset_animation();
+        void reset_animation(bool initial_delay);
         bool paused_animation() const;
         bool paused_animation(bool value);
         const rb_string& animated_class() const;
@@ -69,6 +73,10 @@ namespace rb {
         float asleep_duration(float value);
         float awake_duration() const;
         float awake_duration(float value);
+        float start_asleep_duration() const;
+        float start_asleep_duration(float value);
+        float endpoint_asleep_duration() const;
+        float endpoint_asleep_duration(float value);
     public:
         virtual void playing() override;
     };

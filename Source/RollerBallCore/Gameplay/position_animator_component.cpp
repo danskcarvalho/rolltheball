@@ -21,8 +21,9 @@ position_animator_component::position_animator_component(){
     _asleep_duration = 0;
     _awake_duration = 0;
     _paused = false;
-    _current_asleep = 0;
-    _current_awake = 0;
+    _current_asleep_start = 0;
+    _start_asleep_duration = 0;
+    _endpoint_asleep_duration = 0;
     _saved_paused = false;
     _invert = false;
     _clamp = false;
@@ -31,12 +32,15 @@ position_animator_component::position_animator_component(){
 void position_animator_component::reset_component(){
     for (size_t i = 0; i < _nodes.size(); i++) {
         _nodes[i]->transform(_saved_transforms[i]);
+        _current_asleep_endpoint[i] = 0;
+        _current_asleep[i] = 0;
+        _current_awake[i] = _awake_duration;
+        
     }
     _lengths = _saved_lengths;
     _dirs = _saved_dirs;
-    _current_asleep = _asleep_duration;
-    _current_awake = _awake_duration;
     _paused = _saved_paused;
+    _current_asleep_start = _start_asleep_duration;
 }
 
 void position_animator_component::playing(){
@@ -95,10 +99,12 @@ void position_animator_component::playing(){
                     break;
                 }
             }
+            _current_asleep_endpoint.push_back(0);
+            _current_asleep.push_back(0);
+            _current_awake.push_back(_awake_duration);
         }
         
-        _current_asleep = _asleep_duration;
-        _current_awake = _awake_duration;
+        _current_asleep_start = _start_asleep_duration;
         _saved_paused = _paused;
     }
 }
@@ -107,16 +113,35 @@ void position_animator_component::update(float dt){
     if(_paused)
         return;
     
-    if(_current_asleep > 0){
-        _current_asleep -= dt;
-        if(_current_asleep <= 0){
-            _current_awake = _awake_duration;
-            _current_asleep = 0;
+    if(_current_asleep_start > 0){
+        _current_asleep_start -= dt;
+        if(_current_asleep_start <= 0){
+            for (size_t i = 0; i < _nodes.size(); i++)
+                _current_awake[i] = _awake_duration;
+            _current_asleep_start = 0;
         }
         return;
     }
     
     for (size_t i = 0; i < _nodes.size(); i++) {
+        if(_current_asleep_endpoint[i] > 0){
+            _current_asleep_endpoint[i] -= dt;
+            if(_current_asleep_endpoint[i] <= 0){
+                _current_awake[i] = _awake_duration;
+                _current_asleep_endpoint[i] = 0;
+            }
+            continue;
+        }
+        
+        if(_current_asleep[i] > 0){
+            _current_asleep[i] -= dt;
+            if(_current_asleep[i] <= 0){
+                _current_awake[i] = _awake_duration;
+                _current_asleep[i] = 0;
+            }
+            continue;
+        }
+        
         auto _t = _nodes[i]->transform();
         auto _l = _lengths[i];
         auto _d = _dirs[i];
@@ -129,10 +154,12 @@ void position_animator_component::update(float dt){
             if(_l < 0){
                 _l = -_l;
                 _d = -_d;
+                _current_asleep_endpoint[i] = _endpoint_asleep_duration;
             }
             else if(_l > _pp.length()){
                 _l = 2 * _pp.length() - _l;
                 _d = -_d;
+                _current_asleep_endpoint[i] = _endpoint_asleep_duration;
             }
         }
         else if(_clamp){
@@ -148,13 +175,13 @@ void position_animator_component::update(float dt){
         _nodes[i]->transform(_t);
         _lengths[i] = _l;
         _dirs[i] = _d;
-    }
-    
-    if(_current_awake > 0){
-        _current_awake -= dt;
-        if(_current_awake <= 0){
-            _current_asleep = _asleep_duration;
-            _current_awake = 0;
+        
+        if(_current_awake[i] > 0){
+            _current_awake[i] -= dt;
+            if(_current_awake[i] <= 0){
+                _current_asleep[i] = _asleep_duration;
+                _current_awake[i] = 0;
+            }
         }
     }
 }
@@ -226,6 +253,22 @@ void position_animator_component::describe_type(){
             site->awake_duration(value);
         }
     });
+    single_property<position_animator_component>(u"initial_asleep_duration", u"St Asleep", true, {
+        [](const position_animator_component* site){
+            return site->start_asleep_duration();
+        },
+        [](position_animator_component* site, float value){
+            site->start_asleep_duration(value);
+        }
+    });
+    single_property<position_animator_component>(u"endpoint_asleep_duration", u"End Asleep", true, {
+        [](const position_animator_component* site){
+            return site->endpoint_asleep_duration();
+        },
+        [](position_animator_component* site, float value){
+            site->endpoint_asleep_duration(value);
+        }
+    });
     end_type();
 }
 
@@ -241,9 +284,14 @@ rb_string position_animator_component::displayable_type_name() const {
     return u"Position Animator";
 }
 
-void position_animator_component::reset_animation(){
-    _current_asleep = _asleep_duration;
-    _current_awake = _awake_duration;
+void position_animator_component::reset_animation(bool initial_delay){
+    for (size_t i = 0; i < _nodes.size(); i++) {
+        _current_asleep[i] = 0;
+        _current_awake[i] = _awake_duration;
+        _current_asleep_endpoint[i] = 0;
+    }
+    if(initial_delay)
+        _current_asleep_start = _start_asleep_duration;
 }
 
 bool position_animator_component::paused_animation() const {
@@ -315,6 +363,22 @@ float position_animator_component::awake_duration() const {
 float position_animator_component::awake_duration(float value){
     _awake_duration = value;
     return _awake_duration;
+}
+
+float position_animator_component::start_asleep_duration() const {
+    return _start_asleep_duration;
+}
+
+float position_animator_component::start_asleep_duration(float value){
+    return _start_asleep_duration = value;
+}
+
+float position_animator_component::endpoint_asleep_duration() const {
+    return _endpoint_asleep_duration;
+}
+
+float position_animator_component::endpoint_asleep_duration(float value){
+    return _endpoint_asleep_duration = value;
 }
 
 
