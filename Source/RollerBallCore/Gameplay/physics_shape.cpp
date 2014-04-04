@@ -25,8 +25,8 @@ physics_shape::physics_shape(){
     _priority = 0;
     _active_gravity = true;
     _invert_velocity = true;
-    _gravity_ref2 = nullptr;
-    _circular_planet = false;
+    _gravity_ref_node = nullptr;
+    _animatable = false;
 }
 
 physics_shape::~physics_shape(){
@@ -85,12 +85,12 @@ void physics_shape::describe_type(){
             site->_invert_velocity = (bool)value;
         }
     });
-    boolean_property<physics_shape>(u"circular_planet", u"Circ Planet", true, {
+    boolean_property<physics_shape>(u"animatable", u"Animatable", true, {
         [](const physics_shape* site){
-            return site->_circular_planet;
+            return site->animatable();
         },
         [](physics_shape* site, const bool value){
-            site->_circular_planet = (bool)value;
+            site->animatable(value);
         }
     });
     end_type();
@@ -98,10 +98,27 @@ void physics_shape::describe_type(){
 
 void physics_shape::after_becoming_active(bool node_was_moved){
     polygon_component::after_becoming_active(node_was_moved);
+    
+    if(_animatable)
+        register_for(registrable_event::update, PHYS_OBJECT_UPDATE_PRIORITY);
+    else
+        unregister_for(registrable_event::update);
 }
 
 void physics_shape::before_becoming_inactive(bool node_was_moved){
     polygon_component::before_becoming_inactive(node_was_moved);
+}
+
+void physics_shape::reset_component() {
+    transform(_saved_transform);
+//
+//    auto _saved_scale = transform().scale();
+//    transform(transform().scaled(1, 1)); //no scale
+//    auto _t = from_node_space_to(space::layer);
+//    transform(transform().scaled(_saved_scale)); //restore scale
+//    
+//    _body->SetTransform(b2Vec2(_t.origin().x(), _t.origin().y()), _t.rotation().x());
+//    _before = nullptr;
 }
 
 rb_string physics_shape::type_name() const {
@@ -123,24 +140,34 @@ const nullable<rb_string>& physics_shape::gravity_reference(const nullable<rb_st
 void physics_shape::playing() {
     if(!_phys_initialized){
         _phys_initialized = true;
-        auto _t = transform();
         auto _engine = dynamic_cast<physics_engine*>(parent_scene()->node_with_name(u"Physic's Engine"));
         _planet = dynamic_cast<physics_shape*>(parent_scene()->node_with_name(_planet_name));
         _world = _engine->world();
         if(_gravity_ref.has_value())
-            _gravity_ref2 = parent_scene()->node_with_name(_gravity_ref.value());
+            _gravity_ref_node = parent_scene()->node_with_name(_gravity_ref.value());
+        
+        auto _saved_scale = transform().scale();
+        transform(transform().scaled(1, 1)); //no scale
+        auto _t = from_node_space_to(space::layer);
+        transform(transform().scaled(_saved_scale)); //restore scale
+        
+        //Here we insert code so the object can be reset
+        _saved_transform = transform();
+        if(_animatable)
+            register_for(registrable_event::update, PHYS_OBJECT_UPDATE_PRIORITY);
+        else
+            unregister_for(registrable_event::update);
+        ///////////////////////////////////////////////
         
         b2BodyDef _bDef;
         _bDef.active = true;
-        _bDef.angle = 0;
+        _bDef.angle = _t.rotation().x();
         _bDef.linearDamping = 0.0f;
         _bDef.angularDamping = 0.1f;
         _bDef.position = b2Vec2(_t.origin().x(), _t.origin().y());
-        _bDef.type = b2_staticBody;
+        _bDef.type = _animatable ? b2_kinematicBody : b2_staticBody;
         _bDef.userData = (node*)this;
         _body = _world->CreateBody(&_bDef);
-        
-        auto _new_t = transform_space(_t.origin(), vec2(1, 1), 0);
         
         b2FixtureDef _fDef;
         _fDef.isSensor = _type == kStaticGravityZone;
@@ -149,42 +176,29 @@ void physics_shape::playing() {
         _fDef.filter.categoryBits = _type == kStaticPlanet ? PHYS_MASK_SHAPE : PHYS_MASK_GRAVITY_REGION;
         _fDef.filter.maskBits = PHYS_MASK_CHARACTER;
         
-        if(_type == kStaticPlanet && smooth()){
-            _cached_pol = to_smooth_polygon();
-        }
-        else if(_type == kStaticPlanet || _type == kStaticGravityZone){
-            _cached_pol = to_smooth_polygon();
-        }
+        
+        _cached_pol = to_smooth_polygon();
+        auto _cached_pol_copy = _cached_pol;
+        //apply scaling
+        matrix3x3::build_scale(_saved_scale).transform_polygon(_cached_pol); //scale applied!!!
         
         if(_type == kStaticPlanet){
-            if(!_circular_planet){
-                b2ChainShape _c;
-                b2Vec2* _v = new b2Vec2[_cached_pol.point_count()];
-                for (uint32_t i = 0; i < _cached_pol.point_count(); i++) {
-                    auto _p = _t.from_space_to_base().transformed_point(_cached_pol.get_point(i));
-                    _p = _new_t.from_base_to_space().transformed_point(_p);
-                    _v[i] = b2Vec2(_p.x(), _p.y());
-                }
-                _c.CreateLoop(_v, _cached_pol.point_count());
-                delete [] _v;
-                _fDef.shape = &_c;
-                _body->CreateFixture(&_fDef);
+            b2ChainShape _c;
+            b2Vec2* _v = new b2Vec2[_cached_pol.point_count()];
+            for (uint32_t i = 0; i < _cached_pol.point_count(); i++) {
+                auto _p = _cached_pol.get_point(i);
+                _v[i] = b2Vec2(_p.x(), _p.y());
             }
-            else {
-                b2CircleShape _c;
-                vec2 _anyPoint = _t.from_space_to_base().transformed_point(_cached_pol.get_point(0));
-                _c.m_p = b2Vec2(0, 0);
-                _c.m_radius = vec2::distance(_t.origin(), _anyPoint);
-                _fDef.shape = &_c;
-                _body->CreateFixture(&_fDef);
-            }
+            _c.CreateLoop(_v, _cached_pol.point_count());
+            delete [] _v;
+            _fDef.shape = &_c;
+            _body->CreateFixture(&_fDef);
         }
         else {
             b2PolygonShape _c;
             b2Vec2* _v = new b2Vec2[_cached_pol.point_count()];
             for (uint32_t i = 0; i < _cached_pol.point_count(); i++) {
-                auto _p = _t.from_space_to_base().transformed_point(_cached_pol.get_point(i));
-                _p = _new_t.from_base_to_space().transformed_point(_p);
+                auto _p = _cached_pol.get_point(i);
                 _v[i] = b2Vec2(_p.x(), _p.y());
             }
             _c.Set(_v, _cached_pol.point_count());
@@ -193,9 +207,8 @@ void physics_shape::playing() {
             _body->CreateFixture(&_fDef);
         }
         
-        if(_type == kStaticPlanet || _type == kStaticGravityZone){
-            transform().from_space_to_base().transform_polygon(_cached_pol); //we transform the polygon
-        }
+        _cached_pol = _cached_pol_copy;
+        from_node_space_to(space::layer).from_space_to_base().transform_polygon(_cached_pol); //we transform to layer space
     }
 }
 
@@ -218,19 +231,11 @@ float physics_shape::gravity(const float value){
 }
 
 vec2 physics_shape::gravity_vector(const rb::vec2 &position, vec2& cam_gravity){
-    if(_gravity_ref2) //if gravity is fixed
+    if(_gravity_ref_node) //if gravity is fixed
     {
-        auto _g = _gravity_ref2->transform().from_space_to_base().y_vector().normalized();
+        auto _g = _gravity_ref_node->transform().from_space_to_base().y_vector().normalized();
         cam_gravity = -_g;
         return _g * _gravity;
-    }
-    
-    if(_circular_planet){
-        auto _g = transform().origin() - position;
-        _g.normalize();
-        _g *= _gravity;
-        cam_gravity = -_g;
-        return _g;
     }
     
     auto& _pol = _cached_pol;
@@ -289,6 +294,46 @@ bool physics_shape::invert_velocity() const {
 bool physics_shape::invert_velocity(const bool value){
     return _invert_velocity = value;
 }
+
+bool physics_shape::animatable() const {
+    return _animatable;
+}
+
+bool physics_shape::animatable(bool value){
+    _animatable = value;
+    if(active()){
+        if(_animatable)
+            register_for(registrable_event::update, PHYS_OBJECT_UPDATE_PRIORITY);
+        else
+            unregister_for(registrable_event::update);
+    }
+    return _animatable;
+}
+
+void physics_shape::update(float dt){
+    if(!_phys_initialized)
+        return;
+    
+    if(!_before.has_value())
+    {
+        auto _t = this->from_node_space_to(space::layer);
+        _before = _t;
+        _body->SetTransform(b2Vec2(_t.origin().x(), _t.origin().y()), _t.rotation().x());
+    }
+    else {
+        auto _t = this->from_node_space_to(space::layer);
+        auto _v = _t.origin() - _before.value().origin();
+        auto _o = _t.rotation().x() - _before.value().rotation().x();
+        
+        _v *= 30.0f;
+        _o *= 30.0f;
+        
+        _body->SetLinearVelocity(b2Vec2(_v.x(), _v.y()));
+        _body->SetAngularVelocity(_o);
+        _before = _t;
+    }
+}
+
 
 
 

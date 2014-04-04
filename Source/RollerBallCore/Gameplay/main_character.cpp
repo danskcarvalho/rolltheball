@@ -276,6 +276,14 @@ void main_character::update(float dt){
         _didJump = false;
         _clear_jump = nullptr;
     }
+    
+    //jump count may be renovated
+    if(!_didJump && _jumpCount != PHYS_CHARACTER_JUMP_COUNT){
+        for(auto& _kp : _contacts){
+            if(_kp.first->shape_type() == physics_shape::kStaticPlanet && testSlopeAngle(&_kp.second, _previous_g))
+                this->_jumpCount = PHYS_CHARACTER_JUMP_COUNT;
+        }
+    }
 }
 
 nullable<vec2> main_character::getClosestPointFromCameraTrack(const rb::vec2& charPos) const{
@@ -799,13 +807,14 @@ std::tuple<A*, B*> get_objects(b2Contact* contact){
 void main_character::BeginContact(b2Contact *contact){
     auto _groundContact = get_objects<main_character, physics_shape>(contact);
     
-    if(std::get<0>(_groundContact) && std::get<1>(_groundContact)){
+    if(std::get<0>(_groundContact) && std::get<1>(_groundContact) && contact->IsEnabled() && contact->IsTouching()){
         auto _character = std::get<0>(_groundContact);
         auto _ground = std::get<1>(_groundContact);
         
         //get manifold
         b2WorldManifold manifold;
         contact->GetWorldManifold(&manifold);
+        _contacts[_ground] = manifold;
         
         if(_ground->shape_type() == physics_shape::kStaticPlanet && testSlopeAngle(&manifold, _previous_g)){
             if(!_character->_didJump)
@@ -829,9 +838,9 @@ bool main_character::testSlopeAngle(b2WorldManifold *manifold, const nullable<rb
 void main_character::EndContact(b2Contact *contact){
     auto _groundContact = get_objects<main_character, physics_shape>(contact);
     
-    if(std::get<0>(_groundContact) && std::get<1>(_groundContact)){
+    if(std::get<0>(_groundContact) && std::get<1>(_groundContact) && contact->IsEnabled()){
         auto _ground = std::get<1>(_groundContact);
-        
+        _contacts.erase(_ground);
         if(_ground->shape_type() == physics_shape::kStaticGravityZone){
             _ground->_active_gravity = true;
         }

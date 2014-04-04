@@ -11,6 +11,7 @@
 #include "polygon_component.h"
 #include "matrix3x3.h"
 #include "layer.h"
+#include "physics_shape.h"
 
 using namespace rb;
 
@@ -41,6 +42,51 @@ void position_animator_component::reset_component(){
     _dirs = _saved_dirs;
     _paused = _saved_paused;
     _current_asleep_start = _start_asleep_duration;
+}
+
+void position_animator_component::adjust_objects_to_path(){
+    _nodes = parent_scene()->node_with_one_class(_class);
+    auto _temp_paths = parent_scene()->node_with_one_class(_path_class);
+    for (auto _p : _temp_paths){
+        auto _pc = dynamic_cast<polygon_component*>(_p);
+        if(!_pc)
+            continue;
+        
+        //we take scale into consideration
+        for (uint32_t i = 0; i < _pc->node_count(); i++){
+            auto _pt = _pc->node_at(i);
+            auto _ptt = _pt->transform();
+            _ptt = _ptt.moved(_ptt.origin() * _pc->transform().scale());
+            _pt->transform(_ptt);
+        }
+        _pc->transform(_pc->transform().scaled(1, 1));
+        
+        _paths.insert({_p, polygon_path(_pc->to_smooth_polygon())});
+    }
+    
+    for (auto _n : _nodes){
+        for (auto _p : _paths){
+            if(_n->has_class(_p.first->name())){
+                //calc the length offset in the path...
+                auto _xy = _n->transform().origin();
+                if(_n->parent_node())
+                    _n->parent_node()->from_node_space_to(_p.first).from_space_to_base().transform_point(_xy);
+                else
+                    _n->parent_layer()->from_layer_space_to(_p.first).from_space_to_base().transform_point(_xy);
+                
+                auto _len = _p.second.length(_xy);
+                
+                //we adjust the transform of the object
+                auto _new_xy = _p.second.point_at(_len, true);
+                _p.first->from_node_space_to(_n->parent()).from_space_to_base().transform_point(_new_xy);
+                _n->transform(_n->transform().moved(_new_xy));
+                break;
+            }
+        }
+    }
+    
+    _nodes.clear();
+    _paths.clear();
 }
 
 void position_animator_component::playing(){
@@ -189,6 +235,10 @@ void position_animator_component::update(float dt){
 void position_animator_component::describe_type(){
     nvnode::describe_type();
     start_type<position_animator_component>([](){return new position_animator_component(); });
+    action<position_animator_component>(u"adjust", u"", action_flags::multi_dispatch, {u"Adjust Objects"},
+        [](position_animator_component* site, const rb_string& action){
+            site->adjust_objects_to_path();
+        });
     single_property<position_animator_component>(u"velocity", u"Vel", true, {
         [](const position_animator_component* site){
             return site->velocity();

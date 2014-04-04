@@ -11,13 +11,19 @@
 
 #include "components_base.h"
 #include "polygon_component.h"
+#include "resettable_component.h"
 
 class b2World;
 class b2Body;
 
 namespace rb {
     class main_character;
-    class physics_shape : public polygon_component {
+//    class position_animator_component;
+    class physics_shape : public polygon_component, public resettable_component {
+//    public:
+//        friend class position_animator_component;
+    protected:
+        virtual void reset_component() override;
     public:
         enum type {
             kStaticGravityZone = 0,
@@ -36,8 +42,11 @@ namespace rb {
         bool _active_gravity;
         bool _invert_velocity;
         nullable<rb_string> _gravity_ref;
-        node* _gravity_ref2;
-        bool _circular_planet;
+        node* _gravity_ref_node;
+        //saving and animating
+        nullable<transform_space> _before;
+        transform_space _saved_transform;
+        bool _animatable;
     public:
         friend class main_character;
         physics_shape();
@@ -47,12 +56,17 @@ namespace rb {
         virtual void describe_type() override;
         virtual void after_becoming_active(bool node_was_moved) override;
         virtual void before_becoming_inactive(bool node_was_moved) override;
+    protected:
+        //Update
+        virtual void update(float dt);
     public:
         virtual rb_string type_name() const override;
         virtual rb_string displayable_type_name() const override;
     protected:
         virtual void playing() override;
     public:
+        bool animatable() const;
+        bool animatable(bool value);
         type shape_type() const;
         type shape_type(const type value);
         float gravity() const;

@@ -77,6 +77,7 @@ namespace rb {
         float start_asleep_duration(float value);
         float endpoint_asleep_duration() const;
         float endpoint_asleep_duration(float value);
+        void adjust_objects_to_path();
     public:
         virtual void playing() override;
     };

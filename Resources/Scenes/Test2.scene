@@ -1,0 +1,925 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<object type-name="rb::scene">
+	<properties>
+		<property value="~/Projects/GameRollerBall/Resources/Atlases/Test.bundle" name="atlas_path" />
+		<property value="Test.bundle" name="atlas_name" />
+		<property value="true" name="aspect_correction" />
+		<property value-a="1" value-b="0" value-g="0" value-r="0" name="background_color" />
+		<property value-a="1" value-b="0" value-g="0.7" value-r="0" name="gizmo_color" />
+		<property value-a="1" value-b="0" value-g="0.64" value-r="1" name="alternate_gizmo" />
+		<property value-a="1" value-b="1" value-g="1" value-r="1" name="selection_color" />
+		<property value-a="0" value-b="0" value-g="0" value-r="0" name="fade_color" />
+		<property value="0|" name="current" />
+		<property value="AACAPyAdRkEgHUZB/v/tu9shyD/fLmpBh1yXwckbRkGoLri9YS64PckbRkHfLmpBh1yXwQEAgD9DZaU91cQZOpnEGbpDZaU9griYv7B7wj8=" name="camera" />
+	</properties>
+	<children>
+		<child type-name="rb::layer">
+			<properties>
+				<property value="false" name="rb::in_editor_hidden" />
+				<property value="false" name="rb::selected" />
+				<property value="false" name="static_layer" />
+				<property value="true" name="playing" />
+				<property value="Normal" name="blend_mode" />
+				<property value-a="1" value-b="1" value-g="1" value-r="1" name="ambient_color" />
+				<property value="1" name="primary_g00_g03" />
+				<property value="0" name="primary_g04_g07" />
+				<property value="0" name="primary_g08_g09" />
+				<property value="0" name="secondary_g00_g03" />
+				<property value="0" name="secondary_g04_g07" />
+				<property value="0" name="secondary_g08_g09" />
+				<property value-y="1" value-x="1" name="camera_position_factor" />
+				<property value="0" name="camera_invariant" />
+				<property value="Normal" name="particle_blend_mode" />
+			</properties>
+			<children>
+				<child type-name="rb::physics_engine">
+					<properties>
+						<property value="false" name="rb::selected" />
+						<property type-name="rb::component_id" name="rb::node_id">
+							<properties>
+								<property value="Physic's Engine" name="name" />
+								<property value="physEngine" name="classes" />
+							</properties>
+							<children />
+						</property>
+						<property value-y="-10" value-x="0" name="default_gravity" />
+					</properties>
+					<children />
+				</child>
+				<child type-name="rb::animation_manager_component">
+					<properties>
+						<property value="false" name="rb::selected" />
+						<property type-name="rb::component_id" name="rb::node_id">
+							<properties>
+								<property value="Animation Manager" name="name" />
+								<property value="animationManager" name="classes" />
+							</properties>
+							<children />
+						</property>
+					</properties>
+					<children />
+				</child>
+				<child type-name="rb::rotation_animator_component">
+					<properties>
+						<property value="false" name="rb::selected" />
+						<property type-name="rb::component_id" name="rb::node_id">
+							<properties>
+								<property value="sawRotator" name="name" />
+								<property value="" name="classes" />
+							</properties>
+							<children />
+						</property>
+						<property value="180" name="rotation_velocity" />
+						<property is-null="true" name="min_angle" />
+						<property is-null="true" name="max_angle" />
+						<property value="saw" name="animated_class" />
+						<property value="false" name="paused_animation" />
+						<property value="false" name="change_dir_endpoint" />
+						<property value="0" name="asleep_duration" />
+						<property value="0" name="awake_duration" />
+						<property value="0" name="initial_asleep_duration" />
+						<property value="0" name="endpoint_asleep_duration" />
+					</properties>
+					<children />
+				</child>
+				<child type-name="rb::main_character">
+					<properties>
+						<property value="false" name="rb::in_editor_hidden" />
+						<property value="false" name="rb::selected" />
+						<property type-name="rb::component_id" name="rb::node_id">
+							<properties>
+								<property value="Main Character" name="name" />
+								<property value="" name="classes" />
+							</properties>
+							<children />
+						</property>
+						<property type-name="rb::transformation_values" name="rb::transformation">
+							<properties>
+								<property value-y="-20.894" value-x="0.167672" name="translation" />
+								<property value-y="1" value-x="1" name="scale" />
+								<property value="false" name="uniform" />
+								<property value-y="90" value-x="0" name="rotation" />
+								<property value="true" name="orthogonal" />
+							</properties>
+							<children />
+						</property>
+						<property value="false" name="rb::blocked" />
+						<property value="character" name="image_name" />
+						<property value="0.9" name="damping" />
+						<property value-y="6" value-x="6" name="camera_scale" />
+						<property value="0" name="direction" />
+						<property value="false" name="invert_xaxis" />
+						<property value="true" name="camera_constrained" />
+						<property is-null="true" name="cam_offset" />
+					</properties>
+				</child>
+				<child type-name="rb::rotation_animator_component">
+					<properties>
+						<property value="false" name="rb::selected" />
+						<property type-name="rb::component_id" name="rb::node_id">
+							<properties>
+								<property value="Saw Rotation 01" name="name" />
+								<property value="" name="classes" />
+							</properties>
+							<children />
+						</property>
+						<property value="45" name="rotation_velocity" />
+						<property value="0" name="min_angle" />
+						<property value="180" name="max_angle" />
+						<property value="sawGroup01" name="animated_class" />
+						<property value="false" name="paused_animation" />
+						<property value="true" name="change_dir_endpoint" />
+						<property value="1" name="asleep_duration" />
+						<property value="1" name="awake_duration" />
+						<property value="0" name="initial_asleep_duration" />
+						<property value="4" name="endpoint_asleep_duration" />
+					</properties>
+					<children />
+				</child>
+				<child type-name="rb::position_animator_component">
+					<properties>
+						<property value="false" name="rb::selected" />
+						<property type-name="rb::component_id" name="rb::node_id">
+							<properties>
+								<property value="posAnimator" name="name" />
+								<property value="" name="classes" />
+							</properties>
+							<children />
+						</property>
+						<property name="adjust" />
+						<property value="2" name="velocity" />
+						<property value="posSaw" name="animated_class" />
+						<property value="sawPath" name="path_class" />
+						<property value="false" name="paused_animation" />
+						<property value="false" name="clamp" />
+						<property value="true" name="invert" />
+						<property value="0" name="asleep_duration" />
+						<property value="0" name="awake_duration" />
+						<property value="0" name="initial_asleep_duration" />
+						<property value="2" name="endpoint_asleep_duration" />
+					</properties>
+					<children />
+				</child>
+				<child type-name="rb::physics_shape">
+					<properties>
+						<property value="false" name="rb::in_editor_hidden" />
+						<property value="false" name="rb::selected" />
+						<property type-name="rb::component_id" name="rb::node_id">
+							<properties>
+								<property value="" name="name" />
+								<property value="" name="classes" />
+							</properties>
+							<children />
+						</property>
+						<property type-name="rb::transformation_values" name="rb::transformation">
+							<properties>
+								<property value-y="-22.8401" value-x="16.8433" name="translation" />
+								<property value-y="0.885104" value-x="38.2486" name="scale" />
+								<property value="false" name="uniform" />
+								<property value-y="90" value-x="0" name="rotation" />
+								<property value="true" name="orthogonal" />
+							</properties>
+							<children />
+						</property>
+						<property value="true" name="rb::blocked" />
+						<property value="32" name="circle_sides" />
+						<property name="reset" />
+						<property value="true" name="visible" />
+						<property value="false" name="marker" />
+						<property value="false" name="opened" />
+						<property value="1" name="opacity" />
+						<property value="false" name="smooth" />
+						<property value="0.1" name="smooth_quality" />
+						<property value="5" name="smooth_divisions" />
+						<property value="stone" name="image_name" />
+						<property value-a="1" value-b="1" value-g="1" value-r="1" name="tint" />
+						<property value="1" name="blend" />
+						<property value="false" name="transformable" />
+						<property value="Miter" name="border_corner_type" />
+						<property value="0" name="border_size" />
+						<property is-null="true" name="border_color" />
+						<property value="" name="border_image_name" />
+						<property value="1" name="max_s" />
+						<property name="bool_operations" />
+						<property name="misc_operations" />
+						<property value="AiBAAA==" name="flags" />
+						<property value="AQAAAAQAAAAAAAC/AAAAPwAAAL8AAAC/AAAAPwAAAL8AAAA/AAAAPw==" name="polygon" />
+						<property value="GAAAABAAAAAAAAEAAgAAAAMAAQAEAAUABgAEAAcABQAIAAkACgAIAAsACQAMAA0ADgAMAA8ADQCg8hHAP7i2wTgfgz75l38/AACAPwAAgD/r/TI+9VZvPwqBJj4hCII9/////5+/hkGlQrrBer+sPnd3dz8AAIA/AACAP+v9Mj71Vm8/CoEmPiEIgj3/////n7+GQT+4tsF6v6w++Zd/PwAAgD8AAIA/6/0yPvVWbz8KgSY+IQiCPf////+g8hHApUK6wTgfgz53d3c/AACAPwAAgD/r/TI+9VZvPwqBJj4hCII9/////5+/hkE/uLbB6/0yPvmXfz8AAIA/AACAP+v9Mj71Vm8/CoEmPiEIgj3/////D98PQqVCusE4H4M+d3d3PwAAgD8AAIA/6/0yPvVWbz8KgSY+IQiCPf////8P3w9CP7i2wTgfgz75l38/AACAPwAAgD/r/TI+9VZvPwqBJj4hCII9/////5+/hkGlQrrB6/0yPnd3dz8AAIA/AACAP+v9Mj71Vm8/CoEmPiEIgj3/////oPIRwOEts8E4H4M+d3d3PwAAgD8AAIA/6/0yPvVWbz8KgSY+IQiCPf////+fv4ZBP7i2wXq/rD71Vm8/AACAPwAAgD/r/TI+9VZvPwqBJj4hCII9/////5+/hkHhLbPBer+sPnd3dz8AAIA/AACAP+v9Mj71Vm8/CoEmPiEIgj3/////oPIRwD+4tsE4H4M+9VZvPwAAgD8AAIA/6/0yPvVWbz8KgSY+IQiCPf////+fv4ZB4S2zwev9Mj53d3c/AACAPwAAgD/r/TI+9VZvPwqBJj4hCII9/////w/fD0I/uLbBOB+DPvVWbz8AAIA/AACAP+v9Mj71Vm8/CoEmPiEIgj3/////D98PQuEts8E4H4M+d3d3PwAAgD8AAIA/6/0yPvVWbz8KgSY+IQiCPf////+fv4ZBP7i2wev9Mj71Vm8/AACAPwAAgD/r/TI+9VZvPwqBJj4hCII9/////w==" name="m" />
+						<property value="GAAAABAAAAAAAAEAAgAAAAMAAQAEAAUABgAEAAcABQAIAAkACgAIAAsACQAMAA0ADgAMAA8ADQAAAAC/AAAAADgfgz75l38/AACAPwAAgD/r/TI+9VZvPwqBJj4hCII9/////wAAAAAAAAC/er+sPnd3dz8AAIA/AACAP+v9Mj71Vm8/CoEmPiEIgj3/////AAAAAAAAAAB6v6w++Zd/PwAAgD8AAIA/6/0yPvVWbz8KgSY+IQiCPf////8AAAC/AAAAvzgfgz53d3c/AACAPwAAgD/r/TI+9VZvPwqBJj4hCII9/////wAAAAAAAAAA6/0yPvmXfz8AAIA/AACAP+v9Mj71Vm8/CoEmPiEIgj3/////AAAAPwAAAL84H4M+d3d3PwAAgD8AAIA/6/0yPvVWbz8KgSY+IQiCPf////8AAAA/AAAAADgfgz75l38/AACAPwAAgD/r/TI+9VZvPwqBJj4hCII9/////wAAAAAAAAC/6/0yPnd3dz8AAIA/AACAP+v9Mj71Vm8/CoEmPiEIgj3/////AAAAvwAAAD84H4M+d3d3PwAAgD8AAIA/6/0yPvVWbz8KgSY+IQiCPf////8AAAAAAAAAAHq/rD71Vm8/AACAPwAAgD/r/TI+9VZvPwqBJj4hCII9/////wAAAAAAAAA/er+sPnd3dz8AAIA/AACAP+v9Mj71Vm8/CoEmPiEIgj3/////AAAAvwAAAAA4H4M+9VZvPwAAgD8AAIA/6/0yPvVWbz8KgSY+IQiCPf////8AAAAAAAAAP+v9Mj53d3c/AACAPwAAgD/r/TI+9VZvPwqBJj4hCII9/////wAAAD8AAAAAOB+DPvVWbz8AAIA/AACAP+v9Mj71Vm8/CoEmPiEIgj3/////AAAAPwAAAD84H4M+d3d3PwAAgD8AAIA/6/0yPvVWbz8KgSY+IQiCPf////8AAAAAAAAAAOv9Mj71Vm8/AACAPwAAgD/r/TI+9VZvPwqBJj4hCII9/////w==" name="m_copy" />
+						<property is-null="true" name="b" />
+						<property is-null="true" name="b" />
+						<property value="AABwAJH+GEItlmI/AAAAANsPyT8Lv4ZBdLi2wZH+GEIAAAAAAAAAAC2WYj8Lv4ZBdLi2wQEAAACDLdY8AAAAAAAAAACjnZA/T3fhvopwzkE=" name="before" />
+						<property value="AQCAPwAAgD8AAIA/AAAAANsPyT8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" name="before_b" />
+						<property value="AQAAAAAAgD8AAIA/AAAAANsPyT8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAZQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" name="tx_space" />
+						<property value="Static Planet" name="shape_type" />
+						<property value="10" name="gravity" />
+						<property is-null="true" name="gravity_reference" />
+						<property value="" name="planet_name" />
+						<property value="0" name="priority" />
+						<property value="true" name="invert_velocity" />
+						<property value="false" name="animatable" />
+					</properties>
+					<children>
+						<child type-name="rb::polygon_point_component">
+							<properties>
+								<property value="false" name="rb::in_editor_hidden" />
+								<property value="false" name="rb::selected" />
+								<property type-name="rb::component_id" name="rb::node_id">
+									<properties>
+										<property value="" name="name" />
+										<property value="" name="classes" />
+									</properties>
+									<children />
+								</property>
+								<property type-name="rb::transformation_values" name="rb::transformation">
+									<properties>
+										<property value-y="0.5" value-x="-0.5" name="translation" />
+										<property value-y="1" value-x="1" name="scale" />
+										<property value="false" name="uniform" />
+										<property value-y="90" value-x="0" name="rotation" />
+										<property value="true" name="orthogonal" />
+									</properties>
+									<children />
+								</property>
+								<property value="false" name="rb::blocked" />
+								<property name="make_itself_first" />
+								<property name="split" />
+							</properties>
+							<children />
+						</child>
+						<child type-name="rb::polygon_point_component">
+							<properties>
+								<property value="false" name="rb::in_editor_hidden" />
+								<property value="false" name="rb::selected" />
+								<property type-name="rb::component_id" name="rb::node_id">
+									<properties>
+										<property value="" name="name" />
+										<property value="" name="classes" />
+									</properties>
+									<children />
+								</property>
+								<property type-name="rb::transformation_values" name="rb::transformation">
+									<properties>
+										<property value-y="-0.5" value-x="-0.5" name="translation" />
+										<property value-y="1" value-x="1" name="scale" />
+										<property value="false" name="uniform" />
+										<property value-y="90" value-x="0" name="rotation" />
+										<property value="true" name="orthogonal" />
+									</properties>
+									<children />
+								</property>
+								<property value="false" name="rb::blocked" />
+								<property name="make_itself_first" />
+								<property name="split" />
+							</properties>
+							<children />
+						</child>
+						<child type-name="rb::polygon_point_component">
+							<properties>
+								<property value="false" name="rb::in_editor_hidden" />
+								<property value="false" name="rb::selected" />
+								<property type-name="rb::component_id" name="rb::node_id">
+									<properties>
+										<property value="" name="name" />
+										<property value="" name="classes" />
+									</properties>
+									<children />
+								</property>
+								<property type-name="rb::transformation_values" name="rb::transformation">
+									<properties>
+										<property value-y="-0.5" value-x="0.5" name="translation" />
+										<property value-y="1" value-x="1" name="scale" />
+										<property value="false" name="uniform" />
+										<property value-y="90" value-x="0" name="rotation" />
+										<property value="true" name="orthogonal" />
+									</properties>
+									<children />
+								</property>
+								<property value="false" name="rb::blocked" />
+								<property name="make_itself_first" />
+								<property name="split" />
+							</properties>
+							<children />
+						</child>
+						<child type-name="rb::polygon_point_component">
+							<properties>
+								<property value="false" name="rb::in_editor_hidden" />
+								<property value="false" name="rb::selected" />
+								<property type-name="rb::component_id" name="rb::node_id">
+									<properties>
+										<property value="" name="name" />
+										<property value="" name="classes" />
+									</properties>
+									<children />
+								</property>
+								<property type-name="rb::transformation_values" name="rb::transformation">
+									<properties>
+										<property value-y="0.5" value-x="0.5" name="translation" />
+										<property value-y="1" value-x="1" name="scale" />
+										<property value="false" name="uniform" />
+										<property value-y="90" value-x="0" name="rotation" />
+										<property value="true" name="orthogonal" />
+									</properties>
+									<children />
+								</property>
+								<property value="false" name="rb::blocked" />
+								<property name="make_itself_first" />
+								<property name="split" />
+							</properties>
+							<children />
+						</child>
+					</children>
+				</child>
+				<child type-name="rb::saw">
+					<properties>
+						<property value="false" name="rb::in_editor_hidden" />
+						<property value="false" name="rb::selected" />
+						<property type-name="rb::component_id" name="rb::node_id">
+							<properties>
+								<property value="" name="name" />
+								<property value="" name="classes" />
+							</properties>
+							<children />
+						</property>
+						<property type-name="rb::transformation_values" name="rb::transformation">
+							<properties>
+								<property value-y="-22.1454" value-x="8.79223" name="translation" />
+								<property value-y="2.39076" value-x="2.39076" name="scale" />
+								<property value="true" name="uniform" />
+								<property value-y="90" value-x="0" name="rotation" />
+								<property value="true" name="orthogonal" />
+							</properties>
+							<children />
+						</property>
+						<property value="false" name="rb::blocked" />
+						<property value="saw" name="image_name" />
+						<property value="false" name="animatable" />
+					</properties>
+				</child>
+				<child type-name="rb::saw">
+					<properties>
+						<property value="false" name="rb::in_editor_hidden" />
+						<property value="false" name="rb::selected" />
+						<property type-name="rb::component_id" name="rb::node_id">
+							<properties>
+								<property value="" name="name" />
+								<property value="" name="classes" />
+							</properties>
+							<children />
+						</property>
+						<property type-name="rb::transformation_values" name="rb::transformation">
+							<properties>
+								<property value-y="-19.7859" value-x="8.80291" name="translation" />
+								<property value-y="2.39076" value-x="2.39076" name="scale" />
+								<property value="true" name="uniform" />
+								<property value-y="90" value-x="0" name="rotation" />
+								<property value="true" name="orthogonal" />
+							</properties>
+							<children />
+						</property>
+						<property value="false" name="rb::blocked" />
+						<property value="saw" name="image_name" />
+						<property value="false" name="animatable" />
+					</properties>
+				</child>
+				<child type-name="rb::saw">
+					<properties>
+						<property value="false" name="rb::in_editor_hidden" />
+						<property value="false" name="rb::selected" />
+						<property type-name="rb::component_id" name="rb::node_id">
+							<properties>
+								<property value="" name="name" />
+								<property value="" name="classes" />
+							</properties>
+							<children />
+						</property>
+						<property type-name="rb::transformation_values" name="rb::transformation">
+							<properties>
+								<property value-y="-22.4574" value-x="16.1727" name="translation" />
+								<property value-y="2.39076" value-x="2.39076" name="scale" />
+								<property value="true" name="uniform" />
+								<property value-y="90" value-x="0" name="rotation" />
+								<property value="true" name="orthogonal" />
+							</properties>
+							<children />
+						</property>
+						<property value="false" name="rb::blocked" />
+						<property value="saw" name="image_name" />
+						<property value="false" name="animatable" />
+					</properties>
+				</child>
+				<child type-name="rb::saw">
+					<properties>
+						<property value="false" name="rb::in_editor_hidden" />
+						<property value="false" name="rb::selected" />
+						<property type-name="rb::component_id" name="rb::node_id">
+							<properties>
+								<property value="" name="name" />
+								<property value="" name="classes" />
+							</properties>
+							<children />
+						</property>
+						<property type-name="rb::transformation_values" name="rb::transformation">
+							<properties>
+								<property value-y="-22.2713" value-x="23.6205" name="translation" />
+								<property value-y="2.39076" value-x="2.39076" name="scale" />
+								<property value="true" name="uniform" />
+								<property value-y="90" value-x="0" name="rotation" />
+								<property value="true" name="orthogonal" />
+							</properties>
+							<children />
+						</property>
+						<property value="false" name="rb::blocked" />
+						<property value="saw" name="image_name" />
+						<property value="false" name="animatable" />
+					</properties>
+				</child>
+				<child type-name="rb::saw">
+					<properties>
+						<property value="false" name="rb::in_editor_hidden" />
+						<property value="false" name="rb::selected" />
+						<property type-name="rb::component_id" name="rb::node_id">
+							<properties>
+								<property value="" name="name" />
+								<property value="" name="classes" />
+							</properties>
+							<children />
+						</property>
+						<property type-name="rb::transformation_values" name="rb::transformation">
+							<properties>
+								<property value-y="-22.2243" value-x="29.9913" name="translation" />
+								<property value-y="2.39076" value-x="2.39076" name="scale" />
+								<property value="true" name="uniform" />
+								<property value-y="90" value-x="0" name="rotation" />
+								<property value="true" name="orthogonal" />
+							</properties>
+							<children />
+						</property>
+						<property value="false" name="rb::blocked" />
+						<property value="saw" name="image_name" />
+						<property value="false" name="animatable" />
+					</properties>
+				</child>
+				<child type-name="rb::physics_shape">
+					<properties>
+						<property value="false" name="rb::in_editor_hidden" />
+						<property value="false" name="rb::selected" />
+						<property type-name="rb::component_id" name="rb::node_id">
+							<properties>
+								<property value="" name="name" />
+								<property value="pathPlatform posSaw sawGroup01" name="classes" />
+							</properties>
+							<children />
+						</property>
+						<property type-name="rb::transformation_values" name="rb::transformation">
+							<properties>
+								<property value-y="-20.505" value-x="4.71402" name="translation" />
+								<property value-y="0.679221" value-x="5.64492" name="scale" />
+								<property value="false" name="uniform" />
+								<property value-y="90" value-x="0" name="rotation" />
+								<property value="true" name="orthogonal" />
+							</properties>
+							<children />
+						</property>
+						<property value="false" name="rb::blocked" />
+						<property value="32" name="circle_sides" />
+						<property name="reset" />
+						<property value="true" name="visible" />
+						<property value="false" name="marker" />
+						<property value="false" name="opened" />
+						<property value="1" name="opacity" />
+						<property value="false" name="smooth" />
+						<property value="0.1" name="smooth_quality" />
+						<property value="5" name="smooth_divisions" />
+						<property value="stone" name="image_name" />
+						<property value-a="1" value-b="1" value-g="1" value-r="1" name="tint" />
+						<property value="1" name="blend" />
+						<property value="false" name="transformable" />
+						<property value="Miter" name="border_corner_type" />
+						<property value="0" name="border_size" />
+						<property is-null="true" name="border_color" />
+						<property value="" name="border_image_name" />
+						<property value="1" name="max_s" />
+						<property name="bool_operations" />
+						<property name="misc_operations" />
+						<property value="AiBAAA==" name="flags" />
+						<property value="AQAAAAQAAAAAAAC/AAAAPwAAAL8AAAC/AAAAPwAAAL8AAAA/AAAAPw==" name="polygon" />
+						<property value="GAAAABAAAAAAAAEAAgAAAAMAAQAEAAUABgAEAAcABQAIAAkACgAIAAsACQAMAA0ADgAMAA8ADQBQHvI/9QmkwTgfgz75l38/AACAPwAAgD/r/TI+9VZvPwqBJj4hCII9/////7LYlkCAwabBer+sPnd3dz8AAIA/AACAP+v9Mj71Vm8/CoEmPiEIgj3/////ydiWQP0JpMF6v6w++Zd/PwAAgD8AAIA/6/0yPvVWbz8KgSY+IQiCPf/////cHPI/gcGmwTgfgz53d3c/AACAPwAAgD/r/TI+9VZvPwqBJj4hCII9/////8nYlkD9CaTB6/0yPvmXfz8AAIA/AACAP+v9Mj71Vm8/CoEmPiEIgj3/////0CrxQH3BpsE4H4M+d3d3PwAAgD8AAIA/6/0yPvVWbz8KgSY+IQiCPf////9QKvFA/QmkwTgfgz75l38/AACAPwAAgD/r/TI+9VZvPwqBJj4hCII9/////7LYlkCAwabB6/0yPnd3dz8AAIA/AACAP+v9Mj71Vm8/CoEmPiEIgj3/////nBvyP3ZSocE4H4M+d3d3PwAAgD8AAIA/6/0yPvVWbz8KgSY+IQiCPf/////J2JZA/QmkwXq/rD71Vm8/AACAPwAAgD/r/TI+9VZvPwqBJj4hCII9/////x7ZlkB1UqHBer+sPnd3dz8AAIA/AACAP+v9Mj71Vm8/CoEmPiEIgj3/////UB7yP/UJpME4H4M+9VZvPwAAgD8AAIA/6/0yPvVWbz8KgSY+IQiCPf////8e2ZZAdVKhwev9Mj53d3c/AACAPwAAgD/r/TI+9VZvPwqBJj4hCII9/////1Aq8UD9CaTBOB+DPvVWbz8AAIA/AACAP+v9Mj71Vm8/CoEmPiEIgj3/////eSrxQHdSocE4H4M+d3d3PwAAgD8AAIA/6/0yPvVWbz8KgSY+IQiCPf/////J2JZA/Qmkwev9Mj71Vm8/AACAPwAAgD/r/TI+9VZvPwqBJj4hCII9/////w==" name="m" />
+						<property value="GAAAABAAAAAAAAEAAgAAAAMAAQAEAAUABgAEAAcABQAIAAkACgAIAAsACQAMAA0ADgAMAA8ADQAAAAC/AAAAADgfgz75l38/AACAPwAAgD/r/TI+9VZvPwqBJj4hCII9/////wAAAAAAAAC/er+sPnd3dz8AAIA/AACAP+v9Mj71Vm8/CoEmPiEIgj3/////AAAAAAAAAAB6v6w++Zd/PwAAgD8AAIA/6/0yPvVWbz8KgSY+IQiCPf////8AAAC/AAAAvzgfgz53d3c/AACAPwAAgD/r/TI+9VZvPwqBJj4hCII9/////wAAAAAAAAAA6/0yPvmXfz8AAIA/AACAP+v9Mj71Vm8/CoEmPiEIgj3/////AAAAPwAAAL84H4M+d3d3PwAAgD8AAIA/6/0yPvVWbz8KgSY+IQiCPf////8AAAA/AAAAADgfgz75l38/AACAPwAAgD/r/TI+9VZvPwqBJj4hCII9/////wAAAAAAAAC/6/0yPnd3dz8AAIA/AACAP+v9Mj71Vm8/CoEmPiEIgj3/////AAAAvwAAAD84H4M+d3d3PwAAgD8AAIA/6/0yPvVWbz8KgSY+IQiCPf////8AAAAAAAAAAHq/rD71Vm8/AACAPwAAgD/r/TI+9VZvPwqBJj4hCII9/////wAAAAAAAAA/er+sPnd3dz8AAIA/AACAP+v9Mj71Vm8/CoEmPiEIgj3/////AAAAvwAAAAA4H4M+9VZvPwAAgD8AAIA/6/0yPvVWbz8KgSY+IQiCPf////8AAAAAAAAAP+v9Mj53d3c/AACAPwAAgD/r/TI+9VZvPwqBJj4hCII9/////wAAAD8AAAAAOB+DPvVWbz8AAIA/AACAP+v9Mj71Vm8/CoEmPiEIgj3/////AAAAPwAAAD84H4M+d3d3PwAAgD8AAIA/6/0yPvVWbz8KgSY+IQiCPf////8AAAAAAAAAAOv9Mj71Vm8/AACAPwAAgD/r/TI+9VZvPwqBJj4hCII9/////w==" name="m_copy" />
+						<property is-null="true" name="b" />
+						<property is-null="true" name="b" />
+						<property value="AAB6AC+jtEBt4S0/AAAAANsPyT9D2ZZAMgqkwS+jtEAAAAAAAAAAAG3hLT9D2ZZAMgqkwQEAbQDsZjU+AAAAAAAAAACBc7w/hMhVvwCD8UE=" name="before" />
+						<property value="AQA5AAAAgD8AAIA/AAAAANsPyT8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAQQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" name="before_b" />
+						<property value="AQBmAAAAgD8AAIA/AAAAANsPyT8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAVgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" name="tx_space" />
+						<property value="Static Planet" name="shape_type" />
+						<property value="10" name="gravity" />
+						<property is-null="true" name="gravity_reference" />
+						<property value="" name="planet_name" />
+						<property value="0" name="priority" />
+						<property value="true" name="invert_velocity" />
+						<property value="true" name="animatable" />
+					</properties>
+					<children>
+						<child type-name="rb::polygon_point_component">
+							<properties>
+								<property value="false" name="rb::in_editor_hidden" />
+								<property value="false" name="rb::selected" />
+								<property type-name="rb::component_id" name="rb::node_id">
+									<properties>
+										<property value="" name="name" />
+										<property value="" name="classes" />
+									</properties>
+									<children />
+								</property>
+								<property type-name="rb::transformation_values" name="rb::transformation">
+									<properties>
+										<property value-y="0.5" value-x="-0.5" name="translation" />
+										<property value-y="1" value-x="1" name="scale" />
+										<property value="false" name="uniform" />
+										<property value-y="90" value-x="0" name="rotation" />
+										<property value="true" name="orthogonal" />
+									</properties>
+									<children />
+								</property>
+								<property value="false" name="rb::blocked" />
+								<property name="make_itself_first" />
+								<property name="split" />
+							</properties>
+							<children />
+						</child>
+						<child type-name="rb::polygon_point_component">
+							<properties>
+								<property value="false" name="rb::in_editor_hidden" />
+								<property value="false" name="rb::selected" />
+								<property type-name="rb::component_id" name="rb::node_id">
+									<properties>
+										<property value="" name="name" />
+										<property value="" name="classes" />
+									</properties>
+									<children />
+								</property>
+								<property type-name="rb::transformation_values" name="rb::transformation">
+									<properties>
+										<property value-y="-0.5" value-x="-0.5" name="translation" />
+										<property value-y="1" value-x="1" name="scale" />
+										<property value="false" name="uniform" />
+										<property value-y="90" value-x="0" name="rotation" />
+										<property value="true" name="orthogonal" />
+									</properties>
+									<children />
+								</property>
+								<property value="false" name="rb::blocked" />
+								<property name="make_itself_first" />
+								<property name="split" />
+							</properties>
+							<children />
+						</child>
+						<child type-name="rb::polygon_point_component">
+							<properties>
+								<property value="false" name="rb::in_editor_hidden" />
+								<property value="false" name="rb::selected" />
+								<property type-name="rb::component_id" name="rb::node_id">
+									<properties>
+										<property value="" name="name" />
+										<property value="" name="classes" />
+									</properties>
+									<children />
+								</property>
+								<property type-name="rb::transformation_values" name="rb::transformation">
+									<properties>
+										<property value-y="-0.5" value-x="0.5" name="translation" />
+										<property value-y="1" value-x="1" name="scale" />
+										<property value="false" name="uniform" />
+										<property value-y="90" value-x="0" name="rotation" />
+										<property value="true" name="orthogonal" />
+									</properties>
+									<children />
+								</property>
+								<property value="false" name="rb::blocked" />
+								<property name="make_itself_first" />
+								<property name="split" />
+							</properties>
+							<children />
+						</child>
+						<child type-name="rb::polygon_point_component">
+							<properties>
+								<property value="false" name="rb::in_editor_hidden" />
+								<property value="false" name="rb::selected" />
+								<property type-name="rb::component_id" name="rb::node_id">
+									<properties>
+										<property value="" name="name" />
+										<property value="" name="classes" />
+									</properties>
+									<children />
+								</property>
+								<property type-name="rb::transformation_values" name="rb::transformation">
+									<properties>
+										<property value-y="0.5" value-x="0.5" name="translation" />
+										<property value-y="1" value-x="1" name="scale" />
+										<property value="false" name="uniform" />
+										<property value-y="90" value-x="0" name="rotation" />
+										<property value="true" name="orthogonal" />
+									</properties>
+									<children />
+								</property>
+								<property value="false" name="rb::blocked" />
+								<property name="make_itself_first" />
+								<property name="split" />
+							</properties>
+							<children />
+						</child>
+					</children>
+				</child>
+				<child type-name="rb::polygon_component">
+					<properties>
+						<property value="false" name="rb::in_editor_hidden" />
+						<property value="false" name="rb::selected" />
+						<property type-name="rb::component_id" name="rb::node_id">
+							<properties>
+								<property value="pathPlatform" name="name" />
+								<property value="sawPath" name="classes" />
+							</properties>
+							<children />
+						</property>
+						<property type-name="rb::transformation_values" name="rb::transformation">
+							<properties>
+								<property value-y="-20.7426" value-x="4.53804" name="translation" />
+								<property value-y="1" value-x="1" name="scale" />
+								<property value="false" name="uniform" />
+								<property value-y="90" value-x="0" name="rotation" />
+								<property value="true" name="orthogonal" />
+							</properties>
+							<children />
+						</property>
+						<property value="false" name="rb::blocked" />
+						<property value="32" name="circle_sides" />
+						<property name="reset" />
+						<property value="true" name="visible" />
+						<property value="true" name="marker" />
+						<property value="true" name="opened" />
+						<property value="1" name="opacity" />
+						<property value="false" name="smooth" />
+						<property value="0.1" name="smooth_quality" />
+						<property value="5" name="smooth_divisions" />
+						<property value="" name="image_name" />
+						<property value-a="1" value-b="1" value-g="1" value-r="1" name="tint" />
+						<property value="1" name="blend" />
+						<property value="false" name="transformable" />
+						<property value="Miter" name="border_corner_type" />
+						<property value="0" name="border_size" />
+						<property is-null="true" name="border_color" />
+						<property value="" name="border_image_name" />
+						<property value="1" name="max_s" />
+						<property name="bool_operations" />
+						<property name="misc_operations" />
+						<property value="AiABGA==" name="flags" />
+						<property value="AAAAAAIAAABHAyg+SWizv8djRj64rytA" name="polygon" />
+						<property is-null="true" name="m" />
+						<property is-null="true" name="m_copy" />
+						<property is-null="true" name="b" />
+						<property is-null="true" name="b" />
+						<property value="AQAAAAAAgD8AAIA/AAAAANsPyT8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" name="before" />
+						<property value="AQAAAAAAgD8AAIA/AAAAANsPyT8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" name="before_b" />
+						<property value="AQAAAAAAgD8AAIA/AAAAANsPyT8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" name="tx_space" />
+					</properties>
+					<children>
+						<child type-name="rb::polygon_point_component">
+							<properties>
+								<property value="false" name="rb::in_editor_hidden" />
+								<property value="false" name="rb::selected" />
+								<property type-name="rb::component_id" name="rb::node_id">
+									<properties>
+										<property value="" name="name" />
+										<property value="" name="classes" />
+									</properties>
+									<children />
+								</property>
+								<property type-name="rb::transformation_values" name="rb::transformation">
+									<properties>
+										<property value-y="-1.40162" value-x="0.164075" name="translation" />
+										<property value-y="1" value-x="1" name="scale" />
+										<property value="false" name="uniform" />
+										<property value-y="90" value-x="0" name="rotation" />
+										<property value="true" name="orthogonal" />
+									</properties>
+									<children />
+								</property>
+								<property value="false" name="rb::blocked" />
+								<property name="make_itself_first" />
+								<property name="split" />
+							</properties>
+							<children />
+						</child>
+						<child type-name="rb::polygon_point_component">
+							<properties>
+								<property value="false" name="rb::in_editor_hidden" />
+								<property value="false" name="rb::selected" />
+								<property type-name="rb::component_id" name="rb::node_id">
+									<properties>
+										<property value="" name="name" />
+										<property value="" name="classes" />
+									</properties>
+									<children />
+								</property>
+								<property type-name="rb::transformation_values" name="rb::transformation">
+									<properties>
+										<property value-y="2.6826" value-x="0.19374" name="translation" />
+										<property value-y="1" value-x="1" name="scale" />
+										<property value="false" name="uniform" />
+										<property value-y="90" value-x="0" name="rotation" />
+										<property value="true" name="orthogonal" />
+									</properties>
+									<children />
+								</property>
+								<property value="false" name="rb::blocked" />
+								<property name="make_itself_first" />
+								<property name="split" />
+							</properties>
+							<children />
+						</child>
+					</children>
+				</child>
+			</children>
+		</child>
+		<child type-name="rb::layer">
+			<properties>
+				<property value="false" name="rb::in_editor_hidden" />
+				<property value="false" name="rb::selected" />
+				<property value="false" name="static_layer" />
+				<property value="true" name="playing" />
+				<property value="Normal" name="blend_mode" />
+				<property value-a="1" value-b="1" value-g="1" value-r="1" name="ambient_color" />
+				<property value="0" name="primary_g00_g03" />
+				<property value="0" name="primary_g04_g07" />
+				<property value="0" name="primary_g08_g09" />
+				<property value="0" name="secondary_g00_g03" />
+				<property value="0" name="secondary_g04_g07" />
+				<property value="0" name="secondary_g08_g09" />
+				<property value-y="1" value-x="1" name="camera_position_factor" />
+				<property value="0" name="camera_invariant" />
+				<property value="Normal" name="particle_blend_mode" />
+			</properties>
+			<children />
+		</child>
+		<child type-name="rb::layer">
+			<properties>
+				<property value="false" name="rb::in_editor_hidden" />
+				<property value="false" name="rb::selected" />
+				<property value="false" name="static_layer" />
+				<property value="true" name="playing" />
+				<property value="Normal" name="blend_mode" />
+				<property value-a="1" value-b="1" value-g="1" value-r="1" name="ambient_color" />
+				<property value="0" name="primary_g00_g03" />
+				<property value="0" name="primary_g04_g07" />
+				<property value="0" name="primary_g08_g09" />
+				<property value="0" name="secondary_g00_g03" />
+				<property value="0" name="secondary_g04_g07" />
+				<property value="0" name="secondary_g08_g09" />
+				<property value-y="1" value-x="1" name="camera_position_factor" />
+				<property value="0" name="camera_invariant" />
+				<property value="Normal" name="particle_blend_mode" />
+			</properties>
+			<children />
+		</child>
+		<child type-name="rb::layer">
+			<properties>
+				<property value="false" name="rb::in_editor_hidden" />
+				<property value="false" name="rb::selected" />
+				<property value="false" name="static_layer" />
+				<property value="true" name="playing" />
+				<property value="Normal" name="blend_mode" />
+				<property value-a="1" value-b="1" value-g="1" value-r="1" name="ambient_color" />
+				<property value="0" name="primary_g00_g03" />
+				<property value="0" name="primary_g04_g07" />
+				<property value="0" name="primary_g08_g09" />
+				<property value="0" name="secondary_g00_g03" />
+				<property value="0" name="secondary_g04_g07" />
+				<property value="0" name="secondary_g08_g09" />
+				<property value-y="1" value-x="1" name="camera_position_factor" />
+				<property value="0" name="camera_invariant" />
+				<property value="Normal" name="particle_blend_mode" />
+			</properties>
+			<children />
+		</child>
+		<child type-name="rb::layer">
+			<properties>
+				<property value="false" name="rb::in_editor_hidden" />
+				<property value="false" name="rb::selected" />
+				<property value="false" name="static_layer" />
+				<property value="true" name="playing" />
+				<property value="Normal" name="blend_mode" />
+				<property value-a="1" value-b="1" value-g="1" value-r="1" name="ambient_color" />
+				<property value="0" name="primary_g00_g03" />
+				<property value="0" name="primary_g04_g07" />
+				<property value="0" name="primary_g08_g09" />
+				<property value="0" name="secondary_g00_g03" />
+				<property value="0" name="secondary_g04_g07" />
+				<property value="0" name="secondary_g08_g09" />
+				<property value-y="1" value-x="1" name="camera_position_factor" />
+				<property value="0" name="camera_invariant" />
+				<property value="Normal" name="particle_blend_mode" />
+			</properties>
+			<children />
+		</child>
+		<child type-name="rb::layer">
+			<properties>
+				<property value="false" name="rb::in_editor_hidden" />
+				<property value="false" name="rb::selected" />
+				<property value="false" name="static_layer" />
+				<property value="true" name="playing" />
+				<property value="Normal" name="blend_mode" />
+				<property value-a="1" value-b="1" value-g="1" value-r="1" name="ambient_color" />
+				<property value="0" name="primary_g00_g03" />
+				<property value="0" name="primary_g04_g07" />
+				<property value="0" name="primary_g08_g09" />
+				<property value="0" name="secondary_g00_g03" />
+				<property value="0" name="secondary_g04_g07" />
+				<property value="0" name="secondary_g08_g09" />
+				<property value-y="1" value-x="1" name="camera_position_factor" />
+				<property value="0" name="camera_invariant" />
+				<property value="Normal" name="particle_blend_mode" />
+			</properties>
+			<children />
+		</child>
+		<child type-name="rb::layer">
+			<properties>
+				<property value="false" name="rb::in_editor_hidden" />
+				<property value="false" name="rb::selected" />
+				<property value="false" name="static_layer" />
+				<property value="true" name="playing" />
+				<property value="Normal" name="blend_mode" />
+				<property value-a="1" value-b="1" value-g="1" value-r="1" name="ambient_color" />
+				<property value="0" name="primary_g00_g03" />
+				<property value="0" name="primary_g04_g07" />
+				<property value="0" name="primary_g08_g09" />
+				<property value="0" name="secondary_g00_g03" />
+				<property value="0" name="secondary_g04_g07" />
+				<property value="0" name="secondary_g08_g09" />
+				<property value-y="1" value-x="1" name="camera_position_factor" />
+				<property value="0" name="camera_invariant" />
+				<property value="Normal" name="particle_blend_mode" />
+			</properties>
+			<children />
+		</child>
+		<child type-name="rb::layer">
+			<properties>
+				<property value="false" name="rb::in_editor_hidden" />
+				<property value="false" name="rb::selected" />
+				<property value="false" name="static_layer" />
+				<property value="true" name="playing" />
+				<property value="Normal" name="blend_mode" />
+				<property value-a="1" value-b="1" value-g="1" value-r="1" name="ambient_color" />
+				<property value="0" name="primary_g00_g03" />
+				<property value="0" name="primary_g04_g07" />
+				<property value="0" name="primary_g08_g09" />
+				<property value="0" name="secondary_g00_g03" />
+				<property value="0" name="secondary_g04_g07" />
+				<property value="0" name="secondary_g08_g09" />
+				<property value-y="1" value-x="1" name="camera_position_factor" />
+				<property value="0" name="camera_invariant" />
+				<property value="Normal" name="particle_blend_mode" />
+			</properties>
+			<children />
+		</child>
+		<child type-name="rb::layer">
+			<properties>
+				<property value="false" name="rb::in_editor_hidden" />
+				<property value="false" name="rb::selected" />
+				<property value="false" name="static_layer" />
+				<property value="true" name="playing" />
+				<property value="Normal" name="blend_mode" />
+				<property value-a="1" value-b="1" value-g="1" value-r="1" name="ambient_color" />
+				<property value="0" name="primary_g00_g03" />
+				<property value="0" name="primary_g04_g07" />
+				<property value="0" name="primary_g08_g09" />
+				<property value="0" name="secondary_g00_g03" />
+				<property value="0" name="secondary_g04_g07" />
+				<property value="0" name="secondary_g08_g09" />
+				<property value-y="1" value-x="1" name="camera_position_factor" />
+				<property value="0" name="camera_invariant" />
+				<property value="Normal" name="particle_blend_mode" />
+			</properties>
+			<children />
+		</child>
+		<child type-name="rb::layer">
+			<properties>
+				<property value="false" name="rb::in_editor_hidden" />
+				<property value="false" name="rb::selected" />
+				<property value="false" name="static_layer" />
+				<property value="true" name="playing" />
+				<property value="Normal" name="blend_mode" />
+				<property value-a="1" value-b="1" value-g="1" value-r="1" name="ambient_color" />
+				<property value="0" name="primary_g00_g03" />
+				<property value="0" name="primary_g04_g07" />
+				<property value="0" name="primary_g08_g09" />
+				<property value="0" name="secondary_g00_g03" />
+				<property value="0" name="secondary_g04_g07" />
+				<property value="0" name="secondary_g08_g09" />
+				<property value-y="1" value-x="1" name="camera_position_factor" />
+				<property value="0" name="camera_invariant" />
+				<property value="Normal" name="particle_blend_mode" />
+			</properties>
+			<children />
+		</child>
+	</children>
+</object>
