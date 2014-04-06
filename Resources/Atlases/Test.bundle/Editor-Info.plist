@@ -47,6 +47,10 @@
 					<key>CF$UID</key>
 					<integer>70</integer>
 				</dict>
+				<dict>
+					<key>CF$UID</key>
+					<integer>79</integer>
+				</dict>
 			</array>
 		</dict>
 		<dict>
@@ -1559,12 +1563,12 @@
 			<key>stages</key>
 			<dict>
 				<key>CF$UID</key>
-				<integer>76</integer>
+				<integer>75</integer>
 			</dict>
 			<key>type</key>
 			<dict>
 				<key>CF$UID</key>
-				<integer>75</integer>
+				<integer>12</integer>
 			</dict>
 			<key>width</key>
 			<real>384</real>
@@ -1572,6 +1576,190 @@
 		<string>384 X 384</string>
 		<string>saw</string>
 		<integer>0</integer>
+		<dict>
+			<key>$class</key>
+			<dict>
+				<key>CF$UID</key>
+				<integer>11</integer>
+			</dict>
+			<key>NSColorSpace</key>
+			<integer>1</integer>
+			<key>NSComponents</key>
+			<data>
+			MSAxIDEgMQ==
+			</data>
+			<key>NSCustomColorSpace</key>
+			<dict>
+				<key>CF$UID</key>
+				<integer>7</integer>
+			</dict>
+			<key>NSRGB</key>
+			<data>
+			MSAwLjk5OTk3NDM3IDAuOTk5OTkxMjk3NwA=
+			</data>
+		</dict>
+		<dict>
+			<key>$class</key>
+			<dict>
+				<key>CF$UID</key>
+				<integer>18</integer>
+			</dict>
+			<key>NS.objects</key>
+			<array>
+				<dict>
+					<key>CF$UID</key>
+					<integer>76</integer>
+				</dict>
+			</array>
+		</dict>
+		<dict>
+			<key>$class</key>
+			<dict>
+				<key>CF$UID</key>
+				<integer>17</integer>
+			</dict>
+			<key>base</key>
+			<true/>
+			<key>blendMode</key>
+			<dict>
+				<key>CF$UID</key>
+				<integer>5</integer>
+			</dict>
+			<key>color</key>
+			<dict>
+				<key>CF$UID</key>
+				<integer>78</integer>
+			</dict>
+			<key>enableTextureControls</key>
+			<true/>
+			<key>first</key>
+			<false/>
+			<key>last</key>
+			<false/>
+			<key>opacity</key>
+			<real>1</real>
+			<key>primitiveImage</key>
+			<dict>
+				<key>CF$UID</key>
+				<integer>77</integer>
+			</dict>
+			<key>repeat</key>
+			<false/>
+			<key>rotation</key>
+			<real>0.0</real>
+			<key>scaleX</key>
+			<real>1</real>
+			<key>scaleY</key>
+			<real>1</real>
+			<key>texture</key>
+			<dict>
+				<key>CF$UID</key>
+				<integer>70</integer>
+			</dict>
+			<key>translationX</key>
+			<real>0.0</real>
+			<key>translationY</key>
+			<real>0.0</real>
+			<key>type</key>
+			<dict>
+				<key>CF$UID</key>
+				<integer>12</integer>
+			</dict>
+			<key>uniformResizing</key>
+			<false/>
+		</dict>
+		<string>Saw-Blade.png</string>
+		<dict>
+			<key>$class</key>
+			<dict>
+				<key>CF$UID</key>
+				<integer>11</integer>
+			</dict>
+			<key>NSColorSpace</key>
+			<integer>1</integer>
+			<key>NSComponents</key>
+			<data>
+			MSAxIDEgMQ==
+			</data>
+			<key>NSCustomColorSpace</key>
+			<dict>
+				<key>CF$UID</key>
+				<integer>7</integer>
+			</dict>
+			<key>NSRGB</key>
+			<data>
+			MSAwLjk5OTk3NDM3IDAuOTk5OTkxMjk3NwA=
+			</data>
+		</dict>
+		<dict>
+			<key>$class</key>
+			<dict>
+				<key>CF$UID</key>
+				<integer>19</integer>
+			</dict>
+			<key>border</key>
+			<dict>
+				<key>CF$UID</key>
+				<integer>73</integer>
+			</dict>
+			<key>group00</key>
+			<true/>
+			<key>group01</key>
+			<false/>
+			<key>group02</key>
+			<false/>
+			<key>group03</key>
+			<false/>
+			<key>group04</key>
+			<false/>
+			<key>group05</key>
+			<false/>
+			<key>group06</key>
+			<false/>
+			<key>group07</key>
+			<false/>
+			<key>group08</key>
+			<false/>
+			<key>group09</key>
+			<false/>
+			<key>height</key>
+			<real>320</real>
+			<key>maskAggressively</key>
+			<false/>
+			<key>name</key>
+			<dict>
+				<key>CF$UID</key>
+				<integer>81</integer>
+			</dict>
+			<key>radialGradientColor</key>
+			<dict>
+				<key>CF$UID</key>
+				<integer>82</integer>
+			</dict>
+			<key>scale</key>
+			<real>1</real>
+			<key>sizeAsString</key>
+			<dict>
+				<key>CF$UID</key>
+				<integer>80</integer>
+			</dict>
+			<key>sizeInBlocks</key>
+			<real>1</real>
+			<key>stages</key>
+			<dict>
+				<key>CF$UID</key>
+				<integer>84</integer>
+			</dict>
+			<key>type</key>
+			<dict>
+				<key>CF$UID</key>
+				<integer>83</integer>
+			</dict>
+			<key>width</key>
+			<real>320</real>
+		</dict>
+		<string>320 X 320</string>
+		<string>left</string>
 		<dict>
 			<key>$class</key>
 			<dict>
@@ -1605,7 +1793,7 @@
 			<array>
 				<dict>
 					<key>CF$UID</key>
-					<integer>77</integer>
+					<integer>85</integer>
 				</dict>
 			</array>
 		</dict>
@@ -1625,7 +1813,7 @@
 			<key>color</key>
 			<dict>
 				<key>CF$UID</key>
-				<integer>79</integer>
+				<integer>87</integer>
 			</dict>
 			<key>enableTextureControls</key>
 			<true/>
@@ -1638,7 +1826,7 @@
 			<key>primitiveImage</key>
 			<dict>
 				<key>CF$UID</key>
-				<integer>78</integer>
+				<integer>86</integer>
 			</dict>
 			<key>repeat</key>
 			<false/>
@@ -1651,7 +1839,7 @@
 			<key>texture</key>
 			<dict>
 				<key>CF$UID</key>
-				<integer>70</integer>
+				<integer>79</integer>
 			</dict>
 			<key>translationX</key>
 			<real>0.0</real>
@@ -1660,12 +1848,12 @@
 			<key>type</key>
 			<dict>
 				<key>CF$UID</key>
-				<integer>75</integer>
+				<integer>83</integer>
 			</dict>
 			<key>uniformResizing</key>
 			<false/>
 		</dict>
-		<string>Saw-Blade.png</string>
+		<string>Right.png</string>
 		<dict>
 			<key>$class</key>
 			<dict>

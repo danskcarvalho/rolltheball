@@ -99,8 +99,8 @@ void animation_manager_component::destroy_animation(animation_id aid){
         else
             _it++;
     }
-    assert(_erased);
-    delete (ex_animation_info*)aid;
+    if(_erased)
+        delete (ex_animation_info*)aid;
 }
 
 animation_info* animation_manager_component::animation(animation_id aid){

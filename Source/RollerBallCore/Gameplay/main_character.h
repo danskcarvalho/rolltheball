@@ -77,6 +77,20 @@ namespace rb {
         bool _camera_constrained;
         bool _saved_camera_constrained;
         std::vector<polygon> _camera_polygons;
+        //bounce balls
+        //relates bouncing balls to its direction...
+        std::unordered_map<node*, node*> _bouncing_balls;
+        struct BouncingBallInfo {
+            vec2 original_size;
+            animation_id anim_id;
+        };
+        std::unordered_map<node*, BouncingBallInfo> _bouncing_anims;
+        node* _current_bounceball;
+        node* _is_bouncing;
+        vec2 _local_ballPos;
+        bool _current_bouncehasdir; //has direction?
+        bool _current_autobounce; //is autobounce?
+        float _bounce_velocity;
     private:
         bool testSlopeAngle(b2WorldManifold* manifold, const nullable<vec2>& gravity) const;
         //get closest point from camera track...
@@ -84,6 +98,9 @@ namespace rb {
     protected:
         virtual void reset_component() override;
     private:
+        void check_bouncing();
+        static void bounce_animation(float t, node* current_bounceball, const vec2& original_scale);
+        void do_bounce_animation(node* current_bounceball);
         void shake_camera(float t);
         void die_animation(float t);
     public:
@@ -100,6 +117,8 @@ namespace rb {
         virtual rb_string type_name() const override;
         virtual rb_string displayable_type_name() const override;
     private:
+        void update_died(float dt);
+        void update_bounceball(float dt);
         void update_character(vec2& cam_gravity);
         void update_camera(const vec2& cam_gravity);
     protected:

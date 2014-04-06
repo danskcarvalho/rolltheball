@@ -240,7 +240,6 @@
 		4567265915F029FF00C91B3C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4567265815F029FF00C91B3C /* Foundation.framework */; };
 		4567268415F02E3900C91B3C /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4567334015F02560008F5966 /* Cocoa.framework */; };
 		4567268A15F02E3900C91B3C /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4567268815F02E3900C91B3C /* InfoPlist.strings */; };
-		4567269315F02F9400C91B3C /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4567269215F02F9400C91B3C /* SenTestingKit.framework */; };
 		4567334115F02560008F5966 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4567334015F02560008F5966 /* Cocoa.framework */; };
 		456770F015F040B900C91B3C /* b2BroadPhase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 45674D3C15F0401B00C91B3C /* b2BroadPhase.cpp */; };
 		456770F115F040B900C91B3C /* b2BroadPhase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 45674D3C15F0401B00C91B3C /* b2BroadPhase.cpp */; };
@@ -870,11 +869,10 @@
 		4567265715F029FF00C91B3C /* libRollerBallCoreiOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRollerBallCoreiOS.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		4567265815F029FF00C91B3C /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		4567265C15F029FF00C91B3C /* RollerBallCoreiOS-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "RollerBallCoreiOS-Prefix.pch"; sourceTree = "<group>"; };
-		4567268115F02E3900C91B3C /* RollerBallCoreTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RollerBallCoreTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		4567268115F02E3900C91B3C /* RollerBallCoreTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RollerBallCoreTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4567268715F02E3900C91B3C /* RollerBallCoreTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "RollerBallCoreTests-Info.plist"; sourceTree = "<group>"; };
 		4567268915F02E3900C91B3C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		4567268E15F02E3900C91B3C /* RollerBallCoreTests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "RollerBallCoreTests-Prefix.pch"; sourceTree = "<group>"; };
-		4567269215F02F9400C91B3C /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		4567270E15F0401500C91B3C /* accumulators.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = accumulators.hpp; sourceTree = "<group>"; };
 		4567270F15F0401500C91B3C /* accumulators_fwd.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = accumulators_fwd.hpp; sourceTree = "<group>"; };
 		4567271115F0401500C91B3C /* accumulator_base.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = accumulator_base.hpp; sourceTree = "<group>"; };
@@ -10150,7 +10148,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				4577584C1604CDAA00E26C14 /* OpenGL.framework in Frameworks */,
-				4567269315F02F9400C91B3C /* SenTestingKit.framework in Frameworks */,
 				4567268415F02E3900C91B3C /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -15507,7 +15504,7 @@
 			children = (
 				4567333D15F02560008F5966 /* libRollerBallCoreMacOSX.a */,
 				4567265715F029FF00C91B3C /* libRollerBallCoreiOS.a */,
-				4567268115F02E3900C91B3C /* RollerBallCoreTests.octest */,
+				4567268115F02E3900C91B3C /* RollerBallCoreTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -15522,7 +15519,6 @@
 				457758BB16056E6D00E26C14 /* ImageIO.framework */,
 				4577584A1604CD8E00E26C14 /* OpenGL.framework */,
 				457758481604CD8200E26C14 /* OpenGLES.framework */,
-				4567269215F02F9400C91B3C /* SenTestingKit.framework */,
 				4567334015F02560008F5966 /* Cocoa.framework */,
 				4567265815F029FF00C91B3C /* Foundation.framework */,
 				4567334215F02560008F5966 /* Other Frameworks */,
@@ -25999,8 +25995,8 @@
 			);
 			name = RollerBallCoreTests;
 			productName = RollerBallCoreTests;
-			productReference = 4567268115F02E3900C91B3C /* RollerBallCoreTests.octest */;
-			productType = "com.apple.product-type.bundle";
+			productReference = 4567268115F02E3900C91B3C /* RollerBallCoreTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		4567333C15F02560008F5966 /* RollerBallCoreMacOSX */ = {
 			isa = PBXNativeTarget;
@@ -26569,7 +26565,10 @@
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = YES;
 				COMBINE_HIDPI_IMAGES = YES;
-				FRAMEWORK_SEARCH_PATHS = "\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"";
+				FRAMEWORK_SEARCH_PATHS = (
+					"\\\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\\\"",
+					"$(inherited)",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "RollerBallCoreTests/RollerBallCoreTests-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -26579,7 +26578,6 @@
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				INFOPLIST_FILE = "RollerBallCoreTests/RollerBallCoreTests-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				WRAPPER_EXTENSION = octest;
 			};
 			name = Debug;
 		};
@@ -26588,7 +26586,10 @@
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = YES;
 				COMBINE_HIDPI_IMAGES = YES;
-				FRAMEWORK_SEARCH_PATHS = "\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"";
+				FRAMEWORK_SEARCH_PATHS = (
+					"\\\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\\\"",
+					"$(inherited)",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "RollerBallCoreTests/RollerBallCoreTests-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -26598,7 +26599,6 @@
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				INFOPLIST_FILE = "RollerBallCoreTests/RollerBallCoreTests-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				WRAPPER_EXTENSION = octest;
 			};
 			name = Release;
 		};

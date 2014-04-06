@@ -6,7 +6,7 @@
 //  Copyright (c) 2012 Danilo Carvalho. All rights reserved.
 //
 
-#import <SenTestingKit/SenTestingKit.h>
+#import <XCTest/XCTest.h>
 
-@interface MatrixTests : SenTestCase
+@interface MatrixTests : XCTestCase
 @end

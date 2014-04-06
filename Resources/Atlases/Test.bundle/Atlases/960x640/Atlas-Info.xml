@@ -6,11 +6,12 @@
 				<texture size-y="236" center-x="92" center-y="668" atlas-index="0" size-x="180" name="cannon" />
 				<texture size-y="300" center-x="154.5" center-y="152" atlas-index="0" size-x="305" name="factory" />
 				<texture size-y="240" center-x="182" center-y="426" atlas-index="0" size-x="360" name="bushes" />
-				<texture size-y="120" center-x="246" center-y="790" atlas-index="0" size-x="120" name="character" />
-				<texture size-y="60" center-x="32" center-y="918" atlas-index="0" size-x="60" name="grass" />
-				<texture size-y="60" center-x="96" center-y="918" atlas-index="0" size-x="60" name="stone" />
-				<texture size-y="30" center-x="185" center-y="869" atlas-index="0" size-x="366" name="track" />
+				<texture size-y="120" center-x="62" center-y="940" atlas-index="0" size-x="120" name="character" />
+				<texture size-y="60" center-x="32" center-y="1068" atlas-index="0" size-x="60" name="grass" />
+				<texture size-y="60" center-x="96" center-y="1068" atlas-index="0" size-x="60" name="stone" />
+				<texture size-y="30" center-x="185" center-y="1019" atlas-index="0" size-x="366" name="track" />
 				<texture size-y="180" center-x="274" center-y="638" atlas-index="0" size-x="180" name="saw" />
+				<texture size-y="150" center-x="259" center-y="803" atlas-index="0" size-x="150" name="left" />
 			</textures>
 			<atlases>
 				<atlas index="0" />
@@ -22,6 +23,7 @@
 		<texture border="rb::texture_border::clamp" scale="1" name="track" />
 		<texture border="rb::texture_border::repeat" scale="1" name="stone" />
 		<texture border="rb::texture_border::empty" scale="1" name="bushes" />
+		<texture border="rb::texture_border::none" scale="1" name="left" />
 		<texture border="rb::texture_border::empty" scale="1" name="cannon" />
 		<texture border="rb::texture_border::repeat" scale="1" name="grass" />
 		<texture border="rb::texture_border::empty" scale="1" name="character" />

@@ -51,6 +51,11 @@
 #define SHAKE_FREQUENCY 10.0f
 #define SHAKE_MAGNITUDE 0.15f
 
+#define BOUNCE_ANIM_DURATION 1.0f
+#define BOUNCE_FREQUENCY 5.0f
+#define BOUNCE_MAGNITUDE 0.75f
+#define BOUNCE_ANGLE_VELOCITY (TO_RADIANS(720.0f))
+
 #define DESTRUCTION_MATRIX 6
 #define DESTRUCTION_ANIM_DURATION 1.0f
 #define MAX_DESTRUCTION_VELOCITY 6
@@ -123,6 +128,10 @@ main_character::main_character(){
     _camera_constrained = false;
     _saved_camera_constrained = false;
     _cam_offset = _saved_cam_offset = nullptr;
+    //bouncing ball
+    _current_bounceball = nullptr;
+    _is_bouncing = nullptr;
+    _bounce_velocity = 1;
 }
 
 main_character::~main_character(){
@@ -188,6 +197,14 @@ void main_character::describe_type(){
             site->_cam_offset = value;
         }
     });
+    single_property<main_character>(u"bounce_velocity", u"Bc Vel", true, {
+        [](const main_character* site){
+            return site->_bounce_velocity;
+        },
+        [](main_character* site, float value){
+            site->_bounce_velocity = value;
+        }
+    });
     end_type();
 }
 
@@ -240,29 +257,129 @@ bool main_character::check_die(){
     return false;
 }
 
+void main_character::update_died(float dt){
+    _current_bounceball = nullptr;
+    _is_bouncing = nullptr;
+    for (size_t i = 0; i < (DESTRUCTION_MATRIX * DESTRUCTION_MATRIX); i++) {
+        _parts_velocities[i] += _gravity_died * dt;
+    }
+    for (uint32_t i = 0; i < DESTRUCTION_MATRIX; i++) {
+        for (uint32_t j = 0; j < DESTRUCTION_MATRIX; j++) {
+            auto _t = _sprite->transform(i, j);
+            auto _v = _parts_velocities[i + j * DESTRUCTION_MATRIX];
+            _t.origin(_t.origin() + _v * dt);
+            _sprite->transform(i, j, _t);
+        }
+    }
+    auto _final_camera = _camera_died;
+    _final_camera.origin(vec2(_final_camera.origin().x() + _camera_x_shake, _final_camera.origin().y() - _camera_x_shake));
+    
+    parent_scene()->camera(_final_camera);
+}
+
+void main_character::check_bouncing(){
+    if(_current_bounceball)
+        return;
+    
+    for (auto _bb : _bouncing_balls){
+        nullable<transform_space> _saved_space = nullptr;
+        if(_bouncing_anims.count(_bb.first)){
+            _saved_space = _bb.first->transform();
+            _bb.first->transform(_bb.first->transform().scaled(_bouncing_anims[_bb.first].original_size));
+        }
+        
+        auto _t = _bb.first->from_node_space_to(space::layer);
+        auto _r = _t.scale().x() / 2.0f;
+        auto _sumR = _r + 0.5f;
+        auto _distance = vec2::distance(_t.origin(), transform().origin());
+        if(_distance <= _sumR){ //intersects!
+            if(_bb.first == _is_bouncing)
+                continue; //can't go to the same ball again!
+            
+            //adjust
+            auto _v = transform().origin() - _t.origin();
+            _v.normalize();
+            _v *= _sumR;
+            auto _newPos = _t.origin() + _v;
+            _body->SetAngularVelocity(0);
+            _body->SetLinearVelocity(b2Vec2(0, 0));
+            _body->SetTransform(b2Vec2(_newPos.x(), _newPos.y()), _body->GetAngle()); //we adjust the body
+            this->transform(transform().moved(_newPos));
+            _current_bounceball = _bb.first;
+            _is_bouncing = nullptr;
+            _local_ballPos = this->from_node_space_to(_bb.first).origin();
+            _current_bouncehasdir = _bb.second != nullptr;
+            _current_autobounce = _bb.first->has_class(u"autoBounce");
+            if(_saved_space.has_value())
+                _bb.first->transform(_saved_space.value());
+            break;
+        }
+        if(_saved_space.has_value())
+            _bb.first->transform(_saved_space.value());
+    }
+}
+
+void main_character::update_bounceball(float dt){
+    if(!_current_bounceball)
+        return;
+    
+    bool _launch = false;
+    if(_current_bouncehasdir){
+        auto _vChar = _local_ballPos;
+        auto _vDir = vec2::right;
+        _bouncing_balls[_current_bounceball]->from_node_space_to(_current_bounceball).from_space_to_base().transform_vector(_vDir).normalize();
+        auto _a = _vDir.angle_between(_vChar, rotation_direction::ccw);
+        //we try to reduce the angle to 0
+        float _reduced = _a;
+        _a -= BOUNCE_ANGLE_VELOCITY * dt;
+        bool _reached = false;
+        if(_a <= 0){
+            _a = 0;
+            _reached = true;
+        }
+        else
+            _reduced = BOUNCE_ANGLE_VELOCITY * dt;
+        
+        auto _bbt = _current_bounceball->transform();
+        _bbt.rotate_by(-_reduced);
+        _current_bounceball->transform(_bbt);
+        
+        //Transform to the direction
+        auto _currentPoint = _current_bounceball->from_node_space_to(space::layer).from_space_to_base().transformed_point(_local_ballPos);
+        _body->SetTransform(b2Vec2(_currentPoint.x(), _currentPoint.y()), _body->GetAngle());
+        
+        if(_reached && (_current_autobounce || _jumpButton))
+            _launch = true;
+    }
+    else {
+        auto _currentPoint = _current_bounceball->from_node_space_to(space::layer).from_space_to_base().transformed_point(_local_ballPos);
+        _body->SetTransform(b2Vec2(_currentPoint.x(), _currentPoint.y()), _body->GetAngle());
+        
+        if(_jumpButton)
+            _launch = true;
+    }
+    
+    if(_launch){
+        auto _vel = _current_bounceball->from_node_space_to(space::layer).from_space_to_base().transformed_vector(_local_ballPos).normalized() * _bounce_velocity;
+        _is_bouncing = _current_bounceball;
+        do_bounce_animation(_current_bounceball);
+        _current_bounceball = nullptr;
+        _body->SetLinearVelocity(b2Vec2(_vel.x(), _vel.y()));
+    }
+}
+
 void main_character::update(float dt){
     if(_died){
-        for (size_t i = 0; i < (DESTRUCTION_MATRIX * DESTRUCTION_MATRIX); i++) {
-            _parts_velocities[i] += _gravity_died * dt;
-        }
-        for (uint32_t i = 0; i < DESTRUCTION_MATRIX; i++) {
-            for (uint32_t j = 0; j < DESTRUCTION_MATRIX; j++) {
-                auto _t = _sprite->transform(i, j);
-                auto _v = _parts_velocities[i + j * DESTRUCTION_MATRIX];
-                _t.origin(_t.origin() + _v * dt);
-                _sprite->transform(i, j, _t);
-            }
-        }
-        auto _final_camera = _camera_died;
-        _final_camera.origin(vec2(_final_camera.origin().x() + _camera_x_shake, _final_camera.origin().y() - _camera_x_shake));
-        
-        parent_scene()->camera(_final_camera);
+        update_died(dt);
         return;
     }
 
     if(check_die())
         return;
     
+    check_bouncing();
+    if(_current_bounceball || _is_bouncing)
+        update_bounceball(dt);
     vec2 _cam_g;
     update_character(_cam_g);
     
@@ -293,8 +410,10 @@ nullable<vec2> main_character::getClosestPointFromCameraTrack(const rb::vec2& ch
         uint32_t _index;
         auto _e = _p.closest_edge(charPos, _index);
         auto _d = _e.distance_vector(charPos);
-        if(_d.length() < _distance)
+        if(_d.length() < _distance){
             _closestPoint = charPos - _d;
+            _distance = _d.length();
+        }
     }
     
     return _closestPoint;
@@ -302,6 +421,9 @@ nullable<vec2> main_character::getClosestPointFromCameraTrack(const rb::vec2& ch
 
 void main_character::update_camera(const rb::vec2 &cam_gravity){
     auto _thisPosition = this->transform().origin();
+    if(_current_bounceball && !_is_bouncing) //get the bouncing ball position
+        _thisPosition = _current_bounceball->from_node_space_to(space::layer).origin();
+    
     if(_cam_offset.has_value())
         _thisPosition += _cam_offset.value();
     if(_camera_constrained){
@@ -463,10 +585,6 @@ void main_character::update_character(vec2& cam_gravity){
     }
     
     if(_g != vec2::zero){
-//        auto _rt = resting_touches();
-//        if(_rt.has_value() && _rt.value() == vec2::zero){
-//            _direction = 0;
-//        }
         
         auto _lx = signed_length(_vx, _gx);
         if(_direction > 0) { //to right
@@ -498,6 +616,9 @@ void main_character::update_character(vec2& cam_gravity){
         }
     }
     
+    if(_current_bounceball || _is_bouncing)
+        return;
+    
     if(_direction == 0)
         _body->SetAngularVelocity(0);
     
@@ -518,6 +639,34 @@ void main_character::shake_camera(){
 void main_character::shake_camera(float t){
     float _angle = t * M_PI * 2;
     _camera_x_shake = (1 - t) * SHAKE_MAGNITUDE * sinf(SHAKE_FREQUENCY * _angle);
+}
+
+void main_character::bounce_animation(float t, node* current_bounceball, const vec2& original_scale){
+    float _angle = t * M_PI * 2;
+    float _scale = (1 - t) * BOUNCE_MAGNITUDE * sinf(BOUNCE_FREQUENCY * _angle);
+    current_bounceball->transform(current_bounceball->transform().scaled(_scale * vec2(1, 1) + original_scale));
+    if(t >= 1)
+        current_bounceball->transform(current_bounceball->transform().scaled(original_scale));
+}
+
+void main_character::do_bounce_animation(rb::node *current_bounceball){
+    if(_bouncing_anims.count(current_bounceball)){
+        current_bounceball->transform(current_bounceball->transform().scaled(_bouncing_anims[current_bounceball].original_size));
+        if(_bouncing_anims[current_bounceball].anim_id)
+            _an_manager->destroy_animation(_bouncing_anims[current_bounceball].anim_id);
+        _bouncing_anims.erase(current_bounceball);
+    }
+    
+    animation_info _ai;
+    _ai.auto_destroy = true;
+    _ai.duration = BOUNCE_ANIM_DURATION;
+    _ai.state = animation_state::playing;
+    auto _original_scale = current_bounceball->transform().scale();
+    _ai.update_function = [current_bounceball, _original_scale](float t, animation_info* ai){
+        bounce_animation(t, current_bounceball, _original_scale);
+    };
+    auto _aid = _an_manager->add_animation(&_ai);
+    _bouncing_anims.insert({current_bounceball, {_original_scale, _aid}});
 }
 
 void main_character::die_animation(float t){
@@ -599,6 +748,9 @@ void main_character::reset_component(){
     _body->SetAngularVelocity(0);
     //camera constrained
     _camera_constrained = _saved_camera_constrained;
+    //bouncing ball
+    _is_bouncing = nullptr;
+    _current_bounceball = nullptr;
 }
 
 void main_character::playing(){
@@ -675,6 +827,19 @@ void main_character::playing(){
         
         _saved_camera = parent_scene()->camera();
         _saved_transform = transform();
+        
+        //bouncing ball
+        _is_bouncing = nullptr;
+        _current_bounceball = nullptr;
+        auto _temp_bounceballs = parent_scene()->node_with_one_class(u"bounceBall");
+        for (auto _bb : _temp_bounceballs){
+            auto _id = _bb->name();
+            auto _bb_dir = parent_scene()->node_with_one_class(_id);
+            if(_bb_dir.size() == 0)
+                _bouncing_balls.insert({_bb, nullptr});
+            else
+                _bouncing_balls.insert({_bb, _bb_dir[0]});
+        }
     }
 }
 
@@ -815,6 +980,11 @@ void main_character::BeginContact(b2Contact *contact){
         b2WorldManifold manifold;
         contact->GetWorldManifold(&manifold);
         _contacts[_ground] = manifold;
+        
+        if(_is_bouncing && _ground->shape_type() == physics_shape::kStaticPlanet){
+            _is_bouncing = nullptr;
+            _direction = 0;
+        }
         
         if(_ground->shape_type() == physics_shape::kStaticPlanet && testSlopeAngle(&manifold, _previous_g)){
             if(!_character->_didJump)
