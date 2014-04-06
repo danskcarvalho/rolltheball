@@ -9,8 +9,8 @@
 		<property value-a="1" value-b="0" value-g="0.64" value-r="1" name="alternate_gizmo" />
 		<property value-a="1" value-b="1" value-g="1" value-r="1" name="selection_color" />
 		<property value-a="0" value-b="0" value-g="0" value-r="0" name="fade_color" />
-		<property is-null="true" name="current" />
-		<property value="AACAP2BPHEFgTxxBAAAAANsPyT9o6aFAyoqGwWBPHEEAAAAAAAAAAGBPHEFo6aFAyoqGwQEAAAB3otE9AAAAAAAAAAB3otE9T5YEv2NZ3D8=" name="camera" />
+		<property value="0|" name="current" />
+		<property value="AAAAANiXqkHYl6pBAAAAANsPyT9o6aFAyoqGwdiXqkEAAAAAAAAAANiXqkFo6aFAyoqGwQEAgD8wFUA9AAAAAAAAAAAwFUA96fhyvnTmST8=" name="camera" />
 	</properties>
 	<children>
 		<child type-name="rb::layer">
@@ -61,7 +61,7 @@
 						<property value-a="1" value-b="1" value-g="1" value-r="1" name="tint" />
 						<property value="1" name="blend" />
 						<property value-y="1" value-x="1" name="matrix" />
-						<property value="BgAAAAQAAAAAAAEAAgAAAAMAAQB06vpB2zryQAA0hTvnmP4+AACAPwAAgD8ANIU7ymCOPpDBeT84cGA+/////0RwAUIkwbFA+Mt6P8pgjj4AAIA/AACAPwA0hTvKYI4+kMF5PzhwYD7/////5O4DQoBL1ED4y3o/55j+PgAAgD8AAIA/ADSFO8pgjj6QwXk/OHBgPv////9U7fVBtrDPQAA0hTvKYI4+AACAPwAAgD8ANIU7ymCOPpDBeT84cGA+/////w==" name="mesh" />
+						<property value="BgAAAAQAAAAAAAEAAgAAAAMAAQB96vpBwDryQAA0hTvnmP4+AACAPwAAgD8ANIU7ymCOPpDBeT84cGA+/////0RwAUIAwbFA+Mt6P8pgjj4AAIA/AACAPwA0hTvKYI4+kMF5PzhwYD7/////5O4DQmVL1ED4y3o/55j+PgAAgD8AAIA/ADSFO8pgjj6QwXk/OHBgPv////9d7fVBm7DPQAA0hTvKYI4+AACAPwAAgD8ANIU7ymCOPpDBeT84cGA+/////w==" name="mesh" />
 						<property value="BgAAAAQAAAAAAAEAAgAAAAMAAQAAAAC/AAAAPwA0hTvnmP4+AACAPwAAgD8ANIU7ymCOPpDBeT84cGA+/////wAAAD8AAAC/+Mt6P8pgjj4AAIA/AACAPwA0hTvKYI4+kMF5PzhwYD7/////AAAAPwAAAD/4y3o/55j+PgAAgD8AAIA/ADSFO8pgjj6QwXk/OHBgPv////8AAAC/AAAAvwA0hTvKYI4+AACAPwAAgD8ANIU7ymCOPpDBeT84cGA+/////w==" name="mesh_copy" />
 						<property value="AAAAAPNU7z/4jZ8/rUu4QCH/hT/35P5BQ//RQMg5zz/1eW+/qaYfP4Qmij/35P5BQ//RQAEAAABYGO0+7X7NPk7/iL5E0jE/9PlPwVzFisE=" name="before_transformation" />
 						<property value="false" name="collapsed" />
@@ -420,9 +420,9 @@
 						<property value="aAEAALgAAAAAAAEAAgABAAMAAgAEAAUABgAFAAcABgAFAAgABwAGAAkABAAJAAoABAAEAAoACwAMAA0ADgAOAA8ADAAOABAADwAOABEAEAAMABIADQASABMADQAUABUAFgAUABcAFQAYABkAGgAZABsAGgAcAB0AHgAdAB8AHgAfACAAHgAgACEAHgAhACIAHgAeACIAIwAiACQAIwAcACUAHQAmACcAKAAmACkAJwAqACsALAAqAC0AKwAuAC8AMAAvADEAMAAvADIAMQAvADMAMgAvADQAMwA0AC8ANQA0ADUANgAwADcALgA4ADkAOgA4ADsAOQA8AD0APgA9AD8APgA/AEAAPgA+AEAAQQBBAEAAQgBCAEMAQQBEAEUARgBEAEcARQBIAEkASgBIAEsASQBMAE0ATgBMAE8ATQBQAFEAUgBQAFMAUQBUAFUAVgBUAFcAVQBUAFgAVwBZAFgAVABYAFkAWgBaAFkAWwBcAF0AXgBfAFwAXgBgAF8AXgBeAGEAYABhAGIAYABhAGMAYgBkAGUAZgBkAGcAZQBoAGkAagBoAGsAaQBsAG0AbgBsAG8AbQBwAHEAcgBwAHMAcQB0AHUAdgB2AHUAdwB3AHUAeAB3AHgAeQB5AHgAegB6AHgAewB8AH0AfgB8AH4AfwCAAIEAggCDAIAAggCEAIAAgwCFAIQAgwCGAIUAgwCHAIYAgwCIAIcAgwCIAIkAhwCKAIsAjACKAI0AiwCOAI8AkACOAJEAjwCSAJMAlACTAJUAlACUAJUAlgCWAJUAlwCXAJUAmACYAJUAmQCZAJUAmgCbAJkAmgCcAJ0AngCeAJ0AnwCgAKEAogCgAKIAowCkAKUApgCmAKcApACoAKcApgCpAKcAqACqAKkAqACqAKgAqwCsAK0ArgCuAK0ArwCvAK0AsACxALAArQCyALAAsQCzALIAsQC0ALUAtgC2ALUAtwDY04O+vRbbvirQmz45pn8/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////+hacb6YxeG+dUmkPiXLfj8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////tRZbvr0W2756v6w+OaZ/PwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf////+1Flu+lwnnvnq/rD6IHn4/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////wAAADS9Ftu+er+sPjmmfz8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////tRZbvr0W277r/TI+OaZ/PwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf////8toBS+C/r0vvCKaD6VVXw/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////wvvQ75hg+y+35ZEPghrfT8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////tRZbvpcJ577r/TI+iB5+PwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf/////Gxce9vhT7vr7Khj56jXs/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////xq9SL1txP6+na2ZPqMUez8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////gIUBNAAAAL96v6w+Oux6PwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf////89oBQ+Cfr0vv74kT6WVXw/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////8UWWz69Ftu+er+sPjmmfz8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////AAAANL0W277r/TI+OaZ/PwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf/////Ixcc9vhT7vmXnfj56jXs/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////129SD1txP6+siFZPqMUez8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////gIUBNAAAAL/r/TI+Oux6PwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf////8b70M+XYPsvgfzoz4Ia30/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////8UWWz6TCee+er+sPokefj8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////xRZbPr0W277r/TI+OaZ/PwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf/////pWnE+mMXhvvfpQz4ly34/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////9jTgz69Ftu+jNxUPjmmfz8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////xRZbPpMJ577r/TI+iR5+PwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf////+VCee+vRZbvsyqoz45pn8/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Np9xPwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf////9eg+y+Fe9DvnaBnz68GnM/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////5UJ5769Flu+zKqjPjafcT8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////uRbbvgAAAADr/TI+OaZ/PwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf////+1Flu+vRZbvnq/rD42n3E/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////7UWW74AAAAAer+sPjmmfz8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////uRbbvr0WW77r/TI+Np9xPwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf////+1Flu+AAAAAOv9Mj45pn8/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////wAAADS9Flu+er+sPjafcT8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////AAAANAAAAAB6v6w+OaZ/PwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf////+1Flu+vRZbvuv9Mj42n3E/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////wAAADQAAAAA6/0yPjmmfz8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////xRZbPr0WW756v6w+Np9xPwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf/////FFls+AAAAAHq/rD45pn8/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////wAAADS9Flu+6/0yPjafcT8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////xRZbPgAAAADr/TI+OaZ/PwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf/////BFts+vRZbvnq/rD42n3E/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////8EW2z4AAAAAer+sPjmmfz8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////xRZbPr0WW77r/TI+Np9xPwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf/////BFts+AAAAAOv9Mj45pn8/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////27E/j4EvUi92zhpPqpvfD8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////AAAAPwAAAACCGGs+OaZ/PwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf////+/FPs+vMXHvXyeYz4GQXk/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////wz69D4ooBS+O1daPiYidj8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////wRbbPr0WW77r/TI+Np9xPwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf////9fg+w+Fe9DvvN5TT68GnM/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////5UJ5z69Flu+RydFPjafcT8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////bcT+vjC9SD0EopE+xtV0PwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf////8AAAC/HQnNpi+ykD42n3E/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////7kW274AAAAAer+sPjafcT8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////vxT7vsHFxz0yb5Q+agR4PwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf////8L+vS+M6AUPtQSmT5KI3s/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////7kW2769Fls+er+sPjmmfz8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////YIPsvhDvQz52gZ8+syp+PwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf////+WCee+vRZbPsyqoz45pn8/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////7kW2769Fls+6/0yPjmmfz8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////tRZbvgAAAAB6v6w+Np9xPwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf////+1Flu+vRZbPnq/rD45pn8/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////7kW274AAAAA6/0yPjafcT8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////tRZbvr0WWz7r/TI+OaZ/PwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf////8AAAA0AAAAAHq/rD42n3E/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////wAAADS9Fls+er+sPjmmfz8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////tRZbvgAAAADr/TI+Np9xPwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf////8AAAA0vRZbPuv9Mj45pn8/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////8UWWz4AAAAAer+sPjafcT8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////xRZbPr0WWz56v6w+OaZ/PwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf////8AAAA0AAAAAOv9Mj42n3E/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////8UWWz69Fls+6/0yPjmmfz8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////wRbbPgAAAAB6v6w+Np9xPwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf/////BFts+vRZbPnq/rD45pn8/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////8UWWz4AAAAA6/0yPjafcT8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////lQnnPr0WWz5HJ0U+OaZ/PwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf/////BFts+vRZbPuv9Mj45pn8/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////16D7D4W70M+83lNPrMqfj8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////C/r0PjGgFD44V1o+SSN7PwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf/////BFts+AAAAAOv9Mj42n3E/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////74U+z7Cxcc9ep5jPmoEeD8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////bcT+Pja9SD3YOGk+xtV0PwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf////8AAAA/AAAAAIIYaz42n3E/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////5nF4b7mWnE+QKunPiwMcz8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////lgnnvr0WWz7MqqM+Np9xPwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf////+5Ftu+vRZbPnq/rD42n3E/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////7kW277f04M+er+sPq95dD8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////MtvUvtk5jj4Wdzw+j851PwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf////+5Ftu+39ODPuv9Mj6veXQ/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////7kW2769Fls+6/0yPjafcT8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////tRZbvr0WWz56v6w+Np9xPwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf////8E5MW+mWeiPlw2Uz4LZHg/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9//////MEtb7zBLU+NNtsPkLGej8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////mWeivgTkxT4yk4Q+U+98PwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf/////cOY6+MNvUPhPpkz7q2X4/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////7UWW769Fts+er+sPjmmfz8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////2NODvr0W2z4q0Js+OaZ/PwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf////+1Flu+vRbbPuv9Mj45pn8/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////wAAADS9Fls+er+sPjafcT8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////AAAANL0W2z56v6w+OaZ/PwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf////+1Flu+vRZbPuv9Mj42n3E/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////wAAADS9Fts+6/0yPjmmfz8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////xRZbPr0WWz56v6w+Np9xPwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf/////FFls+vRbbPnq/rD45pn8/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////wAAADS9Fls+6/0yPjafcT8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////2NODPr0W2z6M3FQ+OaZ/PwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf/////FFls+vRbbPuv9Mj45pn8/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////9k5jj4y29Q+tapkPurZfj8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////xRZbPr0WWz7r/TI+Np9xPwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf////+ZZ6I+A+TFPj6rgT5T73w/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9//////MEtT7zBLU+1tCPPkLGej8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////A+TFPppnoj5Co5w+C2R4PwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf////8x29Q+2jmOPuQCqD6PznU/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////8EW2z69Fls+er+sPjafcT8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////wRbbPtHTgz56v6w+rnl0PwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf/////BFts+0dODPuv9Mj6ueXQ/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////8EW2z69Fls+6/0yPjafcT8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////l8XhPupacT5dJj0+LAxzPwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf////+VCec+vRZbPkcnRT42n3E/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////+1acb6XxeE+c0mkPkp6cj8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////2NODvr0W2z4q0Js+Np9xPwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf////+1Flu+vRbbPnq/rD42n3E/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////7UWW76XCec+er+sPugmcz8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////GO9Dvl6D7D7VlkQ+aNpzPwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf////+1Flu+lwnnPuv9Mj7oJnM/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////7UWW769Fts+6/0yPjafcT8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////M6AUvgr69D7simg+2u90PwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf////8AAAA0vRbbPnq/rD42n3E/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////8LFx72+FPs+v8qGPvW3dT8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////Qb1IvW3E/j6arZk+zTB2PwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf////8AAAA0AAAAP3q/rD42WXY/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////wAAADQAAAA/6/0yPjZZdj8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////AAAANL0W2z7r/TI+Np9xPwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf////81vUg9bcT+PqohWT7NMHY/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////7zFxz2/FPs+YOd+Pva3dT8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////MKAUPgv69D75+JE+2u90PwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf/////FFls+vRbbPnq/rD42n3E/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////xXvQz5eg+w+BPOjPmjacz8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////xRZbPpMJ5z56v6w+5yZzPwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf/////FFls+kwnnPuv9Mj7nJnM/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////8UWWz69Fts+6/0yPjafcT8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////51pxPpjF4T716UM+S3pyPwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf/////Y04M+vRbbPozcVD42n3E/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////w==" name="m_copy" />
 						<property is-null="true" name="b" />
 						<property is-null="true" name="b" />
-						<property value="AKOjo6BUFEGgVBRBAAAAANsPyT9Dxu9B1CoFQKBUFEEAAAAAAAAAAKBUFEFDxu9B1CoFQAGjo6N46dw9AAAAAAAAAAB46dw9DulOwILUZb4=" name="before" />
-						<property value="AaOjowAAgD8AAIA/AAAAANsPyT8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAACjo6MAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" name="before_b" />
-						<property value="AKOjo70WWz69Fls+AAAAANsPyT8AAAA0AAAAAL0WWz4AAAAAAAAAAL0WWz4AAAA0AAAAAAGjo6OfkJVAAAAAAAAAAACfkJVAAAAAAAAAAAA=" name="tx_space" />
+						<property value="AAAAAKBUFEGgVBRBAAAAANsPyT9Dxu9B1CoFQKBUFEEAAAAAAAAAAKBUFEFDxu9B1CoFQAEAAAB46dw9AAAAAAAAAAB46dw9DulOwILUZb4=" name="before" />
+						<property value="AQAAAAAAgD8AAIA/AAAAANsPyT8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" name="before_b" />
+						<property value="AAAAAL0WWz69Fls+AAAAANsPyT8AAAA0AAAAAL0WWz4AAAAAAAAAAL0WWz4AAAA0AAAAAAEAAACfkJVAAAAAAAAAAACfkJVAAAAAAAAAAAA=" name="tx_space" />
 						<property value="Static Planet" name="shape_type" />
 						<property value="10" name="gravity" />
 						<property is-null="true" name="gravity_reference" />
@@ -2495,7 +2495,7 @@
 						<property value-a="1" value-b="1" value-g="1" value-r="1" name="tint" />
 						<property value="1" name="blend" />
 						<property value-y="1" value-x="1" name="matrix" />
-						<property value="BgAAAAQAAAAAAAEAAgAAAAMAAQAg/I5BEFibPwA0hTvnmP4+AACAPwAAgD8ANIU7ymCOPpDBeT84cGA+/////4TylkEdHE2/+Mt6P8pgjj4AAIA/AACAPwA0hTvKYI4+kMF5PzhwYD7/////xO+bQbtpjj74y3o/55j+PgAAgD8AAIA/ADSFO8pgjj6QwXk/OHBgPv////8A/4lB7nkJPgA0hTvKYI4+AACAPwAAgD8ANIU7ymCOPpDBeT84cGA+/////w==" name="mesh" />
+						<property value="BgAAAAQAAAAAAAEAAgAAAAMAAQAg/I5BIlibPwA0hTvnmP4+AACAPwAAgD8ANIU7ymCOPpDBeT84cGA+/////4TylkEdHE2/+Mt6P8pgjj4AAIA/AACAPwA0hTvKYI4+kMF5PzhwYD7/////xO+bQd9pjj74y3o/55j+PgAAgD8AAIA/ADSFO8pgjj6QwXk/OHBgPv////8A/4lBUXoJPgA0hTvKYI4+AACAPwAAgD8ANIU7ymCOPpDBeT84cGA+/////w==" name="mesh" />
 						<property value="BgAAAAQAAAAAAAEAAgAAAAMAAQAAAAC/AAAAPwA0hTvnmP4+AACAPwAAgD8ANIU7ymCOPpDBeT84cGA+/////wAAAD8AAAC/+Mt6P8pgjj4AAIA/AACAPwA0hTvKYI4+kMF5PzhwYD7/////AAAAPwAAAD/4y3o/55j+PgAAgD8AAIA/ADSFO8pgjj6QwXk/OHBgPv////8AAAC/AAAAvwA0hTvKYI4+AACAPwAAgD8ANIU7ymCOPpDBeT84cGA+/////w==" name="mesh_copy" />
 						<property value="AAAAAPNU7z/4jZ8/rUu4QCH/hT/J9pJBjA9TPsg5zz/1eW+/qaYfP4Qmij/J9pJBjA9TPgEAAABYGO0+7X7NPk7/iL5E0jE/jToHwdKF8MA=" name="before_transformation" />
 						<property value="false" name="collapsed" />
@@ -4641,9 +4641,9 @@
 						<property is-null="true" name="m_copy" />
 						<property is-null="true" name="b" />
 						<property is-null="true" name="b" />
-						<property value="AaOjowAAgD8AAIA/AAAAANsPyT8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAACjo6MAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" name="before" />
-						<property value="AaOjowAAgD8AAIA/AAAAANsPyT8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAACjo6MAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" name="before_b" />
-						<property value="AaOjowAAgD8AAIA/AAAAANsPyT8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAACjo6MAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" name="tx_space" />
+						<property value="AQAAAAAAgD8AAIA/AAAAANsPyT8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" name="before" />
+						<property value="AQAAAAAAgD8AAIA/AAAAANsPyT8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" name="before_b" />
+						<property value="AQAAAAAAgD8AAIA/AAAAANsPyT8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" name="tx_space" />
 					</properties>
 					<children>
 						<child type-name="rb::polygon_point_component">
@@ -5263,9 +5263,9 @@
 						<property is-null="true" name="m_copy" />
 						<property is-null="true" name="b" />
 						<property is-null="true" name="b" />
-						<property value="AQBEAAAAgD8AAIA/AAAAANsPyT8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAQQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" name="before" />
-						<property value="AQBvAAAAgD8AAIA/AAAAANsPyT8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAAAANAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" name="before_b" />
-						<property value="AQAvAAAAgD8AAIA/AAAAANsPyT8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAQQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" name="tx_space" />
+						<property value="AaBCAAAAgD8AAIA/AAAAANsPyT8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAABgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" name="before" />
+						<property value="AVBCAAAAgD8AAIA/AAAAANsPyT8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAABgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" name="before_b" />
+						<property value="AWAAAAAAgD8AAIA/AAAAANsPyT8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAABqIwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" name="tx_space" />
 					</properties>
 					<children>
 						<child type-name="rb::polygon_point_component">
@@ -5391,7 +5391,7 @@
 						</property>
 						<property type-name="rb::transformation_values" name="rb::transformation">
 							<properties>
-								<property value-y="1.52253" value-x="2.65848" name="translation" />
+								<property value-y="-0.0907069" value-x="-7.25659" name="translation" />
 								<property value-y="0.679221" value-x="5.64492" name="scale" />
 								<property value="false" name="uniform" />
 								<property value-y="90" value-x="0" name="rotation" />
@@ -5422,13 +5422,13 @@
 						<property name="misc_operations" />
 						<property value="AiBAAA==" name="flags" />
 						<property value="AQAAAAQAAAAAAAC/AAAAPwAAAL8AAAC/AAAAPwAAAL8AAAA/AAAAPw==" name="polygon" />
-						<property value="GAAAABAAAAAAAAEAAgAAAAMAAQAEAAUABgAEAAcABQAIAAkACgAIAAsACQAMAA0ADgAMAA8ADQD46ye+HebCPzgfgz45pn8/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////30jKkBtbZc/er+sPriieD8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////qyMqQJ3lwj96v6w+OaZ/PwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf////+Y9ye+XW2XPzgfgz64ong/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////6sjKkCd5cI/6/0yPjmmfz8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////3mOvQJ1tlz84H4M+uKJ4PwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf////9eY69AneXCPzgfgz45pn8/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////30jKkBtbZc/6/0yPriieD8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////mAEovg1e7j84H4M+uKJ4PwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf////+rIypAneXCP3q/rD42n3E/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////1UkKkAdXu4/er+sPriieD8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////+Osnvh3mwj84H4M+Np9xPwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf////9VJCpAHV7uP+v9Mj64ong/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////15jr0Cd5cI/OB+DPjafcT8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////hmOvQP1d7j84H4M+uKJ4PwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf////+rIypAneXCP+v9Mj42n3E/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////w==" name="m" />
+						<property value="GAAAABAAAAAAAAEAAgAAAAMAAQAEAAUABgAEAAcABQAIAAkACgAIAAsACQAMAA0ADgAMAA8ADQDUQyHBuIi5vTgfgz45pn8/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////4o26MDmRNy+er+sPriieD8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////czbowLiQub16v6w+OaZ/PwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf////8CRCHBJkXcvjgfgz64ong/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////3M26MC4kLm96/0yPjmmfz8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////a+SNwCZE3L44H4M+uKJ4PwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf/////r5I3AuJC5vTgfgz45pn8/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////4o26MDmRNy+6/0yPriieD8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////KkQhwSD7fj44H4M+uKJ4PwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf////9zNujAuJC5vXq/rD42n3E/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////x426MCg+34+er+sPriieD8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////1EMhwbiIub04H4M+Np9xPwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf////8eNujAoPt+Puv9Mj64ong/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////+vkjcC4kLm9OB+DPjafcT8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////w+SNwKD6fj44H4M+uKJ4PwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf////9zNujAuJC5vev9Mj42n3E/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////w==" name="m" />
 						<property value="GAAAABAAAAAAAAEAAgAAAAMAAQAEAAUABgAEAAcABQAIAAkACgAIAAsACQAMAA0ADgAMAA8ADQAAAAC/AAAAADgfgz45pn8/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////wAAAAAAAAC/er+sPriieD8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////AAAAAAAAAAB6v6w+OaZ/PwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf////8AAAC/AAAAvzgfgz64ong/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////wAAAAAAAAAA6/0yPjmmfz8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////AAAAPwAAAL84H4M+uKJ4PwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf////8AAAA/AAAAADgfgz45pn8/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////wAAAAAAAAC/6/0yPriieD8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////AAAAvwAAAD84H4M+uKJ4PwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf////8AAAAAAAAAAHq/rD42n3E/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////wAAAAAAAAA/er+sPriieD8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////AAAAvwAAAAA4H4M+Np9xPwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf////8AAAAAAAAAP+v9Mj64ong/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////wAAAD8AAAAAOB+DPjafcT8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////AAAAPwAAAD84H4M+uKJ4PwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf////8AAAAAAAAAAOv9Mj42n3E/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////w==" name="m_copy" />
 						<property is-null="true" name="b" />
 						<property is-null="true" name="b" />
-						<property value="AABwAC+jtEBt4S0/AAAAANsPyT+WJCpAYOLCPy+jtEAAAAAAAAAAAG3hLT+WJCpAYOLCPwEAAADsZjU+AAAAAAAAAACBc7w/iyDxvix2D8A=" name="before" />
-						<property value="AQCAPwAAgD8AAIA/AAAAANsPyT8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" name="before_b" />
-						<property value="AQAAAAAAgD8AAIA/AAAAANsPyT8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAZQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" name="tx_space" />
+						<property value="AJJiAC+jtEBt4S0/AAAAANsPyT/2NejAkMS5vS+jtEAAAAAAAAAAAG3hLT/2NejAkMS5vQFgAADsZjU+AAAAAAAAAACBc7w/g4ukPyvACD4=" name="before" />
+						<property value="Af9DAAAAgD8AAIA/AAAAANsPyT8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAABgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" name="before_b" />
+						<property value="AWAAAAAAgD8AAIA/AAAAANsPyT8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAACeQgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" name="tx_space" />
 						<property value="Static Planet" name="shape_type" />
 						<property value="10" name="gravity" />
 						<property is-null="true" name="gravity_reference" />
@@ -5596,9 +5596,9 @@
 						<property value="GAAAABAAAAAAAAEAAgAAAAMAAQAEAAUABgAEAAcABQAIAAkACgAIAAsACQAMAA0ADgAMAA8ADQAAAAC/AAAAADgfgz45pn8/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////wAAAAAAAAC/er+sPriieD8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////AAAAAAAAAAB6v6w+OaZ/PwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf////8AAAC/AAAAvzgfgz64ong/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////wAAAAAAAAAA6/0yPjmmfz8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////AAAAPwAAAL84H4M+uKJ4PwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf////8AAAA/AAAAADgfgz45pn8/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////wAAAAAAAAC/6/0yPriieD8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////AAAAvwAAAD84H4M+uKJ4PwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf////8AAAAAAAAAAHq/rD42n3E/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////wAAAAAAAAA/er+sPriieD8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////AAAAvwAAAAA4H4M+Np9xPwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf////8AAAAAAAAAP+v9Mj64ong/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////wAAAD8AAAAAOB+DPjafcT8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////AAAAPwAAAD84H4M+uKJ4PwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf////8AAAAAAAAAAOv9Mj42n3E/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////w==" name="m_copy" />
 						<property is-null="true" name="b" />
 						<property is-null="true" name="b" />
-						<property value="AAB6AAAAAEAK1xtAAAAAANsPyT+du/FBjLzlQAAAAEAAAAAAAAAAAArXG0Cdu/FBjLzlQAEAbQAAAAA/AAAAAAAAAABXRNI+nbtxwf+xPMA=" name="before" />
-						<property value="AQBtAAAAgD8AAIA/AAAAANsPyT8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAQQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" name="before_b" />
-						<property value="AQBmAAAAgD8AAIA/AAAAANsPyT8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" name="tx_space" />
+						<property value="AACnAAAAAEAK1xtAAAAAANsPyT+du/FBjLzlQAAAAEAAAAAAAAAAAArXG0Cdu/FBjLzlQAEAswAAAAA/AAAAAAAAAABXRNI+nbtxwf+xPMA=" name="before" />
+						<property value="AdCbPgAAgD8AAIA/AAAAANsPyT8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" name="before_b" />
+						<property value="AQCAPwAAgD8AAIA/AAAAANsPyT8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAAD9Mj4AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" name="tx_space" />
 						<property value="Static Planet" name="shape_type" />
 						<property value="10" name="gravity" />
 						<property is-null="true" name="gravity_reference" />
@@ -5731,8 +5731,8 @@
 						</property>
 						<property type-name="rb::transformation_values" name="rb::transformation">
 							<properties>
-								<property value-y="-19.6869" value-x="1.26428" name="translation" />
-								<property value-y="1" value-x="1" name="scale" />
+								<property value-y="-19.4801" value-x="-7.0628" name="translation" />
+								<property value-y="2.54728" value-x="2.54728" name="scale" />
 								<property value="false" name="uniform" />
 								<property value-y="180" value-x="90" name="rotation" />
 								<property value="true" name="orthogonal" />
@@ -5750,7 +5750,7 @@
 								<property type-name="rb::component_id" name="rb::node_id">
 									<properties>
 										<property value="bb01" name="name" />
-										<property value="bounceBall" name="classes" />
+										<property value="bounceBall autoBounce" name="classes" />
 									</properties>
 									<children />
 								</property>
@@ -5772,9 +5772,9 @@
 								<property value-a="1" value-b="1" value-g="1" value-r="1" name="tint" />
 								<property value="0.59123" name="blend" />
 								<property value-y="1" value-x="1" name="matrix" />
-								<property value="BgAAAAQAAAAAAAEAAgAAAAMAAQCIJ+8+X4KkwWA0hTubNGk/AACAP9daFz8gNIU7lCZNPwqBpj44cOA9/////yzBB0DJRpfB3pWoPpQmTT8AAIA/11oXPyA0hTuUJk0/CoGmPjhw4D3/////CCjvPsVGl8Helag+mzRpPwAAgD/XWhc/IDSFO5QmTT8KgaY+OHDgPf////9EwQdAXIKkwWA0hTuUJk0/AACAP9daFz8gNIU7lCZNPwqBpj44cOA9/////w==" name="mesh" />
+								<property value="BgAAAAQAAAAAAAEAAgAAAAMAAQDxfhHBK7WtwWA0hTubNGk/AACAP9daFz8gNIU7lCZNPwqBpj44cOA9/////9UpnMAIAIzB3pWoPpQmTT8AAIA/11oXPyA0hTuUJk0/CoGmPjhw4D3/////5X4Rwfv/i8Helag+mzRpPwAAgD/XWhc/IDSFO5QmTT8KgaY+OHDgPf////+4KZzAILWtwWA0hTuUJk0/AACAP9daFz8gNIU7lCZNPwqBpj44cOA9/////w==" name="mesh" />
 								<property value="BgAAAAQAAAAAAAEAAgAAAAMAAQAAAAC/AAAAP2A0hTubNGk/AACAP9daFz8gNIU7lCZNPwqBpj44cOA9/////wAAAD8AAAC/3pWoPpQmTT8AAIA/11oXPyA0hTuUJk0/CoGmPjhw4D3/////AAAAPwAAAD/elag+mzRpPwAAgD/XWhc/IDSFO5QmTT8KgaY+OHDgPf////8AAAC/AAAAv2A0hTuUJk0/AACAP9daFz8gNIU7lCZNPwqBpj44cOA9/////w==" name="mesh_copy" />
-								<property value="AACAPzm50z85udM/2w/JP9sPSUA/o6U/luSdwQAAAAA5udM/ObnTvwAAAAA/o6U/luSdwQGfcT8AAAAAlMQav5TEGj8AAAAAgek+QclGSD8=" name="before_transformation" />
+								<property value="AACAP2zUhkBs1IZA2w/JP9sPSUBbld/AmtqcwQAAAABs1IZAbNSGwAAAAABbld/AmtqcwQGfcT8AAAAASQhzvkkIcz4AAAAAlOiUQAJC1L8=" name="before_transformation" />
 								<property value="false" name="collapsed" />
 							</properties>
 							<children />
@@ -5808,9 +5808,9 @@
 								<property value-a="1" value-b="1" value-g="0" value-r="1" name="tint" />
 								<property value="0.429561" name="blend" />
 								<property value-y="1" value-x="1" name="matrix" />
-								<property value="BgAAAAQAAAAAAAEAAgAAAAMAAQCEV0c/zAOiwTHr/T7NzEw/AACAP3zv2z4w6/0+RLspP00h0D4jRgw+/wD//5CS5z9NxZnBQQZnP0S7KT8AAIA/fO/bPjDr/T5Euyk/TSHQPiNGDD7/AP//hFdHP03FmcFBBmc/zcxMPwAAgD9879s+MOv9PkS7KT9NIdA+I0YMPv8A//+Qkuc/zAOiwTHr/T5Euyk/AACAP3zv2z4w6/0+RLspP00h0D4jRgw+/wD//w==" name="mesh" />
+								<property value="BgAAAAQAAAAAAAEAAgAAAAMAAQC4ywTBJlqnwTHr/T7NzEw/AACAP3zv2z4w6/0+RLspP00h0D4jRgw+/wD//yaYtcAiWpLBQQZnP0S7KT8AAIA/fO/bPjDr/T5Euyk/TSHQPiNGDD7/AP//uMsEwSJaksFBBmc/zcxMPwAAgD9879s+MOv9PkS7KT9NIdA+I0YMPv8A//8mmLXAJlqnwTHr/T5Euyk/AACAP3zv2z4w6/0+RLspP00h0D4jRgw+/wD//w==" name="mesh" />
 								<property value="BgAAAAQAAAAAAAEAAgAAAAMAAQAAAAC/AAAAPzHr/T7NzEw/AACAP3zv2z4w6/0+RLspP00h0D4jRgw+/wD//wAAAD8AAAC/QQZnP0S7KT8AAIA/fO/bPjDr/T5Euyk/TSHQPiNGDD7/AP//AAAAPwAAAD9BBmc/zcxMPwAAgD9879s+MOv9PkS7KT9NIdA+I0YMPv8A//8AAAC/AAAAvzHr/T5Euyk/AACAP3zv2z4w6/0+RLspP00h0D4jRgw+/wD//w==" name="mesh_copy" />
-								<property value="AABHAMDngz/A54M/2w/JP9sPSUA7o6U/luSdwQAAAADA54M/wOeDvwAAAAA7o6U/luSdwQEAQgAAAAAAsmt4v7JreD8AAAAA3jeZQc+7oD8=" name="before_transformation" />
+								<property value="AAAAAPX/J0D1/ydA2w/JP9sPSUBdld/AmtqcwQAAAAD1/ydA9f8nwAAAAABdld/AmtqcwQEAQQAAAAAAPQzDvj0Mwz4AAAAABgTvQHZZKsA=" name="before_transformation" />
 								<property value="false" name="collapsed" />
 							</properties>
 							<children />
@@ -5820,7 +5820,7 @@
 				<child type-name="rb::group_component">
 					<properties>
 						<property value="false" name="rb::in_editor_hidden" />
-						<property value="true" name="rb::selected" />
+						<property value="false" name="rb::selected" />
 						<property type-name="rb::component_id" name="rb::node_id">
 							<properties>
 								<property value="" name="name" />
@@ -5830,7 +5830,7 @@
 						</property>
 						<property type-name="rb::transformation_values" name="rb::transformation">
 							<properties>
-								<property value-y="-19.7042" value-x="6.40065" name="translation" />
+								<property value-y="-19.5595" value-x="6.40065" name="translation" />
 								<property value-y="1" value-x="1" name="scale" />
 								<property value="false" name="uniform" />
 								<property value-y="270" value-x="180" name="rotation" />
@@ -5871,9 +5871,9 @@
 								<property value-a="1" value-b="1" value-g="1" value-r="1" name="tint" />
 								<property value="0.491389" name="blend" />
 								<property value-y="1" value-x="1" name="matrix" />
-								<property value="BgAAAAQAAAAAAAEAAgAAAAMAAQCK4OhA5QKkwWA0hTubNGk/AACAP2aX+z4gNIU7lCZNPwqBpj44cOA9/////xHys0Bdx5bB3pWoPpQmTT8AAIA/Zpf7PiA0hTuUJk0/CoGmPjhw4D3/////AfKzQOMCpMHelag+mzRpPwAAgD9ml/s+IDSFO5QmTT8KgaY+OHDgPf////9+4OhAW8eWwWA0hTuUJk0/AACAP2aX+z4gNIU7lCZNPwqBpj44cOA9/////w==" name="mesh" />
+								<property value="BgAAAAQAAAAAAAEAAgAAAAMAAQCe4OhAltqiwWA0hTubNGk/AACAP2aX+z4gNIU7lCZNPwqBpj44cOA9/////xvys0AOn5XB3pWoPpQmTT8AAIA/Zpf7PiA0hTuUJk0/CoGmPjhw4D3/////C/KzQJTaosHelag+mzRpPwAAgD9ml/s+IDSFO5QmTT8KgaY+OHDgPf////+S4OhADJ+VwWA0hTuUJk0/AACAP2aX+z4gNIU7lCZNPwqBpj44cOA9/////w==" name="mesh" />
 								<property value="BgAAAAQAAAAAAAEAAgAAAAMAAQAAAAC/AAAAP2A0hTubNGk/AACAP2aX+z4gNIU7lCZNPwqBpj44cOA9/////wAAAD8AAAC/3pWoPpQmTT8AAIA/Zpf7PiA0hTuUJk0/CoGmPjhw4D3/////AAAAPwAAAD/elag+mzRpPwAAgD9ml/s+IDSFO5QmTT8KgaY+OHDgPf////8AAAC/AAAAv2A0hTuUJk0/AACAP2aX+z4gNIU7lCZNPwqBpj44cOA9/////w==" name="mesh_copy" />
-								<property value="AABFADm50z85udM/2w9JQOTLlkBlac5AP2WdwTm5078AAAAAAAAAADm5079lac5AP2WdwQEAaACUxBq/AAAAAAAAAACUxBq/zZN5QIhPPsE=" name="before_transformation" />
+								<property value="AABJADm50z85udM/2w9JQOTLlkBlac5A5jycwTm5078AAAAAAAAAADm5079lac5A5jycwQEAQQCUxBq/AAAAAAAAAACUxBq/zZN5QDbpPME=" name="before_transformation" />
 								<property value="false" name="collapsed" />
 							</properties>
 							<children />
@@ -5907,9 +5907,9 @@
 								<property value-a="1" value-b="1" value-g="0" value-r="1" name="tint" />
 								<property value="0.429561" name="blend" />
 								<property value-y="1" value-x="1" name="matrix" />
-								<property value="BgAAAAQAAAAAAAEAAgAAAAMAAQBo5t5Ao4ShwTHr/T7NzEw/AACAP3zv2z4w6/0+RLspP00h0D4jRgw+/wD//2jsvUA1RpnBQQZnP0S7KT8AAIA/fO/bPjDr/T5Euyk/TSHQPiNGDD7/AP//aOy9QKOEocFBBmc/zcxMPwAAgD9879s+MOv9PkS7KT9NIdA+I0YMPv8A//9o5t5ANUaZwTHr/T5Euyk/AACAP3zv2z4w6/0+RLspP00h0D4jRgw+/wD//w==" name="mesh" />
+								<property value="BgAAAAQAAAAAAAEAAgAAAAMAAQBo5t5AQVygwTHr/T7NzEw/AACAP3zv2z4w6/0+RLspP00h0D4jRgw+/wD//2jsvUDTHZjBQQZnP0S7KT8AAIA/fO/bPjDr/T5Euyk/TSHQPiNGDD7/AP//aOy9QEFcoMFBBmc/zcxMPwAAgD9879s+MOv9PkS7KT9NIdA+I0YMPv8A//9o5t5A0x2YwTHr/T5Euyk/AACAP3zv2z4w6/0+RLspP00h0D4jRgw+/wD//w==" name="mesh" />
 								<property value="BgAAAAQAAAAAAAEAAgAAAAMAAQAAAAC/AAAAPzHr/T7NzEw/AACAP3zv2z4w6/0+RLspP00h0D4jRgw+/wD//wAAAD8AAAC/QQZnP0S7KT8AAIA/fO/bPjDr/T5Euyk/TSHQPiNGDD7/AP//AAAAPwAAAD9BBmc/zcxMPwAAgD9879s+MOv9PkS7KT9NIdA+I0YMPv8A//8AAAC/AAAAvzHr/T5Euyk/AACAP3zv2z4w6/0+RLspP00h0D4jRgw+/wD//w==" name="mesh_copy" />
-								<property value="AABHAMDngz/A54M/2w9JQOTLlkBkac5AP2WdwcDng78AAAAAAAAAAMDng79kac5AP2WdwQEAQgCya3i/AAAAAAAAAACya3i/7kzIQEy8mME=" name="before_transformation" />
+								<property value="AABHAMDngz/A54M/2w9JQOTLlkBkac5A5jycwcDng78AAAAAAAAAAMDng79kac5A5jycwQEAQgCya3i/AAAAAAAAAACya3i/7kzIQLmcl8E=" name="before_transformation" />
 								<property value="false" name="collapsed" />
 							</properties>
 							<children />

@@ -346,7 +346,7 @@ void main_character::update_bounceball(float dt){
         
         //Transform to the direction
         auto _currentPoint = _current_bounceball->from_node_space_to(space::layer).from_space_to_base().transformed_point(_local_ballPos);
-        _body->SetTransform(b2Vec2(_currentPoint.x(), _currentPoint.y()), _body->GetAngle());
+        _body->SetTransform(b2Vec2(_currentPoint.x(), _currentPoint.y()), _body->GetAngle() - _reduced);
         
         if(_reached && (_current_autobounce || _jumpButton))
             _launch = true;
