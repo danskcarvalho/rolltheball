@@ -111,14 +111,16 @@ void physics_shape::before_becoming_inactive(bool node_was_moved){
 
 void physics_shape::reset_component() {
     transform(_saved_transform);
-//
-//    auto _saved_scale = transform().scale();
-//    transform(transform().scaled(1, 1)); //no scale
-//    auto _t = from_node_space_to(space::layer);
-//    transform(transform().scaled(_saved_scale)); //restore scale
-//    
-//    _body->SetTransform(b2Vec2(_t.origin().x(), _t.origin().y()), _t.rotation().x());
-//    _before = nullptr;
+
+    auto _saved_scale = transform().scale();
+    transform(transform().scaled(1, 1)); //no scale
+    auto _t = from_node_space_to(space::layer);
+    transform(transform().scaled(_saved_scale)); //restore scale
+
+    _body->SetTransform(b2Vec2(_t.origin().x(), _t.origin().y()), _t.rotation().x());
+    _body->SetLinearVelocity(b2Vec2(0, 0));
+    _body->SetAngularVelocity(0);
+    _before = nullptr;
 }
 
 rb_string physics_shape::type_name() const {

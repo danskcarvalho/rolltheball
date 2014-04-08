@@ -93,6 +93,10 @@ namespace rb {
         float _bounce_velocity;
         //breaking block
         node* _block_to_break;
+        //ground
+        nullable<vec2> _normal;
+        vec2 _contact_point;
+        b2Body* _current_ground;
     private:
         bool testSlopeAngle(b2WorldManifold* manifold, const nullable<vec2>& gravity) const;
         //get closest point from camera track...

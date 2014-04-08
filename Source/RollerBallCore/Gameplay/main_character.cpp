@@ -135,6 +135,9 @@ main_character::main_character(){
     _bounce_velocity = 1;
     //block to break
     _block_to_break = nullptr;
+    //ground
+    _normal = nullptr;
+    _current_ground = nullptr;
 }
 
 main_character::~main_character(){
@@ -598,6 +601,13 @@ void main_character::update_character(vec2& cam_gravity){
     }
     
     if(_g != vec2::zero){
+        auto _true_gy = _gy;
+        if(_normal.has_value()) { //we move using the normal
+            auto _sv_g = _g;
+            _g = -_normal.value() * _sv_g.length();
+            _gx = _normal.value().rotated(TO_RADIANS(-90));
+            _gy = -_normal.value();
+        }
         
         auto _lx = signed_length(_vx, _gx);
         if(_direction > 0) { //to right
@@ -615,6 +625,8 @@ void main_character::update_character(vec2& cam_gravity){
         }
         else {
             _vx = vec2::zero;
+            if(_current_ground)
+                _vy = vec2::zero;
             //_vx *= _damping;
             _v = _vx + _vy;
         }
@@ -622,7 +634,7 @@ void main_character::update_character(vec2& cam_gravity){
         if(_jumpButton && !_didJump){
             _didJump = true;
             if(_jumpCount > 0){
-                _vy = -_gy * PHYS_CHARACTER_JUMP;
+                _vy = -_true_gy * PHYS_CHARACTER_JUMP;
                 _v = _vx + _vy;
                 _jumpCount--;
             }
@@ -765,6 +777,9 @@ void main_character::reset_component(){
     //bouncing ball
     _is_bouncing = nullptr;
     _current_bounceball = nullptr;
+    //ground
+    _current_ground = nullptr;
+    _normal = nullptr;
 }
 
 void main_character::playing(){
@@ -1020,6 +1035,16 @@ void main_character::BeginContact(b2Contact *contact){
         }
         
         if((_cond1 || _cond2) && testSlopeAngle(&manifold, _previous_g)){
+            //normal pos + current ground
+            _normal = vec2(manifold.normal.x, manifold.normal.y);
+            _contact_point = vec2(manifold.points[0].x + manifold.points[1].x, manifold.points[0].y + manifold.points[1].y);
+            _contact_point = _contact_point / 2.0f;
+            if(((node*)contact->GetFixtureA()->GetBody()->GetUserData()) == (node*)this)
+                _current_ground = contact->GetFixtureB()->GetBody();
+            else
+                _current_ground = contact->GetFixtureA()->GetBody();
+            //////
+            
             if(!_character->_didJump)
                 _character->_jumpCount = PHYS_CHARACTER_JUMP_COUNT;
         }
@@ -1045,6 +1070,12 @@ void main_character::EndContact(b2Contact *contact){
     if(((std::get<0>(_groundContact) && std::get<1>(_groundContact)) ||
         (std::get<0>(_groundContact2) && std::get<1>(_groundContact2)))
         && contact->IsEnabled()){
+        
+        if(_current_ground == contact->GetFixtureA()->GetBody() ||
+           _current_ground == contact->GetFixtureB()->GetBody()){
+            _normal = nullptr;
+            _current_ground = nullptr;
+        }
         
         auto _ground = std::get<1>(_groundContact);
         auto _block = std::get<1>(_groundContact2);
