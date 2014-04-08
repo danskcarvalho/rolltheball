@@ -44,7 +44,7 @@ namespace rb {
         float _direction;
         nullable<vec2> _previous_g;
         float _damping;
-        std::unordered_map<physics_shape*, b2WorldManifold> _contacts;
+        std::unordered_map<node*, b2WorldManifold> _contacts;
         //Jumping
         bool _jumpButton;
         bool _didJump;
@@ -91,6 +91,8 @@ namespace rb {
         bool _current_bouncehasdir; //has direction?
         bool _current_autobounce; //is autobounce?
         float _bounce_velocity;
+        //breaking block
+        node* _block_to_break;
     private:
         bool testSlopeAngle(b2WorldManifold* manifold, const nullable<vec2>& gravity) const;
         //get closest point from camera track...

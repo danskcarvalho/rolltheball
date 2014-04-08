@@ -13,5 +13,6 @@
 #define PHYS_MASK_GRAVITY_REGION (1 << 1)
 #define PHYS_MASK_SHAPE (1 << 2)
 #define PHYS_MASK_ENEMY (1 << 3)
+#define PHYS_BREAKABLE_BLOCK (1 << 4)
 
 #endif

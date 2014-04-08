@@ -126,6 +126,8 @@
 		451E6C7416111FCC002391F4 /* apple_program_manager.mm in Sources */ = {isa = PBXBuildFile; fileRef = 451E6C7016111FCB002391F4 /* apple_program_manager.mm */; };
 		451E6C75161122E2002391F4 /* apple_program_manager.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 451E6C7116111FCB002391F4 /* apple_program_manager.h */; };
 		451E6C76161122E9002391F4 /* apple_program_manager.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 451E6C7116111FCB002391F4 /* apple_program_manager.h */; };
+		451FACF818F208FB000D82CC /* breakable_block.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 451FACF618F208FB000D82CC /* breakable_block.cpp */; };
+		451FACF918F208FB000D82CC /* breakable_block.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 451FACF618F208FB000D82CC /* breakable_block.cpp */; };
 		451FEA7A1628FB1D00BECBEA /* extended_dynamic_mesh_batch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 451FEA781628FB1D00BECBEA /* extended_dynamic_mesh_batch.cpp */; };
 		451FEA7B1628FB1D00BECBEA /* extended_dynamic_mesh_batch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 451FEA781628FB1D00BECBEA /* extended_dynamic_mesh_batch.cpp */; };
 		451FEA7C1628FB1D00BECBEA /* extended_dynamic_mesh_batch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 451FEA781628FB1D00BECBEA /* extended_dynamic_mesh_batch.cpp */; };
@@ -803,6 +805,8 @@
 		451E6C6916111BEB002391F4 /* base_external.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = base_external.h; path = Base/base_external.h; sourceTree = "<group>"; };
 		451E6C7016111FCB002391F4 /* apple_program_manager.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = apple_program_manager.mm; path = Base/apple_program_manager.mm; sourceTree = "<group>"; };
 		451E6C7116111FCB002391F4 /* apple_program_manager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = apple_program_manager.h; path = Base/apple_program_manager.h; sourceTree = "<group>"; };
+		451FACF618F208FB000D82CC /* breakable_block.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = breakable_block.cpp; path = Gameplay/breakable_block.cpp; sourceTree = "<group>"; };
+		451FACF718F208FB000D82CC /* breakable_block.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = breakable_block.h; path = Gameplay/breakable_block.h; sourceTree = "<group>"; };
 		451FEA781628FB1D00BECBEA /* extended_dynamic_mesh_batch.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = extended_dynamic_mesh_batch.cpp; path = Base/extended_dynamic_mesh_batch.cpp; sourceTree = "<group>"; };
 		451FEA791628FB1D00BECBEA /* extended_dynamic_mesh_batch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = extended_dynamic_mesh_batch.h; path = Base/extended_dynamic_mesh_batch.h; sourceTree = "<group>"; };
 		451FEA8C1629086800BECBEA /* extended_static_mesh_batch.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = extended_static_mesh_batch.cpp; path = Base/extended_static_mesh_batch.cpp; sourceTree = "<group>"; };
@@ -10178,6 +10182,7 @@
 				4545441F187A09F300F59753 /* resettable_component.cpp */,
 				452E06DA1879D805000FCA27 /* rotation_animator_component.cpp */,
 				4575ADCA18C554B40017815A /* position_animator_component.cpp */,
+				451FACF618F208FB000D82CC /* breakable_block.cpp */,
 			);
 			name = Gameplay;
 			sourceTree = "<group>";
@@ -10185,6 +10190,7 @@
 		45139D6E17BAAAD2003AC03D /* Include */ = {
 			isa = PBXGroup;
 			children = (
+				451FACF718F208FB000D82CC /* breakable_block.h */,
 				4575ADCB18C554B40017815A /* position_animator_component.h */,
 				452E06DB1879D805000FCA27 /* rotation_animator_component.h */,
 				45454420187A09F300F59753 /* resettable_component.h */,
@@ -26085,6 +26091,7 @@
 				456770FB15F040B900C91B3C /* b2CollidePolygon.cpp in Sources */,
 				456770FE15F040B900C91B3C /* b2Collision.cpp in Sources */,
 				4567710215F040B900C91B3C /* b2Distance.cpp in Sources */,
+				451FACF918F208FB000D82CC /* breakable_block.cpp in Sources */,
 				4567710615F040B900C91B3C /* b2DynamicTree.cpp in Sources */,
 				4567710A15F040B900C91B3C /* b2TimeOfImpact.cpp in Sources */,
 				4567710E15F040B900C91B3C /* b2ChainShape.cpp in Sources */,
@@ -26370,6 +26377,7 @@
 				4567710515F040B900C91B3C /* b2DynamicTree.cpp in Sources */,
 				4567710915F040B900C91B3C /* b2TimeOfImpact.cpp in Sources */,
 				4567710D15F040B900C91B3C /* b2ChainShape.cpp in Sources */,
+				451FACF818F208FB000D82CC /* breakable_block.cpp in Sources */,
 				4567711115F040B900C91B3C /* b2CircleShape.cpp in Sources */,
 				4567711515F040B900C91B3C /* b2EdgeShape.cpp in Sources */,
 				4567711915F040B900C91B3C /* b2PolygonShape.cpp in Sources */,

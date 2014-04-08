@@ -259,6 +259,8 @@ float destructible_sprite_component::opacity() const {
 }
 
 float destructible_sprite_component::opacity(float value){
+    if(value > 1)
+        value = 1;
     this->_opacity = value;
     for (size_t i = 0; i < _m.size(); i++) {
         _m[i]->set_alpha(this->_opacity);

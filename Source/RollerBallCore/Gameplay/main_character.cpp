@@ -16,6 +16,7 @@
 #include "animation_function.h"
 #include "particle_emitter_component.h"
 #include "base_enemy.h"
+#include "breakable_block.h"
 #include <random>
 #include <Box2D/Box2D.h>
 
@@ -132,6 +133,8 @@ main_character::main_character(){
     _current_bounceball = nullptr;
     _is_bouncing = nullptr;
     _bounce_velocity = 1;
+    //block to break
+    _block_to_break = nullptr;
 }
 
 main_character::~main_character(){
@@ -260,6 +263,7 @@ bool main_character::check_die(){
 void main_character::update_died(float dt){
     _current_bounceball = nullptr;
     _is_bouncing = nullptr;
+    this->transform(this->transform().rotated(0, M_PI_2));
     for (size_t i = 0; i < (DESTRUCTION_MATRIX * DESTRUCTION_MATRIX); i++) {
         _parts_velocities[i] += _gravity_died * dt;
     }
@@ -377,6 +381,11 @@ void main_character::update(float dt){
     if(check_die())
         return;
     
+    if(_block_to_break){
+        dynamic_cast<breakable_block*>(_block_to_break)->break_block(true);
+        _block_to_break = nullptr;
+    }
+    
     check_bouncing();
     if(_current_bounceball || _is_bouncing)
         update_bounceball(dt);
@@ -397,7 +406,11 @@ void main_character::update(float dt){
     //jump count may be renovated
     if(!_didJump && _jumpCount != PHYS_CHARACTER_JUMP_COUNT){
         for(auto& _kp : _contacts){
-            if(_kp.first->shape_type() == physics_shape::kStaticPlanet && testSlopeAngle(&_kp.second, _previous_g))
+            auto _physShape = dynamic_cast<physics_shape*>(_kp.first);
+            auto _breakBlock = dynamic_cast<breakable_block*>(_kp.first);
+            auto _cond1 = _physShape && _physShape->shape_type() == physics_shape::kStaticPlanet;
+            auto _cond2 = _breakBlock != nullptr;
+            if((_cond1 || _cond2) && testSlopeAngle(&_kp.second, _previous_g))
                 this->_jumpCount = PHYS_CHARACTER_JUMP_COUNT;
         }
     }
@@ -696,7 +709,7 @@ void main_character::die(){
     parent_scene()->fade_color(color::from_rgba(1, 0, 0, 0));
     _parts_velocities.clear();
     auto _parts_count = DESTRUCTION_MATRIX * DESTRUCTION_MATRIX;
-    std::mt19937 _generator;
+    std::mt19937 _generator((uint32_t)clock());
     std::uniform_real_distribution<float> _distribution(0.0f, 1.0f);
     
     for (size_t i = 0; i < _parts_count; i++) {
@@ -710,6 +723,7 @@ void main_character::die(){
 }
 
 void main_character::reset_component(){
+    _block_to_break = nullptr;
     _sprite->opacity(1);
     for (uint32_t i = 0; i < DESTRUCTION_MATRIX; i++) {
         for (uint32_t j = 0; j < DESTRUCTION_MATRIX; j++) {
@@ -737,7 +751,7 @@ void main_character::reset_component(){
 //    _an_manager->reset_animation(_die_an);
 //    _an_manager->animation(_die_an)->state = animation_state::stopped;
     _die_emitter->reset_emitter();
-    _die_emitter->state(particle_state::stopped);
+    _die_emitter->state(particle_state::hidden);
     _parts_velocities.clear();
     parent_scene()->camera(_saved_camera);
     transform(_saved_transform);
@@ -798,7 +812,7 @@ void main_character::playing(){
         _fDef.restitution = 0;
         _fDef.density = 8050;
         _fDef.filter.categoryBits = PHYS_MASK_CHARACTER;
-        _fDef.filter.maskBits = PHYS_MASK_GRAVITY_REGION | PHYS_MASK_SHAPE | PHYS_MASK_ENEMY;
+        _fDef.filter.maskBits = PHYS_MASK_GRAVITY_REGION | PHYS_MASK_SHAPE | PHYS_MASK_ENEMY | PHYS_BREAKABLE_BLOCK;
         b2CircleShape _c;
         _c.m_radius = 0.5;
         _fDef.shape = &_c;
@@ -971,22 +985,41 @@ std::tuple<A*, B*> get_objects(b2Contact* contact){
 
 void main_character::BeginContact(b2Contact *contact){
     auto _groundContact = get_objects<main_character, physics_shape>(contact);
+    auto _groundContact2 = get_objects<main_character, breakable_block>(contact);
     
-    if(std::get<0>(_groundContact) && std::get<1>(_groundContact) && contact->IsEnabled() && contact->IsTouching()){
+    if((std::get<0>(_groundContact) || std::get<0>(_groundContact2)) &&
+       (std::get<1>(_groundContact) || std::get<1>(_groundContact2)) &&
+        contact->IsEnabled() && contact->IsTouching()){
+        
         auto _character = std::get<0>(_groundContact);
+        if(!_character)
+            _character = std::get<0>(_groundContact2);
         auto _ground = std::get<1>(_groundContact);
+        auto _block = std::get<1>(_groundContact2);
+        
+        if(_block && _block->explode_character_contact())
+            this->_block_to_break = _block;
         
         //get manifold
         b2WorldManifold manifold;
         contact->GetWorldManifold(&manifold);
-        _contacts[_ground] = manifold;
+        if(((node*)contact->GetFixtureA()->GetBody()->GetUserData()) == (node*)this){
+            manifold.normal = -manifold.normal;
+        }
         
-        if(_is_bouncing && _ground->shape_type() == physics_shape::kStaticPlanet){
+        if(_ground)
+            _contacts[_ground] = manifold;
+        else
+            _contacts[_block] = manifold;
+        
+        auto _cond1 = _ground && _ground->shape_type() == physics_shape::kStaticPlanet;
+        auto _cond2 = _block != nullptr;
+        if(_is_bouncing && (_cond1 || _cond2)){
             _is_bouncing = nullptr;
             _direction = 0;
         }
         
-        if(_ground->shape_type() == physics_shape::kStaticPlanet && testSlopeAngle(&manifold, _previous_g)){
+        if((_cond1 || _cond2) && testSlopeAngle(&manifold, _previous_g)){
             if(!_character->_didJump)
                 _character->_jumpCount = PHYS_CHARACTER_JUMP_COUNT;
         }
@@ -1000,18 +1033,27 @@ bool main_character::testSlopeAngle(b2WorldManifold *manifold, const nullable<rb
     auto _normal = vec2(manifold->normal.x, manifold->normal.y).normalized();
     auto _angle = gravity.has_value() ?
     (nullable<float>)vec2::dot(gravity.value().normalized().rotated90().rotated90(), _normal) : (nullable<float>)nullptr; //angle between gravity(rotated 180 degrees) and normal.
-    auto _maxAngle = cosf(TO_RADIANS(45));
+    auto _maxAngle = cosf(TO_RADIANS(60));
     
     return (!_angle.has_value() || _angle.value() >= _maxAngle);
 }
 
 void main_character::EndContact(b2Contact *contact){
     auto _groundContact = get_objects<main_character, physics_shape>(contact);
+    auto _groundContact2 = get_objects<main_character, breakable_block>(contact);
     
-    if(std::get<0>(_groundContact) && std::get<1>(_groundContact) && contact->IsEnabled()){
+    if(((std::get<0>(_groundContact) && std::get<1>(_groundContact)) ||
+        (std::get<0>(_groundContact2) && std::get<1>(_groundContact2)))
+        && contact->IsEnabled()){
+        
         auto _ground = std::get<1>(_groundContact);
-        _contacts.erase(_ground);
-        if(_ground->shape_type() == physics_shape::kStaticGravityZone){
+        auto _block = std::get<1>(_groundContact2);
+        if(_ground)
+            _contacts.erase(_ground);
+        else
+            _contacts.erase(_block);
+        
+        if(_ground && _ground->shape_type() == physics_shape::kStaticGravityZone){
             _ground->_active_gravity = true;
         }
     }

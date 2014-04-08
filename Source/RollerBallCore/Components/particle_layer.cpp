@@ -580,7 +580,7 @@ UpdateEmitterAgain:
         if(einfo->duration_remaining <= 0){
             if(!einfo->einfo.loop){
                 einfo->duration_remaining = 0;
-                einfo->state = particle_state::stopped;
+                einfo->state = einfo->state == particle_state::hidden ? particle_state::hidden : particle_state::stopped;
                 return;
             }
             else {

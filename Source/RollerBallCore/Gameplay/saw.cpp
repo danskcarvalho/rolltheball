@@ -130,7 +130,7 @@ void saw::playing(){
         b2FixtureDef _fDef;
         _fDef.isSensor = true;
         _fDef.filter.categoryBits = PHYS_MASK_ENEMY;
-        _fDef.filter.maskBits = PHYS_MASK_CHARACTER;
+        _fDef.filter.maskBits = PHYS_MASK_CHARACTER | PHYS_BREAKABLE_BLOCK;
         b2CircleShape _c;
         _c.m_radius = _t.scale().x() / 2;
         _fDef.shape = &_c;
