@@ -74,31 +74,22 @@ bool saw::animatable(bool value){
 void saw::reset_component(){
     transform(_saved_transform);
     _body->SetTransform(b2Vec2(_saved_transform.origin().x(), _saved_transform.origin().y()), _saved_transform.rotation().x());
-    _before = nullptr;
 }
 
 void saw::update(float dt){
     if(!_initialized)
         return;
+
+    auto _before = vec2(_body->GetPosition().x, _body->GetPosition().y);
+    auto _t = this->from_node_space_to(space::layer);
+    auto _v = _t.origin() - _before;
+    auto _o = _t.rotation().x() - _body->GetAngle();
     
-    if(!_before.has_value())
-    {
-        auto _t = this->from_node_space_to(space::layer);
-        _before = _t;
-        _body->SetTransform(b2Vec2(_t.origin().x(), _t.origin().y()), _t.rotation().x());
-    }
-    else {
-        auto _t = this->from_node_space_to(space::layer);
-        auto _v = _t.origin() - _before.value().origin();
-        auto _o = _t.rotation().x() - _before.value().rotation().x();
-        
-        _v *= 30.0f;
-        _o *= 30.0f;
-        
-        _body->SetLinearVelocity(b2Vec2(_v.x(), _v.y()));
-        _body->SetAngularVelocity(_o);
-        _before = _t;
-    }
+    _v *= 30.0f;
+    _o *= 30.0f;
+    
+    _body->SetLinearVelocity(b2Vec2(_v.x(), _v.y()));
+    _body->SetAngularVelocity(_o);
 }
 
 rb_string saw::type_name() const {

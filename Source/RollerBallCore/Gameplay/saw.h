@@ -26,7 +26,6 @@ namespace rb {
         sprite_component* _sprite;
         b2World* _world;
         b2Body* _body;
-        nullable<transform_space> _before;
         transform_space _saved_transform;
     protected:
         virtual bool should_serialize_children() const override;

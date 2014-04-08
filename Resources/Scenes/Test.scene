@@ -9,8 +9,8 @@
 		<property value-a="1" value-b="0" value-g="0.64" value-r="1" name="alternate_gizmo" />
 		<property value-a="1" value-b="1" value-g="1" value-r="1" name="selection_color" />
 		<property value-a="0" value-b="0" value-g="0" value-r="0" name="fade_color" />
-		<property value="0|33|" name="current" />
-		<property value="AACAP6ClGkGgpRpBAAAAANsPyT+Es5dAjnapwaClGkEAAAAAAAAAAKClGkGEs5dAjnapwQEAAACZ49M9AAAAAAAAAACZ49M9qR/7vmBDDEA=" name="camera" />
+		<property value="0|" name="current" />
+		<property value="AACAP6ClGkGgpRpBAAAAANsPyT9/SRfA65yhwaClGkEAAAAAAAAAAKClGkF/SRfA65yhwQGuCUSZ49M9AAAAAAAAAACZ49M9KXB6PgTEBUA=" name="camera" />
 	</properties>
 	<children>
 		<child type-name="rb::layer">
@@ -61,9 +61,9 @@
 						<property value-a="1" value-b="1" value-g="1" value-r="1" name="tint" />
 						<property value="1" name="blend" />
 						<property value-y="1" value-x="1" name="matrix" />
-						<property value="BgAAAAQAAAAAAAEAAgAAAAMAAQCf6/pBWjfyQAA0hTvnmP4+AACAPwAAgD8ANIU7ymCOPpDBeT84cGA+/////0RwAUJ4vLFA+Mt6P8pgjj4AAIA/AACAPwA0hTvKYI4+kMF5PzhwYD7/////5O4DQv9H1ED4y3o/55j+PgAAgD8AAIA/ADSFO8pgjj6QwXk/OHBgPv////9/7vVBNa3PQAA0hTvKYI4+AACAPwAAgD8ANIU7ymCOPpDBeT84cGA+/////w==" name="mesh" />
+						<property value="BgAAAAQAAAAAAAEAAgAAAAMAAQC/6/pB+jbyQAA0hTvnmP4+AACAPwAAgD8ANIU7ymCOPpDBeT84cGA+/////0RwAUL4u7FA+Mt6P8pgjj4AAIA/AACAPwA0hTvKYI4+kMF5PzhwYD7/////5O4DQp9H1ED4y3o/55j+PgAAgD8AAIA/ADSFO8pgjj6QwXk/OHBgPv////+f7vVB1azPQAA0hTvKYI4+AACAPwAAgD8ANIU7ymCOPpDBeT84cGA+/////w==" name="mesh" />
 						<property value="BgAAAAQAAAAAAAEAAgAAAAMAAQAAAAC/AAAAPwA0hTvnmP4+AACAPwAAgD8ANIU7ymCOPpDBeT84cGA+/////wAAAD8AAAC/+Mt6P8pgjj4AAIA/AACAPwA0hTvKYI4+kMF5PzhwYD7/////AAAAPwAAAD/4y3o/55j+PgAAgD8AAIA/ADSFO8pgjj6QwXk/OHBgPv////8AAAC/AAAAvwA0hTvKYI4+AACAPwAAgD8ANIU7ymCOPpDBeT84cGA+/////w==" name="mesh_copy" />
-						<property value="AABlAPNU7z/4jZ8/rUu4QCH/hT/35P5BQ//RQMg5zz/1eW+/qaYfP4Qmij/35P5BQ//RQAEAAABYGO0+7X7NPk7/iL5E0jE/9PlPwVzFisE=" name="before_transformation" />
+						<property value="AAAAAPNU7z/4jZ8/rUu4QCH/hT/35P5BQ//RQMg5zz/1eW+/qaYfP4Qmij/35P5BQ//RQAEAAABYGO0+7X7NPk7/iL5E0jE/9PlPwVzFisE=" name="before_transformation" />
 						<property value="false" name="collapsed" />
 					</properties>
 					<children />
@@ -346,32 +346,6 @@
 						</child>
 					</children>
 				</child>
-				<child type-name="rb::saw">
-					<properties>
-						<property value="false" name="rb::in_editor_hidden" />
-						<property value="false" name="rb::selected" />
-						<property type-name="rb::component_id" name="rb::node_id">
-							<properties>
-								<property value="" name="name" />
-								<property value="" name="classes" />
-							</properties>
-							<children />
-						</property>
-						<property type-name="rb::transformation_values" name="rb::transformation">
-							<properties>
-								<property value-y="6.80458" value-x="29.032" name="translation" />
-								<property value-y="2.39076" value-x="2.39076" name="scale" />
-								<property value="true" name="uniform" />
-								<property value-y="445.625" value-x="355.625" name="rotation" />
-								<property value="true" name="orthogonal" />
-							</properties>
-							<children />
-						</property>
-						<property value="false" name="rb::blocked" />
-						<property value="saw" name="image_name" />
-						<property value="false" name="animatable" />
-					</properties>
-				</child>
 				<child type-name="rb::physics_shape">
 					<properties>
 						<property value="false" name="rb::in_editor_hidden" />
@@ -420,9 +394,9 @@
 						<property value="aAEAALgAAAAAAAEAAgABAAMAAgAEAAUABgAFAAcABgAFAAgABwAGAAkABAAJAAoABAAEAAoACwAMAA0ADgAOAA8ADAAOABAADwAOABEAEAAMABIADQASABMADQAUABUAFgAUABcAFQAYABkAGgAZABsAGgAcAB0AHgAdAB8AHgAfACAAHgAgACEAHgAhACIAHgAeACIAIwAiACQAIwAcACUAHQAmACcAKAAmACkAJwAqACsALAAqAC0AKwAuAC8AMAAvADEAMAAvADIAMQAvADMAMgAvADQAMwA0AC8ANQA0ADUANgAwADcALgA4ADkAOgA4ADsAOQA8AD0APgA9AD8APgA/AEAAPgA+AEAAQQBBAEAAQgBCAEMAQQBEAEUARgBEAEcARQBIAEkASgBIAEsASQBMAE0ATgBMAE8ATQBQAFEAUgBQAFMAUQBUAFUAVgBUAFcAVQBUAFgAVwBZAFgAVABYAFkAWgBaAFkAWwBcAF0AXgBfAFwAXgBgAF8AXgBeAGEAYABhAGIAYABhAGMAYgBkAGUAZgBkAGcAZQBoAGkAagBoAGsAaQBsAG0AbgBsAG8AbQBwAHEAcgBwAHMAcQB0AHUAdgB2AHUAdwB3AHUAeAB3AHgAeQB5AHgAegB6AHgAewB8AH0AfgB8AH4AfwCAAIEAggCDAIAAggCEAIAAgwCFAIQAgwCGAIUAgwCHAIYAgwCIAIcAgwCIAIkAhwCKAIsAjACKAI0AiwCOAI8AkACOAJEAjwCSAJMAlACTAJUAlACUAJUAlgCWAJUAlwCXAJUAmACYAJUAmQCZAJUAmgCbAJkAmgCcAJ0AngCeAJ0AnwCgAKEAogCgAKIAowCkAKUApgCmAKcApACoAKcApgCpAKcAqACqAKkAqACqAKgAqwCsAK0ArgCuAK0ArwCvAK0AsACxALAArQCyALAAsQCzALIAsQC0ALUAtgC2ALUAtwDY04O+vRbbvirQmz45pn8/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////+hacb6YxeG+dUmkPiXLfj8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////tRZbvr0W2756v6w+OaZ/PwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf////+1Flu+lwnnvnq/rD6IHn4/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////wAAADS9Ftu+er+sPjmmfz8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////tRZbvr0W277r/TI+OaZ/PwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf////8toBS+C/r0vvCKaD6VVXw/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////wvvQ75hg+y+35ZEPghrfT8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////tRZbvpcJ577r/TI+iB5+PwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf/////Gxce9vhT7vr7Khj56jXs/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////xq9SL1txP6+na2ZPqMUez8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////gIUBNAAAAL96v6w+Oux6PwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf////89oBQ+Cfr0vv74kT6WVXw/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////8UWWz69Ftu+er+sPjmmfz8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////AAAANL0W277r/TI+OaZ/PwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf/////Ixcc9vhT7vmXnfj56jXs/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////129SD1txP6+siFZPqMUez8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////gIUBNAAAAL/r/TI+Oux6PwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf////8b70M+XYPsvgfzoz4Ia30/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////8UWWz6TCee+er+sPokefj8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////xRZbPr0W277r/TI+OaZ/PwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf/////pWnE+mMXhvvfpQz4ly34/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////9jTgz69Ftu+jNxUPjmmfz8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////xRZbPpMJ577r/TI+iR5+PwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf////+VCee+vRZbvsyqoz45pn8/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Np9xPwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf////9eg+y+Fe9DvnaBnz68GnM/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////5UJ5769Flu+zKqjPjafcT8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////uRbbvgAAAADr/TI+OaZ/PwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf////+1Flu+vRZbvnq/rD42n3E/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////7UWW74AAAAAer+sPjmmfz8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////uRbbvr0WW77r/TI+Np9xPwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf////+1Flu+AAAAAOv9Mj45pn8/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////wAAADS9Flu+er+sPjafcT8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////AAAANAAAAAB6v6w+OaZ/PwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf////+1Flu+vRZbvuv9Mj42n3E/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////wAAADQAAAAA6/0yPjmmfz8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////xRZbPr0WW756v6w+Np9xPwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf/////FFls+AAAAAHq/rD45pn8/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////wAAADS9Flu+6/0yPjafcT8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////xRZbPgAAAADr/TI+OaZ/PwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf/////BFts+vRZbvnq/rD42n3E/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////8EW2z4AAAAAer+sPjmmfz8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////xRZbPr0WW77r/TI+Np9xPwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf/////BFts+AAAAAOv9Mj45pn8/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////27E/j4EvUi92zhpPqpvfD8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////AAAAPwAAAACCGGs+OaZ/PwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf////+/FPs+vMXHvXyeYz4GQXk/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////wz69D4ooBS+O1daPiYidj8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////wRbbPr0WW77r/TI+Np9xPwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf////9fg+w+Fe9DvvN5TT68GnM/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////5UJ5z69Flu+RydFPjafcT8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////bcT+vjC9SD0EopE+xtV0PwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf////8AAAC/HQnNpi+ykD42n3E/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////7kW274AAAAAer+sPjafcT8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////vxT7vsHFxz0yb5Q+agR4PwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf////8L+vS+M6AUPtQSmT5KI3s/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////7kW2769Fls+er+sPjmmfz8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////YIPsvhDvQz52gZ8+syp+PwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf////+WCee+vRZbPsyqoz45pn8/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////7kW2769Fls+6/0yPjmmfz8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////tRZbvgAAAAB6v6w+Np9xPwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf////+1Flu+vRZbPnq/rD45pn8/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////7kW274AAAAA6/0yPjafcT8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////tRZbvr0WWz7r/TI+OaZ/PwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf////8AAAA0AAAAAHq/rD42n3E/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////wAAADS9Fls+er+sPjmmfz8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////tRZbvgAAAADr/TI+Np9xPwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf////8AAAA0vRZbPuv9Mj45pn8/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////8UWWz4AAAAAer+sPjafcT8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////xRZbPr0WWz56v6w+OaZ/PwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf////8AAAA0AAAAAOv9Mj42n3E/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////8UWWz69Fls+6/0yPjmmfz8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////wRbbPgAAAAB6v6w+Np9xPwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf/////BFts+vRZbPnq/rD45pn8/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////8UWWz4AAAAA6/0yPjafcT8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////lQnnPr0WWz5HJ0U+OaZ/PwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf/////BFts+vRZbPuv9Mj45pn8/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////16D7D4W70M+83lNPrMqfj8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////C/r0PjGgFD44V1o+SSN7PwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf/////BFts+AAAAAOv9Mj42n3E/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////74U+z7Cxcc9ep5jPmoEeD8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////bcT+Pja9SD3YOGk+xtV0PwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf////8AAAA/AAAAAIIYaz42n3E/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////5nF4b7mWnE+QKunPiwMcz8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////lgnnvr0WWz7MqqM+Np9xPwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf////+5Ftu+vRZbPnq/rD42n3E/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////7kW277f04M+er+sPq95dD8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////MtvUvtk5jj4Wdzw+j851PwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf////+5Ftu+39ODPuv9Mj6veXQ/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////7kW2769Fls+6/0yPjafcT8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////tRZbvr0WWz56v6w+Np9xPwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf////8E5MW+mWeiPlw2Uz4LZHg/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9//////MEtb7zBLU+NNtsPkLGej8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////mWeivgTkxT4yk4Q+U+98PwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf/////cOY6+MNvUPhPpkz7q2X4/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////7UWW769Fts+er+sPjmmfz8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////2NODvr0W2z4q0Js+OaZ/PwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf////+1Flu+vRbbPuv9Mj45pn8/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////wAAADS9Fls+er+sPjafcT8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////AAAANL0W2z56v6w+OaZ/PwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf////+1Flu+vRZbPuv9Mj42n3E/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////wAAADS9Fts+6/0yPjmmfz8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////xRZbPr0WWz56v6w+Np9xPwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf/////FFls+vRbbPnq/rD45pn8/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////wAAADS9Fls+6/0yPjafcT8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////2NODPr0W2z6M3FQ+OaZ/PwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf/////FFls+vRbbPuv9Mj45pn8/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////9k5jj4y29Q+tapkPurZfj8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////xRZbPr0WWz7r/TI+Np9xPwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf////+ZZ6I+A+TFPj6rgT5T73w/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9//////MEtT7zBLU+1tCPPkLGej8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////A+TFPppnoj5Co5w+C2R4PwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf////8x29Q+2jmOPuQCqD6PznU/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////8EW2z69Fls+er+sPjafcT8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////wRbbPtHTgz56v6w+rnl0PwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf/////BFts+0dODPuv9Mj6ueXQ/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////8EW2z69Fls+6/0yPjafcT8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////l8XhPupacT5dJj0+LAxzPwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf////+VCec+vRZbPkcnRT42n3E/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////+1acb6XxeE+c0mkPkp6cj8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////2NODvr0W2z4q0Js+Np9xPwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf////+1Flu+vRbbPnq/rD42n3E/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////7UWW76XCec+er+sPugmcz8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////GO9Dvl6D7D7VlkQ+aNpzPwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf////+1Flu+lwnnPuv9Mj7oJnM/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////7UWW769Fts+6/0yPjafcT8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////M6AUvgr69D7simg+2u90PwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf////8AAAA0vRbbPnq/rD42n3E/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////8LFx72+FPs+v8qGPvW3dT8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////Qb1IvW3E/j6arZk+zTB2PwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf////8AAAA0AAAAP3q/rD42WXY/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////wAAADQAAAA/6/0yPjZZdj8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////AAAANL0W2z7r/TI+Np9xPwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf////81vUg9bcT+PqohWT7NMHY/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////7zFxz2/FPs+YOd+Pva3dT8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////MKAUPgv69D75+JE+2u90PwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf/////FFls+vRbbPnq/rD42n3E/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////xXvQz5eg+w+BPOjPmjacz8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////xRZbPpMJ5z56v6w+5yZzPwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf/////FFls+kwnnPuv9Mj7nJnM/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////8UWWz69Fts+6/0yPjafcT8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////51pxPpjF4T716UM+S3pyPwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf/////Y04M+vRbbPozcVD42n3E/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////w==" name="m_copy" />
 						<property is-null="true" name="b" />
 						<property is-null="true" name="b" />
-						<property value="AABwAKBUFEGgVBRBAAAAANsPyT9Dxu9B1CoFQKBUFEEAAAAAAAAAAKBUFEFDxu9B1CoFQAEAAAB46dw9AAAAAAAAAAB46dw9DulOwILUZb4=" name="before" />
-						<property value="AQCAPwAAgD8AAIA/AAAAANsPyT8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" name="before_b" />
-						<property value="AAAAAL0WWz69Fls+AAAAANsPyT8AAAA0AAAAAL0WWz4AAAAAAAAAAL0WWz4AAAA0AAAAAAEAZQCfkJVAAAAAAAAAAACfkJVAAAAAAAAAAAA=" name="tx_space" />
+						<property value="AKOjo6BUFEGgVBRBAAAAANsPyT9Dxu9B1CoFQKBUFEEAAAAAAAAAAKBUFEFDxu9B1CoFQAGjo6N46dw9AAAAAAAAAAB46dw9DulOwILUZb4=" name="before" />
+						<property value="AaOjowAAgD8AAIA/AAAAANsPyT8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAACjo6MAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" name="before_b" />
+						<property value="AKOjo70WWz69Fls+AAAAANsPyT8AAAA0AAAAAL0WWz4AAAAAAAAAAL0WWz4AAAA0AAAAAAGjo6OfkJVAAAAAAAAAAACfkJVAAAAAAAAAAAA=" name="tx_space" />
 						<property value="Static Planet" name="shape_type" />
 						<property value="10" name="gravity" />
 						<property is-null="true" name="gravity_reference" />
@@ -2210,9 +2184,9 @@
 						<property is-null="true" name="m_copy" />
 						<property is-null="true" name="b" />
 						<property is-null="true" name="b" />
-						<property value="AQBEAAAAgD8AAIA/AAAAANsPyT8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAQQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" name="before" />
-						<property value="AQByAAAAgD8AAIA/AAAAANsPyT8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAbQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" name="before_b" />
-						<property value="AABFAL0WWz69Fls+AAAAANsPyT8AAAA0AAAAAL0WWz4AAAAAAAAAAL0WWz4AAAA0AAAAAAEATgCfkJVAAAAAAAAAAACfkJVAAAAAAAAAAAA=" name="tx_space" />
+						<property value="AZ9xPwAAgD8AAIA/AAAAANsPyT8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" name="before" />
+						<property value="AXPIQAAAgD8AAIA/AAAAANsPyT8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAADacz8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" name="before_b" />
+						<property value="AJ9xP70WWz69Fls+AAAAANsPyT8AAAA0AAAAAL0WWz4AAAAAAAAAAL0WWz4AAAA0AAAAAAEAgD+fkJVAAAAAAAAAAACfkJVAAAAAAAAAAAA=" name="tx_space" />
 						<property value="Static Gravity Zone" name="shape_type" />
 						<property value="10" name="gravity" />
 						<property is-null="true" name="gravity_reference" />
@@ -2440,32 +2414,6 @@
 						</child>
 					</children>
 				</child>
-				<child type-name="rb::saw">
-					<properties>
-						<property value="false" name="rb::in_editor_hidden" />
-						<property value="false" name="rb::selected" />
-						<property type-name="rb::component_id" name="rb::node_id">
-							<properties>
-								<property value="" name="name" />
-								<property value="" name="classes" />
-							</properties>
-							<children />
-						</property>
-						<property type-name="rb::transformation_values" name="rb::transformation">
-							<properties>
-								<property value-y="0.448287" value-x="15.5407" name="translation" />
-								<property value-y="2.39076" value-x="2.39076" name="scale" />
-								<property value="true" name="uniform" />
-								<property value-y="445.625" value-x="355.625" name="rotation" />
-								<property value="true" name="orthogonal" />
-							</properties>
-							<children />
-						</property>
-						<property value="false" name="rb::blocked" />
-						<property value="saw" name="image_name" />
-						<property value="false" name="animatable" />
-					</properties>
-				</child>
 				<child type-name="rb::sprite_component">
 					<properties>
 						<property value="false" name="rb::in_editor_hidden" />
@@ -2495,7 +2443,7 @@
 						<property value-a="1" value-b="1" value-g="1" value-r="1" name="tint" />
 						<property value="1" name="blend" />
 						<property value-y="1" value-x="1" name="matrix" />
-						<property value="BgAAAAQAAAAAAAEAAgAAAAMAAQAg/I5BZlqbPwA0hTvnmP4+AACAPwAAgD8ANIU7ymCOPpDBeT84cGA+/////4TylkEdHE2/+Mt6P8pgjj4AAIA/AACAPwA0hTvKYI4+kMF5PzhwYD7/////xO+bQWdujj74y3o/55j+PgAAgD8AAIA/ADSFO8pgjj6QwXk/OHBgPv////8A/4lBx4YJPgA0hTvKYI4+AACAPwAAgD8ANIU7ymCOPpDBeT84cGA+/////w==" name="mesh" />
+						<property value="BgAAAAQAAAAAAAEAAgAAAAMAAQAg/I5BplqbPwA0hTvnmP4+AACAPwAAgD8ANIU7ymCOPpDBeT84cGA+/////4TylkEdHE2/+Mt6P8pgjj4AAIA/AACAPwA0hTvKYI4+kMF5PzhwYD7/////xO+bQedujj74y3o/55j+PgAAgD8AAIA/ADSFO8pgjj6QwXk/OHBgPv////8A/4lBJ4gJPgA0hTvKYI4+AACAPwAAgD8ANIU7ymCOPpDBeT84cGA+/////w==" name="mesh" />
 						<property value="BgAAAAQAAAAAAAEAAgAAAAMAAQAAAAC/AAAAPwA0hTvnmP4+AACAPwAAgD8ANIU7ymCOPpDBeT84cGA+/////wAAAD8AAAC/+Mt6P8pgjj4AAIA/AACAPwA0hTvKYI4+kMF5PzhwYD7/////AAAAPwAAAD/4y3o/55j+PgAAgD8AAIA/ADSFO8pgjj6QwXk/OHBgPv////8AAAC/AAAAvwA0hTvKYI4+AACAPwAAgD8ANIU7ymCOPpDBeT84cGA+/////w==" name="mesh_copy" />
 						<property value="AAAAAPNU7z/4jZ8/rUu4QCH/hT/J9pJBjA9TPsg5zz/1eW+/qaYfP4Qmij/J9pJBjA9TPgEAAABYGO0+7X7NPk7/iL5E0jE/jToHwdKF8MA=" name="before_transformation" />
 						<property value="false" name="collapsed" />
@@ -4355,7 +4303,7 @@
 						</property>
 						<property type-name="rb::transformation_values" name="rb::transformation">
 							<properties>
-								<property value-y="-17.5863" value-x="1.88568" name="translation" />
+								<property value-y="-12.7632" value-x="-0.223647" name="translation" />
 								<property value-y="1" value-x="1" name="scale" />
 								<property value="false" name="uniform" />
 								<property value-y="90" value-x="0" name="rotation" />
@@ -4583,7 +4531,7 @@
 						<property value="sawPath" name="path_class" />
 						<property value="false" name="paused_animation" />
 						<property value="false" name="clamp" />
-						<property value="true" name="invert" />
+						<property value="false" name="invert" />
 						<property value="0" name="asleep_duration" />
 						<property value="0" name="awake_duration" />
 						<property value="0" name="initial_asleep_duration" />
@@ -4639,9 +4587,9 @@
 						<property is-null="true" name="m_copy" />
 						<property is-null="true" name="b" />
 						<property is-null="true" name="b" />
-						<property value="AQAAAAAAgD8AAIA/AAAAANsPyT8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" name="before" />
-						<property value="AQAAAAAAgD8AAIA/AAAAANsPyT8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" name="before_b" />
-						<property value="AQAAAAAAgD8AAIA/AAAAANsPyT8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" name="tx_space" />
+						<property value="AaOjowAAgD8AAIA/AAAAANsPyT8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAACjo6MAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" name="before" />
+						<property value="AaOjowAAgD8AAIA/AAAAANsPyT8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAACjo6MAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" name="before_b" />
+						<property value="AaOjowAAgD8AAIA/AAAAANsPyT8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAACjo6MAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" name="tx_space" />
 					</properties>
 					<children>
 						<child type-name="rb::polygon_point_component">
@@ -4727,32 +4675,6 @@
 						</child>
 					</children>
 				</child>
-				<child type-name="rb::saw">
-					<properties>
-						<property value="false" name="rb::in_editor_hidden" />
-						<property value="false" name="rb::selected" />
-						<property type-name="rb::component_id" name="rb::node_id">
-							<properties>
-								<property value="" name="name" />
-								<property value="posSaw sawPath02" name="classes" />
-							</properties>
-							<children />
-						</property>
-						<property type-name="rb::transformation_values" name="rb::transformation">
-							<properties>
-								<property value-y="-4.68342" value-x="19.327" name="translation" />
-								<property value-y="2.39076" value-x="2.39076" name="scale" />
-								<property value="true" name="uniform" />
-								<property value-y="90" value-x="0" name="rotation" />
-								<property value="true" name="orthogonal" />
-							</properties>
-							<children />
-						</property>
-						<property value="false" name="rb::blocked" />
-						<property value="saw" name="image_name" />
-						<property value="true" name="animatable" />
-					</properties>
-				</child>
 				<child type-name="rb::physics_shape">
 					<properties>
 						<property value="false" name="rb::in_editor_hidden" />
@@ -4801,9 +4723,9 @@
 						<property value="GAAAABAAAAAAAAEAAgAAAAMAAQAEAAUABgAEAAcABQAIAAkACgAIAAsACQAMAA0ADgAMAA8ADQAAAAC/AAAAADgfgz45pn8/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////wAAAAAAAAC/er+sPriieD8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////AAAAAAAAAAB6v6w+OaZ/PwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf////8AAAC/AAAAvzgfgz64ong/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////wAAAAAAAAAA6/0yPjmmfz8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////AAAAPwAAAL84H4M+uKJ4PwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf////8AAAA/AAAAADgfgz45pn8/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////wAAAAAAAAC/6/0yPriieD8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////AAAAvwAAAD84H4M+uKJ4PwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf////8AAAAAAAAAAHq/rD42n3E/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////wAAAAAAAAA/er+sPriieD8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////AAAAvwAAAAA4H4M+Np9xPwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf////8AAAAAAAAAP+v9Mj64ong/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////wAAAD8AAAAAOB+DPjafcT8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////AAAAPwAAAD84H4M+uKJ4PwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf////8AAAAAAAAAAOv9Mj42n3E/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////w==" name="m_copy" />
 						<property is-null="true" name="b" />
 						<property is-null="true" name="b" />
-						<property value="AACAP5H+GEItlmI/AAAAANsPyT8Lv4ZBdLi2wZH+GEIAAAAAAAAAAC2WYj8Lv4ZBdLi2wQFgAACDLdY8AAAAAAAAAACjnZA/T3fhvopwzkE=" name="before" />
-						<property value="AQAAAAAAgD8AAIA/AAAAANsPyT8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAABgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" name="before_b" />
-						<property value="AWAAAAAAgD8AAIA/AAAAANsPyT8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAYwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" name="tx_space" />
+						<property value="AABUAJH+GEItlmI/AAAAANsPyT8Lv4ZBdLi2wZH+GEIAAAAAAAAAAC2WYj8Lv4ZBdLi2wQEAQgCDLdY8AAAAAAAAAACjnZA/T3fhvopwzkE=" name="before" />
+						<property value="AQBBAAAAgD8AAIA/AAAAANsPyT8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAAAANAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" name="before_b" />
+						<property value="AQA5AAAAgD8AAIA/AAAAANsPyT8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAAAANgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" name="tx_space" />
 						<property value="Static Planet" name="shape_type" />
 						<property value="10" name="gravity" />
 						<property is-null="true" name="gravity_reference" />
@@ -4923,136 +4845,6 @@
 						</child>
 					</children>
 				</child>
-				<child type-name="rb::saw">
-					<properties>
-						<property value="false" name="rb::in_editor_hidden" />
-						<property value="false" name="rb::selected" />
-						<property type-name="rb::component_id" name="rb::node_id">
-							<properties>
-								<property value="" name="name" />
-								<property value="" name="classes" />
-							</properties>
-							<children />
-						</property>
-						<property type-name="rb::transformation_values" name="rb::transformation">
-							<properties>
-								<property value-y="-22.4148" value-x="7.93" name="translation" />
-								<property value-y="2.39076" value-x="2.39076" name="scale" />
-								<property value="true" name="uniform" />
-								<property value-y="90" value-x="0" name="rotation" />
-								<property value="true" name="orthogonal" />
-							</properties>
-							<children />
-						</property>
-						<property value="false" name="rb::blocked" />
-						<property value="saw" name="image_name" />
-						<property value="false" name="animatable" />
-					</properties>
-				</child>
-				<child type-name="rb::saw">
-					<properties>
-						<property value="false" name="rb::in_editor_hidden" />
-						<property value="false" name="rb::selected" />
-						<property type-name="rb::component_id" name="rb::node_id">
-							<properties>
-								<property value="" name="name" />
-								<property value="" name="classes" />
-							</properties>
-							<children />
-						</property>
-						<property type-name="rb::transformation_values" name="rb::transformation">
-							<properties>
-								<property value-y="-19.7198" value-x="11.5746" name="translation" />
-								<property value-y="2.39076" value-x="2.39076" name="scale" />
-								<property value="true" name="uniform" />
-								<property value-y="90" value-x="0" name="rotation" />
-								<property value="true" name="orthogonal" />
-							</properties>
-							<children />
-						</property>
-						<property value="false" name="rb::blocked" />
-						<property value="saw" name="image_name" />
-						<property value="false" name="animatable" />
-					</properties>
-				</child>
-				<child type-name="rb::saw">
-					<properties>
-						<property value="false" name="rb::in_editor_hidden" />
-						<property value="false" name="rb::selected" />
-						<property type-name="rb::component_id" name="rb::node_id">
-							<properties>
-								<property value="" name="name" />
-								<property value="" name="classes" />
-							</properties>
-							<children />
-						</property>
-						<property type-name="rb::transformation_values" name="rb::transformation">
-							<properties>
-								<property value-y="-22.4574" value-x="16.1727" name="translation" />
-								<property value-y="2.39076" value-x="2.39076" name="scale" />
-								<property value="true" name="uniform" />
-								<property value-y="90" value-x="0" name="rotation" />
-								<property value="true" name="orthogonal" />
-							</properties>
-							<children />
-						</property>
-						<property value="false" name="rb::blocked" />
-						<property value="saw" name="image_name" />
-						<property value="false" name="animatable" />
-					</properties>
-				</child>
-				<child type-name="rb::saw">
-					<properties>
-						<property value="false" name="rb::in_editor_hidden" />
-						<property value="false" name="rb::selected" />
-						<property type-name="rb::component_id" name="rb::node_id">
-							<properties>
-								<property value="" name="name" />
-								<property value="" name="classes" />
-							</properties>
-							<children />
-						</property>
-						<property type-name="rb::transformation_values" name="rb::transformation">
-							<properties>
-								<property value-y="-22.2713" value-x="23.6205" name="translation" />
-								<property value-y="2.39076" value-x="2.39076" name="scale" />
-								<property value="true" name="uniform" />
-								<property value-y="90" value-x="0" name="rotation" />
-								<property value="true" name="orthogonal" />
-							</properties>
-							<children />
-						</property>
-						<property value="false" name="rb::blocked" />
-						<property value="saw" name="image_name" />
-						<property value="false" name="animatable" />
-					</properties>
-				</child>
-				<child type-name="rb::saw">
-					<properties>
-						<property value="false" name="rb::in_editor_hidden" />
-						<property value="false" name="rb::selected" />
-						<property type-name="rb::component_id" name="rb::node_id">
-							<properties>
-								<property value="" name="name" />
-								<property value="" name="classes" />
-							</properties>
-							<children />
-						</property>
-						<property type-name="rb::transformation_values" name="rb::transformation">
-							<properties>
-								<property value-y="-22.2243" value-x="29.9913" name="translation" />
-								<property value-y="2.39076" value-x="2.39076" name="scale" />
-								<property value="true" name="uniform" />
-								<property value-y="90" value-x="0" name="rotation" />
-								<property value="true" name="orthogonal" />
-							</properties>
-							<children />
-						</property>
-						<property value="false" name="rb::blocked" />
-						<property value="saw" name="image_name" />
-						<property value="false" name="animatable" />
-					</properties>
-				</child>
 				<child type-name="rb::polygon_component">
 					<properties>
 						<property value="false" name="rb::in_editor_hidden" />
@@ -5101,9 +4893,9 @@
 						<property is-null="true" name="m_copy" />
 						<property is-null="true" name="b" />
 						<property is-null="true" name="b" />
-						<property value="AemUAAAAgD8AAIA/AAAAANsPyT8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAAD9Mj4AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" name="before" />
-						<property value="AeyUAAAAgD8AAIA/AAAAANsPyT8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" name="before_b" />
-						<property value="AQAAAAAAgD8AAIA/AAAAANsPyT8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAADylAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" name="tx_space" />
+						<property value="AQAAAAAAgD8AAIA/AAAAANsPyT8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" name="before" />
+						<property value="AQAAAAAAgD8AAIA/AAAAANsPyT8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" name="before_b" />
+						<property value="AQAAAAAAgD8AAIA/AAAAANsPyT8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" name="tx_space" />
 					</properties>
 					<children>
 						<child type-name="rb::polygon_point_component">
@@ -5434,9 +5226,9 @@
 						<property value="GAAAABAAAAAAAAEAAgAAAAMAAQAEAAUABgAEAAcABQAIAAkACgAIAAsACQAMAA0ADgAMAA8ADQAAAAC/AAAAADgfgz45pn8/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////wAAAAAAAAC/er+sPriieD8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////AAAAAAAAAAB6v6w+OaZ/PwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf////8AAAC/AAAAvzgfgz64ong/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////wAAAAAAAAAA6/0yPjmmfz8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////AAAAPwAAAL84H4M+uKJ4PwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf////8AAAA/AAAAADgfgz45pn8/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////wAAAAAAAAC/6/0yPriieD8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////AAAAvwAAAD84H4M+uKJ4PwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf////8AAAAAAAAAAHq/rD42n3E/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////wAAAAAAAAA/er+sPriieD8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////AAAAvwAAAAA4H4M+Np9xPwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf////8AAAAAAAAAP+v9Mj64ong/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////wAAAD8AAAAAOB+DPjafcT8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////AAAAPwAAAD84H4M+uKJ4PwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf////8AAAAAAAAAAOv9Mj42n3E/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////w==" name="m_copy" />
 						<property is-null="true" name="b" />
 						<property is-null="true" name="b" />
-						<property value="AABwAAAAAEAK1xtAAAAAANsPyT+du/FBjLzlQAAAAEAAAAAAAAAAAArXG0Cdu/FBjLzlQAEAAAAAAAA/AAAAAAAAAABXRNI+nbtxwf+xPMA=" name="before" />
-						<property value="AQCAPwAAgD8AAIA/AAAAANsPyT8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" name="before_b" />
-						<property value="AQAAAAAAgD8AAIA/AAAAANsPyT8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAZQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" name="tx_space" />
+						<property value="AC8vLwAAAEAK1xtAAAAAANsPyT+du/FBjLzlQAAAAEAAAAAAAAAAAArXG0Cdu/FBjLzlQAFqaHcAAAA/AAAAAAAAAABXRNI+nbtxwf+xPMA=" name="before" />
+						<property value="AXA5eAAAgD8AAIA/AAAAANsPyT8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAAArdjkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" name="before_b" />
+						<property value="ATNFLwAAgD8AAIA/AAAAANsPyT8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAAAvMHkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" name="tx_space" />
 						<property value="Static Planet" name="shape_type" />
 						<property value="10" name="gravity" />
 						<property is-null="true" name="gravity_reference" />
@@ -5569,7 +5361,7 @@
 						</property>
 						<property type-name="rb::transformation_values" name="rb::transformation">
 							<properties>
-								<property value-y="-15.7328" value-x="-2.88455" name="translation" />
+								<property value-y="-16.8739" value-x="0.424528" name="translation" />
 								<property value-y="1" value-x="1" name="scale" />
 								<property value="false" name="uniform" />
 								<property value-y="180" value-x="90" name="rotation" />
@@ -5610,9 +5402,9 @@
 								<property value-a="1" value-b="1" value-g="1" value-r="1" name="tint" />
 								<property value="0.491389" name="blend" />
 								<property value-y="1" value-x="1" name="matrix" />
-								<property value="BgAAAAQAAAAAAAEAAgAAAAMAAQCiqGvAN+GEwWA0hTubNGk/AACAP2aX+z4gNIU7lCZNPwqBpj44cOA9/////33LAcA4S2/B3pWoPpQmTT8AAIA/Zpf7PiA0hTuUJk0/CoGmPjhw4D3/////kqhrwDBLb8Helag+mzRpPwAAgD9ml/s+IDSFO5QmTT8KgaY+OHDgPf////9tywHANeGEwWA0hTuUJk0/AACAP2aX+z4gNIU7lCZNPwqBpj44cOA9/////w==" name="mesh" />
+								<property value="BgAAAAQAAAAAAAEAAgAAAAMAAQC9Br++XQKOwWA0hTubNGk/AACAP2aX+z4gNIU7lCZNPwqBpj44cOA9//////b4oz/CxoDB3pWoPpQmTT8AAIA/Zpf7PiA0hTuUJk0/CoGmPjhw4D3/////PQa/vr7GgMHelag+mzRpPwAAgD9ml/s+IDSFO5QmTT8KgaY+OHDgPf////8W+aM/WwKOwWA0hTuUJk0/AACAP2aX+z4gNIU7lCZNPwqBpj44cOA9/////w==" name="mesh" />
 								<property value="BgAAAAQAAAAAAAEAAgAAAAMAAQAAAAC/AAAAP2A0hTubNGk/AACAP2aX+z4gNIU7lCZNPwqBpj44cOA9/////wAAAD8AAAC/3pWoPpQmTT8AAIA/Zpf7PiA0hTuUJk0/CoGmPjhw4D3/////AAAAPwAAAD/elag+mzRpPwAAgD9ml/s+IDSFO5QmTT8KgaY+OHDgPf////8AAAC/AAAAv2A0hTuUJk0/AACAP2aX+z4gNIU7lCZNPwqBpj44cOA9/////w==" name="mesh_copy" />
-								<property value="AACAPzm50z85udM/2w/JP9sPSUDPtDbALoV8wQAAAAA5udM/ObnTvwAAAADPtDbALoV8wQGfcT8AAAAAlMQav5TEGj8AAAAABaoYQSHq3L8=" name="before_transformation" />
+								<property value="AACAPzm50z85udM/2w/JP9sPSUAEmeg+kGOHwQAAAAA5udM/ObnTvwAAAAAEmeg+kGOHwQGfcT8AAAAAlMQav5TEGj8AAAAAtrMjQaiejD4=" name="before_transformation" />
 								<property value="false" name="collapsed" />
 							</properties>
 							<children />
@@ -5646,9 +5438,9 @@
 								<property value-a="1" value-b="1" value-g="0" value-r="1" name="tint" />
 								<property value="0.429561" name="blend" />
 								<property value-y="1" value-x="1" name="matrix" />
-								<property value="BgAAAAQAAAAAAAEAAgAAAAMAAQDoqVfAgGGCwTHr/T7NzEw/AACAP3zv2z4w6/0+RLspP00h0D4jRgw+/wD//7O2FcA6RnTBQQZnP0S7KT8AAIA/fO/bPjDr/T5Euyk/TSHQPiNGDD7/AP//6KlXwDpGdMFBBmc/zcxMPwAAgD9879s+MOv9PkS7KT9NIdA+I0YMPv8A//+zthXAgGGCwTHr/T5Euyk/AACAP3zv2z4w6/0+RLspP00h0D4jRgw+/wD//w==" name="mesh" />
+								<property value="BgAAAAQAAAAAAAEAAgAAAAMAAQCqfHi9a4KLwTHr/T7NzEw/AACAP3zv2z4w6/0+RLspP00h0D4jRgw+/wD///BEeD8JRIPBQQZnP0S7KT8AAIA/fO/bPjDr/T5Euyk/TSHQPiNGDD7/AP//qnx4vQlEg8FBBmc/zcxMPwAAgD9879s+MOv9PkS7KT9NIdA+I0YMPv8A///wRHg/a4KLwTHr/T5Euyk/AACAP3zv2z4w6/0+RLspP00h0D4jRgw+/wD//w==" name="mesh" />
 								<property value="BgAAAAQAAAAAAAEAAgAAAAMAAQAAAAC/AAAAPzHr/T7NzEw/AACAP3zv2z4w6/0+RLspP00h0D4jRgw+/wD//wAAAD8AAAC/QQZnP0S7KT8AAIA/fO/bPjDr/T5Euyk/TSHQPiNGDD7/AP//AAAAPwAAAD9BBmc/zcxMPwAAgD9879s+MOv9PkS7KT9NIdA+I0YMPv8A//8AAAC/AAAAvzHr/T5Euyk/AACAP3zv2z4w6/0+RLspP00h0D4jRgw+/wD//w==" name="mesh_copy" />
-								<property value="AABHAMDngz/A54M/2w/JP9sPSUDRtDbALoV8wQAAAADA54M/wOeDvwAAAADRtDbALoV8wQEAQgAAAAAAsmt4v7JreD8AAAAAQAt1QQdMMcA=" name="before_transformation" />
+								<property value="AABwAMDngz/A54M/2w/JP9sPSUDzmOg+kGOHwQAAAADA54M/wOeDvwAAAADzmOg+kGOHwQEAQQAAAAAAsmt4v7JreD8AAAAAaGGDQQW24T4=" name="before_transformation" />
 								<property value="false" name="collapsed" />
 							</properties>
 							<children />
@@ -5686,7 +5478,7 @@
 						<property value-y="1" value-x="1" name="matrix" />
 						<property value="BgAAAAQAAAAAAAEAAgAAAAMAAQAB3tpBiOMNwiA0hTubNGk/AACAPwAAgD8gNIU7lCZNPwqBpj44cOA9/////wHe2kGI4w3C2pWoPpQmTT8AAIA/AACAPyA0hTuUJk0/CoGmPjhw4D3/////Ad7aQYjjDcLalag+mzRpPwAAgD8AAIA/IDSFO5QmTT8KgaY+OHDgPf////8B3tpBiOMNwiA0hTuUJk0/AACAPwAAgD8gNIU7lCZNPwqBpj44cOA9/////w==" name="mesh" />
 						<property value="BgAAAAQAAAAAAAEAAgAAAAMAAQAAAAC/AAAAPyA0hTubNGk/AACAPwAAgD8gNIU7lCZNPwqBpj44cOA9/////wAAAD8AAAC/2pWoPpQmTT8AAIA/AACAPyA0hTuUJk0/CoGmPjhw4D3/////AAAAPwAAAD/alag+mzRpPwAAgD8AAIA/IDSFO5QmTT8KgaY+OHDgPf////8AAAC/AAAAvyA0hTuUJk0/AACAPwAAgD8gNIU7lCZNPwqBpj44cOA9/////w==" name="mesh_copy" />
-						<property value="AMsjEAAAAAAAAAAAAAAAAAAAAAAB3tpBiOMNwgAAAAAAAAAAAAAAAAAAAAAB3tpBiOMNwgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" name="before_transformation" />
+						<property value="AMcVEQAAAAAAAAAAAAAAAAAAAAAB3tpBiOMNwgAAAAAAAAAAAAAAAAAAAAAB3tpBiOMNwgAAKwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" name="before_transformation" />
 						<property value="false" name="collapsed" />
 					</properties>
 					<children />
@@ -5698,13 +5490,13 @@
 						<property type-name="rb::component_id" name="rb::node_id">
 							<properties>
 								<property value="" name="name" />
-								<property value="posSaw pathPlat01" name="classes" />
+								<property value="path01 posSaw" name="classes" />
 							</properties>
 							<children />
 						</property>
 						<property type-name="rb::transformation_values" name="rb::transformation">
 							<properties>
-								<property value-y="-21.3848" value-x="2.26314" name="translation" />
+								<property value-y="-19.1763" value-x="3.60222" name="translation" />
 								<property value-y="0.49909" value-x="4.1257" name="scale" />
 								<property value="false" name="uniform" />
 								<property value-y="90" value-x="0" name="rotation" />
@@ -5735,11 +5527,11 @@
 						<property name="misc_operations" />
 						<property value="AiBAAA==" name="flags" />
 						<property value="AQAAAAQAAAAAAAC/AAAAPwAAAL8AAAC/AAAAPwAAAL8AAAA/AAAAPw==" name="polygon" />
-						<property value="GAAAABAAAAAAAAEAAgAAAAMAAQAEAAUABgAEAAcABQAIAAkACgAIAAsACQAMAA0ADgAMAA8ADQCYFk0+qxarwTgfgz46pn8/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////wXXEEBXFa3Ber+sPriieD8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////4tYQQCsWq8F6v6w+OqZ/PwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf////8YGE0+1hWtwTgfgz64ong/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////+LWEEArFqvB6/0yPjqmfz8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3//////G2KQOAUrcE4H4M+uKJ4PwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf/////0bYpAkRarwTgfgz46pn8/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////wXXEEBXFa3B6/0yPriieD8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////mBlNPqkWqcE4H4M+uKJ4PwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf/////i1hBAKxarwXq/rD42n3E/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////w3XEEAuFqnBer+sPriieD8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////mBZNPqsWq8E4H4M+Np9xPwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf////8N1xBALhapwev9Mj64ong/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9//////RtikCRFqvBOB+DPjafcT8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////NG6KQIoWqcE4H4M+uKJ4PwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf/////i1hBAKxarwev9Mj42n3E/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////w==" name="m" />
+						<property value="GAAAABAAAAAAAAEAAgAAAAMAAQAEAAUABgAEAAcABQAIAAkACgAIAAsACQAMAA0ADgAMAA8ADQDeCcU/nGuZwTgfgz46pn8/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////4KKZkBIapvBer+sPriieD8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////XopmQBxrmcF6v6w+OqZ/PwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf////8OCsU/x2qbwTgfgz64ong/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////16KZkAca5nB6/0yPjqmfz8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////s0e1QNFpm8E4H4M+uKJ4PwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf////+rR7VAgmuZwTgfgz46pn8/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////4KKZkBIapvB6/0yPriieD8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////PgrFP5prl8E4H4M+uKJ4PwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf////9eimZAHGuZwXq/rD42n3E/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////4qKZkAfa5fBer+sPriieD8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////3gnFP5xrmcE4H4M+Np9xPwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf////+KimZAH2uXwev9Mj64ong/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////6tHtUCCa5nBOB+DPjafcT8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////60e1QHtrl8E4H4M+uKJ4PwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf////9eimZAHGuZwev9Mj42n3E/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////w==" name="m" />
 						<property value="GAAAABAAAAAAAAEAAgAAAAMAAQAEAAUABgAEAAcABQAIAAkACgAIAAsACQAMAA0ADgAMAA8ADQAAAAC/AAAAADgfgz46pn8/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////wAAAAAAAAC/er+sPriieD8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////AAAAAAAAAAB6v6w+OqZ/PwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf////8AAAC/AAAAvzgfgz64ong/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////wAAAAAAAAAA6/0yPjqmfz8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////AAAAPwAAAL84H4M+uKJ4PwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf////8AAAA/AAAAADgfgz46pn8/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////wAAAAAAAAC/6/0yPriieD8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////AAAAvwAAAD84H4M+uKJ4PwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf////8AAAAAAAAAAHq/rD42n3E/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////wAAAAAAAAA/er+sPriieD8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////AAAAvwAAAAA4H4M+Np9xPwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf////8AAAAAAAAAP+v9Mj64ong/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////wAAAD8AAAAAOB+DPjafcT8AAIA/AACAP+v9Mj42n3E/CoEmPjhwYD3/////AAAAPwAAAD84H4M+uKJ4PwAAgD8AAIA/6/0yPjafcT8KgSY+OHBgPf////8AAAAAAAAAAOv9Mj42n3E/AACAPwAAgD/r/TI+Np9xPwqBJj44cGA9/////w==" name="m_copy" />
 						<property is-null="true" name="b" />
 						<property is-null="true" name="b" />
-						<property value="AABwALwFhEC5iP8+AAAAANsPyT9S1xBAEhSrwbwFhEAAAAAAAAAAALmI/z5S1xBAEhSrwQEAAABGM3g+AAAAAAAAAAC/OwBAmm0Mv+1jK0I=" name="before" />
+						<property value="AABwALwFhEC5iP8+AAAAANsPyT/SimZADGmZwbwFhEAAAAAAAAAAALmI/z7SimZADGmZwQEAAABGM3g+AAAAAAAAAAC/OwBAqYRfv6ewGUI=" name="before" />
 						<property value="AQCAPwAAgD8AAIA/AAAAANsPyT8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" name="before_b" />
 						<property value="AQAAAAAAgD8AAIA/AAAAANsPyT8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAZQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" name="tx_space" />
 						<property value="Static Planet" name="shape_type" />
@@ -5874,7 +5666,7 @@
 						</property>
 						<property type-name="rb::transformation_values" name="rb::transformation">
 							<properties>
-								<property value-y="-14.5727" value-x="0.537043" name="translation" />
+								<property value-y="-14.0592" value-x="-0.167346" name="translation" />
 								<property value-y="0.5" value-x="0.5" name="scale" />
 								<property value="true" name="uniform" />
 								<property value-y="90" value-x="0" name="rotation" />
@@ -5904,7 +5696,7 @@
 						</property>
 						<property type-name="rb::transformation_values" name="rb::transformation">
 							<properties>
-								<property value-y="-14.5727" value-x="0.988066" name="translation" />
+								<property value-y="-14.0592" value-x="0.283677" name="translation" />
 								<property value-y="0.5" value-x="0.5" name="scale" />
 								<property value="true" name="uniform" />
 								<property value-y="90" value-x="0" name="rotation" />
@@ -5934,7 +5726,7 @@
 						</property>
 						<property type-name="rb::transformation_values" name="rb::transformation">
 							<properties>
-								<property value-y="-14.5727" value-x="1.44893" name="translation" />
+								<property value-y="-14.0592" value-x="0.744541" name="translation" />
 								<property value-y="0.5" value-x="0.5" name="scale" />
 								<property value="true" name="uniform" />
 								<property value-y="90" value-x="0" name="rotation" />
@@ -5964,7 +5756,7 @@
 						</property>
 						<property type-name="rb::transformation_values" name="rb::transformation">
 							<properties>
-								<property value-y="-14.5727" value-x="1.92129" name="translation" />
+								<property value-y="-14.0592" value-x="1.2169" name="translation" />
 								<property value-y="0.5" value-x="0.5" name="scale" />
 								<property value="true" name="uniform" />
 								<property value-y="90" value-x="0" name="rotation" />
@@ -5980,115 +5772,6 @@
 						<property value="false" name="can_kill_character" />
 						<property value="true" name="explode_character_contact" />
 					</properties>
-				</child>
-				<child type-name="rb::polygon_component">
-					<properties>
-						<property value="false" name="rb::in_editor_hidden" />
-						<property value="true" name="rb::selected" />
-						<property type-name="rb::component_id" name="rb::node_id">
-							<properties>
-								<property value="pathPlat01" name="name" />
-								<property value="sawPath" name="classes" />
-							</properties>
-							<children />
-						</property>
-						<property type-name="rb::transformation_values" name="rb::transformation">
-							<properties>
-								<property value-y="-19.9805" value-x="2.84931" name="translation" />
-								<property value-y="1.35711" value-x="-0.112481" name="scale" />
-								<property value="false" name="uniform" />
-								<property value-y="90" value-x="0" name="rotation" />
-								<property value="true" name="orthogonal" />
-							</properties>
-							<children />
-						</property>
-						<property value="false" name="rb::blocked" />
-						<property value="32" name="circle_sides" />
-						<property name="reset" />
-						<property value="true" name="visible" />
-						<property value="true" name="marker" />
-						<property value="false" name="opened" />
-						<property value="1" name="opacity" />
-						<property value="false" name="smooth" />
-						<property value="0.1" name="smooth_quality" />
-						<property value="5" name="smooth_divisions" />
-						<property value="" name="image_name" />
-						<property value-a="1" value-b="1" value-g="1" value-r="1" name="tint" />
-						<property value="1" name="blend" />
-						<property value="false" name="transformable" />
-						<property value="Miter" name="border_corner_type" />
-						<property value="0" name="border_size" />
-						<property is-null="true" name="border_color" />
-						<property value="" name="border_image_name" />
-						<property value="1" name="max_s" />
-						<property name="bool_operations" />
-						<property name="misc_operations" />
-						<property value="AiAAAA==" name="flags" />
-						<property value="AQAAAAIAAAARQ77B6kiBPwexS0CVYKW/" name="polygon" />
-						<property is-null="true" name="m" />
-						<property is-null="true" name="m_copy" />
-						<property is-null="true" name="b" />
-						<property is-null="true" name="b" />
-						<property value="AQAAAAAAgD8AAIA/AAAAANsPyT8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" name="before" />
-						<property value="AQAAAAAAgD8AAIA/AAAAANsPyT8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" name="before_b" />
-						<property value="AQAAAAAAgD8AAIA/AAAAANsPyT8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" name="tx_space" />
-					</properties>
-					<children>
-						<child type-name="rb::polygon_point_component">
-							<properties>
-								<property value="false" name="rb::in_editor_hidden" />
-								<property value="false" name="rb::selected" />
-								<property type-name="rb::component_id" name="rb::node_id">
-									<properties>
-										<property value="" name="name" />
-										<property value="" name="classes" />
-									</properties>
-									<children />
-								</property>
-								<property type-name="rb::transformation_values" name="rb::transformation">
-									<properties>
-										<property value-y="1.01004" value-x="-23.7827" name="translation" />
-										<property value-y="1" value-x="1" name="scale" />
-										<property value="false" name="uniform" />
-										<property value-y="90" value-x="0" name="rotation" />
-										<property value="true" name="orthogonal" />
-									</properties>
-									<children />
-								</property>
-								<property value="false" name="rb::blocked" />
-								<property name="make_itself_first" />
-								<property name="split" />
-							</properties>
-							<children />
-						</child>
-						<child type-name="rb::polygon_point_component">
-							<properties>
-								<property value="false" name="rb::in_editor_hidden" />
-								<property value="false" name="rb::selected" />
-								<property type-name="rb::component_id" name="rb::node_id">
-									<properties>
-										<property value="" name="name" />
-										<property value="" name="classes" />
-									</properties>
-									<children />
-								</property>
-								<property type-name="rb::transformation_values" name="rb::transformation">
-									<properties>
-										<property value-y="-1.29201" value-x="3.18268" name="translation" />
-										<property value-y="1" value-x="1" name="scale" />
-										<property value="false" name="uniform" />
-										<property value-y="90" value-x="0" name="rotation" />
-										<property value="true" name="orthogonal" />
-									</properties>
-									<children />
-								</property>
-								<property value="false" name="rb::blocked" />
-								<property name="make_itself_first" />
-								<property name="split" />
-							</properties>
-							<children />
-						</child>
-					</children>
 				</child>
 				<child type-name="rb::group_component">
 					<properties>
@@ -6103,7 +5786,7 @@
 						</property>
 						<property type-name="rb::transformation_values" name="rb::transformation">
 							<properties>
-								<property value-y="-18.1148" value-x="-5.5633" name="translation" />
+								<property value-y="-18.2807" value-x="-4.53138" name="translation" />
 								<property value-y="1" value-x="1" name="scale" />
 								<property value="false" name="uniform" />
 								<property value-y="90" value-x="0" name="rotation" />
@@ -6111,7 +5794,7 @@
 							</properties>
 							<children />
 						</property>
-						<property value="false" name="rb::blocked" />
+						<property value="true" name="rb::blocked" />
 						<property value="false" name="copy_node" />
 					</properties>
 					<children>
@@ -6140,32 +5823,32 @@
 								<property value="32" name="circle_sides" />
 								<property name="reset" />
 								<property value="true" name="visible" />
-								<property value="true" name="marker" />
+								<property value="false" name="marker" />
 								<property value="true" name="opened" />
 								<property value="1" name="opacity" />
 								<property value="false" name="smooth" />
 								<property value="0.1" name="smooth_quality" />
 								<property value="5" name="smooth_divisions" />
 								<property value="" name="image_name" />
-								<property value-a="1" value-b="1" value-g="1" value-r="1" name="tint" />
+								<property value-a="0" value-b="1" value-g="1" value-r="1" name="tint" />
 								<property value="1" name="blend" />
 								<property value="false" name="transformable" />
 								<property value="Miter" name="border_corner_type" />
-								<property value="0" name="border_size" />
-								<property is-null="true" name="border_color" />
+								<property value="0.1" name="border_size" />
+								<property value-a="1" value-b="1" value-g="1" value-r="1" name="border_color" />
 								<property value="" name="border_image_name" />
 								<property value="1" name="max_s" />
 								<property name="bool_operations" />
 								<property name="misc_operations" />
-								<property value="AiABAA==" name="flags" />
+								<property value="AiBBAA==" name="flags" />
 								<property value="AAAAAAMAAAD8b0vA/G9LwPxvS0D8b0vA/G9LQPxvS0A=" name="polygon" />
-								<property is-null="true" name="m" />
-								<property is-null="true" name="m_copy" />
-								<property is-null="true" name="b" />
-								<property is-null="true" name="b" />
-								<property value="AQAAAAAAgD8AAIA/AAAAANsPyT8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" name="before" />
-								<property value="AQAAAAAAgD8AAIA/AAAAANsPyT8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" name="before_b" />
-								<property value="AQAAAAAAgD8AAIA/AAAAANsPyT8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" name="tx_space" />
+								<property value="wAAAAIgAAAAAAAEAAgADAAQABQADAAYABAAHAAgACQAHAAoACAALAAwADQALAA4ADAAPABAAEQAPABIAEAATABQAFQATABYAFAAXABgAGQAXABoAGAAbABwAHQAbAB4AHAAfACAAIQAiACMAJAAiACUAIwAmACcAKAAmACkAJwAqACsALAAqAC0AKwAuAC8AMAAuADEALwAyADMANAAyADUAMwA2ADcAOAA2ADkANwA6ADsAPAA9AD4APwA9AEAAPgBBAEIAQwBBAEQAQgBFAEYARwBFAEgARgBJAEoASwBJAEwASgBNAE4ATwBNAFAATgBRAFIAUwBUAFUAVgBUAFcAVQBYAFkAWgBYAFsAWQBcAF0AXgBcAF8AXQBgAGEAYgBgAGMAYQBkAGUAZgBnAGgAaQBnAGoAaABrAGwAbQBrAG4AbABvAHAAcQBvAHIAcABzAHQAdQB2AHcAeAB2AHkAdwB6AHsAfAB6AH0AewB+AH8AgACBAIIAgwCBAIQAggCFAIYAhwAH/OrAES5vwRBAUj8QQFI/AACAPwAAAAAAAAC/AAAAvwAAgD8AAIA/AAAAAAf86sAQCnLBAACAPxBAUj8AAIA/AAAAAAAAAL8AAAC/AACAPwAAgD8AAAAACUTlwBAKcsEAAIA/AACAPwAAgD8AAAAAAAAAvwAAAL8AAIA/AACAPwAAAAAJROXAEApywQAAAAAAAIA/AACAPwAAAAAAAAC/AAAAvwAAgD8AAIA/AAAAAAf86sAIBYHBAACAPxBAUj8AAIA/AAAAAAAAAL8AAAC/AACAPwAAgD8AAAAACUTlwAgFgcEAAIA/AACAPwAAgD8AAAAAAAAAvwAAAL8AAIA/AACAPwAAAAAH/OrAEApywQAAAAAQQFI/AACAPwAAAAAAAAC/AAAAvwAAgD8AAIA/AAAAAAlE5cAIBYHBAAAAAAAAgD8AAIA/AAAAAAAAAL8AAAC/AACAPwAAgD8AAAAAB/zqwAgFicEAAIA/EEBSPwAAgD8AAAAAAAAAvwAAAL8AAIA/AACAPwAAAAAJROXACAWJwQAAgD8AAIA/AACAPwAAAAAAAAC/AAAAvwAAgD8AAIA/AAAAAAf86sAIBYHBAAAAABBAUj8AAIA/AAAAAAAAAL8AAAC/AACAPwAAgD8AAAAACUTlwAgFicEAAAAAAACAPwAAgD8AAAAAAAAAvwAAAL8AAIA/AACAPwAAAAAH/OrACAWRwQAAgD8QQFI/AACAPwAAAAAAAAC/AAAAvwAAgD8AAIA/AAAAAAlE5cAIBZHBAACAPwAAgD8AAIA/AAAAAAAAAL8AAAC/AACAPwAAgD8AAAAAB/zqwAgFicEAAAAAEEBSPwAAgD8AAAAAAAAAvwAAAL8AAIA/AACAPwAAAAAJROXACAWRwQAAAAAAAIA/AACAPwAAAAAAAAC/AAAAvwAAgD8AAIA/AAAAAAf86sAIBZnBAACAPxBAUj8AAIA/AAAAAAAAAL8AAAC/AACAPwAAgD8AAAAACUTlwAgFmcEAAIA/AACAPwAAgD8AAAAAAAAAvwAAAL8AAIA/AACAPwAAAAAH/OrACAWRwQAAAAAQQFI/AACAPwAAAAAAAAC/AAAAvwAAgD8AAIA/AAAAAAlE5cAIBZnBAAAAAAAAgD8AAIA/AAAAAAAAAL8AAAC/AACAPwAAgD8AAAAAB/zqwAgFocEAAIA/EEBSPwAAgD8AAAAAAAAAvwAAAL8AAIA/AACAPwAAAAAJROXACAWhwQAAgD8AAIA/AACAPwAAAAAAAAC/AAAAvwAAgD8AAIA/AAAAAAf86sAIBZnBAAAAABBAUj8AAIA/AAAAAAAAAL8AAAC/AACAPwAAgD8AAAAACUTlwAgFocEAAAAAAACAPwAAgD8AAAAAAAAAvwAAAL8AAIA/AACAPwAAAAAH/OrACAWpwQAAgD8QQFI/AACAPwAAAAAAAAC/AAAAvwAAgD8AAIA/AAAAAAlE5cAIBanBAACAPwAAgD8AAIA/AAAAAAAAAL8AAAC/AACAPwAAgD8AAAAAB/zqwAgFocEAAAAAEEBSPwAAgD8AAAAAAAAAvwAAAL8AAIA/AACAPwAAAAAJROXACAWpwQAAAAAAAIA/AACAPwAAAAAAAAC/AAAAvwAAgD8AAIA/AAAAAAf86sAIc6rBwP82PhBAUj8AAIA/AAAAAAAAAL8AAAC/AACAPwAAgD8AAAAACUTlwAhzqsHA/zY+AACAPwAAgD8AAAAAAAAAvwAAAL8AAIA/AACAPwAAAAAH/OrACAWpwQAAAAAQQFI/AACAPwAAAAAAAAC/AAAAvwAAgD8AAIA/AAAAAAlE5cAQCnLBAAAAAAAAAAAAAIA/AAAAAAAAAL8AAAC/AACAPwAAgD8AAAAACUTlwAgFgcEAAIA/AAAAAAAAgD8AAAAAAAAAvwAAAL8AAIA/AACAPwAAAAAJRMXACAWBwQAAgD8AAIA/AACAPwAAAAAAAAC/AAAAvwAAgD8AAIA/AAAAAAlExcAIBYHBAAAAAAAAgD8AAIA/AAAAAAAAAL8AAAC/AACAPwAAgD8AAAAACUTlwAgFicEAAIA/AAAAAAAAgD8AAAAAAAAAvwAAAL8AAIA/AACAPwAAAAAJRMXACAWJwQAAgD8AAIA/AACAPwAAAAAAAAC/AAAAvwAAgD8AAIA/AAAAAAlE5cAIBYHBAAAAAAAAAAAAAIA/AAAAAAAAAL8AAAC/AACAPwAAgD8AAAAACUTFwAgFicEAAAAAAACAPwAAgD8AAAAAAAAAvwAAAL8AAIA/AACAPwAAAAAJROXACAWRwQAAgD8AAAAAAACAPwAAAAAAAAC/AAAAvwAAgD8AAIA/AAAAAAlExcAIBZHBAACAPwAAgD8AAIA/AAAAAAAAAL8AAAC/AACAPwAAgD8AAAAACUTlwAgFicEAAAAAAAAAAAAAgD8AAAAAAAAAvwAAAL8AAIA/AACAPwAAAAAJRMXACAWRwQAAAAAAAIA/AACAPwAAAAAAAAC/AAAAvwAAgD8AAIA/AAAAAAlE5cAIBZnBAACAPwAAAAAAAIA/AAAAAAAAAL8AAAC/AACAPwAAgD8AAAAACUTFwAgFmcEAAIA/AACAPwAAgD8AAAAAAAAAvwAAAL8AAIA/AACAPwAAAAAJROXACAWRwQAAAAAAAAAAAACAPwAAAAAAAAC/AAAAvwAAgD8AAIA/AAAAAAlExcAIBZnBAAAAAAAAgD8AAIA/AAAAAAAAAL8AAAC/AACAPwAAgD8AAAAACUTlwAgFocEAAIA/AAAAAAAAgD8AAAAAAAAAvwAAAL8AAIA/AACAPwAAAAAJRMXACAWhwQAAgD8AAIA/AACAPwAAAAAAAAC/AAAAvwAAgD8AAIA/AAAAAAlE5cAIBZnBAAAAAAAAAAAAAIA/AAAAAAAAAL8AAAC/AACAPwAAgD8AAAAACUTFwAgFocEAAAAAAACAPwAAgD8AAAAAAAAAvwAAAL8AAIA/AACAPwAAAAAJROXACAWpwQAAgD8AAAAAAACAPwAAAAAAAAC/AAAAvwAAgD8AAIA/AAAAAAlExcAIBanBAACAPwAAgD8AAIA/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" name="m" />
+								<property value="wAAAAIgAAAAAAAEAAgADAAQABQADAAYABAAHAAgACQAHAAoACAALAAwADQALAA4ADAAPABAAEQAPABIAEAATABQAFQATABYAFAAXABgAGQAXABoAGAAbABwAHQAbAB4AHAAfACAAIQAiACMAJAAiACUAIwAmACcAKAAmACkAJwAqACsALAAqAC0AKwAuAC8AMAAuADEALwAyADMANAAyADUAMwA2ADcAOAA2ADkANwA6ADsAPAA9AD4APwA9AEAAPgBBAEIAQwBBAEQAQgBFAEYARwBFAEgARgBJAEoASwBJAEwASgBNAE4ATwBNAFAATgBRAFIAUwBUAFUAVgBUAFcAVQBYAFkAWgBYAFsAWQBcAF0AXgBcAF8AXQBgAGEAYgBgAGMAYQBkAGUAZgBnAGgAaQBnAGoAaABrAGwAbQBrAG4AbABvAHAAcQBvAHIAcABzAHQAdQB2AHcAeAB2AHkAdwB6AHsAfAB6AH0AewB+AH8AgACBAIIAgwCBAIQAggCFAIYAhwD8b0vA/G9LwBBAUj8QQFI/AACAPwAAAAAAAAC/AAAAvwAAgD8AAIA/AAAAAAAAQMD8b0vAAACAPxBAUj8AAIA/AAAAAAAAAL8AAAC/AACAPwAAgD8AAAAAAABAwAAAQMAAAIA/AACAPwAAgD8AAAAAAAAAvwAAAL8AAIA/AACAPwAAAAAAAEDAAABAwAAAAAAAAIA/AACAPwAAAAAAAAC/AAAAvwAAgD8AAIA/AAAAAAAAAMD8b0vAAACAPxBAUj8AAIA/AAAAAAAAAL8AAAC/AACAPwAAgD8AAAAAAAAAwAAAQMAAAIA/AACAPwAAgD8AAAAAAAAAvwAAAL8AAIA/AACAPwAAAAAAAEDA/G9LwAAAAAAQQFI/AACAPwAAAAAAAAC/AAAAvwAAgD8AAIA/AAAAAAAAAMAAAEDAAAAAAAAAgD8AAIA/AAAAAAAAAL8AAAC/AACAPwAAgD8AAAAAAACAv/xvS8AAAIA/EEBSPwAAgD8AAAAAAAAAvwAAAL8AAIA/AACAPwAAAAAAAIC/AABAwAAAgD8AAIA/AACAPwAAAAAAAAC/AAAAvwAAgD8AAIA/AAAAAAAAAMD8b0vAAAAAABBAUj8AAIA/AAAAAAAAAL8AAAC/AACAPwAAgD8AAAAAAACAvwAAQMAAAAAAAACAPwAAgD8AAAAAAAAAvwAAAL8AAIA/AACAPwAAAAAAAAAA/G9LwAAAgD8QQFI/AACAPwAAAAAAAAC/AAAAvwAAgD8AAIA/AAAAAAAAAAAAAEDAAACAPwAAgD8AAIA/AAAAAAAAAL8AAAC/AACAPwAAgD8AAAAAAACAv/xvS8AAAAAAEEBSPwAAgD8AAAAAAAAAvwAAAL8AAIA/AACAPwAAAAAAAAAAAABAwAAAAAAAAIA/AACAPwAAAAAAAAC/AAAAvwAAgD8AAIA/AAAAAAAAgD/8b0vAAACAPxBAUj8AAIA/AAAAAAAAAL8AAAC/AACAPwAAgD8AAAAAAACAPwAAQMAAAIA/AACAPwAAgD8AAAAAAAAAvwAAAL8AAIA/AACAPwAAAAAAAAAA/G9LwAAAAAAQQFI/AACAPwAAAAAAAAC/AAAAvwAAgD8AAIA/AAAAAAAAgD8AAEDAAAAAAAAAgD8AAIA/AAAAAAAAAL8AAAC/AACAPwAAgD8AAAAAAAAAQPxvS8AAAIA/EEBSPwAAgD8AAAAAAAAAvwAAAL8AAIA/AACAPwAAAAAAAABAAABAwAAAgD8AAIA/AACAPwAAAAAAAAC/AAAAvwAAgD8AAIA/AAAAAAAAgD/8b0vAAAAAABBAUj8AAIA/AAAAAAAAAL8AAAC/AACAPwAAgD8AAAAAAAAAQAAAQMAAAAAAAACAPwAAgD8AAAAAAAAAvwAAAL8AAIA/AACAPwAAAAAAAEBA/G9LwAAAgD8QQFI/AACAPwAAAAAAAAC/AAAAvwAAgD8AAIA/AAAAAAAAQEAAAEDAAACAPwAAgD8AAIA/AAAAAAAAAL8AAAC/AACAPwAAgD8AAAAAAAAAQPxvS8AAAAAAEEBSPwAAgD8AAAAAAAAAvwAAAL8AAIA/AACAPwAAAAAAAEBAAABAwAAAAAAAAIA/AACAPwAAAAAAAAC/AAAAvwAAgD8AAIA/AAAAAPxvS0D8b0vAwP82PhBAUj8AAIA/AAAAAAAAAL8AAAC/AACAPwAAgD8AAAAA/G9LQAAAQMDA/zY+AACAPwAAgD8AAAAAAAAAvwAAAL8AAIA/AACAPwAAAAAAAEBA/G9LwAAAAAAQQFI/AACAPwAAAAAAAAC/AAAAvwAAgD8AAIA/AAAAAAAAQMAAAEDAAAAAAAAAAAAAAIA/AAAAAAAAAL8AAAC/AACAPwAAgD8AAAAAAAAAwAAAQMAAAIA/AAAAAAAAgD8AAAAAAAAAvwAAAL8AAIA/AACAPwAAAAAAAADAAAAAwAAAgD8AAIA/AACAPwAAAAAAAAC/AAAAvwAAgD8AAIA/AAAAAAAAAMAAAADAAAAAAAAAgD8AAIA/AAAAAAAAAL8AAAC/AACAPwAAgD8AAAAAAACAvwAAQMAAAIA/AAAAAAAAgD8AAAAAAAAAvwAAAL8AAIA/AACAPwAAAAAAAIC/AAAAwAAAgD8AAIA/AACAPwAAAAAAAAC/AAAAvwAAgD8AAIA/AAAAAAAAAMAAAEDAAAAAAAAAAAAAAIA/AAAAAAAAAL8AAAC/AACAPwAAgD8AAAAAAACAvwAAAMAAAAAAAACAPwAAgD8AAAAAAAAAvwAAAL8AAIA/AACAPwAAAAAAAAAAAABAwAAAgD8AAAAAAACAPwAAAAAAAAC/AAAAvwAAgD8AAIA/AAAAAAAAAAAAAADAAACAPwAAgD8AAIA/AAAAAAAAAL8AAAC/AACAPwAAgD8AAAAAAACAvwAAQMAAAAAAAAAAAAAAgD8AAAAAAAAAvwAAAL8AAIA/AACAPwAAAAAAAAAAAAAAwAAAAAAAAIA/AACAPwAAAAAAAAC/AAAAvwAAgD8AAIA/AAAAAAAAgD8AAEDAAACAPwAAAAAAAIA/AAAAAAAAAL8AAAC/AACAPwAAgD8AAAAAAACAPwAAAMAAAIA/AACAPwAAgD8AAAAAAAAAvwAAAL8AAIA/AACAPwAAAAAAAAAAAABAwAAAAAAAAAAAAACAPwAAAAAAAAC/AAAAvwAAgD8AAIA/AAAAAAAAgD8AAADAAAAAAAAAgD8AAIA/AAAAAAAAAL8AAAC/AACAPwAAgD8AAAAAAAAAQAAAQMAAAIA/AAAAAAAAgD8AAAAAAAAAvwAAAL8AAIA/AACAPwAAAAAAAABAAAAAwAAAgD8AAIA/AACAPwAAAAAAAAC/AAAAvwAAgD8AAIA/AAAAAAAAgD8AAEDAAAAAAAAAAAAAAIA/AAAAAAAAAL8AAAC/AACAPwAAgD8AAAAAAAAAQAAAAMAAAAAAAACAPwAAgD8AAAAAAAAAvwAAAL8AAIA/AACAPwAAAAAAAEBAAABAwAAAgD8AAAAAAACAPwAAAAAAAAC/AAAAvwAAgD8AAIA/AAAAAAAAQEAAAADAAACAPwAAgD8AAIA/AAAAAAAAAL8AAAC/AACAPwAAgD8AAAAAAAAAQAAAQMAAAAAAAAAAAAAAgD8AAAAAAAAAvwAAAL8AAIA/AACAPwAAAAAAAEBAAAAAwAAAAAAAAIA/AACAPwAAAAAAAAC/AAAAvwAAgD8AAIA/AAAAAPxvS0AAAEDAwP82PgAAAAAAAIA/AAAAAAAAAL8AAAC/AACAPwAAgD8AAAAA/G9LQAAAAMDA/zY+AACAPwAAgD8AAAAAAAAAvwAAAL8AAIA/AACAPwAAAAAAAEBAAABAwAAAAAAAAAAAAACAPwAAAAAAAAC/AAAAvwAAgD8AAIA/AAAAAAAAAMAAAADAAAAAAAAAAAAAAIA/AAAAAAAAAL8AAAC/AACAPwAAgD8AAAAAAACAvwAAAMAAAIA/AAAAAAAAgD8AAAAAAAAAvwAAAL8AAIA/AACAPwAAAAAAAIC/AACAvwAAgD8AAIA/AACAPwAAAAAAAAC/AAAAvwAAgD8AAIA/AAAAAAAAgL8AAIC/AAAAAAAAgD8AAIA/AAAAAAAAAL8AAAC/AACAPwAAgD8AAAAAAAAAAAAAAMAAAIA/AAAAAAAAgD8AAAAAAAAAvwAAAL8AAIA/AACAPwAAAAAAAAAAAACAvwAAgD8AAIA/AACAPwAAAAAAAAC/AAAAvwAAgD8AAIA/AAAAAAAAgL8AAADAAAAAAAAAAAAAAIA/AAAAAAAAAL8AAAC/AACAPwAAgD8AAAAAAAAAAAAAgL8AAAAAAACAPwAAgD8AAAAAAAAAvwAAAL8AAIA/AACAPwAAAAAAAIA/AAAAwAAAgD8AAAAAAACAPwAAAAAAAAC/AAAAvwAAgD8AAIA/AAAAAAAAgD8AAIC/AACAPwAAgD8AAIA/AAAAAAAAAL8AAAC/AACAPwAAgD8AAAAAAAAAAAAAAMAAAAAAAAAAAAAAgD8AAAAAAAAAvwAAAL8AAIA/AACAPwAAAAAAAIA/AACAvwAAAAAAAIA/AACAPwAAAAAAAAC/AAAAvwAAgD8AAIA/AAAAAAAAAEAAAADAAACAPwAAAAAAAIA/AAAAAAAAAL8AAAC/AACAPwAAgD8AAAAAAAAAQAAAgL8AAIA/AACAPwAAgD8AAAAAAAAAvwAAAL8AAIA/AACAPwAAAAAAAIA/AAAAwAAAAAAAAAAAAACAPwAAAAAAAAC/AAAAvwAAgD8AAIA/AAAAAAAAAEAAAIC/AAAAAAAAgD8AAIA/AAAAAAAAAL8AAAC/AACAPwAAgD8AAAAAAABAQAAAAMAAAIA/AAAAAAAAgD8AAAAAAAAAvwAAAL8AAIA/AACAPwAAAAAAAEBAAACAvwAAgD8AAIA/AACAPwAAAAAAAAC/AAAAvwAAgD8AAIA/AAAAAAAAAEAAAADAAAAAAAAAAAAAAIA/AAAAAAAAAL8AAAC/AACAPwAAgD8AAAAAAABAQAAAgL8AAAAAAACAPwAAgD8AAAAAAAAAvwAAAL8AAIA/AACAPwAAAAD8b0tAAAAAwMD/Nj4AAAAAAACAPwAAAAAAAAC/AAAAvwAAgD8AAIA/AAAAAPxvS0AAAIC/wP82PgAAgD8AAIA/AAAAAAAAAL8AAAC/AACAPwAAgD8AAAAAAABAQAAAAMAAAAAAAAAAAAAAgD8AAAAAAAAAvwAAAL8AAIA/AACAPwAAAAAAAIC/AACAvwAAAAAAAAAAAACAPwAAAAAAAAC/AAAAvwAAgD8AAIA/AAAAAAAAAAAAAIC/AACAPwAAAAAAAIA/AAAAAAAAAL8AAAC/AACAPwAAgD8AAAAAAAAAAAAAAAAAAIA/AACAPwAAgD8AAAAAAAAAvwAAAL8AAIA/AACAPwAAAAAAAAAAAAAAAAAAAAAAAIA/AACAPwAAAAAAAAC/AAAAvwAAgD8AAIA/AAAAAAAAgD8AAIC/AACAPwAAAAAAAIA/AAAAAAAAAL8AAAC/AACAPwAAgD8AAAAAAACAPwAAAAAAAIA/AACAPwAAgD8AAAAAAAAAvwAAAL8AAIA/AACAPwAAAAAAAAAAAACAvwAAAAAAAAAAAACAPwAAAAAAAAC/AAAAvwAAgD8AAIA/AAAAAAAAgD8AAAAAAAAAAAAAgD8AAIA/AAAAAAAAAL8AAAC/AACAPwAAgD8AAAAAAAAAQAAAgL8AAIA/AAAAAAAAgD8AAAAAAAAAvwAAAL8AAIA/AACAPwAAAAAAAABAAAAAAAAAgD8AAIA/AACAPwAAAAAAAAC/AAAAvwAAgD8AAIA/AAAAAAAAgD8AAIC/AAAAAAAAAAAAAIA/AAAAAAAAAL8AAAC/AACAPwAAgD8AAAAAAAAAQAAAAAAAAAAAAACAPwAAgD8AAAAAAAAAvwAAAL8AAIA/AACAPwAAAAAAAEBAAACAvwAAgD8AAAAAAACAPwAAAAAAAAC/AAAAvwAAgD8AAIA/AAAAAAAAQEAAAAAAAACAPwAAgD8AAIA/AAAAAAAAAL8AAAC/AACAPwAAgD8AAAAAAAAAQAAAgL8AAAAAAAAAAAAAgD8AAAAAAAAAvwAAAL8AAIA/AACAPwAAAAAAAEBAAAAAAAAAAAAAAIA/AACAPwAAAAAAAAC/AAAAvwAAgD8AAIA/AAAAAPxvS0AAAIC/wP82PgAAAAAAAIA/AAAAAAAAAL8AAAC/AACAPwAAgD8AAAAA/G9LQAAAAADA/zY+AACAPwAAgD8AAAAAAAAAvwAAAL8AAIA/AACAPwAAAAAAAEBAAACAvwAAAAAAAAAAAACAPwAAAAAAAAC/AAAAvwAAgD8AAIA/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAIA/AAAAAAAAAL8AAAC/AACAPwAAgD8AAAAAAACAPwAAAAAAAIA/AAAAAAAAgD8AAAAAAAAAvwAAAL8AAIA/AACAPwAAAAAAAIA/AACAPwAAgD8AAIA/AACAPwAAAAAAAAC/AAAAvwAAgD8AAIA/AAAAAAAAgD8AAIA/AAAAAAAAgD8AAIA/AAAAAAAAAL8AAAC/AACAPwAAgD8AAAAAAAAAQAAAAAAAAIA/AAAAAAAAgD8AAAAAAAAAvwAAAL8AAIA/AACAPwAAAAAAAABAAACAPwAAgD8AAIA/AACAPwAAAAAAAAC/AAAAvwAAgD8AAIA/AAAAAAAAgD8AAAAAAAAAAAAAAAAAAIA/AAAAAAAAAL8AAAC/AACAPwAAgD8AAAAAAAAAQAAAgD8AAAAAAACAPwAAgD8AAAAAAAAAvwAAAL8AAIA/AACAPwAAAAAAAEBAAAAAAAAAgD8AAAAAAACAPwAAAAAAAAC/AAAAvwAAgD8AAIA/AAAAAAAAQEAAAIA/AACAPwAAgD8AAIA/AAAAAAAAAL8AAAC/AACAPwAAgD8AAAAAAAAAQAAAAAAAAAAAAAAAAAAAgD8AAAAAAAAAvwAAAL8AAIA/AACAPwAAAAAAAEBAAACAPwAAAAAAAIA/AACAPwAAAAAAAAC/AAAAvwAAgD8AAIA/AAAAAPxvS0AAAAAAwP82PgAAAAAAAIA/AAAAAAAAAL8AAAC/AACAPwAAgD8AAAAA/G9LQAAAgD/A/zY+AACAPwAAgD8AAAAAAAAAvwAAAL8AAIA/AACAPwAAAAAAAEBAAAAAAAAAAAAAAAAAAACAPwAAAAAAAAC/AAAAvwAAgD8AAIA/AAAAAAAAgD8AAIA/AAAAAAAAAAAAAIA/AAAAAAAAAL8AAAC/AACAPwAAgD8AAAAAAAAAQAAAgD8AAIA/AAAAAAAAgD8AAAAAAAAAvwAAAL8AAIA/AACAPwAAAAAAAABAAAAAQAAAgD8AAIA/AACAPwAAAAAAAAC/AAAAvwAAgD8AAIA/AAAAAAAAAEAAAABAAAAAAAAAgD8AAIA/AAAAAAAAAL8AAAC/AACAPwAAgD8AAAAAAABAQAAAgD8AAIA/AAAAAAAAgD8AAAAAAAAAvwAAAL8AAIA/AACAPwAAAAAAAEBAAAAAQAAAgD8AAIA/AACAPwAAAAAAAAC/AAAAvwAAgD8AAIA/AAAAAAAAAEAAAIA/AAAAAAAAAAAAAIA/AAAAAAAAAL8AAAC/AACAPwAAgD8AAAAAAABAQAAAAEAAAAAAAACAPwAAgD8AAAAAAAAAvwAAAL8AAIA/AACAPwAAAAD8b0tAAACAP8D/Nj4AAAAAAACAPwAAAAAAAAC/AAAAvwAAgD8AAIA/AAAAAPxvS0AAAABAwP82PgAAgD8AAIA/AAAAAAAAAL8AAAC/AACAPwAAgD8AAAAAAABAQAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAvwAAAL8AAIA/AACAPwAAAAAAAABAAAAAQAAAAAAAAAAAAACAPwAAAAAAAAC/AAAAvwAAgD8AAIA/AAAAAAAAQEAAAABAAACAPwAAAAAAAIA/AAAAAAAAAL8AAAC/AACAPwAAgD8AAAAAAABAQAAAQEAAAIA/AACAPwAAgD8AAAAAAAAAvwAAAL8AAIA/AACAPwAAAAAAAEBAAABAQAAAAAAAAIA/AACAPwAAAAAAAAC/AAAAvwAAgD8AAIA/AAAAAPxvS0AAAABAwP82PgAAAAAAAIA/AAAAAAAAAL8AAAC/AACAPwAAgD8AAAAA/G9LQAAAQEDA/zY+AACAPwAAgD8AAAAAAAAAvwAAAL8AAIA/AACAPwAAAAAAAEBAAAAAQAAAAAAAAAAAAACAPwAAAAAAAAC/AAAAvwAAgD8AAIA/AAAAAAAAQEAAAEBAAAAAAAAAAAAAAIA/AAAAAAAAAL8AAAC/AACAPwAAgD8AAAAA/G9LQAAAQEDA/zY+AAAAAAAAgD8AAAAAAAAAvwAAAL8AAIA/AACAPwAAAAD8b0tA/G9LQMD/Nj7A/zY+AACAPwAAAAAAAAC/AAAAvwAAgD8AAIA/AAAAAA==" name="m_copy" />
+								<property value="EgAAAAwAAAAAAAEAAgAAAAMAAQAEAAUABgAEAAcABQAIAAkACgAJAAsACgBuYunAES5vwRBAUj/cDF8/AACAPwAAAAAAAAC/AAAAvwAAgD8AAIA//////6CV7MAIc6rBwP82PkRzRT8AAIA/AAAAAAAAAL8AAAC/AACAPwAAgD//////bmLpwAhzqsHA/zY+3AxfPwAAgD8AAAAAAAAAvwAAAL8AAIA/AACAP/////+glezAES5vwRBAUj9Ec0U/AACAPwAAAAAAAAC/AAAAvwAAgD8AAIA//////1hgfL+hDKrBkMwDPsD/Nj4AAIA/AAAAAAAAAL8AAAC/AACAPwAAgD//////B/zqwG7ZqsHwMmo+EEBSPwAAgD8AAAAAAAAAvwAAAL8AAIA/AACAP/////9YYHy/btmqwfAyaj7A/zY+AACAPwAAAAAAAAC/AAAAvwAAgD8AAIA//////wf86sChDKrBkMwDPhBAUj8AAIA/AAAAAAAAAL8AAAC/AACAPwAAgD//////fnPqwOVQqsGw7iU+VIRWPwAAgD8AAAAAAAAAvwAAAL8AAIA/AACAP/////+glezACHOqwcD/Nj5Ec0U/AACAPwAAAAAAAAC/AAAAvwAAgD8AAIA//////wf86sBu2arB8DJqPhBAUj8AAIA/AAAAAAAAAL8AAAC/AACAPwAAgD//////oJXswG7ZqsHwMmo+RHNFPwAAgD8AAAAAAAAAvwAAAL8AAIA/AACAP/////8=" name="b" />
+								<property value="EgAAAAwAAAAAAAEAAgAAAAMAAQAEAAUABgAEAAcABQAIAAkACgAJAAsACgBuYunAES5vwRBAUj/cDF8/AACAPwAAAAAAAAC/AAAAvwAAgD8AAIA//////6CV7MAIc6rBwP82PkRzRT8AAIA/AAAAAAAAAL8AAAC/AACAPwAAgD//////bmLpwAhzqsHA/zY+3AxfPwAAgD8AAAAAAAAAvwAAAL8AAIA/AACAP/////+glezAES5vwRBAUj9Ec0U/AACAPwAAAAAAAAC/AAAAvwAAgD8AAIA//////1hgfL+hDKrBkMwDPsD/Nj4AAIA/AAAAAAAAAL8AAAC/AACAPwAAgD//////B/zqwG7ZqsHwMmo+EEBSPwAAgD8AAAAAAAAAvwAAAL8AAIA/AACAP/////9YYHy/btmqwfAyaj7A/zY+AACAPwAAAAAAAAC/AAAAvwAAgD8AAIA//////wf86sChDKrBkMwDPhBAUj8AAIA/AAAAAAAAAL8AAAC/AACAPwAAgD//////fnPqwOVQqsGw7iU+VIRWPwAAgD8AAAAAAAAAvwAAAL8AAIA/AACAP/////+glezACHOqwcD/Nj5Ec0U/AACAPwAAAAAAAAC/AAAAvwAAgD8AAIA//////wf86sBu2arB8DJqPhBAUj8AAIA/AAAAAAAAAL8AAAC/AACAPwAAgD//////oJXswG7ZqsHwMmo+RHNFPwAAgD8AAAAAAAAAvwAAAL8AAIA/AACAP/////8=" name="b" />
+								<property value="AABiAAAAgD8AAIA/5MuWQAAAAAAJRIXACAWRwQAAAAAAAIC/AACAPwAAAAAJRIXACAWRwQEAMQAAAAAAAACAPwAAgL8AAAAACAWRwQlEhUA=" name="before" />
+								<property value="AABXAAAAgD8AAIA/5MuWQAAAAAAJRIXACAWRwQAAAAAAAIC/AACAPwAAAAAJRIXACAWRwQEAbQAAAAAAAACAPwAAgL8AAAAACAWRwQlEhUA=" name="before_b" />
+								<property value="AQA9AAAAgD8AAIA/AAAAANsPyT8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAAC1OAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" name="tx_space" />
 							</properties>
 							<children>
 								<child type-name="rb::polygon_point_component">
@@ -6788,6 +6471,289 @@
 							</properties>
 						</child>
 					</children>
+				</child>
+				<child type-name="rb::polygon_component">
+					<properties>
+						<property value="false" name="rb::in_editor_hidden" />
+						<property value="false" name="rb::selected" />
+						<property type-name="rb::component_id" name="rb::node_id">
+							<properties>
+								<property value="path01" name="name" />
+								<property value="sawPath" name="classes" />
+							</properties>
+							<children />
+						</property>
+						<property type-name="rb::transformation_values" name="rb::transformation">
+							<properties>
+								<property value-y="-20.3464" value-x="4.23309" name="translation" />
+								<property value-y="1" value-x="1" name="scale" />
+								<property value="false" name="uniform" />
+								<property value-y="405" value-x="315" name="rotation" />
+								<property value="true" name="orthogonal" />
+							</properties>
+							<children />
+						</property>
+						<property value="false" name="rb::blocked" />
+						<property value="32" name="circle_sides" />
+						<property name="reset" />
+						<property value="true" name="visible" />
+						<property value="true" name="marker" />
+						<property value="false" name="opened" />
+						<property value="1" name="opacity" />
+						<property value="false" name="smooth" />
+						<property value="0.1" name="smooth_quality" />
+						<property value="5" name="smooth_divisions" />
+						<property value="" name="image_name" />
+						<property value-a="1" value-b="1" value-g="1" value-r="1" name="tint" />
+						<property value="1" name="blend" />
+						<property value="false" name="transformable" />
+						<property value="Miter" name="border_corner_type" />
+						<property value="0" name="border_size" />
+						<property is-null="true" name="border_color" />
+						<property value="" name="border_image_name" />
+						<property value="1" name="max_s" />
+						<property name="bool_operations" />
+						<property name="misc_operations" />
+						<property value="AiAAGA==" name="flags" />
+						<property value="AQAAAAQAAADnAKO/5wCjP+cAo7/nAKO/5wCjP+cAo7/nAKM/5wCjPw==" name="polygon" />
+						<property is-null="true" name="m" />
+						<property is-null="true" name="m_copy" />
+						<property is-null="true" name="b" />
+						<property is-null="true" name="b" />
+						<property value="AQBEAAAAgD8AAIA/AAAAANsPyT8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAQQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" name="before" />
+						<property value="AQBBAAAAgD8AAIA/AAAAANsPyT8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAQQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" name="before_b" />
+						<property value="AQBBAAAAgD8AAIA/AAAAANsPyT8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAQQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" name="tx_space" />
+					</properties>
+					<children>
+						<child type-name="rb::polygon_point_component">
+							<properties>
+								<property value="false" name="rb::in_editor_hidden" />
+								<property value="false" name="rb::selected" />
+								<property type-name="rb::component_id" name="rb::node_id">
+									<properties>
+										<property value="" name="name" />
+										<property value="" name="classes" />
+									</properties>
+									<children />
+								</property>
+								<property type-name="rb::transformation_values" name="rb::transformation">
+									<properties>
+										<property value-y="1.27347" value-x="-1.27347" name="translation" />
+										<property value-y="1" value-x="1" name="scale" />
+										<property value="false" name="uniform" />
+										<property value-y="90" value-x="0" name="rotation" />
+										<property value="true" name="orthogonal" />
+									</properties>
+									<children />
+								</property>
+								<property value="false" name="rb::blocked" />
+								<property name="make_itself_first" />
+								<property name="split" />
+							</properties>
+							<children />
+						</child>
+						<child type-name="rb::polygon_point_component">
+							<properties>
+								<property value="false" name="rb::in_editor_hidden" />
+								<property value="false" name="rb::selected" />
+								<property type-name="rb::component_id" name="rb::node_id">
+									<properties>
+										<property value="" name="name" />
+										<property value="" name="classes" />
+									</properties>
+									<children />
+								</property>
+								<property type-name="rb::transformation_values" name="rb::transformation">
+									<properties>
+										<property value-y="-1.27347" value-x="-1.27347" name="translation" />
+										<property value-y="1" value-x="1" name="scale" />
+										<property value="false" name="uniform" />
+										<property value-y="90" value-x="0" name="rotation" />
+										<property value="true" name="orthogonal" />
+									</properties>
+									<children />
+								</property>
+								<property value="false" name="rb::blocked" />
+								<property name="make_itself_first" />
+								<property name="split" />
+							</properties>
+							<children />
+						</child>
+						<child type-name="rb::polygon_point_component">
+							<properties>
+								<property value="false" name="rb::in_editor_hidden" />
+								<property value="false" name="rb::selected" />
+								<property type-name="rb::component_id" name="rb::node_id">
+									<properties>
+										<property value="" name="name" />
+										<property value="" name="classes" />
+									</properties>
+									<children />
+								</property>
+								<property type-name="rb::transformation_values" name="rb::transformation">
+									<properties>
+										<property value-y="-1.27347" value-x="1.27347" name="translation" />
+										<property value-y="1" value-x="1" name="scale" />
+										<property value="false" name="uniform" />
+										<property value-y="90" value-x="0" name="rotation" />
+										<property value="true" name="orthogonal" />
+									</properties>
+									<children />
+								</property>
+								<property value="false" name="rb::blocked" />
+								<property name="make_itself_first" />
+								<property name="split" />
+							</properties>
+							<children />
+						</child>
+						<child type-name="rb::polygon_point_component">
+							<properties>
+								<property value="false" name="rb::in_editor_hidden" />
+								<property value="false" name="rb::selected" />
+								<property type-name="rb::component_id" name="rb::node_id">
+									<properties>
+										<property value="" name="name" />
+										<property value="" name="classes" />
+									</properties>
+									<children />
+								</property>
+								<property type-name="rb::transformation_values" name="rb::transformation">
+									<properties>
+										<property value-y="1.27347" value-x="1.27347" name="translation" />
+										<property value-y="1" value-x="1" name="scale" />
+										<property value="false" name="uniform" />
+										<property value-y="90" value-x="0" name="rotation" />
+										<property value="true" name="orthogonal" />
+									</properties>
+									<children />
+								</property>
+								<property value="false" name="rb::blocked" />
+								<property name="make_itself_first" />
+								<property name="split" />
+							</properties>
+							<children />
+						</child>
+					</children>
+				</child>
+				<child type-name="rb::breakable_block">
+					<properties>
+						<property value="false" name="rb::in_editor_hidden" />
+						<property value="false" name="rb::selected" />
+						<property type-name="rb::component_id" name="rb::node_id">
+							<properties>
+								<property value="" name="name" />
+								<property value="" name="classes" />
+							</properties>
+							<children />
+						</property>
+						<property type-name="rb::transformation_values" name="rb::transformation">
+							<properties>
+								<property value-y="-14.0721" value-x="3.14314" name="translation" />
+								<property value-y="0.5" value-x="0.5" name="scale" />
+								<property value="true" name="uniform" />
+								<property value-y="90" value-x="0" name="rotation" />
+								<property value="true" name="orthogonal" />
+							</properties>
+							<children />
+						</property>
+						<property value="false" name="rb::blocked" />
+						<property value="stone" name="image_name" />
+						<property value="false" name="broken" />
+						<property value="3" name="restoration_time" />
+						<property value="true" name="restoration_enabled" />
+						<property value="false" name="can_kill_character" />
+						<property value="true" name="explode_character_contact" />
+					</properties>
+				</child>
+				<child type-name="rb::breakable_block">
+					<properties>
+						<property value="false" name="rb::in_editor_hidden" />
+						<property value="false" name="rb::selected" />
+						<property type-name="rb::component_id" name="rb::node_id">
+							<properties>
+								<property value="" name="name" />
+								<property value="" name="classes" />
+							</properties>
+							<children />
+						</property>
+						<property type-name="rb::transformation_values" name="rb::transformation">
+							<properties>
+								<property value-y="-14.0721" value-x="2.67078" name="translation" />
+								<property value-y="0.5" value-x="0.5" name="scale" />
+								<property value="true" name="uniform" />
+								<property value-y="90" value-x="0" name="rotation" />
+								<property value="true" name="orthogonal" />
+							</properties>
+							<children />
+						</property>
+						<property value="false" name="rb::blocked" />
+						<property value="stone" name="image_name" />
+						<property value="false" name="broken" />
+						<property value="3" name="restoration_time" />
+						<property value="true" name="restoration_enabled" />
+						<property value="false" name="can_kill_character" />
+						<property value="true" name="explode_character_contact" />
+					</properties>
+				</child>
+				<child type-name="rb::breakable_block">
+					<properties>
+						<property value="false" name="rb::in_editor_hidden" />
+						<property value="false" name="rb::selected" />
+						<property type-name="rb::component_id" name="rb::node_id">
+							<properties>
+								<property value="" name="name" />
+								<property value="" name="classes" />
+							</properties>
+							<children />
+						</property>
+						<property type-name="rb::transformation_values" name="rb::transformation">
+							<properties>
+								<property value-y="-14.0721" value-x="2.20992" name="translation" />
+								<property value-y="0.5" value-x="0.5" name="scale" />
+								<property value="true" name="uniform" />
+								<property value-y="90" value-x="0" name="rotation" />
+								<property value="true" name="orthogonal" />
+							</properties>
+							<children />
+						</property>
+						<property value="false" name="rb::blocked" />
+						<property value="stone" name="image_name" />
+						<property value="false" name="broken" />
+						<property value="3" name="restoration_time" />
+						<property value="true" name="restoration_enabled" />
+						<property value="false" name="can_kill_character" />
+						<property value="true" name="explode_character_contact" />
+					</properties>
+				</child>
+				<child type-name="rb::breakable_block">
+					<properties>
+						<property value="false" name="rb::in_editor_hidden" />
+						<property value="false" name="rb::selected" />
+						<property type-name="rb::component_id" name="rb::node_id">
+							<properties>
+								<property value="" name="name" />
+								<property value="" name="classes" />
+							</properties>
+							<children />
+						</property>
+						<property type-name="rb::transformation_values" name="rb::transformation">
+							<properties>
+								<property value-y="-14.0721" value-x="1.75889" name="translation" />
+								<property value-y="0.5" value-x="0.5" name="scale" />
+								<property value="true" name="uniform" />
+								<property value-y="90" value-x="0" name="rotation" />
+								<property value="true" name="orthogonal" />
+							</properties>
+							<children />
+						</property>
+						<property value="false" name="rb::blocked" />
+						<property value="stone" name="image_name" />
+						<property value="false" name="broken" />
+						<property value="3" name="restoration_time" />
+						<property value="true" name="restoration_enabled" />
+						<property value="false" name="can_kill_character" />
+						<property value="true" name="explode_character_contact" />
+					</properties>
 				</child>
 			</children>
 		</child>

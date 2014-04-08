@@ -120,7 +120,6 @@ void physics_shape::reset_component() {
     _body->SetTransform(b2Vec2(_t.origin().x(), _t.origin().y()), _t.rotation().x());
     _body->SetLinearVelocity(b2Vec2(0, 0));
     _body->SetAngularVelocity(0);
-    _before = nullptr;
 }
 
 rb_string physics_shape::type_name() const {
@@ -316,24 +315,16 @@ void physics_shape::update(float dt){
     if(!_phys_initialized)
         return;
     
-    if(!_before.has_value())
-    {
-        auto _t = this->from_node_space_to(space::layer);
-        _before = _t;
-        _body->SetTransform(b2Vec2(_t.origin().x(), _t.origin().y()), _t.rotation().x());
-    }
-    else {
-        auto _t = this->from_node_space_to(space::layer);
-        auto _v = _t.origin() - _before.value().origin();
-        auto _o = _t.rotation().x() - _before.value().rotation().x();
-        
-        _v *= 30.0f;
-        _o *= 30.0f;
-        
-        _body->SetLinearVelocity(b2Vec2(_v.x(), _v.y()));
-        _body->SetAngularVelocity(_o);
-        _before = _t;
-    }
+    auto _before = vec2(_body->GetPosition().x, _body->GetPosition().y);
+    auto _t = this->from_node_space_to(space::layer);
+    auto _v = _t.origin() - _before;
+    auto _o = _t.rotation().x() - _body->GetAngle();
+    
+    _v *= 30.0f;
+    _o *= 30.0f;
+    
+    _body->SetLinearVelocity(b2Vec2(_v.x(), _v.y()));
+    _body->SetAngularVelocity(_o);
 }
 
 

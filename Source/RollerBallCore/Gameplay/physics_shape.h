@@ -44,7 +44,6 @@ namespace rb {
         nullable<rb_string> _gravity_ref;
         node* _gravity_ref_node;
         //saving and animating
-        nullable<transform_space> _before;
         transform_space _saved_transform;
         bool _animatable;
     public:
