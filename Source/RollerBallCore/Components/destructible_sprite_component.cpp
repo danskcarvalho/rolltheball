@@ -28,6 +28,11 @@ destructible_sprite_component::destructible_sprite_component(){
     _visible = true;
     _aspect_correction = true;
     _matrix = vec2(1, 1);
+    
+    for (size_t i = 0; i < _matrix.x() * _matrix.y(); i++) {
+        _part_transforms.push_back(transform_space());
+        _part_befores.push_back(transform_space());
+    }
 }
 
 void destructible_sprite_component::destroy(){
@@ -37,8 +42,12 @@ void destructible_sprite_component::destroy(){
     for (auto _it_m : _m_copy)
         delete _it_m;
     _m_copy.clear();
-    _part_befores.clear();
-    _part_transforms.clear();
+//    _part_befores.clear();
+//    _part_transforms.clear();
+    for (size_t i = 0; i < _matrix.x() * _matrix.y(); i++) {
+        _part_transforms[i] = transform_space();
+        _part_befores[i] = transform_space();
+    }
     if(_map)
         delete _map;
     _map = nullptr;
@@ -68,8 +77,8 @@ void destructible_sprite_component::create(){
             _m_it->set_alpha(_opacity);
             _m_it->set_color(_tint);
             _m_it->set_blend(_blend);
-            _part_befores.push_back(transform_space());
-            _part_transforms.push_back(transform_space());
+//            _part_befores.push_back(transform_space());
+//            _part_transforms.push_back(transform_space());
             auto _m_it_copy = new mesh();
             *_m_it_copy = *_m_it;
             _m_copy.push_back(_m_it_copy);
@@ -464,6 +473,11 @@ const vec2& destructible_sprite_component::matrix(const rb::vec2 &value){
     _m_copy.clear();
     _part_befores.clear();
     _part_transforms.clear();
+    
+    for (size_t i = 0; i < value.x() * value.y(); i++) {
+        _part_transforms.push_back(transform_space());
+        _part_befores.push_back(transform_space());
+    }
     
     if(active())
         invalidate_buffers();
