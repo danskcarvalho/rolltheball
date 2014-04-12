@@ -95,8 +95,17 @@ namespace rb {
         node* _block_to_break;
         //ground
         nullable<vec2> _normal;
-        vec2 _contact_point;
         b2Body* _current_ground;
+        //moving platform
+        bool _moving_first;
+        physics_shape* _moving_platform;
+        physics_shape* _last_moving_platform;
+        nullable<uint64_t> _clear_last_moving_platform;
+        float _moving_t;
+        float _moving_max_t;
+        vec2 _up_vector;
+        float _moving_vel;
+        float _rotation_vel;
     private:
         bool testSlopeAngle(b2WorldManifold* manifold, const nullable<vec2>& gravity) const;
         //get closest point from camera track...
@@ -104,6 +113,7 @@ namespace rb {
     protected:
         virtual void reset_component() override;
     private:
+        void check_new_moving_platform(vec2& v, nullable<float>& rot_vel);
         void check_bouncing();
         static void bounce_animation(float t, node* current_bounceball, const vec2& original_scale);
         void do_bounce_animation(node* current_bounceball);
@@ -123,9 +133,10 @@ namespace rb {
         virtual rb_string type_name() const override;
         virtual rb_string displayable_type_name() const override;
     private:
+        void update_movingplatform(vec2& v, nullable<float>& rot_vel, float dt, float direction);
         void update_died(float dt);
         void update_bounceball(float dt);
-        void update_character(vec2& cam_gravity);
+        void update_character(vec2& cam_gravity, float dt);
         void update_camera(const vec2& cam_gravity);
     protected:
         //Update

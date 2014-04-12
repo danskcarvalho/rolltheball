@@ -10,6 +10,7 @@
 #include "physics_engine.h"
 #include "scene.h"
 #include "physics_mask.h"
+#include "ray.h"
 #include <Box2D/Box2D.h>
 
 using namespace rb;
@@ -27,6 +28,7 @@ physics_shape::physics_shape(){
     _invert_velocity = true;
     _gravity_ref_node = nullptr;
     _animatable = false;
+    _moving_platform = false;
 }
 
 physics_shape::~physics_shape(){
@@ -208,6 +210,9 @@ void physics_shape::playing() {
             _body->CreateFixture(&_fDef);
         }
         
+        //check if moving
+        check_moving_platform();
+        //save polygon
         _cached_pol = _cached_pol_copy;
         from_node_space_to(space::layer).from_space_to_base().transform_polygon(_cached_pol); //we transform to layer space
     }
@@ -311,6 +316,30 @@ bool physics_shape::animatable(bool value){
     return _animatable;
 }
 
+float to_canonical_angle(float a){
+    auto _2pi = 2 * M_PI;
+    auto _d = (int)(a / _2pi);
+    a -= _d * _2pi;
+    
+    if(a < 0)
+        a = 2 * M_PI + a;
+
+    return a;
+}
+
+float diff_angles(float before, float after){
+    float _source = to_canonical_angle(before);
+    if(_source > M_PI)
+        _source = _source - 2 * M_PI;
+    float _target = to_canonical_angle(after);
+    if(_target > M_PI)
+        _target = _target - 2 * M_PI;
+    float a = _target - _source;
+    auto _2pi = 2 * M_PI;
+    a += (a > M_PI) ? -_2pi : (a < -M_PI) ? _2pi : 0;
+    return a;
+}
+
 void physics_shape::update(float dt){
     if(!_phys_initialized)
         return;
@@ -318,7 +347,7 @@ void physics_shape::update(float dt){
     auto _before = vec2(_body->GetPosition().x, _body->GetPosition().y);
     auto _t = this->from_node_space_to(space::layer);
     auto _v = _t.origin() - _before;
-    auto _o = _t.rotation().x() - _body->GetAngle();
+    auto _o = diff_angles(_body->GetAngle(), _t.rotation().x());
     
     _v *= 30.0f;
     _o *= 30.0f;
@@ -327,7 +356,73 @@ void physics_shape::update(float dt){
     _body->SetAngularVelocity(_o);
 }
 
+void physics_shape::check_moving_platform(){
+    if(this->node_count() != 4){
+        _moving_platform = false;
+        return;
+    }
+    
+    std::vector<node*> _nodes;
+    this->copy_nodes_to_vector(_nodes);
+    assert(_nodes.size() == 4);
+    
+    bool _has_first = false;
+    bool _has_second = false;
+    
+    for(auto _n : _nodes){
+        if(_n->has_class(u"first")){
+            _has_first = true;
+            _pt0 = _n->transform().origin() * this->transform().scale();
+            continue;
+        }
+        if(_n->has_class(u"second")){
+            _has_second = true;
+            _pt1 = _n->transform().origin() * this->transform().scale();
+            continue;
+        }
+    }
+    
+    if(_has_first && _has_second)
+        _moving_platform = true;
+    else
+        _moving_platform = false;
+}
 
+bool physics_shape::is_moving_platform() const {
+    return _moving_platform;
+}
+
+vec2 physics_shape::get_pt0() const {
+    auto _bV = b2Vec2(_pt0.x(), _pt0.y());
+    auto _bV2 = _body->GetWorldPoint(_bV);
+    return vec2(_bV2.x, _bV2.y);
+}
+
+vec2 physics_shape::get_pt1() const {
+    auto _bV = b2Vec2(_pt1.x(), _pt1.y());
+    auto _bV2 = _body->GetWorldPoint(_bV);
+    return vec2(_bV2.x, _bV2.y);
+}
+
+ray physics_shape::get_ray() const {
+    auto _p0 = get_pt0();
+    auto _p1 = get_pt1();
+
+    return ray(_p0, _p1 - _p0);
+}
+
+vec2 physics_shape::get_normal() const {
+    return get_ray().direction().rotated90();
+}
+
+vec2 physics_shape::get_velocity_at_pt(const rb::vec2 &pt) const{
+    auto _v = _body->GetLinearVelocityFromWorldPoint(b2Vec2(pt.x(), pt.y()));
+    return vec2(_v.x, _v.y);
+}
+
+b2Body* physics_shape::get_body() {
+    return _body;
+}
 
 
 

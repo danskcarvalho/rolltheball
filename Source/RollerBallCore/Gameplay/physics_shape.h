@@ -18,6 +18,7 @@ class b2Body;
 
 namespace rb {
     class main_character;
+    class ray;
 //    class position_animator_component;
     class physics_shape : public polygon_component, public resettable_component {
 //    public:
@@ -46,6 +47,10 @@ namespace rb {
         //saving and animating
         transform_space _saved_transform;
         bool _animatable;
+        //moving platform
+        bool _moving_platform;
+        vec2 _pt0;
+        vec2 _pt1;
     public:
         friend class main_character;
         physics_shape();
@@ -80,6 +85,17 @@ namespace rb {
         bool invert_velocity(const bool value);
         const nullable<rb_string>& gravity_reference() const;
         const nullable<rb_string>& gravity_reference(const nullable<rb_string>& value);
+        //moving platform
+    private:
+        void check_moving_platform();
+    public:
+        bool is_moving_platform() const;
+        vec2 get_normal() const;
+        vec2 get_pt0() const;
+        vec2 get_pt1() const;
+        ray get_ray() const;
+        vec2 get_velocity_at_pt(const vec2& pt) const;
+        b2Body* get_body();
     };
 }
 

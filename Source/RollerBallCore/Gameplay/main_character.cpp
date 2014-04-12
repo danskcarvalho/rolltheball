@@ -17,6 +17,7 @@
 #include "particle_emitter_component.h"
 #include "base_enemy.h"
 #include "breakable_block.h"
+#include "ray.h"
 #include <random>
 #include <Box2D/Box2D.h>
 
@@ -66,6 +67,16 @@
 
 using namespace rb;
 
+inline float sgn(float v){
+    if(v == 0)
+        return 0;
+    return v / fabsf(v);
+}
+
+inline float signed_length(const vec2& v, const vec2& axis){
+    return v.length() * sgn(vec2::dot(v, axis));
+}
+
 main_character::main_character(){
     _invert_xaxis = false;
     _body = nullptr;
@@ -91,6 +102,7 @@ main_character::main_character(){
     //Frame
     _frame_count = 0;
     _clear_jump = nullptr;
+    _clear_last_moving_platform = nullptr;
     //animation
     _an_manager = nullptr;
     //shake camera animation
@@ -138,6 +150,8 @@ main_character::main_character(){
     //ground
     _normal = nullptr;
     _current_ground = nullptr;
+    _moving_platform = nullptr;
+    _last_moving_platform = nullptr;
 }
 
 main_character::~main_character(){
@@ -240,16 +254,6 @@ void main_character::after_becoming_active(bool node_was_moved){
 
 void main_character::before_becoming_inactive(bool node_was_moved){
     
-}
-
-inline float sgn(float v){
-    if(v == 0)
-        return 0;
-    return v / fabsf(v);
-}
-
-inline float signed_length(const vec2& v, const vec2& axis){
-    return v.length() * sgn(vec2::dot(v, axis));
 }
 
 bool main_character::check_die(){
@@ -393,7 +397,7 @@ void main_character::update(float dt){
     if(_current_bounceball || _is_bouncing)
         update_bounceball(dt);
     vec2 _cam_g;
-    update_character(_cam_g);
+    update_character(_cam_g, dt);
     
     this->transform(this->transform().moved(_body->GetPosition().x, _body->GetPosition().y).rotated(_body->GetAngle(), _body->GetAngle() + M_PI_2));
     if(_cam_g != vec2::zero)
@@ -404,6 +408,11 @@ void main_character::update(float dt){
         _jumpButton = false;
         _didJump = false;
         _clear_jump = nullptr;
+    }
+    
+    if(_clear_last_moving_platform.has_value() && _clear_last_moving_platform.value() <= _frame_count){
+        _last_moving_platform = nullptr;
+        _clear_last_moving_platform = nullptr;
     }
     
     //jump count may be renovated
@@ -489,7 +498,146 @@ void main_character::update_camera(const rb::vec2 &cam_gravity){
     parent_scene()->camera(_final_camera);
 }
 
-void main_character::update_character(vec2& cam_gravity){
+void main_character::check_new_moving_platform(vec2& v, nullable<float>& rot_vel){
+MvPlatform:
+    rot_vel = nullptr;
+    if(_moving_platform){
+        auto _tangent = _moving_platform->get_normal().rotated(TO_RADIANS(-90));
+        //check if already..
+        if(_current_ground && _current_ground != _moving_platform->get_body()){
+            //check if we can make a new moving platform
+            _last_moving_platform = _moving_platform;
+            _moving_platform = nullptr;
+            _clear_last_moving_platform = _frame_count + (uint64_t)(JUMP_TOUCH_DURATION * 2);
+            v = _tangent * _moving_vel;
+            rot_vel = _rotation_vel;
+            goto MvPlatform;
+        }
+        else if(_didJump){
+            _last_moving_platform = _moving_platform;
+            _moving_platform = nullptr;
+            _clear_last_moving_platform = _frame_count + (uint64_t)(JUMP_TOUCH_DURATION * 2);
+            v = _tangent * _moving_vel;
+            rot_vel = _rotation_vel;
+        }
+//        else{
+//            auto _rMoving = _moving_platform->get_ray();
+//            auto _max_len = _rMoving.get_parameter(_moving_platform->get_pt1());
+//            auto _tparam = _rMoving.get_parameter(vec2(_body->GetPosition().x, _body->GetPosition().y));
+//            if(_tparam < -0.05 || _tparam > (_max_len + 0.05)){
+//                _last_moving_platform = _moving_platform;
+//                _moving_platform = nullptr;
+//                _clear_last_moving_platform = _frame_count + (uint64_t)(JUMP_TOUCH_DURATION * 2);
+//                v = _tangent * _moving_vel;
+//            }
+//        }
+    }
+    else {
+        //if not...
+        if(_current_ground){
+            auto _pshape = dynamic_cast<physics_shape*>((node*)_current_ground->GetUserData());
+            if(_pshape && _pshape->is_moving_platform()){
+                if(_last_moving_platform && _last_moving_platform == _pshape)
+                    return;
+                _moving_platform = _pshape;
+                auto _rMoving = _moving_platform->get_ray();
+                _moving_max_t = _rMoving.get_parameter(_moving_platform->get_pt1());
+                _moving_t = _rMoving.get_parameter(vec2(_body->GetPosition().x, _body->GetPosition().y));
+                //save up vector in local body space
+                _up_vector = transform().from_space_to_base().transformed_vector(vec2::up);
+                auto _b2_up = b2Vec2(_up_vector.x(), _up_vector.y());
+                _b2_up = _moving_platform->get_body()->GetLocalVector(_b2_up);
+                _up_vector = vec2(_b2_up.x, _b2_up.y); //save up vector
+                //velocity
+                auto _tangent = _moving_platform->get_normal().rotated(TO_RADIANS(-90));
+                auto _proj_v = v.projection(_tangent);
+                auto _vx = signed_length(_proj_v, _tangent);
+                _moving_vel = _vx;
+                _moving_first = true;
+                //limit moving_vel
+                if(_moving_vel > PHYS_CHARACTER_VELOCITY)
+                    _moving_vel = PHYS_CHARACTER_VELOCITY;
+                else if(_moving_vel < (-PHYS_CHARACTER_VELOCITY))
+                    _moving_vel = -PHYS_CHARACTER_VELOCITY;
+            }
+        }
+    }
+}
+
+
+void main_character::update_movingplatform(vec2& vel, nullable<float>& rot_vel, float dt, float direction){
+    rot_vel = nullptr;
+    if(_direction > 0) { //to right
+        if(_moving_vel < PHYS_CHARACTER_VELOCITY)
+        {
+            _moving_vel += PHYS_CHARACTER_ACCEL;
+        }
+    }
+    else if(_direction < 0) { //to left
+        if(_moving_vel > (-PHYS_CHARACTER_VELOCITY)){
+            _moving_vel -= PHYS_CHARACTER_ACCEL;
+        }
+    }
+    else {
+        _moving_vel = 0;
+    }
+    
+    auto _to_move = _moving_vel * dt;
+    auto _angle_obj = -_to_move / 0.5f;
+    _rotation_vel = _angle_obj * 30.0f;
+    
+    if(!_moving_first){
+        _moving_t += _to_move;
+        this->_up_vector.rotate(_angle_obj);
+    }
+    _moving_first = false;
+    bool _set_to_null = false;
+    
+    auto _ray = _moving_platform->get_ray();
+    auto _pt = _ray.sample(_moving_t);
+    _pt = _pt + _moving_platform->get_normal() * 0.5f;
+    
+    if(_moving_t < -0.05 || _moving_t > (_moving_max_t + 0.05)){
+        _last_moving_platform = _moving_platform;
+        _clear_last_moving_platform = _frame_count + (uint64_t)(JUMP_TOUCH_DURATION * 2);
+        auto _tangent = _moving_platform->get_normal().rotated(TO_RADIANS(-90));
+        vel = _tangent * _moving_vel;
+        _set_to_null = true;
+        rot_vel = _rotation_vel;
+    }
+    else {
+        if(_jumpButton && !_didJump){
+            _didJump = true;
+            if(_jumpCount > 0){
+                auto _vy = PHYS_CHARACTER_JUMP;
+                auto _vAt = _moving_platform->get_velocity_at_pt(_pt);
+                if(_vAt.y() > 0)
+                    _vy += _vAt.y() / 3;
+                _jumpCount--;
+                
+                _last_moving_platform = _moving_platform;
+                _clear_last_moving_platform = _frame_count + (uint64_t)(JUMP_TOUCH_DURATION * 2);
+                auto _tangent = _moving_platform->get_normal().rotated(TO_RADIANS(-90));
+                vel = _tangent * _moving_vel;
+                _set_to_null = true;
+                rot_vel = _rotation_vel;
+                vel.y(_vy + vel.y() / 3);
+            }
+        }
+    }
+    
+    //get up vector in world space
+    auto _b2_upWorld = _moving_platform->get_body()->GetWorldVector(b2Vec2(_up_vector.x(), _up_vector.y()));
+    auto _up_world = vec2(_b2_upWorld.x, _b2_upWorld.y);
+    auto _right_world = _up_world.rotated(TO_RADIANS(-90));
+    auto _angle = vec2::right.angle_between(_right_world, rotation_direction::ccw);
+
+    _body->SetTransform(b2Vec2(_pt.x(), _pt.y()), _angle);
+    if(_set_to_null)
+        _moving_platform = nullptr;
+}
+
+void main_character::update_character(vec2& cam_gravity, float dt){
     auto _g = vec2::zero;
     cam_gravity = vec2::zero;
     
@@ -631,7 +779,7 @@ void main_character::update_character(vec2& cam_gravity){
             _v = _vx + _vy;
         }
         
-        if(_jumpButton && !_didJump){
+        if(_jumpButton && !_didJump && !_moving_platform){
             _didJump = true;
             if(_jumpCount > 0){
                 _vy = -_true_gy * PHYS_CHARACTER_JUMP;
@@ -639,15 +787,31 @@ void main_character::update_character(vec2& cam_gravity){
                 _jumpCount--;
             }
         }
+        
+        //check for moving platform...
+        //1. decide for moving platform...
+        nullable<float> _rot_vel;
+        check_new_moving_platform(_v, _rot_vel);
+        //2. if moving platform...
+        if(_moving_platform){
+            _g = vec2::zero;
+            update_movingplatform(_v, _rot_vel, dt, _direction);
+        }
+        
+        if(_rot_vel.has_value())
+            _body->SetAngularVelocity(_rot_vel.value());
     }
     
     if(_current_bounceball || _is_bouncing)
         return;
     
-    if(_direction == 0)
+    if(_direction == 0 || _moving_platform)
         _body->SetAngularVelocity(0);
     
-    _body->SetLinearVelocity(b2Vec2(_v.x(), _v.y()));
+    if(!_moving_platform)
+        _body->SetLinearVelocity(b2Vec2(_v.x(), _v.y()));
+    else
+        _body->SetLinearVelocity(b2Vec2(0, 0));
     auto _fg = _g * _body->GetMass();
     _body->ApplyForceToCenter(b2Vec2(_fg.x(), _fg.y()));
 }
@@ -753,6 +917,7 @@ void main_character::reset_component(){
     _cam_focus_velocity = 0;
     _frame_count = 0;
     _clear_jump = nullptr;
+    _clear_last_moving_platform = nullptr;
     _an_manager->reset_animation(_shake_camera_an);
     _an_manager->animation(_shake_camera_an)->state = animation_state::stopped;
     _camera_x_shake = 0;
@@ -780,6 +945,10 @@ void main_character::reset_component(){
     //ground
     _current_ground = nullptr;
     _normal = nullptr;
+    //moving platform
+    _moving_platform = nullptr;
+    _last_moving_platform = nullptr;
+    _block_to_break = nullptr;
 }
 
 void main_character::playing(){
@@ -869,6 +1038,12 @@ void main_character::playing(){
             else
                 _bouncing_balls.insert({_bb, _bb_dir[0]});
         }
+        //moving platform
+        _moving_platform = nullptr;
+        _last_moving_platform = nullptr;
+        _normal = nullptr;
+        _current_ground = nullptr;
+        _block_to_break = nullptr;
     }
 }
 
@@ -903,6 +1078,9 @@ void main_character::keyup(const uint32_t keycode, const rb::keyboard_modifier m
 
 void main_character::touches_began(const std::vector<touch> &touches, bool &swallow){
     swallow = false;
+#if !IOS_TARGET
+    return;
+#endif
     for (auto& _t : touches){
         auto _np = _invert_xaxis ? -_t.normalized_position() : _t.normalized_position();
         _touches.push_back(std::make_tuple(_t, _np));
@@ -922,6 +1100,9 @@ void main_character::touches_began(const std::vector<touch> &touches, bool &swal
 }
 
 void main_character::touches_moved(const std::vector<touch> &touches, bool &swallow){
+#if !IOS_TARGET
+    return;
+#endif
     swallow = false;
     //we update velocities
     for (auto& _t : _touches){
@@ -949,6 +1130,9 @@ void main_character::touches_moved(const std::vector<touch> &touches, bool &swal
 }
 
 void main_character::touches_ended(const std::vector<touch> &touches, bool &swallow){
+#if !IOS_TARGET
+    return;
+#endif
     swallow = false;
     _touches.erase(std::remove_if(_touches.begin(), _touches.end(), [=](const std::tuple<touch, vec2>& t){
         for (auto& _t : touches){
@@ -964,6 +1148,9 @@ void main_character::touches_ended(const std::vector<touch> &touches, bool &swal
 }
 
 void main_character::touches_cancelled(const std::vector<touch> &touches, bool &swallow){
+#if !IOS_TARGET
+    return;
+#endif
     touches_ended(touches, swallow);
 }
 
@@ -1037,8 +1224,6 @@ void main_character::BeginContact(b2Contact *contact){
         if((_cond1 || _cond2) && testSlopeAngle(&manifold, _previous_g)){
             //normal pos + current ground
             _normal = vec2(manifold.normal.x, manifold.normal.y);
-            _contact_point = vec2(manifold.points[0].x + manifold.points[1].x, manifold.points[0].y + manifold.points[1].y);
-            _contact_point = _contact_point / 2.0f;
             if(((node*)contact->GetFixtureA()->GetBody()->GetUserData()) == (node*)this)
                 _current_ground = contact->GetFixtureB()->GetBody();
             else
