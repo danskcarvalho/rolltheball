@@ -44,60 +44,6 @@ matrix3x3::matrix3x3(const vec2& x_vector, const vec2& y_vector, const vec2& tra
 
 const matrix3x3 matrix3x3::identity = matrix3x3(vec2::right, vec2::up, vec2::zero);
 
-const matrix3x3& matrix3x3::operator*=(const rb::matrix3x3 &other){
-    float l0[] = {_x_vector.x(), _y_vector.x(), _translation.x()};
-    float l1[] = {_x_vector.y(), _y_vector.y(), _translation.y()};
-    
-    float c0[] = {other._x_vector.x(), other._x_vector.y(), 0};
-    float c1[] = {other._y_vector.x(), other._y_vector.y(), 0};
-    float c2[] = {other._translation.x(), other._translation.y(), 1};
-    
-    float m00 = l0[0]*c0[0] + l0[1]*c0[1] + l0[2]*c0[2];
-    float m01 = l0[0]*c1[0] + l0[1]*c1[1] + l0[2]*c1[2];
-    float m02 = l0[0]*c2[0] + l0[1]*c2[1] + l0[2]*c2[2];
-    
-    float m10 = l1[0]*c0[0] + l1[1]*c0[1] + l1[2]*c0[2];
-    float m11 = l1[0]*c1[0] + l1[1]*c1[1] + l1[2]*c1[2];
-    float m12 = l1[0]*c2[0] + l1[1]*c2[1] + l1[2]*c2[2];
-    
-    _x_vector.x(m00);
-    _x_vector.y(m10);
-    _translation.x(m02);
-    
-    _y_vector.x(m01);
-    _y_vector.y(m11);
-    _translation.y(m12);
-    
-    //_x_vector.snap();
-    //_y_vector.snap();
-    //_translation.snap();
-    
-    return *this;
-}
-
-matrix3x3 rb::operator*(const matrix3x3 & first, const matrix3x3 & second){
-    float l0[] = {first._x_vector.x(), first._y_vector.x(), first._translation.x()};
-    float l1[] = {first._x_vector.y(), first._y_vector.y(), first._translation.y()};
-    
-    float c0[] = {second._x_vector.x(), second._x_vector.y(), 0};
-    float c1[] = {second._y_vector.x(), second._y_vector.y(), 0};
-    float c2[] = {second._translation.x(), second._translation.y(), 1};
-    
-    float m00 = l0[0]*c0[0] + l0[1]*c0[1] + l0[2]*c0[2];
-    float m01 = l0[0]*c1[0] + l0[1]*c1[1] + l0[2]*c1[2];
-    float m02 = l0[0]*c2[0] + l0[1]*c2[1] + l0[2]*c2[2];
-    
-    float m10 = l1[0]*c0[0] + l1[1]*c0[1] + l1[2]*c0[2];
-    float m11 = l1[0]*c1[0] + l1[1]*c1[1] + l1[2]*c1[2];
-    float m12 = l1[0]*c2[0] + l1[1]*c2[1] + l1[2]*c2[2];
-    
-    auto _result = matrix3x3(vec2(m00, m10), vec2(m01, m11), vec2(m02, m12));
-//    _result._x_vector.snap();
-//    _result._y_vector.snap();
-//    _result._translation.snap();
-    return _result;
-}
-
 float matrix3x3::determinant() const {
     float   a = _x_vector.x(),
     b = _y_vector.x(),
@@ -114,42 +60,42 @@ void matrix3x3::_invert(rb::matrix3x3 *m_ptr, bool set){
     c = _translation.x(),
     d = _x_vector.y(),
     e = _y_vector.y(),
-    f = _translation.y(),
-    g = 0,
-    h = 0,
-    k = 1;
+    f = _translation.y();//,
+//    g = 0,
+//    h = 0,
+//    k = 1;
     
-    float   A = e*k - f*h,
-    B = f*g - d*k,
-    C = d*h - e*g,
-    D = c*h - b*k,
-    E = a*k - c*g,
-    F = g*b - a*h,
+    float   A = e,
+    B = -d,
+//    C = 0,
+    D = -b,
+    E = a,
+//    F = 0,
     G = b*f - c*e,
-    H = c*d - a*f,
-    K = a*e - b*d;
+    H = c*d - a*f; //,
+//    K = a*e - b*d;
     
     float _determinant = determinant();
     assert(!almost_equal(_determinant, 0));
     float inv_det = 1.0f / _determinant;
     
-    assert(almost_equal(inv_det * C, 0));
-    assert(almost_equal(inv_det * F, 0));
-    assert(almost_equal(inv_det * K, 1));
+//    assert(almost_equal(inv_det * C, 0));
+//    assert(almost_equal(inv_det * F, 0));
+//    assert(almost_equal(inv_det * K, 1));
     
     if(!set){
         *m_ptr = matrix3x3(vec2(inv_det * A, inv_det * B), vec2(inv_det * D, inv_det * E), vec2(inv_det * G, inv_det * H));
-        m_ptr->_x_vector.snap();
-        m_ptr->_y_vector.snap();
-        m_ptr->_translation.snap();
+//        m_ptr->_x_vector.snap();
+//        m_ptr->_y_vector.snap();
+//        m_ptr->_translation.snap();
     }
     else {
         this->_x_vector = vec2(inv_det * A, inv_det * D);
         this->_y_vector = vec2(inv_det * B, inv_det * E);
         this->_translation = vec2(inv_det * G, inv_det * H);
-        this->_x_vector.snap();
-        this->_y_vector.snap();
-        this->_translation.snap();
+//        this->_x_vector.snap();
+//        this->_y_vector.snap();
+//        this->_translation.snap();
     }
 }
 
@@ -197,7 +143,7 @@ vec2 matrix3x3::transformed_vector(const vec2& vec) const{
         _x_vector.x() * vec.x() + _y_vector.x() * vec.y(),
         _x_vector.y() * vec.x() + _y_vector.y() * vec.y()
     );
-    _result.snap();
+//    _result.snap();
     return _result;
 }
 
@@ -205,7 +151,7 @@ vec2& matrix3x3::transform_vector(vec2& vec) const {
     vec2 _o = vec;
     vec.x(_x_vector.x() * _o.x() + _y_vector.x() * _o.y());
     vec.y(_x_vector.y() * _o.x() + _y_vector.y() * _o.y());
-    vec.snap();
+//    vec.snap();
     return vec;
 }
 

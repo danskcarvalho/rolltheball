@@ -16,8 +16,13 @@ namespace rb {
     class mesh;
     class texture_map;
     class example_class;
+    class texture_atlas;
     class sprite_component : public node {
     private:
+        //texture size
+        nullable<vec2> _tex_size;
+        texture_atlas* _last_atlas;
+        //others
         vec2 _matrix;
         mesh* _m;
         mesh* _m_copy;

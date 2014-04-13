@@ -48,7 +48,25 @@ namespace rb {
         
         //assignment operators
         const matrix3x3& operator=(const matrix3x3& other);
-        const matrix3x3& operator*=(const matrix3x3& other);
+        inline __attribute__ ((always_inline)) const matrix3x3& operator*=(const rb::matrix3x3 &other){
+            float m00 = _x_vector.x()*other._x_vector.x() + _y_vector.x()*other._x_vector.y();
+            float m01 = _x_vector.x()*other._y_vector.x() + _y_vector.x()*other._y_vector.y();
+            float m02 = _x_vector.x()*other._translation.x() + _y_vector.x()*other._translation.y() + _translation.x();
+            
+            float m10 = _x_vector.y()*other._x_vector.x() + _y_vector.y()*other._x_vector.y();
+            float m11 = _x_vector.y()*other._y_vector.x() + _y_vector.y()*other._y_vector.y();
+            float m12 = _x_vector.y()*other._translation.x() + _y_vector.y()*other._translation.y() + _translation.y();
+            
+            _x_vector.x(m00);
+            _x_vector.y(m10);
+            _translation.x(m02);
+            
+            _y_vector.x(m01);
+            _y_vector.y(m11);
+            _translation.y(m12);
+            
+            return *this;
+        }
         
         //get methods
         inline const vec2& x_vector() const{
@@ -128,7 +146,17 @@ namespace rb {
     };
     
     //other operators
-    matrix3x3 operator *(const matrix3x3 & first, const matrix3x3 & second);
+    inline __attribute__ ((always_inline)) matrix3x3 operator*(const matrix3x3 & first, const matrix3x3 & second){
+        float m00 = first._x_vector.x()*second._x_vector.x() + first._y_vector.x()*second._x_vector.y();
+        float m01 = first._x_vector.x()*second._y_vector.x() + first._y_vector.x()*second._y_vector.y();
+        float m02 = first._x_vector.x()*second._translation.x() + first._y_vector.x()*second._translation.y() + first._translation.x();
+        
+        float m10 = first._x_vector.y()*second._x_vector.x() + first._y_vector.y()*second._x_vector.y();
+        float m11 = first._x_vector.y()*second._y_vector.x() + first._y_vector.y()*second._y_vector.y();
+        float m12 = first._x_vector.y()*second._translation.x() + first._y_vector.y()*second._translation.y() + first._translation.y();
+        
+        return matrix3x3(vec2(m00, m10), vec2(m01, m11), vec2(m02, m12));
+    }
     bool operator ==(const matrix3x3& first, const matrix3x3& second);
     bool operator!=(const matrix3x3& first, const matrix3x3& second);
 }

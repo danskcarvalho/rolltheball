@@ -32,8 +32,14 @@ void transform_space::update_matrix(){
     _x_rotation.transform_vector(_x_vec);
     _y_rotation.transform_vector(_y_vec);
     _matrix = matrix3x3(_x_vec, _y_vec, _origin);
+    _inv_matrix = nullptr;
+    _dirty = false;
+}
+
+void transform_space::update_inv_matrix(){
+    if(_inv_matrix.has_value())
+        return;
     auto _determinant = _matrix.determinant();
-    
     if (almost_equal(_determinant, 0)){
         //not inversible
         _inv_matrix = nullptr;
@@ -41,9 +47,8 @@ void transform_space::update_matrix(){
     else {
         _inv_matrix = _matrix.inverse();
     }
-    
-    _dirty = false;
 }
+
 void transform_space::update_from_matrix(const matrix3x3& m){
     vec2 _x_vec = m.x_vector();
     vec2 _y_vec = m.y_vector();
@@ -67,15 +72,7 @@ void transform_space::update_from_matrix(const matrix3x3& m){
         _axisRotation.y(_m_pi_2);
     
     _matrix = m;
-    auto _determinant = m.determinant();
-    if (almost_equal(_determinant, 0))
-    {
-        //not inversible
-        _inv_matrix = nullptr;
-    }
-    else {
-        _inv_matrix = m.inverse();
-    }
+    _inv_matrix = nullptr;
     _dirty = false;
 }
 transform_space transform_space::from_matrix(const matrix3x3& m){
@@ -172,11 +169,13 @@ transform_space& transform_space::scale_by(const float s){
 transform_space transform_space::inverse() const {
     transform_space _inv_space;
     const_cast<transform_space*>(this)->update_matrix();
+    const_cast<transform_space*>(this)->update_inv_matrix();
     _inv_space.update_from_matrix(_inv_matrix.value());
     return _inv_space;
 }
 transform_space& transform_space::invert(){
     update_matrix();
+    update_inv_matrix();
     update_from_matrix(_inv_matrix.value());
     return *this;
 }
@@ -191,22 +190,21 @@ transform_space& transform_space::to_canonical(){
     update_from_matrix(_matrix);
     return *this;
 }
-const matrix3x3& transform_space::from_space_to_base() const{
-    const_cast<transform_space*>(this)->update_matrix();
-    return _matrix;
-}
 bool transform_space::both_directions() const{
     return test_direction(transform_direction::from_base_to_space) &&
             test_direction(transform_direction::from_space_to_base);
 }
 const matrix3x3& transform_space::from_base_to_space() const{
     const_cast<transform_space*>(this)->update_matrix();
+    const_cast<transform_space*>(this)->update_inv_matrix();
     return _inv_matrix.value();
 }
 bool transform_space::test_direction(transform_direction d) const{
     const_cast<transform_space*>(this)->update_matrix();
-    if (d == transform_direction::from_base_to_space)
+    if (d == transform_direction::from_base_to_space){
+        const_cast<transform_space*>(this)->update_inv_matrix();
         return _inv_matrix.has_value();
+    }
     else
         return true;
 }

@@ -27,6 +27,7 @@ namespace rb {
         void init();
         //updates the matrix only if dirty
         void update_matrix();
+        void update_inv_matrix();
         void update_from_matrix(const matrix3x3& m);
         void load_from_buffer(const void* buffer, const void** next);
         void store_in_buffer(void* buffer, size_t* size, void** next) const;
@@ -105,7 +106,11 @@ namespace rb {
         static std::vector<transform_space> from_buffer(buffer b);
         
         //matrix operations
-        const matrix3x3& from_space_to_base() const;
+        inline __attribute__ ((always_inline)) const matrix3x3& from_space_to_base() const{
+            if(_dirty)
+                const_cast<transform_space*>(this)->update_matrix();
+            return _matrix;
+        }
         const matrix3x3& from_base_to_space() const;
         
         //possible transformations

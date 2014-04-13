@@ -13,7 +13,7 @@
 #include <locale>
 #include <codecvt>
 
-#define TEST_ASSERT_TRUE(_t_) STAssertTrue(_t_, @"Assertion Failed...")
+#define TEST_ASSERT_TRUE(_t_) XCTAssertTrue(_t_, @"Assertion Failed...")
 #define TEST_STRING_EQUALS(_t_, _v_) TEST_ASSERT_TRUE(_t_ == u##_v_)
 
 inline NSString* to_platform_string(const rb::rb_string& str){

@@ -52,29 +52,6 @@ END_STRINGIFY_FLAGS()
 
 @implementation StringifyTests
 
--(void)testCustomStringification {
-    rb_string str = to_string(test_class_01(10));
-    TEST_STRING_EQUALS(str, "{ value: 10 }");
-    ptr<test_class_01> ptr_01(new test_class_01(15));
-    str = to_string(ptr_01);
-    auto _address = to_string((const void*)ptr_01.get());
-    auto _result = to_string(u"*(", _address, u") { value: 15 }");
-    TEST_ASSERT_TRUE(str == _result);
-    test_class_01* ptr_02 = new test_class_01(20);
-    str = to_string(ptr_02);
-    _address = to_string((void*)ptr_02);
-    _result = to_string(u"*(", _address, u") { value: 20 }");
-    TEST_ASSERT_TRUE(str == _result);
-    delete ptr_02;
-    //Testando enumerações
-    auto _enum_val_01 = test_enum_01::B;
-    auto _enum_val_02 = rb::combine(test_enum_02::B, test_enum_02::C);
-    str = to_string(_enum_val_01);
-    TEST_STRING_EQUALS(str, "test_enum_01::B");
-    str = to_string(_enum_val_02);
-    TEST_STRING_EQUALS(str, "test_enum_02::B | test_enum_02::C");
-}
-
 -(void)testPrimitiveStringification{
     rb_string str = to_string(10);
     TEST_STRING_EQUALS(str, "10");

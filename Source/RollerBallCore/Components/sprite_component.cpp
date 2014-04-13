@@ -30,6 +30,8 @@ sprite_component::sprite_component(){
     _visible = true;
     _aspect_correction = true;
     _matrix = vec2(1, 1);
+    _tex_size = nullptr;
+    _last_atlas = nullptr;
 }
 
 void sprite_component::destroy(){
@@ -173,16 +175,9 @@ transform_space sprite_component::aspect_correction_factor() const {
 void sprite_component::transform_mesh(const bool refill_buffers){
     transform_space _to_layer = from_node_space_to(space::layer) * aspect_correction_factor();
     if(_before != _to_layer || refill_buffers){
-        if(_before.both_directions()){
-            transform_space _final_transform = _to_layer * _before.inverse();
-            _before = _to_layer;
-            _final_transform.from_space_to_base().transform_mesh(*_m);
-        }
-        else {
-            *_m = *_m_copy;
-            _before = _to_layer;
-            _to_layer.from_space_to_base().transform_mesh(*_m);
-        }
+        *_m = *_m_copy;
+        _before = _to_layer;
+        _to_layer.from_space_to_base().transform_mesh(*_m);
     }
 }
 
@@ -386,16 +381,24 @@ const rb_string& sprite_component::image_name(const rb_string &value){
     this->_reapply_mapping = true;
     if(!this->_m && this->active())
         this->invalidate_buffers();
+    _tex_size = nullptr;
+    _last_atlas = nullptr;
     return _image;
 }
 
 vec2 sprite_component::size_of_tex() const {
+    if(_tex_size.has_value() && parent_scene()->atlas() == _last_atlas)
+        return _tex_size.value();
+    
     if(parent_scene() && parent_scene()->atlas()){
         if(parent_scene()->atlas()->contains_texture(_image))
         {
             std::vector<rb_string> _groups;
             parent_scene()->atlas()->get_groups(_image, _groups);
-            return parent_scene()->atlas()->get_bounds_in_pixels(_groups[0], _image).size();
+            const_cast<sprite_component*>(this)->_tex_size = parent_scene()->atlas()->get_bounds_in_pixels(_groups[0], _image).size();
+            const_cast<sprite_component*>(this)->_last_atlas = const_cast<texture_atlas*>(parent_scene()->atlas());
+            return _tex_size.value();
+
         }
         else
             return vec2::zero;

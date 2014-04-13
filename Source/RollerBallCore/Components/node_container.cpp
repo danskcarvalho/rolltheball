@@ -203,13 +203,13 @@ transform_space node_container::from_space_to(const rb::space another) const{
     }
     else if(another == space::layer){
         const node_container* _current = this;
-        transform_space _acc = transform_space();
+        auto _acc = matrix3x3::identity;
         
         while (_current->parent_node_container()) {
-            _acc = _current->transform() * _acc;
+            _acc = _current->transform().from_space_to_base() * _acc;
             _current = _current->parent_node_container();
         }
-        return _acc;
+        return transform_space::from_matrix(_acc);
     }
     else if(another == space::normalized_screen){
         transform_space _to_camera = from_space_to(space::camera);
@@ -222,13 +222,13 @@ transform_space node_container::from_space_to(const rb::space another) const{
     }
     else if(another == space::scene){
         const node_container* _current = this;
-        transform_space _acc = transform_space();
+        auto _acc = matrix3x3::identity;
         
         while (_current) {
-            _acc = _current->transform() * _acc;
+            _acc = _current->transform().from_space_to_base() * _acc;
             _current = _current->parent_node_container();
         }
-        return _acc;
+        return transform_space::from_matrix(_acc);
     }
     else { //screen
         const vec2& _viewport_size = parent_scene()->viewport_size();

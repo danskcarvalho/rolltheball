@@ -12,53 +12,27 @@
 
 using namespace rb;
 
-vec2& vec2::snap(){
-    if(almost_equal(_x, 0))
-        _x = 0;
-    else if(almost_equal(_x, M_PI / 2))
-        _x = M_PI / 2;
-    else if(almost_equal(_x, M_PI))
-        _x = M_PI;
-    else if(almost_equal(_x, 3 * (M_PI / 2)))
-        _x = 3* (M_PI / 2);
-    
-    if(almost_equal(_y, 0))
-        _y = 0;
-    else if(almost_equal(_y, M_PI / 2))
-        _y = M_PI / 2;
-    else if(almost_equal(_y, M_PI))
-        _y = M_PI;
-    else if(almost_equal(_y, 3 * (M_PI / 2)))
-        _y = 3* (M_PI / 2);
-    
-    return *this;
-}
-
-vec2::vec2(){
-    _x = 0;
-    _y = 0;
-}
-
-vec2::vec2(float x, float y){
-    _x = x;
-    _y = y;
-}
-
-vec2::vec2(const vec2& other){
-    _x = other._x;
-    _y = other._y;
-}
-
-vec2::vec2(vec2&& other){
-    _x = other._x;
-    _y = other._y;
-}
-
-const vec2& vec2::operator=(const rb::vec2 &other){
-    this->_x = other._x;
-    this->_y = other._y;
-    return *this;
-}
+//vec2& vec2::snap(){
+//    if(almost_equal(_x, 0))
+//        _x = 0;
+//    else if(almost_equal(_x, M_PI / 2))
+//        _x = M_PI / 2;
+//    else if(almost_equal(_x, M_PI))
+//        _x = M_PI;
+//    else if(almost_equal(_x, 3 * (M_PI / 2)))
+//        _x = 3* (M_PI / 2);
+//    
+//    if(almost_equal(_y, 0))
+//        _y = 0;
+//    else if(almost_equal(_y, M_PI / 2))
+//        _y = M_PI / 2;
+//    else if(almost_equal(_y, M_PI))
+//        _y = M_PI;
+//    else if(almost_equal(_y, 3 * (M_PI / 2)))
+//        _y = 3* (M_PI / 2);
+//    
+//    return *this;
+//}
 
 const vec2& vec2::operator +=(const vec2& v2){
     _x += v2._x;

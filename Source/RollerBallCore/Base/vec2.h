@@ -23,26 +23,41 @@ namespace rb {
         const static vec2 left;
         
         //constructors
-        vec2();
-        vec2(float x, float y);
-        vec2(const vec2& other);
-        vec2(vec2&& other);
+        inline __attribute__ ((always_inline)) vec2(){
+            _x = 0;
+            _y = 0;
+        }
+        
+        inline __attribute__ ((always_inline)) vec2(float x, float y){
+            _x = x;
+            _y = y;
+        }
+        
+        inline __attribute__ ((always_inline)) vec2(const vec2& other){
+            _x = other._x;
+            _y = other._y;
+        }
+        
+        inline __attribute__ ((always_inline)) vec2(vec2&& other){
+            _x = other._x;
+            _y = other._y;
+        }
         
         //get methods
-        inline float x() const {
+        inline __attribute__ ((always_inline)) float x() const {
             return _x;
         }
         
-        inline float y() const {
+        inline __attribute__ ((always_inline)) float y() const {
             return _y;
         }
         
-        inline float x(float value)  {
+        inline __attribute__ ((always_inline)) float x(float value)  {
             _x = value;
             return _x;
         }
         
-        inline float y(float value)  {
+        inline __attribute__ ((always_inline)) float y(float value)  {
             _y = value;
             return _y;
         }
@@ -60,14 +75,18 @@ namespace rb {
         static float distance(const vec2& first, const vec2& second);
         
         //operations
-        vec2& snap();
+//        vec2& snap();
         vec2 rotated90(const rotation_direction rd = rotation_direction::ccw) const;
         vec2& rotate90(const rotation_direction rd = rotation_direction::ccw);
         vec2 rotated(const float angle) const;
         vec2& rotate(const float angle);
         
         //operators
-        const vec2& operator=(const vec2& other);
+        inline __attribute__ ((always_inline)) const vec2& operator=(const rb::vec2 &other){
+            this->_x = other._x;
+            this->_y = other._y;
+            return *this;
+        }
         const vec2& operator +=(const vec2& v2);
         const vec2& operator -=(const vec2& v2);
         const vec2& operator *=(const vec2& v2);

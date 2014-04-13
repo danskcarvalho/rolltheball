@@ -28,6 +28,8 @@ destructible_sprite_component::destructible_sprite_component(){
     _visible = true;
     _aspect_correction = true;
     _matrix = vec2(1, 1);
+    _tex_size = nullptr;
+    _last_atlas = nullptr;
     
     for (size_t i = 0; i < _matrix.x() * _matrix.y(); i++) {
         _part_transforms.push_back(transform_space());
@@ -218,16 +220,9 @@ void destructible_sprite_component::transform_mesh(const bool refill_buffers){
             _part_transforms[i] *
             aspect_correction_factor();
         if(_part_befores[i] != _to_layer || refill_buffers){
-            if(_part_befores[i].both_directions()){
-                transform_space _final_transform = _to_layer * _part_befores[i].inverse();
-                _part_befores[i] = _to_layer;
-                _final_transform.from_space_to_base().transform_mesh(*_m[i]);
-            }
-            else {
-                *_m[i] = *_m_copy[i];
-                _part_befores[i] = _to_layer;
-                _to_layer.from_space_to_base().transform_mesh(*_m[i]);
-            }
+            *_m[i] = *_m_copy[i];
+            _part_befores[i] = _to_layer;
+            _to_layer.from_space_to_base().transform_mesh(*_m[i]);
         }
     }
 }
@@ -438,16 +433,23 @@ const rb_string& destructible_sprite_component::image_name(const rb_string &valu
     this->_reapply_mapping = true;
     if(this->_m.size() == 0 && this->active())
         this->invalidate_buffers();
+    _tex_size = nullptr;
+    _last_atlas = nullptr;
     return _image;
 }
 
 vec2 destructible_sprite_component::size_of_tex() const {
+    if(_tex_size.has_value() && parent_scene()->atlas() == _last_atlas)
+        return _tex_size.value();
+    
     if(parent_scene() && parent_scene()->atlas()){
         if(parent_scene()->atlas()->contains_texture(_image))
         {
             std::vector<rb_string> _groups;
             parent_scene()->atlas()->get_groups(_image, _groups);
-            return parent_scene()->atlas()->get_bounds_in_pixels(_groups[0], _image).size();
+            const_cast<destructible_sprite_component*>(this)->_tex_size = parent_scene()->atlas()->get_bounds_in_pixels(_groups[0], _image).size();
+            const_cast<destructible_sprite_component*>(this)->_last_atlas = const_cast<texture_atlas*>(parent_scene()->atlas());
+            return _tex_size.value();
         }
         else
             return vec2::zero;
