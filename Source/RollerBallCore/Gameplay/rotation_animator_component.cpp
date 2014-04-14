@@ -44,7 +44,7 @@ void rotation_animator_component::playing(){
         _nodes = parent_scene()->node_with_one_class(_class);
         for (auto _n : _nodes){
             _saved_transforms.push_back(_n->transform());
-            _directions.push_back(1);
+            _directions.push_back(_n->has_class(u"revDir") ? -1 : 1);
             _current_asleep_endpoint.push_back(0);
             _current_asleep.push_back(0);
             _current_awake.push_back(_awake_duration);

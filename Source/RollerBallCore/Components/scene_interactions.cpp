@@ -309,6 +309,7 @@ void scene::mouse_down(const vec2& normalized_position) {
         _current_new = dynamic_cast<node*>(_new_template->node()->clone());
         assert(_current_new);
         _current_new->_new_template = false;
+        rename_nodes_recursively(_current_new);
         _new_start_point = current()->from_space_to(space::normalized_screen).from_base_to_space().transformed_point(normalized_position);
         transform_space _new_tr = transform_space(_new_start_point, vec2::zero, vec2::zero);
         _current_new->transform(_new_tr);
@@ -346,6 +347,9 @@ void scene::mouse_down(const vec2& normalized_position) {
                     for (size_t i = 0; i < _selection.size(); i++){
                         _selection[i]->remove_from_selection();
                         _selection[i] = dynamic_cast<node*>(_selection[i]->clone());
+                        //avoid duplicate names
+                        rename_nodes_recursively(_selection[i]);
+                        //add to scene...
                         current()->add_node(_selection[i]);
                     }
                     for (size_t i = 0; i < _selection.size(); i++){

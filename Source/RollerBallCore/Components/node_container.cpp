@@ -28,6 +28,8 @@ bool node_container::add_node(rb::node *n){
 }
 
 bool node_container::add_node_at(rb::node *n, uint32_t at){
+    if(parent_scene())
+        const_cast<scene*>(parent_scene())->rename_nodes_recursively(n);
     _child_nodes.insert(_child_nodes.begin() + at, n);
     return true;
 }

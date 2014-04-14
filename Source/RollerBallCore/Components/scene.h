@@ -40,6 +40,9 @@ namespace rb {
         typedef std::unordered_map<rb_string, node_set, std::hash<rb_string>, std::equal_to<rb_string>,
             boost::pool_allocator<std::pair<const rb_string, node_set>>> node_dictionary;
     private:
+        void rename_nodes_recursively(node* n);
+        //name seed
+        uint64_t _n_seed;
         //fading
         color _fade_color;
         mesh* _fade_mesh;

@@ -41,6 +41,7 @@ inline rb::rb_string from_platform_string(NSString* str){
 }
 
 scene::scene(){
+    _n_seed = 0;
     bool in_editor = director::in_editor();
     _active = false;
     _playing = false;
@@ -902,6 +903,16 @@ void scene::describe_type() {
     });
     
     begin_private_properties();
+    integer_property<scene>(u"name_seed", u"Name Seed", false, {
+        [](const scene* site){
+            return site->_n_seed;
+        },
+        [](scene* site, long value){
+            if(director::in_editor()){
+                site->_n_seed = value;
+            }
+        }
+    });
     nullable_string_property<scene>(u"current", u"Current", false, false, {
         [](const scene* site){
             return site->serialize_current();
@@ -962,12 +973,23 @@ rb_string scene::copy_selected_nodes(){
     return _str;
 }
 
+void scene::rename_nodes_recursively(node* n){
+    if(node_with_name(n->name()) || n->name() == u""){
+        n->name(u"n" + rb::to_string(_n_seed));
+        _n_seed++;
+    }
+    for(auto _child : *n){
+        rename_nodes_recursively(_child);
+    }
+}
+
 void scene::paste_nodes(rb_string copied){
     assert(current());
     auto _obj = dynamic_cast<node*>(typed_object::deserialize_from_string(copied));
     assert(_obj);
     vec2 _center = current()->from_space_to(space::normalized_screen).inverse().from_space_to_base().transformed_point(vec2::zero);
     _obj->transform(_obj->transform().moved(_center));
+    rename_nodes_recursively(_obj);
     bool _added = current()->add_node(_obj);
     if(!_added){
         delete _obj;

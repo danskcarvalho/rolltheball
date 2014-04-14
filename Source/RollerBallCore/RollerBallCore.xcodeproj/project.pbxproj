@@ -495,6 +495,8 @@
 		45ADAF8515FA205F00B99104 /* RayTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = 45ADAF8415FA205F00B99104 /* RayTests.mm */; };
 		45ADAF8C15FA29B900B99104 /* EdgeTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = 45ADAF8B15FA29B900B99104 /* EdgeTests.mm */; };
 		45ADAF9215FA321700B99104 /* PolygonTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = 45ADAF9115FA321600B99104 /* PolygonTests.mm */; };
+		45BA096F18FACBC7006444C4 /* keyframe_animation_component.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 45BA096D18FACBC7006444C4 /* keyframe_animation_component.cpp */; };
+		45BA097018FACBC7006444C4 /* keyframe_animation_component.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 45BA096D18FACBC7006444C4 /* keyframe_animation_component.cpp */; };
 		45BAC5A616E4DCF700E28F15 /* CppBridgeProtocol.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4570F63C16E01C000093102F /* CppBridgeProtocol.h */; };
 		45BAC5A716E4DCFF00E28F15 /* CppBridgeProtocol.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4570F63C16E01C000093102F /* CppBridgeProtocol.h */; };
 		45C41E6315F6B6B8004E777D /* edge.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 45C41E6115F6B6B8004E777D /* edge.cpp */; };
@@ -10037,6 +10039,8 @@
 		45ADAF8B15FA29B900B99104 /* EdgeTests.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = EdgeTests.mm; sourceTree = "<group>"; };
 		45ADAF9015FA321600B99104 /* PolygonTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PolygonTests.h; sourceTree = "<group>"; };
 		45ADAF9115FA321600B99104 /* PolygonTests.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PolygonTests.mm; sourceTree = "<group>"; };
+		45BA096D18FACBC7006444C4 /* keyframe_animation_component.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = keyframe_animation_component.cpp; path = Gameplay/keyframe_animation_component.cpp; sourceTree = "<group>"; };
+		45BA096E18FACBC7006444C4 /* keyframe_animation_component.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = keyframe_animation_component.h; path = Gameplay/keyframe_animation_component.h; sourceTree = "<group>"; };
 		45C41E6115F6B6B8004E777D /* edge.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = edge.cpp; path = Base/edge.cpp; sourceTree = "<group>"; };
 		45C41E6215F6B6B8004E777D /* edge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = edge.h; path = Base/edge.h; sourceTree = "<group>"; };
 		45C68E8715F2D36200E1637B /* StringifyTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StringifyTests.h; sourceTree = "<group>"; };
@@ -10114,6 +10118,7 @@
 				452E06DA1879D805000FCA27 /* rotation_animator_component.cpp */,
 				4575ADCA18C554B40017815A /* position_animator_component.cpp */,
 				451FACF618F208FB000D82CC /* breakable_block.cpp */,
+				45BA096D18FACBC7006444C4 /* keyframe_animation_component.cpp */,
 			);
 			name = Gameplay;
 			sourceTree = "<group>";
@@ -10121,6 +10126,7 @@
 		45139D6E17BAAAD2003AC03D /* Include */ = {
 			isa = PBXGroup;
 			children = (
+				45BA096E18FACBC7006444C4 /* keyframe_animation_component.h */,
 				451FACF718F208FB000D82CC /* breakable_block.h */,
 				4575ADCB18C554B40017815A /* position_animator_component.h */,
 				452E06DB1879D805000FCA27 /* rotation_animator_component.h */,
@@ -26145,6 +26151,7 @@
 				458A013E1778966800E8D7AD /* TextureAtlasLoader.mm in Sources */,
 				458A01421778974F00E8D7AD /* Resolutions.m in Sources */,
 				457EFAD2177B78DA0042AF9F /* texture_atlas_loader.mm in Sources */,
+				45BA097018FACBC7006444C4 /* keyframe_animation_component.cpp in Sources */,
 				45AACCDC17AC620700C04218 /* tokenizer.cpp in Sources */,
 				45A06C1417AEB794009087B7 /* misc_classes_2.cpp in Sources */,
 				45A06C1917AEB7AA009087B7 /* misc_classes_3.cpp in Sources */,
@@ -26362,6 +26369,7 @@
 				458A01411778974F00E8D7AD /* Resolutions.m in Sources */,
 				457EFAD1177B78DA0042AF9F /* texture_atlas_loader.mm in Sources */,
 				45AACCDB17AC620700C04218 /* tokenizer.cpp in Sources */,
+				45BA096F18FACBC7006444C4 /* keyframe_animation_component.cpp in Sources */,
 				45A06C1317AEB794009087B7 /* misc_classes_2.cpp in Sources */,
 				45A06C1817AEB7AA009087B7 /* misc_classes_3.cpp in Sources */,
 				4531D70B17B421DD004F0AA8 /* polygon_component.cpp in Sources */,

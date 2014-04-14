@@ -1068,8 +1068,14 @@ void main_character::keydown(const uint32_t keycode, const rb::keyboard_modifier
 
 void main_character::keyup(const uint32_t keycode, const rb::keyboard_modifier modifier, bool &swallow){
     swallow = false;
-    if(keycode == KEY_LEFT || keycode == KEY_RIGHT)
-        _direction = 0;
+    if(keycode == KEY_LEFT){
+        if(_direction == -1)
+            _direction = 0;
+    }
+    else if(keycode == KEY_RIGHT){
+        if(_direction == 1)
+            _direction = 0;
+    }
     else if(keycode == KEY_UP) {
         _jumpButton = false;
         _didJump = false;
