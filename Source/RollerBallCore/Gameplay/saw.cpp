@@ -79,17 +79,10 @@ void saw::reset_component(){
 void saw::update(float dt){
     if(!_initialized)
         return;
-
-    auto _before = vec2(_body->GetPosition().x, _body->GetPosition().y);
+    _body->SetLinearVelocity(b2Vec2(0, 0));
+    _body->SetAngularVelocity(0);
     auto _t = this->from_node_space_to(space::layer);
-    auto _v = _t.origin() - _before;
-    auto _o = _t.rotation().x() - _body->GetAngle();
-    
-    _v *= 30.0f;
-    _o *= 30.0f;
-    
-    _body->SetLinearVelocity(b2Vec2(_v.x(), _v.y()));
-    _body->SetAngularVelocity(_o);
+    _body->SetTransform(b2Vec2(_t.origin().x(), _t.origin().y()), 0);
 }
 
 rb_string saw::type_name() const {

@@ -316,7 +316,7 @@ bool physics_shape::animatable(bool value){
     return _animatable;
 }
 
-float to_canonical_angle(float a){
+static float to_canonical_angle(float a){
     auto _2pi = 2 * M_PI;
     auto _d = (int)(a / _2pi);
     a -= _d * _2pi;
@@ -327,7 +327,7 @@ float to_canonical_angle(float a){
     return a;
 }
 
-float diff_angles(float before, float after){
+static float diff_angles(float before, float after){
     float _source = to_canonical_angle(before);
     if(_source > M_PI)
         _source = _source - 2 * M_PI;
@@ -344,16 +344,10 @@ void physics_shape::update(float dt){
     if(!_phys_initialized)
         return;
     
-    auto _before = vec2(_body->GetPosition().x, _body->GetPosition().y);
+    _body->SetLinearVelocity(b2Vec2(0, 0));
+    _body->SetAngularVelocity(0);
     auto _t = this->from_node_space_to(space::layer);
-    auto _v = _t.origin() - _before;
-    auto _o = diff_angles(_body->GetAngle(), _t.rotation().x());
-    
-    _v *= 30.0f;
-    _o *= 30.0f;
-    
-    _body->SetLinearVelocity(b2Vec2(_v.x(), _v.y()));
-    _body->SetAngularVelocity(_o);
+    _body->SetTransform(b2Vec2(_t.origin().x(), _t.origin().y()), _t.rotation().x());
 }
 
 void physics_shape::check_moving_platform(){
