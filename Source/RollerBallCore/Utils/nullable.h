@@ -41,6 +41,7 @@ namespace rb {
         
         const nullable& operator=(const std::nullptr_t other){
             _has_value = false;
+            _value = T();
             return *this;
         }
         

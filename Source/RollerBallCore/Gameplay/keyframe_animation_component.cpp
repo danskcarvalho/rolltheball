@@ -10,8 +10,12 @@
 #include "polygon_component.h"
 #include "smooth_curve.h"
 #include "polygon_path.h"
+#include "scene.h"
+#include "buffer.h"
 
 using namespace rb;
+
+#define ANIMATOR_UPDATE_PRIORITY -30000
 
 keyframe::keyframe(){
     index = 0;
@@ -21,13 +25,38 @@ keyframe::keyframe(){
 }
 
 keyframe_animation_component::keyframe_animation_component(){
+    init();
+}
+
+void keyframe_animation_component::init(){
+    _anim_nodes.clear();
+    _anim_nodes_set.clear();
+    _anim_nodes_saved_transforms.clear();
+    _anim_positions.clear();
+    _anim_rotations.clear();
+    _attachments.clear();
+    _keyframes.clear();
     _keyframes.push_back(keyframe());
     _keyframes.front().is_placeholder = true;
     _current_pos = _keyframes.begin();
     _n_frames = 0;
     _dirty_anim = false;
     _playing_anim = false;
+    _playing_mirror = false;
     _current_frame_an = 0;
+    _current_position_x_easing = easing_function::linear;
+    _current_position_x_factor = 0;
+    _current_position_y_easing = easing_function::linear;
+    _current_position_y_factor = 0;
+    _current_rotation_easing = easing_function::linear;
+    _current_rotation_factor = 0;
+    _ed_playing_anim = false;
+    _ed_current_frame_an = 0;
+    _ed_playing_mirror = false;
+    _saved_playing_anim = false;
+    _loop = false;
+    _mirror = false;
+    _initialized = false;
 }
 
 static inline float to_canonical_angle(float a){
@@ -68,6 +97,8 @@ void keyframe_animation_component::generate_animation(rb::node *n, size_t start_
     size_t _offset = 0;
     
     for (auto _k : _keyframes){
+        if(_k.is_placeholder)
+            continue;
         bool _contains = _k.animated.count(n) != 0;
         auto _init_pos = _offset == 0 ? _anim_nodes_saved_transforms[n].origin() : _anim_positions[_offset + start_index - 1];
         auto _init_rot = _offset == 0 ? _anim_nodes_saved_transforms[n].rotation().x() : _anim_rotations[_offset + start_index - 1];
@@ -131,6 +162,9 @@ void keyframe_animation_component::generate_animation_for_attached(std::vector<n
     
     size_t _offset = 0;
     for (auto _k : _keyframes){
+        if(_k.is_placeholder)
+            continue;
+        
         for(uint32_t i = 0; i < _k.n_frames; i++){
             //2. reconstruct polygon...
             //get all the points current situations
@@ -215,10 +249,13 @@ void keyframe_animation_component::set_internal_animation_if_dirty(){
         
         generate_animation_for_attached(_att_nodes, _p);
     }
+    _dirty_anim = false;
 }
 
 float keyframe_animation_component::ease(rb::easing_function func, float t, float f){
-    if(func == easing_function::ease_back_in)
+    if(func == easing_function::linear)
+        return t;
+    else if(func == easing_function::ease_back_in)
         return ease_back_in(t, f);
     else if(func == easing_function::ease_back_in_out)
         return ease_back_in_out(t, f);
@@ -441,6 +478,861 @@ long keyframe_animation_component::current_index() const{
     else
         return _current_pos->index;
 }
+
+void keyframe_animation_component::reselect_animated(){
+    if(!in_editor())
+        return;
+    
+    parent_scene()->current()->clear_selection();
+    for (auto _n : _current_pos->animated)
+        parent_scene()->current()->add_to_selection(_n);
+}
+
+void keyframe_animation_component::preview_current_keyframe(){
+    if(!in_editor())
+        return;
+    for (auto _n : _current_pos->animated)
+        _n->transform(_current_pos->transforms[_n]);
+}
+
+
+void keyframe_animation_component::update_transforms(){
+    if(!in_editor())
+        return;
+    for (auto _n : _current_pos->animated){
+        if(!_n->is_selected())
+            continue;
+        if(_current_pos->transforms.count(_n))
+            _current_pos->transforms[_n] = _n->transform();
+    }
+    placeholder_updated();
+    _dirty_anim = true;
+}
+
+void keyframe_animation_component::placeholder_updated(){
+    if(_current_pos->is_placeholder){
+        _current_pos->is_placeholder = false;
+        _keyframes.push_back(keyframe());
+        _keyframes.back().is_placeholder = true;
+        _keyframes.back().index = std::prev(_keyframes.end(), 2)->index + 1;
+        notify_property_changed(u"current_index");
+    }
+}
+
+void keyframe_animation_component::record_keyframe(){
+    if(!in_editor())
+        return;
+    _current_pos->animated.clear();
+    _current_pos->transforms.clear();
+    _current_pos->easings.clear();
+    
+    
+    std::vector<node*> _sel;
+    parent_scene()->current()->fill_with_selection(_sel, node_filter::renderable);
+    //checkings...
+    for (auto _n : _sel){
+        if(_anim_nodes_set.count(_n) == 0){
+            parent_scene()->alert(u"One of the nodes hadn't it's transform state recorded at start...");
+            return;
+        }
+    }
+    //do it...
+    for (auto _n : _sel){
+        _current_pos->animated.insert(_n);
+        _current_pos->transforms.insert({_n, _n->transform()});
+        keyframe::easing_info _ei;
+        _ei.position_x_easing = _current_position_x_easing;
+        _ei.position_x_easing_factor = _current_position_x_factor;
+        _ei.position_y_easing = _current_position_y_easing;
+        _ei.position_y_easing_factor = _current_position_y_factor;
+        _ei.rotation_easing = _current_rotation_easing;
+        _ei.rotation_easing_factor = _current_rotation_factor;
+        _current_pos->easings.insert({_n, _ei});
+    }
+    placeholder_updated();
+    _dirty_anim = true;
+}
+
+void keyframe_animation_component::record_add_to_keyframe(){
+    if(!in_editor())
+        return;
+    
+    std::vector<node*> _sel;
+    parent_scene()->current()->fill_with_selection(_sel, node_filter::renderable);
+    //checkings...
+    for (auto _n : _sel){
+        if(_anim_nodes_set.count(_n) == 0){
+            parent_scene()->alert(u"One of the nodes hadn't it's transform state recorded at start...");
+            return;
+        }
+    }
+    //do it...
+    for (auto _n : _sel){
+        if(_current_pos->animated.count(_n) == 0)
+            _current_pos->animated.insert(_n);
+        if(_current_pos->animated.count(_n) == 0)
+            _current_pos->transforms.insert({_n, _n->transform()});
+        else
+            _current_pos->transforms[_n] = _n->transform();
+        keyframe::easing_info _ei;
+        _ei.position_x_easing = _current_position_x_easing;
+        _ei.position_x_easing_factor = _current_position_x_factor;
+        _ei.position_y_easing = _current_position_y_easing;
+        _ei.position_y_easing_factor = _current_position_y_factor;
+        _ei.rotation_easing = _current_rotation_easing;
+        _ei.rotation_easing_factor = _current_rotation_factor;
+        if(_current_pos->animated.count(_n) == 0)
+            _current_pos->easings.insert({_n, _ei});
+        else
+            _current_pos->easings[_n] = _ei;
+    }
+    placeholder_updated();
+    _dirty_anim = true;
+}
+
+bool keyframe_animation_component::loop() const {
+    return _loop;
+}
+
+bool keyframe_animation_component::loop(bool value){
+    return _loop = value;
+}
+
+bool keyframe_animation_component::mirror() const {
+    return _mirror;
+}
+
+bool keyframe_animation_component::mirror(bool value){
+    return _mirror = value;
+}
+
+void keyframe_animation_component::set_delay() {
+    _current_pos->delay = _current_delay;
+    placeholder_updated();
+    _dirty_anim = true;
+}
+
+float keyframe_animation_component::current_delay() const {
+    return _current_delay;
+}
+
+float keyframe_animation_component::current_delay(float value){
+    return _current_delay = value;
+}
+
+easing_function keyframe_animation_component::current_position_x_easing() const {
+    return _current_position_x_easing;
+}
+
+easing_function keyframe_animation_component::current_position_x_easing(rb::easing_function value){
+    return _current_position_x_easing = value;
+}
+
+float keyframe_animation_component::current_position_x_factor() const {
+    return _current_position_x_factor;
+}
+
+float keyframe_animation_component::current_position_x_factor(float value){
+    return _current_position_x_factor = value;
+}
+
+easing_function keyframe_animation_component::current_position_y_easing() const {
+    return _current_position_y_easing;
+}
+
+easing_function keyframe_animation_component::current_position_y_easing(rb::easing_function value){
+    return _current_position_y_easing = value;
+}
+
+float keyframe_animation_component::current_position_y_factor() const {
+    return _current_position_y_factor;
+}
+
+float keyframe_animation_component::current_position_y_factor(float value){
+    return _current_position_y_factor = value;
+}
+
+easing_function keyframe_animation_component::current_rotation_easing() const {
+    return _current_rotation_easing;
+}
+
+easing_function keyframe_animation_component::current_rotation_easing(rb::easing_function value){
+    return _current_rotation_easing = value;
+}
+
+float keyframe_animation_component::current_rotation_factor() const {
+    return _current_rotation_factor;
+}
+
+float keyframe_animation_component::current_rotation_factor(float value){
+    return _current_rotation_factor = value;
+}
+
+bool keyframe_animation_component::current_is_placeholder() const {
+    return _current_pos->is_placeholder;
+}
+
+void keyframe_animation_component::goto_first(){
+    _current_pos = _keyframes.begin();
+    _current_delay = _current_pos->delay;
+    notify_property_changed(u"current_index");
+    notify_property_changed(u"current_delay");
+}
+
+void keyframe_animation_component::goto_last(){
+    _current_pos = _keyframes.size() == 1 ? std::prev(_keyframes.end(), 1) : std::prev(_keyframes.end(), 2);
+    _current_delay = _current_pos->delay;
+    notify_property_changed(u"current_index");
+    notify_property_changed(u"current_delay");
+}
+
+void keyframe_animation_component::goto_placeholder(){
+    _current_pos = std::prev(_keyframes.end(), 1);
+    _current_delay = _current_pos->delay;
+    notify_property_changed(u"current_index");
+    notify_property_changed(u"current_delay");
+}
+
+void keyframe_animation_component::goto_previous(){
+    if(_current_pos != _keyframes.begin())
+        _current_pos = std::prev(_current_pos);
+    _current_delay = _current_pos->delay;
+    notify_property_changed(u"current_index");
+    notify_property_changed(u"current_delay");
+}
+
+void keyframe_animation_component::goto_next(){
+    if(_current_pos != std::prev(_keyframes.end()))
+        _current_pos = std::next(_current_pos);
+    _current_delay = _current_pos->delay;
+    notify_property_changed(u"current_index");
+    notify_property_changed(u"current_delay");
+}
+
+void keyframe_animation_component::delete_current(){
+    if(_current_pos->is_placeholder)
+        return;
+    
+    _current_pos = _keyframes.erase(_current_pos);
+    auto _index = 0;
+    for (auto _k : _keyframes){
+        _k.index = _index;
+        _index++;
+    }
+    
+    _current_delay = _current_pos->delay;
+    notify_property_changed(u"current_index");
+    notify_property_changed(u"current_delay");
+    _dirty_anim = true;
+}
+
+void keyframe_animation_component::record_start(){
+    if(_keyframes.size() > 1 && in_editor()){
+        parent_scene()->confirm(u"Would you like to remove all the keyframes?", [this](bool result){
+            continue_record_start();
+        });
+        return;
+    }
+    continue_record_start();
+}
+
+bool is_valid_id(const rb_string& str){
+    if(str == u"")
+        return false;
+    for (size_t i = 0; i < str.size(); i++) {
+        if(str[i] == u' ')
+            return false;
+    }
+    return true;
+}
+
+void keyframe_animation_component::continue_record_start(){
+    init();
+    
+    std::vector<node*> _sel;
+    parent_scene()->current()->fill_with_selection(_sel, node_filter::renderable);
+    //checkings...
+    for (auto _n : _sel){
+        if(!is_valid_id(_n->name()))
+        {
+            parent_scene()->alert(u"Invalid name: '" + _n->name() + u"'");
+            return;
+        }
+    }
+    //do it...
+    for (auto _n : _sel){
+        _anim_nodes_set.insert(_n);
+        _anim_nodes.push_back(_n);
+        _anim_nodes_saved_transforms.insert({_n, _n->transform()});
+    }
+    notify_property_changed(u"current_index");
+    notify_property_changed(u"current_delay");
+    _dirty_anim = true;
+}
+
+void keyframe_animation_component::reset_transforms(){
+    for (auto _n : _anim_nodes){
+        if(parent_scene()->current()->selection_count() != 0){
+            if(_n->is_selected())
+                _n->transform(_anim_nodes_saved_transforms[_n]);
+        }
+        else
+            _n->transform(_anim_nodes_saved_transforms[_n]);
+    }
+}
+
+polygon_path get_path(const polygon_component* pol){
+    auto _pol = pol->to_smooth_polygon();
+    pol->transform().from_space_to_base().transform_polygon(_pol);
+    
+    polygon_path _path(_pol);
+    return _path;
+}
+
+float get_length(const node* n, const polygon_path& path){
+    auto _pt = n->transform().origin();
+    
+    uint32_t _index;
+    auto _e = path.polygon().closest_edge(_pt, _index);
+    auto _d = _e.distance_vector(_pt);
+    _pt = _pt - _d; //we're on surface...
+    return path.length(_pt);
+}
+
+void keyframe_animation_component::setup_attachment(const rb_string &objects_class, const rb_string &polygon_id){
+    auto _nodes = parent_scene()->node_with_one_class(objects_class);
+    auto _p = dynamic_cast<polygon_component*>(parent_scene()->node_with_name(polygon_id));
+    if(_nodes.size() == 0 || !_p){
+        parent_scene()->alert(u"No nodes or polygons...");
+        return;
+    }
+    if(!_anim_nodes_set.count(_p)){
+        parent_scene()->alert(u"Polygon is not animatable!");
+        return;
+    }
+    //checkings
+    for (auto _n : _nodes){
+        if (!_anim_nodes_set.count(_n)){
+            parent_scene()->alert(u"One of the nodes wasn't registrated at the start...");
+            return;
+        }
+    }
+    
+    auto _path = get_path(_p);
+    
+    for (auto _n : _nodes){
+        _attachments[_n] = {_p, get_length(_n, _path)};
+    }
+    _dirty_anim = true;
+}
+
+void keyframe_animation_component::remove_attachment_for(const rb_string &polygon_id){
+    auto _p = dynamic_cast<polygon_component*>(parent_scene()->node_with_name(polygon_id));
+    if(!_p)
+        return;
+    
+    auto _it = _attachments.begin();
+    auto _end = _attachments.end();
+    while (_it != _end) {
+        if(_it->second.attached == _p)
+            _it = _attachments.erase(_it);
+        else
+            _it++;
+    }
+    _dirty_anim = true;
+}
+
+void keyframe_animation_component::remove_attachment_for_all(){
+    _attachments.clear();
+    _dirty_anim = true;
+}
+
+bool keyframe_animation_component::is_playing_animation() const {
+    return _playing_anim;
+}
+
+void keyframe_animation_component::play_animation() {
+    _playing_anim = true;
+    _playing_mirror = false;
+    _current_frame_an = 0;
+}
+
+void keyframe_animation_component::resume_animation(){
+    _playing_anim = true;
+}
+
+void keyframe_animation_component::pause_animation(){
+    _playing_anim = false;
+}
+
+void keyframe_animation_component::editor_play_animation() {
+    _ed_playing_anim = true;
+    _ed_playing_mirror = false;
+    _ed_current_frame_an = 0;
+}
+
+void keyframe_animation_component::editor_resume_animation(){
+    _ed_playing_anim = true;
+}
+
+void keyframe_animation_component::editor_pause_animation(){
+    _ed_playing_anim = false;
+}
+
+void align4(size_t* s){
+    if((*s) == 0)
+        return;
+    auto _mod = (*s) % 4;
+    if(_mod == 0)
+        return;
+    
+    *s = ((*s) / 4) * 4 + 4;
+}
+
+template<class T>
+void * tto_buffer(const std::vector<T>& v, uint32_t* size){
+    auto _size = 8 + v.size() * sizeof(T);
+    align4(&_size);
+    auto _mem = (uint32_t*)malloc(_size);
+    _mem[0] = (uint32_t)_size;
+    _mem[1] = (uint32_t)v.size();
+    auto _vals = (T*)(_mem + 2);
+    for (size_t i = 0; i < v.size(); i++) {
+        _vals[i] = v[i];
+    }
+    return _mem;
+}
+
+template<class T>
+void tfrom_buffer(void* buffer, std::vector<T>& v, void** next){
+    uint32_t* _u32mem = (uint32_t*)buffer;
+    uint32_t _sizeBytes = _u32mem[0];
+    uint32_t _countItems = _u32mem[1];
+    T* _tmem = (T*)(_u32mem + 2);
+    
+    for (uint32_t i = 0; i < _countItems; i++) {
+        T item;
+        memcpy(&item, _tmem, sizeof(T));
+        v.push_back(item);
+        _tmem += 1;
+    }
+    
+    *next = (((char*)buffer) + _sizeBytes);
+}
+
+void* to_buffer(const rb_string& str, uint32_t* size){
+    auto _size = 8 + str.size() * sizeof(rb_string::value_type);
+    align4(&_size);
+    auto _mem = (uint32_t*)malloc(_size);
+    _mem[0] = (uint32_t)_size;
+    _mem[1] = (uint32_t)str.size();
+    auto _chars = (char16_t*)(_mem + 2);
+    for (size_t i = 0; i < str.size(); i++) {
+        _chars[i] = str[i];
+    }
+    return _mem;
+}
+
+rb_string sfrom_buffer(void* buffer, void** next){
+    uint32_t* _u32mem = (uint32_t*)buffer;
+    uint32_t _sizeBytes = _u32mem[0];
+    uint32_t _countItems = _u32mem[1];
+    rb_string _res = u"";
+    char16_t* _tmem = (char16_t*)(_u32mem + 2);
+    
+    for (uint32_t i = 0; i < _countItems; i++) {
+        _res.push_back(*_tmem);
+        _tmem += 1;
+    }
+    *next = (((char*)buffer) + _sizeBytes);
+    return _res;
+}
+
+struct simple_keyframe {
+    uint32_t index;
+    float delay;
+    uint32_t n_frames;
+    uint32_t is_placeholder;
+};
+
+size_t get_size_keyframe(const keyframe& kf){
+    auto _size_tts = 8 + kf.transforms.size() * sizeof(transform_space);
+    align4(&_size_tts);
+    return sizeof(simple_keyframe) + (kf.animated.size() * 4 + 8) + _size_tts + (kf.easings.size() * sizeof(keyframe::easing_info) + 8);
+}
+
+void write_to_buffer(void* buffer, const keyframe& k, const std::unordered_map<node*, uint32_t>& indexes, void** cont){
+    char* _cBuffer = (char*)buffer;
+    
+    std::vector<uint32_t> _mIndexes;
+    std::vector<transform_space> _transfs;
+    std::vector<keyframe::easing_info> _easings;
+    for (auto _n : k.animated){
+        _mIndexes.push_back(indexes.at(_n));
+        _transfs.push_back(k.transforms.at(_n));
+        _easings.push_back(k.easings.at(_n));
+    }
+    simple_keyframe sk;
+    sk.delay = k.delay;
+    sk.index = k.index;
+    sk.is_placeholder = k.is_placeholder;
+    sk.n_frames = k.n_frames;
+    
+    memcpy(_cBuffer, &sk, sizeof(simple_keyframe));
+    _cBuffer += sizeof(simple_keyframe);
+    
+    uint32_t _ts;
+    auto _t = tto_buffer(_mIndexes, &_ts);
+    memcpy(_cBuffer, _t, _ts);
+    _cBuffer += _ts;
+    free(_t);
+    
+    _t = tto_buffer(_transfs, &_ts);
+    memcpy(_cBuffer, _t, _ts);
+    _cBuffer += _ts;
+    free(_t);
+    
+    _t = tto_buffer(_easings, &_ts);
+    memcpy(_cBuffer, _t, _ts);
+    _cBuffer += _ts;
+    free(_t);
+    
+    *cont = _cBuffer;
+}
+
+void* to_buffer(const std::list<keyframe>& kv, const std::unordered_map<node*, uint32_t>& indexes, uint32_t* size){
+    size_t _total_size = 4;
+    for (auto _k : kv)
+        _total_size += get_size_keyframe(_k);
+    
+    auto _mem = (uint32_t*)malloc(_total_size);
+    _mem[0] = (uint32_t)kv.size();
+    
+    auto _start = (void*)(_mem + 1);
+    for (auto _k : kv){
+        void* _next;
+        write_to_buffer(_start, _k, indexes, &_next);
+        _start = _next;
+    }
+    return _mem;
+}
+
+keyframe kread_one_keyframe(const std::vector<node*>& nodes, void* buffer, void** cont){
+    char* _cBuffer = (char*)buffer;
+    simple_keyframe sk;
+    memcpy(&sk, _cBuffer, sizeof(simple_keyframe));
+    _cBuffer += sizeof(simple_keyframe);
+    
+    std::vector<uint32_t> _mIndexes;
+    std::vector<transform_space> _transfs;
+    std::vector<keyframe::easing_info> _easings;
+    
+    void* _contBuffer = _cBuffer;
+    tfrom_buffer(_contBuffer, _mIndexes, &_contBuffer);
+    tfrom_buffer(_contBuffer, _transfs, &_contBuffer);
+    tfrom_buffer(_contBuffer, _easings, &_contBuffer);
+    
+    keyframe _k;
+    _k.index = sk.index;
+    _k.delay = sk.delay;
+    _k.n_frames = sk.n_frames;
+    _k.is_placeholder = (bool)sk.is_placeholder;
+    
+    for (auto _i : _mIndexes)
+        _k.animated.insert(nodes[_i]);
+    
+    for (uint32_t i = 0; i < _mIndexes.size(); i++) {
+        _k.transforms[nodes[_mIndexes[i]]] = _transfs[i];
+        _k.easings[nodes[_mIndexes[i]]] = _easings[i];
+    }
+    
+    *cont = _contBuffer;
+    return _k;
+}
+
+void kfrom_buffer(std::list<keyframe>& kv, const std::vector<node*>& nodes, void* buffer){
+    uint32_t* _itemCountBuffer = (uint32_t*)buffer;
+    void* _contBuffer = _itemCountBuffer + 1;
+    uint32_t _itemCount = *_itemCountBuffer;
+    
+    for (uint32_t i = 0; i < _itemCount; i++) {
+        kv.push_back(kread_one_keyframe(nodes, _contBuffer, &_contBuffer));
+    }
+}
+
+struct simple_attach_info {
+    uint32_t node_index;
+    uint32_t pol_index;
+    float at_length;
+    
+    simple_attach_info(uint32_t node_index,
+                       uint32_t pol_index,
+                       float at_length){
+        this->node_index = node_index;
+        this->pol_index = pol_index;
+        this->at_length = at_length;
+    }
+    simple_attach_info(){
+        
+    }
+};
+
+buffer keyframe_animation_component::save_state() const {
+    //first we save the name of the nodes and create a index mapping
+    std::unordered_map<node*, uint32_t> _indexes;
+    rb_string _names = u"";
+    for (size_t i = 0; i < _anim_nodes.size(); i++) {
+        _indexes[_anim_nodes[i]] = (uint32_t)i;
+        if(i != 0)
+            _names += u" ";
+        _names += _anim_nodes[i]->name();
+    }
+    
+    uint32_t _nameBufferSize = 0;
+    auto _nameBuffer = to_buffer(_names, &_nameBufferSize);
+    
+    //serialize transform spaces
+    std::vector<transform_space> _tss;
+    for(auto _n : _anim_nodes){
+        auto _t = _anim_nodes_saved_transforms.at(_n);
+        _tss.push_back(_t);
+    }
+    uint32_t _transfBufferSize = 0;
+    auto _transBuffer = tto_buffer(_tss, &_transfBufferSize);
+    
+    uint32_t _posBufferSize = 0;
+    auto _posBuffer = tto_buffer(_anim_positions, &_posBufferSize);
+    
+    uint32_t _rotBufferSize = 0;
+    auto _rotBuffer = tto_buffer(_anim_rotations, &_rotBufferSize);
+    
+    std::vector<simple_attach_info> _att_info_vector;
+    for (auto _kvp : _attachments)
+        _att_info_vector.push_back(simple_attach_info(_indexes[_kvp.first], _indexes[_kvp.second.attached], _kvp.second.at_length));
+    
+    uint32_t _attBufferSize = 0;
+    auto _attBuffer = tto_buffer(_att_info_vector, &_attBufferSize);
+    
+    uint32_t _kfBufferSize = 0;
+    auto _kfBuffer = to_buffer(_keyframes, _indexes, &_kfBufferSize);
+    
+    auto _totalSize = _nameBufferSize + _transfBufferSize + _posBufferSize + _rotBufferSize + _attBufferSize + _kfBufferSize;
+    auto _mem = (char*)malloc(_totalSize);
+    auto _saved_mem = _mem;
+    assert(_mem);
+    
+    memcpy(_mem, _nameBuffer, _nameBufferSize);
+    _mem += _nameBufferSize;
+    memcpy(_mem, _transBuffer, _transfBufferSize);
+    _mem += _transfBufferSize;
+    memcpy(_mem, _posBuffer, _posBufferSize);
+    _mem += _posBufferSize;
+    memcpy(_mem, _rotBuffer, _rotBufferSize);
+    _mem += _rotBufferSize;
+    memcpy(_mem, _attBuffer, _attBufferSize);
+    _mem += _attBufferSize;
+    memcpy(_mem, _kfBuffer, _kfBufferSize);
+    
+    auto _buff = buffer(_saved_mem, _totalSize);
+    free(_saved_mem);
+    free(_nameBuffer);
+    free(_transBuffer);
+    free(_posBuffer);
+    free(_rotBuffer);
+    free(_attBuffer);
+    free(_kfBuffer);
+    return _buff;
+}
+
+void keyframe_animation_component::restore_state(rb::buffer buff){
+    auto _buff = const_cast<void*>(buff.internal_buffer());
+    void* _cont = nullptr;
+    auto _names = sfrom_buffer(_buff, &_cont);
+    _buff = _cont;
+    
+    auto _nv = rb::tokenize(_names);
+    _anim_nodes.clear();
+    _anim_nodes_set.clear();
+    for (auto _name : _nv){
+        auto _n = parent_scene()->node_with_name(_name);
+        assert(_n);
+        _anim_nodes.push_back(_n);
+        _anim_nodes_set.insert(_n);
+    }
+    
+    _anim_nodes_saved_transforms.clear();
+    std::vector<transform_space> _tts;
+    tfrom_buffer(_buff, _tts, &_cont);
+    _buff = _cont;
+    for (size_t i = 0; i < _tts.size(); i++) {
+        _anim_nodes_saved_transforms.insert({_anim_nodes[i], _tts[i]});
+    }
+    
+    _anim_positions.clear();
+    tfrom_buffer(_buff, _anim_positions, &_cont);
+    _buff = _cont;
+    
+    _anim_rotations.clear();
+    tfrom_buffer(_buff, _anim_rotations, &_cont);
+    _buff = _cont;
+    
+    std::vector<simple_attach_info> _att_info_vector;
+    _attachments.clear();
+    tfrom_buffer(_buff, _att_info_vector, &_cont);
+    _buff = _cont;
+    for (auto _att : _att_info_vector){
+        _attachments.insert({_anim_nodes[_att.node_index], {dynamic_cast<polygon_component*>(_anim_nodes[_att.pol_index]), _att.at_length}});
+    }
+    
+    _keyframes.clear();
+    kfrom_buffer(_keyframes, _anim_nodes, _buff);
+    _current_pos = _keyframes.end();
+    _current_pos--;
+}
+
+void keyframe_animation_component::restore_pending_buffer(){
+    if(!_pending_buffer.has_value())
+        return;
+    
+    restore_state(_pending_buffer.value());
+    _pending_buffer = nullptr;
+}
+
+void keyframe_animation_component::reset_component(){
+    restore_pending_buffer();
+    
+    for (size_t i = 0; i < _anim_nodes.size(); i++) {
+        _anim_nodes[i]->transform(_anim_nodes_saved_transforms[_anim_nodes[i]]);
+        
+    }
+    _playing_anim = _saved_playing_anim;
+    _current_frame_an = 0;
+    _playing_mirror = false;
+}
+
+void keyframe_animation_component::playing(){
+    if(!_initialized){
+        _saved_playing_anim = _playing_anim;
+        _current_frame_an = 0;
+        restore_pending_buffer();
+    }
+}
+
+void keyframe_animation_component::was_deserialized(){
+    restore_pending_buffer();
+}
+
+void keyframe_animation_component::update(float dt){
+    restore_pending_buffer();
+    set_internal_animation_if_dirty();
+    
+    if(!_playing_anim)
+        return;
+    
+    if(_current_frame_an >= _n_frames){
+        if(_loop){
+            if(!_mirror){
+                _current_frame_an = 0;
+                _playing_mirror = false;
+            }
+            else {
+                _current_frame_an = _n_frames - 1;
+                _playing_mirror = true;
+            }
+        }
+        else
+            return;
+    }
+    else if(_current_frame_an < 0){
+        _current_frame_an = 0;
+        _playing_mirror = false;
+    }
+    
+    for (size_t i = 0; i < _anim_nodes.size(); i++) {
+        auto _pos = _anim_positions[_n_frames * i + _current_frame_an];
+        auto _rot = _anim_rotations[_n_frames * i + _current_frame_an];
+        _anim_nodes[i]->transform(_anim_nodes[i]->transform().moved(_pos).rotated(_rot, _rot + (float)M_PI_2));
+    }
+    
+    if(!_playing_mirror)
+        _current_frame_an++;
+    else
+        _current_frame_an--;
+}
+
+void keyframe_animation_component::in_editor_update(float dt){
+    if(is_playing())
+        return;
+    
+    restore_pending_buffer();
+    set_internal_animation_if_dirty();
+    
+    if(!_ed_playing_anim)
+        return;
+    
+    if(_ed_current_frame_an >= _n_frames){
+        if(_loop){
+            if(!_mirror){
+                _ed_current_frame_an = 0;
+                _ed_playing_mirror = false;
+            }
+            else {
+                _ed_current_frame_an = _n_frames - 1;
+                _ed_playing_mirror = true;
+            }
+        }
+        else
+            return;
+    }
+    else if(_ed_current_frame_an < 0){
+        _ed_current_frame_an = 0;
+        _ed_playing_mirror = false;
+    }
+    
+    for (size_t i = 0; i < _anim_nodes.size(); i++) {
+        auto _pos = _anim_positions[_n_frames * i + _ed_current_frame_an];
+        auto _rot = _anim_rotations[_n_frames * i + _ed_current_frame_an];
+        _anim_nodes[i]->transform(_anim_nodes[i]->transform().moved(_pos).rotated(_rot, _rot + (float)M_PI_2));
+    }
+    
+    if(!_ed_playing_mirror)
+        _ed_current_frame_an++;
+    else
+        _ed_current_frame_an--;
+}
+
+void keyframe_animation_component::after_becoming_active(bool node_was_moved){
+    register_for(registrable_event::update, ANIMATOR_UPDATE_PRIORITY);
+    register_for(registrable_event::in_editor_update, 0);
+}
+
+rb_string keyframe_animation_component::type_name() const {
+    return u"rb::keyframe_animation_component";
+}
+
+rb_string keyframe_animation_component::displayable_type_name() const {
+    return u"Keyframe Animator";
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

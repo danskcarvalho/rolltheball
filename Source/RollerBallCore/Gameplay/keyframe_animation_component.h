@@ -16,7 +16,8 @@
 #include "transform_space.h"
 
 namespace rb {
-    enum class easing_function {
+    class buffer;
+    enum class easing_function : uint32_t {
         linear,
         ease_in,
         ease_out,
@@ -63,8 +64,8 @@ namespace rb {
     private:
         std::list<keyframe> _keyframes; //list of keyframes...
         iterator _current_pos; //keyframe current pos...
-        std::vector<rb_string> _anim_names;
         std::vector<node*> _anim_nodes; //this includes the polygon points and attached nodes...
+        std::unordered_set<node*> _anim_nodes_set; //set of animated nodes, the same as _anim_nodes...
         std::unordered_map<node*, transform_space> _anim_nodes_saved_transforms;
         uint32_t _n_frames; //number of frames...
         std::vector<vec2> _anim_positions; //positions of animated elements... //each [n_frames] corresponds to one node...
@@ -77,8 +78,31 @@ namespace rb {
         };
         std::unordered_map<node*, attach_info> _attachments;
         //play control
+        bool _ed_playing_anim;
+        bool _ed_playing_mirror;
+        int32_t _ed_current_frame_an;
         bool _playing_anim;
-        uint32_t _current_frame_an;
+        bool _saved_playing_anim;
+        bool _playing_mirror;
+        int32_t _current_frame_an;
+        bool _loop;
+        bool _mirror;
+        bool _initialized;
+        //currents...
+        float _current_delay;
+        easing_function _current_position_x_easing;
+        float _current_position_x_factor;
+        easing_function _current_position_y_easing;
+        float _current_position_y_factor;
+        easing_function _current_rotation_easing;
+        float _current_rotation_factor;
+        //attachments
+        rb_string _attachment_class;
+        rb_string _attachment_id;
+        //buffer to restore
+        nullable<buffer> _pending_buffer;
+        //initialization
+        void init();
     private:
         void generate_animation(node* n, size_t start_index);
         void generate_animation_for_attached(std::vector<node*>& nodes, polygon_component* attachable);
@@ -100,16 +124,23 @@ namespace rb {
         static float ease_exponential_in(float t, float f);
         static float ease_exponential_out(float t, float f);
         static float ease_exponential_in_out(float t, float f);
+        //placeholder
+        void placeholder_updated();
     public:
         //constructor
         keyframe_animation_component();
         //values and actions
+        void set_delay();
         long current_index() const;
         void reselect_animated();
         void preview_current_keyframe();
         void update_transforms();
         void record_keyframe();
         void record_add_to_keyframe(); //record previously unrecorded...
+        bool loop() const;
+        bool loop(bool value);
+        bool mirror() const;
+        bool mirror(bool value);
         float current_delay() const;
         float current_delay(float value);
         easing_function current_position_x_easing() const;
@@ -136,16 +167,45 @@ namespace rb {
         void delete_current();
         //start frame
         void record_start(); //also reset keyframes...
+    private:
+        void continue_record_start();
+    public:
         void reset_transforms(); //reset transforms to the start...
-        void clear_animation(); //reset all...
         //attachments
         //attachments must be setupped
         void setup_attachment(const rb_string& objects_class, const rb_string& polygon_id);
         void remove_attachment_for(const rb_string& polygon_id);
         void remove_attachment_for_all();
         //play
+        bool is_playing_animation() const;
         void play_animation();
+        void resume_animation();
         void pause_animation();
+        //in-editor play
+        void editor_play_animation();
+        void editor_resume_animation();
+        void editor_pause_animation();
+        //serialization
+    private:
+        buffer save_state() const;
+        void restore_state(buffer buff);
+        void restore_pending_buffer();
+    protected:
+        //Reset component
+        virtual void reset_component();
+        //Update
+        virtual void update(float dt);
+        //Typed Object
+        virtual void describe_type() override;
+        virtual void after_becoming_active(bool node_was_moved) override;
+    public:
+        virtual rb_string type_name() const override;
+        virtual rb_string displayable_type_name() const override;
+    public:
+        virtual void playing() override;
+    protected:
+        virtual void in_editor_update(float dt);
+        virtual void was_deserialized() override;
     };
 }
 

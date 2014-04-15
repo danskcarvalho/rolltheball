@@ -143,6 +143,8 @@
 		4525C3511630677800A301D7 /* xnode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4525C34F1630677800A301D7 /* xnode.cpp */; };
 		4525C3521630677800A301D7 /* xnode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4525C34F1630677800A301D7 /* xnode.cpp */; };
 		4525C3531630677800A301D7 /* xnode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4525C34F1630677800A301D7 /* xnode.cpp */; };
+		45285E2918FCD1870031A628 /* keyframe_animation_component_properties.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 45285E2818FCD1870031A628 /* keyframe_animation_component_properties.cpp */; };
+		45285E2A18FCD1870031A628 /* keyframe_animation_component_properties.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 45285E2818FCD1870031A628 /* keyframe_animation_component_properties.cpp */; };
 		452E06D81879D283000FCA27 /* base_enemy.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 452E06D61879D283000FCA27 /* base_enemy.cpp */; };
 		452E06D91879D283000FCA27 /* base_enemy.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 452E06D61879D283000FCA27 /* base_enemy.cpp */; };
 		452E06DC1879D805000FCA27 /* rotation_animator_component.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 452E06DA1879D805000FCA27 /* rotation_animator_component.cpp */; };
@@ -750,6 +752,7 @@
 		45252758165BE6DA0035C8AE /* scene_interactions.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = scene_interactions.cpp; path = Components/scene_interactions.cpp; sourceTree = "<group>"; };
 		4525C34F1630677800A301D7 /* xnode.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; name = xnode.cpp; path = Xml/xnode.cpp; sourceTree = "<group>"; };
 		4525C3501630677800A301D7 /* xnode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = xnode.h; path = Xml/xnode.h; sourceTree = "<group>"; };
+		45285E2818FCD1870031A628 /* keyframe_animation_component_properties.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = keyframe_animation_component_properties.cpp; path = Gameplay/keyframe_animation_component_properties.cpp; sourceTree = "<group>"; };
 		452E06D61879D283000FCA27 /* base_enemy.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = base_enemy.cpp; path = Gameplay/base_enemy.cpp; sourceTree = "<group>"; };
 		452E06D71879D283000FCA27 /* base_enemy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = base_enemy.h; path = Gameplay/base_enemy.h; sourceTree = "<group>"; };
 		452E06DA1879D805000FCA27 /* rotation_animator_component.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = rotation_animator_component.cpp; path = Gameplay/rotation_animator_component.cpp; sourceTree = "<group>"; };
@@ -10119,6 +10122,7 @@
 				4575ADCA18C554B40017815A /* position_animator_component.cpp */,
 				451FACF618F208FB000D82CC /* breakable_block.cpp */,
 				45BA096D18FACBC7006444C4 /* keyframe_animation_component.cpp */,
+				45285E2818FCD1870031A628 /* keyframe_animation_component_properties.cpp */,
 			);
 			name = Gameplay;
 			sourceTree = "<group>";
@@ -26112,6 +26116,7 @@
 				45F33E0C1879E22D00EFDE64 /* saw.cpp in Sources */,
 				4563DDD41620B24400C831C0 /* render_target.cpp in Sources */,
 				4576DF6E1624BD7F00DAA297 /* texture_layer.cpp in Sources */,
+				45285E2A18FCD1870031A628 /* keyframe_animation_component_properties.cpp in Sources */,
 				4576DF741624C45E00DAA297 /* texture_composition.cpp in Sources */,
 				4576DF7D1624C94D00DAA297 /* composited_texture.cpp in Sources */,
 				451FEA7B1628FB1D00BECBEA /* extended_dynamic_mesh_batch.cpp in Sources */,
@@ -26330,6 +26335,7 @@
 				45F33E0B1879E22D00EFDE64 /* saw.cpp in Sources */,
 				4576DF6D1624BD7F00DAA297 /* texture_layer.cpp in Sources */,
 				4576DF731624C45E00DAA297 /* texture_composition.cpp in Sources */,
+				45285E2918FCD1870031A628 /* keyframe_animation_component_properties.cpp in Sources */,
 				4576DF7C1624C94D00DAA297 /* composited_texture.cpp in Sources */,
 				451FEA7A1628FB1D00BECBEA /* extended_dynamic_mesh_batch.cpp in Sources */,
 				451FEA8E1629086800BECBEA /* extended_static_mesh_batch.cpp in Sources */,
