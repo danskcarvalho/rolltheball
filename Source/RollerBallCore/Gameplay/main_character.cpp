@@ -543,6 +543,10 @@ MvPlatform:
                 auto _rMoving = _moving_platform->get_ray();
                 _moving_max_t = _rMoving.get_parameter(_moving_platform->get_pt1());
                 _moving_t = _rMoving.get_parameter(vec2(_body->GetPosition().x, _body->GetPosition().y));
+                if(_moving_t < 0 || _moving_t > _moving_max_t){
+                    _moving_platform = nullptr;
+                    return;
+                }
                 //save up vector in local body space
                 _up_vector = transform().from_space_to_base().transformed_vector(vec2::up);
                 auto _b2_up = b2Vec2(_up_vector.x(), _up_vector.y());

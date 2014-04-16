@@ -80,6 +80,33 @@ scene::scene(){
     _fade_batch = nullptr;
     _textureless_process = nullptr;
     _fade_color = color::from_rgba(0, 0, 0, 0);
+    _locked_selection = nullptr;
+}
+
+node* scene::locked_selection() const {
+    return _locked_selection;
+}
+
+void scene::lock_selection() {
+    std::vector<node*> _selection;
+    if(!current()){
+        alert(u"No current node.");
+        return;
+    }
+    
+    current()->fill_with_selection(_selection);
+    
+    if(_selection.size() != 1){
+        alert(u"Need to select just one node.");
+        return;
+    }
+    
+    _locked_selection = _selection[0];
+    current()->clear_selection();
+}
+
+void scene::unlock_selection(){
+    _locked_selection = nullptr;
 }
 
 void scene::create_fading_machinery(){

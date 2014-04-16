@@ -108,9 +108,13 @@ namespace rb {
         transform_space _tx_space;
         //border
         float _border_size;
+        border_placement _border_placement;
         corner_type _border_corner_type;
         nullable<color> _border_color;
+        float _border_blend;
         rb_string _border_texture;
+        vec2 _border_tx_scaling;
+        float _border_rotation;
         float _max_s;
         //methods
         void reset_children(PolType pt);
@@ -184,6 +188,14 @@ namespace rb {
         corner_type border_corner_type(const corner_type value);
         const nullable<color>& border_color() const;
         const nullable<color>& border_color(const nullable<color>& value);
+        float border_blend() const;
+        float border_blend(float value);
+        const vec2& border_texture_scale() const;
+        const vec2& border_texture_scale(const vec2& value);
+        enum border_placement border_placement() const;
+        enum border_placement border_placement(enum border_placement value);
+        float border_texture_rotation() const;
+        float border_texture_rotation(float value);
         const rb_string& border_image_name() const;
         const rb_string& border_image_name(const rb_string& value);
         float max_s() const;

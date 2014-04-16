@@ -900,6 +900,7 @@ void * tto_buffer(const std::vector<T>& v, uint32_t* size){
     for (size_t i = 0; i < v.size(); i++) {
         _vals[i] = v[i];
     }
+    *size = (uint32_t)_size;
     return _mem;
 }
 
@@ -930,6 +931,7 @@ void* to_buffer(const rb_string& str, uint32_t* size){
     for (size_t i = 0; i < str.size(); i++) {
         _chars[i] = str[i];
     }
+    *size = (uint32_t)_size;
     return _mem;
 }
 
@@ -1014,6 +1016,7 @@ void* to_buffer(const std::list<keyframe>& kv, const std::unordered_map<node*, u
         write_to_buffer(_start, _k, indexes, &_next);
         _start = _next;
     }
+    *size = (uint32_t)_total_size;
     return _mem;
 }
 

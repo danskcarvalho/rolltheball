@@ -101,12 +101,19 @@ namespace rb {
         node_without_transform* _new_template;
         vec2 _new_start_point;
         node* _current_new; //the current node being manipulated by the user
+        //locked selection
+        node* _locked_selection;
         //fading..
     private:
         void create_fading_machinery();
     public:
         const color& fade_color() const;
         const color& fade_color(const color& value);
+        //locked selection
+    public:
+        node* locked_selection() const;
+        void lock_selection();
+        void unlock_selection();
     public:
         void enter_new_mode(const class type_descriptor* td);
         void exit_new_mode();

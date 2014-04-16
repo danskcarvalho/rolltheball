@@ -80,7 +80,7 @@ void keyframe_animation_component::describe_type(){
     action<keyframe_animation_component>(u"goto_placeholder", u"", action_flags::multi_dispatch, {u"Placeholder"}, [](keyframe_animation_component* site, const rb_string& actionName){
         site->goto_placeholder();
     });
-    integer_property<keyframe_animation_component>(u"keyframe_index", u"Index", false, {
+    integer_property<keyframe_animation_component>(u"current_index", u"Index", false, {
         [](const keyframe_animation_component* site){
             return site->current_index();
         },

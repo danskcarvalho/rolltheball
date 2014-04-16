@@ -864,6 +864,62 @@ polygon& polygon::intersection(const polygon& other, std::vector<polygon>& other
     return *this;
 }
 
+polygon& polygon::difference(const rb::polygon &other){
+    assert(!is_empty());
+    assert(is_simple().has_value() && is_simple().value() == true);
+    assert(area().has_value());
+    assert(is_closed());
+    assert(get_ordering() != point_ordering::unknown);
+    
+    typedef boost::geometry::model::d2::point_xy<float> b_point;
+    typedef boost::geometry::model::polygon<b_point, false> b_polygon;
+    b_polygon _poly01;
+    b_polygon _poly02;
+    b_polygon _result;
+    vector<b_point> _b_points01;
+    vector<b_point> _b_points02;
+    vector<vec2> _c_points01 = _points;
+    vector<vec2> _c_points02 = other._points;
+    //we add the points to _poly01
+    if(get_ordering() == point_ordering::cw)
+        std::reverse(_c_points01.begin(), _c_points01.end());
+    for (auto& _p : _c_points01)
+        _b_points01.push_back(b_point(_p.x(), _p.y()));
+    //we initialize the polygon
+    boost::geometry::append(_poly01, _b_points01);
+    
+    //we add the points to _poly02
+    if(other.get_ordering() == point_ordering::cw)
+        std::reverse(_c_points02.begin(), _c_points02.end());
+    for (auto& _p : _c_points02)
+        _b_points02.push_back(b_point(_p.x(), _p.y()));
+    //we initialize the polygon
+    boost::geometry::append(_poly02, _b_points02);
+    
+    boost::geometry::correct(_poly01);
+    boost::geometry::correct(_poly02);
+    
+    //we then compute the union
+    std::vector<b_polygon> _result_list;
+    boost::geometry::difference(_poly01, _poly02, _result_list);
+    
+    if(_result_list.size() != 1)
+        return *this; //we return without modifying this polygon
+    
+    _result = _result_list[0];
+    
+    //we then set back our polygon
+    reset();
+    //we then add the points
+    vector<b_point> _out_points = _result.outer();
+    for (auto& _p : _out_points)
+        _points.push_back(vec2(_p.x(), _p.y()));
+    //and close our polygon
+    close_polygon();
+    optimize();
+    return *this;
+}
+
 polygon& polygon::join(const polygon& other){
     assert(!is_empty());
     assert(is_simple().has_value() && is_simple().value() == true);
@@ -1003,9 +1059,21 @@ iterator increment(iterator it, int n) {
     return it;
 }
 
-polygon extrude_edge(const edge& e, const float stroke_width){
-    auto _en = e.translate(e.normal() * (stroke_width / 2.0), false);
-    auto _enn = e.translate(-e.normal() * (stroke_width / 2.0), true);
+polygon extrude_edge(const edge& e, const float stroke_width, border_placement bd_place, const polygon& shell){
+    edge _en;
+    edge _enn;
+    if(bd_place == border_placement::middle){
+        _en = e.translate(e.normal() * (stroke_width / 2.0), false);
+        _enn = e.translate(-e.normal() * (stroke_width / 2.0), true);
+    }
+    else if(bd_place == border_placement::outside){
+        _en = e.translate(e.normal() * stroke_width, false);
+        _enn = e.translate(e.normal() * 0, true);
+    }
+    else {
+        _en = e.translate(e.normal() * 0, false);
+        _enn = e.translate(-e.normal() * (stroke_width / 1.0), true);
+    }
     std::vector<vec2> _pts;
     _pts.push_back(_en.pt0());
     _pts.push_back(_en.pt1());
@@ -1013,10 +1081,19 @@ polygon extrude_edge(const edge& e, const float stroke_width){
     _pts.push_back(_enn.pt0());
     polygon _result;
     polygon::build_closed_polygon(_pts, _result);
+    if(shell.area().has_value() && !almost_equal(shell.area().value(), 0)){
+        if(bd_place == border_placement::inside){
+            std::vector<polygon> _others;
+            _result.intersection(shell, _others);
+        }
+        else if(bd_place == border_placement::outside){
+            _result.difference(shell);
+        }
+    }
     return _result;
 }
 
-mesh& polygon::to_outline_mesh(rb::mesh &storage, const texture_map& map, const float stroke_width, const corner_type ct, const bool textureless){
+mesh& polygon::to_outline_mesh(rb::mesh &storage, const texture_map& map, const float stroke_width, const corner_type ct, const bool textureless, border_placement bd_place){
     assert(stroke_width > 0);
     assert(!is_empty());
     assert(perimeter().has_value() && perimeter().value() != 0);
@@ -1028,7 +1105,7 @@ mesh& polygon::to_outline_mesh(rb::mesh &storage, const texture_map& map, const 
     
     for (int i = 0; i < _edges.size(); i++) {
         auto _current = _edges[i];
-        _polygons.push_back(extrude_edge(_current, stroke_width));
+        _polygons.push_back(extrude_edge(_current, stroke_width, bd_place, *this));
         if(i == 0 && !is_closed())
             continue;
         auto _previous = i == 0 ? _edges[_edges.size() - 1] : _edges[i - 1];
@@ -1049,10 +1126,12 @@ mesh& polygon::to_outline_mesh(rb::mesh &storage, const texture_map& map, const 
             continue;
         vec2 _n1;
         vec2 _n2;
+        bool _internal_mitter = false;
         if(_int_angle > _ext_angle) //we need to adjust the corner in the direction of -normal
         {
             _n1 = -_current.normal();
             _n2 = -_previous.normal();
+            _internal_mitter = true;
         }
         else { //we adjust in the direction of normal...
             _n1 = _current.normal();
@@ -1061,9 +1140,11 @@ mesh& polygon::to_outline_mesh(rb::mesh &storage, const texture_map& map, const 
         float _angle = _n1.angle_between(_n2, rotation_direction::shortest);
         bool _exceeded_miter = _angle >= TO_RADIANS(MITER_LIMIT);
         nullable<vec2> _miter_pt = nullptr;
+        
+        auto _stroke_divisor = bd_place == border_placement::middle ? 2.0 : 1.0;
         if(ct == corner_type::miter && !_exceeded_miter){
-            ray _r1 = ray(_current.pt0() + _n1 * (stroke_width / 2.0), -_v1);
-            ray _r2 = ray(_previous.pt1()  + _n2 * (stroke_width / 2.0), -_v2);
+            ray _r1 = ray(_current.pt0() + _n1 * (stroke_width / _stroke_divisor), -_v1);
+            ray _r2 = ray(_previous.pt1()  + _n2 * (stroke_width / _stroke_divisor), -_v2);
             _miter_pt = ray::intersection(_r1, _r2);
             if(_miter_pt.has_value() && !_miter_pt.value().is_valid())
                 _miter_pt = nullptr;
@@ -1074,13 +1155,29 @@ mesh& polygon::to_outline_mesh(rb::mesh &storage, const texture_map& map, const 
         _temp_points.clear();
         auto _nm = (_n1 + _n2) / 2.0;
         _nm = -_nm;
-        _temp_points.push_back(_current.pt0() + _nm * (stroke_width / 3.0)); //the _nm * (stroke_width / 3.0) is to avoid precision issues...
-        _temp_points.push_back(_current.pt0() + _n1 * (stroke_width / 2.0));
+        if(bd_place == border_placement::middle)
+            _temp_points.push_back(_current.pt0() + _nm * (stroke_width / 3.0)); //the _nm * (stroke_width / 3.0) is to avoid precision issues...
+        else
+            _temp_points.push_back(_current.pt0());
+        
+        _temp_points.push_back(_current.pt0() + _n1 * (stroke_width / _stroke_divisor));
         if(_miter_pt.has_value())
             _temp_points.push_back(_miter_pt.value());
-        _temp_points.push_back(_previous.pt1()  + _n2 * (stroke_width / 2.0));
+        
+        _temp_points.push_back(_previous.pt1()  + _n2 * (stroke_width / _stroke_divisor));
         _corner = polygon::build_closed_polygon(_temp_points, _corner);
-        _polygons.push_back(_corner);
+        if(bd_place == border_placement::middle)
+            _polygons.push_back(_corner);
+        else {
+            if(bd_place == border_placement::inside){
+                if(_internal_mitter)
+                    _polygons.push_back(_corner);
+            }
+            else {
+                if(!_internal_mitter)
+                    _polygons.push_back(_corner);
+            }
+        }
     }
     
     std::vector<mesh*> _meshes;

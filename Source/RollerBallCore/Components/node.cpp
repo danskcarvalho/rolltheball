@@ -132,6 +132,8 @@ const transform_space& node::transform() const {
 }
 
 const transform_space& node::transform(const rb::transform_space &value){
+    if(value == node_container::transform())
+        return node_container::transform();
     auto _t = node_container::transform(value);
     _transformation->translation(_t.origin());
     _transformation->rotation(vec2(TO_DEGREES(_t.rotation().x()), TO_DEGREES(_t.rotation().y())));
@@ -283,6 +285,9 @@ bool node::remove_node(rb::node *n, bool cleanup){
     assert(n->_added);
     bool _n_removed = this->node_container::remove_node(n, false);
     if(_n_removed){
+        if(parent_scene()->_locked_selection == this)
+            parent_scene()->unlock_selection();
+        
         if(_parent_layer && _parent_layer->parent_scene()->active()){
             n->internal_before_becoming_inactive(n->_move_flag != 0);
         }

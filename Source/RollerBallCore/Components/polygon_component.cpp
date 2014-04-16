@@ -209,6 +209,10 @@ polygon_component::polygon_component(){
     _border_color = nullptr;
     _border_texture = u"";
     _max_s = 1;
+    _border_blend = 1;
+    _border_tx_scaling = vec2(1, 1);
+    _border_rotation = 0;
+    _border_placement = border_placement::middle;
     
     reset_children(kPolQuad);
 }
@@ -388,8 +392,12 @@ void polygon_component::recreate_border(){
     if(!_f_pol.is_empty() && _f_pol.point_count() >= 3 && _f_pol.is_simple().has_value() && _f_pol.is_simple().value() && _f_pol.area().has_value() && _f_pol.area().value()){
         if(_border_color.has_value()){
             _b = new mesh();
+            auto _border_tx_mapping = create_mapping(_border_texture, transform_space(vec2::zero, _border_tx_scaling, _border_rotation));
+//            auto _nm = null_texture_map();
             auto _nm = null_texture_map();
-            _f_pol.to_outline_mesh(*_b, _nm, _border_size, _border_corner_type, true);
+            _f_pol.to_outline_mesh(*_b, _border_tx_mapping ? *_border_tx_mapping : _nm, _border_size, _border_corner_type, almost_equal(_border_blend, 0), _border_placement);
+            if(_border_tx_mapping)
+                delete _border_tx_mapping;
         }
         else {
             auto _bm = create_mapping(_border_texture, transform_space());
@@ -407,28 +415,12 @@ void polygon_component::recreate_border(){
     }
     
     if(_b && !_b->is_empty()){
-        add_mesh_for_rendering(_b, _border_color.has_value() ? no_texture : _border_texture, false);
+        add_mesh_for_rendering(_b, _border_texture, false);
     }
 }
 
 void polygon_component::update_polygon(bool refill_buffers){
     bool _already_added = false;
-    if(_flags.dirty_border_polygon){ //we should recreate the border polygon...
-        recreate_border();
-        _already_added = true;
-        _before_b = transform_space();
-        //the following becomes dirty
-        _flags.dirty_border_polygon = false;
-        _flags.dirty_opacity = true;
-        _flags.dirty_border_color = true;
-        _flags.border_collapsed = false;
-    }
-    
-    if (!_already_added && refill_buffers && _b && !_b->is_empty()){
-        add_mesh_for_rendering(_b, _border_color.has_value() ? no_texture : _border_texture, false);
-    }
-    
-    _already_added = false;
     
     if(_flags.dirty_polygon){ //we should recreate the polygon
         //we recreate the polygon, maps, everything...
@@ -450,6 +442,23 @@ void polygon_component::update_polygon(bool refill_buffers){
     
     if(!_already_added && refill_buffers && _m && !_m->is_empty())
         add_mesh_for_rendering(_m, _map ? _image : no_texture, _flags.transformable || _flags.in_texture_transformation);
+    
+    _already_added = false;
+    
+    if(_flags.dirty_border_polygon){ //we should recreate the border polygon...
+        recreate_border();
+        _already_added = true;
+        _before_b = transform_space();
+        //the following becomes dirty
+        _flags.dirty_border_polygon = false;
+        _flags.dirty_opacity = true;
+        _flags.dirty_border_color = true;
+        _flags.border_collapsed = false;
+    }
+    
+    if (!_already_added && refill_buffers && _b && !_b->is_empty()){
+        add_mesh_for_rendering(_b, _border_texture, false);
+    }
     
     update_collapsed_flag();
     
@@ -575,21 +584,15 @@ void polygon_component::update_polygon(bool refill_buffers){
     if(_flags.dirty_border_color){
         if(_b)
         {
-            if(_border_color.has_value()){
+            if(_border_color.has_value())
                 _b->set_color(_border_color.value());
-                _b->set_blend(0);
-            }
-            else
-                _b->set_blend(1);
+            _b->set_blend(_border_blend);
         }
         if(_b_copy)
         {
-            if(_border_color.has_value()){
+            if(_border_color.has_value())
                 _b_copy->set_color(_border_color.value());
-                _b_copy->set_blend(0);
-            }
-            else
-                _b_copy->set_blend(1);
+            _b->set_blend(_border_blend);
         }
     }
     _flags.dirty_border_color = false;
@@ -973,6 +976,14 @@ void polygon_component::describe_type(){
             site->border_corner_type(value);
         }
     });
+    enumeration_property<polygon_component, enum border_placement>(u"border_placement", u"Bd Place", {{u"Middle", border_placement::middle}, {u"Inside", border_placement::inside}, {u"Outside", border_placement::outside}}, true, {
+        [](const polygon_component* site){
+            return site->border_placement();
+        },
+        [](polygon_component* site, enum border_placement value){
+            site->border_placement(value);
+        }
+    });
     single_property<polygon_component>(u"border_size", u"Border Size", true, {
         [](const polygon_component* site){
             return site->border_size();
@@ -993,12 +1004,36 @@ void polygon_component::describe_type(){
             site->border_color(value);
         }
     });
+    ranged_property<polygon_component>(u"border_blend", u"Bd Blend", true, true, 5, {
+        [](const polygon_component* site){
+            return site->border_blend();
+        },
+        [](polygon_component* site, const float value){
+            site->border_blend(value);
+        }
+    });
     image_property<polygon_component>(u"border_image_name", u"Border Image", true, {
         [](const polygon_component* site){
             return site->border_image_name();
         },
         [](polygon_component* site, const rb_string& value){
             site->border_image_name(value);
+        }
+    });
+    vec2_property<polygon_component>(u"border_texture_scale", u"Bd Tx Scale", true, {
+        [](const polygon_component* site){
+            return site->border_texture_scale();
+        },
+        [](polygon_component* site, const vec2& value){
+            site->border_texture_scale(value);
+        }
+    });
+    single_property<polygon_component>(u"border_texture_rotation", u"Bd Tx Rot", true, {
+        [](const polygon_component* site){
+            return TO_DEGREES(site->border_texture_rotation());
+        },
+        [](polygon_component* site, float value){
+            site->border_texture_rotation(TO_RADIANS(value));
         }
     });
     single_property<polygon_component>(u"max_s", u"Max S", true, {
@@ -1363,6 +1398,59 @@ const nullable<color>& polygon_component::border_color(const nullable<color>& va
             invalidate_buffers();
     }
     return _border_color;
+}
+float polygon_component::border_blend() const {
+    return _border_blend;
+}
+float polygon_component::border_blend(float value){
+    if(_border_blend == value)
+        return _border_blend;
+    auto _previous = _border_blend;
+    _border_blend = value;
+    if(almost_equal(_previous, 0) || almost_equal(_border_blend, 0)){
+        _flags.dirty_border_polygon = true;
+        if(parent_scene() && parent_scene()->active())
+            invalidate_buffers();
+    }
+    else
+        _flags.dirty_border_color = true;
+    return _border_blend;
+}
+const vec2& polygon_component::border_texture_scale() const {
+    return _border_tx_scaling;
+}
+const vec2& polygon_component::border_texture_scale(const rb::vec2 &value){
+    if(_border_tx_scaling == value)
+        return _border_tx_scaling;
+    _border_tx_scaling = value;
+    _flags.dirty_border_polygon = true;
+    if(parent_scene() && parent_scene()->active())
+        invalidate_buffers();
+    return _border_tx_scaling;
+}
+enum border_placement polygon_component::border_placement() const {
+    return _border_placement;
+}
+enum border_placement polygon_component::border_placement(enum border_placement value){
+    if(_border_placement == value)
+        return _border_placement;
+    _border_placement = value;
+    _flags.dirty_border_polygon = true;
+    if(parent_scene() && parent_scene()->active())
+        invalidate_buffers();
+    return _border_placement;
+}
+float polygon_component::border_texture_rotation() const {
+    return _border_rotation;
+}
+float polygon_component::border_texture_rotation(float value){
+    if(_border_rotation == value)
+        return _border_rotation;
+    _border_rotation = value;
+    _flags.dirty_border_polygon = true;
+    if(parent_scene() && parent_scene()->active())
+        invalidate_buffers();
+    return _border_rotation;
 }
 const rb_string& polygon_component::border_image_name() const{
     return _border_texture;

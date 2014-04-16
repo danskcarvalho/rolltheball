@@ -115,4 +115,6 @@ typedef void (^ConfirmationBlock)(BOOL);
 - (IBAction)sendLayerBack:(id)sender;
 - (IBAction)addToSelection:(id)sender;
 -(void)confirm:(NSString*)message confirmationBlock:(ConfirmationBlock)block;
+- (IBAction)lockSelection:(id)sender;
+- (IBAction)unlockSelection:(id)sender;
 @end

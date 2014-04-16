@@ -11,7 +11,7 @@
 #include <assert.h>
 #include "Triangulate.h"
 #include "poly2tri.h"
-#define PRECISE_TRIANGULATION
+//#define PRECISE_TRIANGULATION
 
 static const float EPSILON=0.0000000001f;
 

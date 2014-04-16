@@ -77,6 +77,12 @@ namespace rb {
         transformable,
         untransformable
     };
+    
+    enum class border_placement {
+        middle,
+        inside,
+        outside
+    };
 }
 
 BEGIN_STRINGIFY_ENUM(rb::texture_border)

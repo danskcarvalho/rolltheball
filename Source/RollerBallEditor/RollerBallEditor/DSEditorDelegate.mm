@@ -764,6 +764,11 @@ inline rb_string from_platform_string(NSString* str){
         for (auto _n : _nselection)
             _selection.push_back(_n);
         
+        if(director::active_scene()->locked_selection()){
+            _selection.clear();
+            _selection.push_back(director::active_scene()->locked_selection());
+        }
+        
         rb::typed_object* _template_for_new;
         if((_template_for_new = director::active_scene()->template_for_new())){
             _selection.clear();
@@ -1575,6 +1580,14 @@ inline rb_string from_platform_string(NSString* str){
         [alert beginSheetModalForWindow:[[NSApplication sharedApplication] mainWindow] modalDelegate:self didEndSelector:@selector(confirmDidEnd:returnCode:contextInfo:) contextInfo:(__bridge_retained void*)block];
         fInAlertOrConfirmation = YES;
     }
+}
+
+- (IBAction)lockSelection:(id)sender {
+    director::active_scene()->lock_selection();
+}
+
+- (IBAction)unlockSelection:(id)sender {
+    director::active_scene()->unlock_selection();
 }
 - (void)confirmDidEnd:(NSAlert *)alert returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo{
     ConfirmationBlock block = (__bridge_transfer ConfirmationBlock)contextInfo;
