@@ -400,7 +400,7 @@ group_component* node_container::group_nodes(const std::vector<node *> &nodes){
             _rc = _rc.value().compute_union(_b);
     }
     
-    transform_space _grp_space = transform_space(_rc.value().center(), 1, 0);
+    transform_space _grp_space = transform_space(_rc.has_value() ? _rc.value().center() : vec2::zero, 1, 0);
     auto _new_grp = new group_component();
     _new_grp->transform(_grp_space);
     bool _added_grp = this->add_node(_new_grp);

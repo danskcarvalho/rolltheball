@@ -93,7 +93,7 @@ void polygon_point_component::transform_changed(){
             _p->_flags.dirty_polygon = true;
             _p->_flags.dirty_border_polygon = true;
             _p->_polygon.reset();
-            if(active())
+            if(active() && _p->_flags.renderable)
                 invalidate_buffers();
         }
     }
@@ -115,7 +115,7 @@ void polygon_point_component::begin_live_edit(rb::live_edit kind){
         _p->_flags.type = polygon_component::kPolFreeform;
         _p->_flags.dirty_polygon = true;
         _p->_flags.dirty_border_polygon = true;
-        if(active())
+        if(active() && _p->_flags.renderable)
             invalidate_buffers();
     }
 }
@@ -127,7 +127,7 @@ void polygon_point_component::end_live_edit(){
         _p->_flags.in_live_edit = false;
         _p->_flags.dirty_polygon = true;
         _p->_flags.dirty_border_polygon = true;
-        if(active())
+        if(active() && _p->_flags.renderable)
             invalidate_buffers();
     }
 }

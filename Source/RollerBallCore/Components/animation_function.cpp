@@ -10,7 +10,7 @@
 
 using namespace rb;
 
-#define M_PI_X_2 ((float)M_PI * 2.0f)
+#define M_PI_X_2 (float)M_PI * 2.0f
 
 animation_function::~animation_function(){
 }
@@ -70,23 +70,15 @@ ease_in_out_function::ease_in_out_function(float rate)
     
 }
 
-float ease_in_out_function::operator()(float time) const {
-    int sign = 1;
-    int r = (int)rate();
+float ease_in_out_function::operator()(float t) const {
+    float f = rate();
     
-    if (r % 2 == 0)
-    {
-        sign = -1;
+    t *= 2;
+	if (t < 1) {
+		return 0.5f * powf (t, f);
     }
-    
-    time *= 2;
-    if (time < 1)
-    {
-        return 0.5f * powf(time, rate());
-    }
-    else
-    {
-        return sign * 0.5f * (powf(time - 2, rate()) + sign * 2);
+	else {
+		return 1.0f - 0.5f * powf(2-t, f);
     }
 }
 
@@ -117,17 +109,18 @@ ease_elastic_in::ease_elastic_in(float period)
     
 }
 
-float ease_elastic_in::operator()(float time) const{
+float ease_elastic_in::operator()(float t) const{
+    float f = period();
     float newT = 0;
-    if (time == 0 || time == 1)
+    if (t == 0 || t == 1)
     {
-        newT = time;
+        newT = t;
     }
     else
     {
-        float s = period() / 4;
-        time = time - 1;
-        newT = -powf(2, 10 * time) * sinf((time - s) * M_PI_X_2 / period());
+        float s = f / 4;
+        t = t - 1;
+        newT = -powf(2, 10 * t) * sinf((t - s) * M_PI_X_2 / f);
     }
     
     return newT;
@@ -143,16 +136,17 @@ ease_elastic_out::ease_elastic_out(float period)
     
 }
 
-float ease_elastic_out::operator()(float time) const {
+float ease_elastic_out::operator()(float t) const {
+    float f = period();
     float newT = 0;
-    if (time == 0 || time == 1)
+    if (t == 0 || t == 1)
     {
-        newT = time;
+        newT = t;
     }
     else
     {
-        float s = period() / 4;
-        newT = powf(2, -10 * time) * sinf((time - s) * M_PI_X_2 / period()) + 1;
+        float s = f / 4;
+        newT = powf(2, -10 * t) * sinf((t - s) * M_PI_X_2 / f) + 1;
     }
     
     return newT;
@@ -168,16 +162,17 @@ ease_elastic_in_out::ease_elastic_in_out(float period)
     
 }
 
-float ease_elastic_in_out::operator()(float time) const {
+float ease_elastic_in_out::operator()(float t) const {
     float newT = 0;
-    if (time == 0 || time == 1)
+    
+    if (t == 0 || t == 1)
     {
-        newT = time;
+        newT = t;
     }
     else
     {
         float _period = period();
-        time = time * 2;
+        t = t * 2;
         if (! _period)
         {
             _period = 0.3f * 1.5f;
@@ -185,14 +180,14 @@ float ease_elastic_in_out::operator()(float time) const {
         
         float s = _period / 4;
         
-        time = time - 1;
-        if (time < 0)
+        t = t - 1;
+        if (t < 0)
         {
-            newT = -0.5f * powf(2, 10 * time) * sinf((time -s) * M_PI_X_2 / _period);
+            newT = -0.5f * powf(2, 10 * t) * sinf((t - s) * M_PI_X_2 / _period);
         }
         else
         {
-            newT = powf(2, -10 * time) * sinf((time - s) * M_PI_X_2 / _period) * 0.5f + 1;
+            newT = powf(2, -10 * t) * sinf((t - s) * M_PI_X_2 / _period) * 0.5f + 1;
         }
     }
     
@@ -219,27 +214,36 @@ float ease_bounce::bounce_time(float time) const {
     return 7.5625f * time * time + 0.984375f;
 }
 
-float ease_bounce_in::operator()(float time) const {
-    float newT = 1 - bounce_time(1 - time);
-    return newT;
+float ease_bounce_in::operator()(float t) const {
+    float newT = t;
+	// prevents rounding errors
+	if( t !=0 && t!=1)
+		newT = 1 - bounce_time(1-t);
+    
+	return newT;
 }
 
-float ease_bounce_out::operator()(float time) const {
-    return bounce_time(time);
+float ease_bounce_out::operator()(float t) const {
+    float newT = t;
+	// prevents rounding errors
+	if( t !=0 && t!=1)
+		newT = bounce_time(t);
+    
+	return newT;
 }
 
-float ease_bounce_in_out::operator()(float time) const {
-    float newT = 0;
-    if (time < 0.5f)
-    {
-        time = time * 2;
-        newT = (1 - bounce_time(1 - time)) * 0.5f;
-    }
-    else
-    {
-        newT = bounce_time(time * 2 - 1) * 0.5f + 0.5f;
-    }
-    return newT;
+float ease_bounce_in_out::operator()(float t) const {
+    float newT;
+	// prevents possible rounding errors
+	if( t ==0 || t==1)
+		newT = t;
+	else if (t < 0.5) {
+		t = t * 2;
+		newT = (1 - bounce_time(1-t)) * 0.5f;
+	} else
+		newT = bounce_time(t * 2 - 1) * 0.5f + 0.5f;
+    
+	return newT;
 }
 
 float ease_back_in::operator()(float time) const {
@@ -265,30 +269,8 @@ float ease_back_in_out::operator()(float time) const {
     else
     {
         time = time - 2;
-        return ((time * time * ((overshoot + 1) + overshoot)) / 2 + 1);
+        return (time * time * ((overshoot + 1) * time + overshoot)) / 2 + 1;
     }
-}
-
-float ease_exponential_in::operator()(float time) const {
-    return time == 0 ? 0 : powf(2, 10 * (time/1 - 1)) - 1 * 0.001f;
-}
-
-float ease_exponential_out::operator()(float time) const {
-    return time == 1 ? 1 : (-powf(2, -10 * time / 1) + 1);
-}
-
-float ease_exponential_in_out::operator()(float time) const {
-    time /= 0.5f;
-    if (time < 1)
-    {
-        time = 0.5f * powf(2, 10 * (time - 1));
-    }
-    else
-    {
-        time = 0.5f * (-powf(2, 10 * (time - 1)) + 2);
-    }
-    
-    return time;
 }
 
 

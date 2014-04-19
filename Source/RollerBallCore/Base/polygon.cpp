@@ -85,23 +85,44 @@ void polygon::update_is_simple_flag(){
         return;
     }
     
-    typedef boost::geometry::model::d2::point_xy<float> b_point;
-    typedef boost::geometry::model::polygon<b_point, false> b_polygon;
-    b_polygon _poly;
-    vector<b_point> _b_points;
-    vector<vec2> _c_points = _points;
-    //we add the points
-    if(get_ordering() == point_ordering::cw)
-        std::reverse(_c_points.begin(), _c_points.end());
-    for (auto& _p : _c_points)
-        _b_points.push_back(b_point(_p.x(), _p.y()));
-    
-    //we initialize the polygon
-    boost::geometry::append(_poly, _b_points);
-    boost::geometry::correct(_poly);
-    
-    //we then compute the convex hull
-    _is_simple = !boost::geometry::intersects(_poly);
+    if(_is_closed){
+        typedef boost::geometry::model::d2::point_xy<float> b_point;
+        typedef boost::geometry::model::polygon<b_point, false> b_polygon;
+        b_polygon _poly;
+        vector<b_point> _b_points;
+        vector<vec2> _c_points = _points;
+        //we add the points
+        if(get_ordering() == point_ordering::cw)
+            std::reverse(_c_points.begin(), _c_points.end());
+        for (auto& _p : _c_points)
+            _b_points.push_back(b_point(_p.x(), _p.y()));
+        
+        //we initialize the polygon
+        boost::geometry::append(_poly, _b_points);
+        boost::geometry::correct(_poly);
+        
+        //we then compute the convex hull
+        _is_simple = !boost::geometry::intersects(_poly);
+    }
+    else {
+        typedef boost::geometry::model::d2::point_xy<float> b_point;
+        typedef boost::geometry::model::polygon<b_point, false, false> b_polygon;
+        b_polygon _poly;
+        vector<b_point> _b_points;
+        vector<vec2> _c_points = _points;
+        //we add the points
+        if(get_ordering() == point_ordering::cw)
+            std::reverse(_c_points.begin(), _c_points.end());
+        for (auto& _p : _c_points)
+            _b_points.push_back(b_point(_p.x(), _p.y()));
+        
+        //we initialize the polygon
+        boost::geometry::append(_poly, _b_points);
+        boost::geometry::correct(_poly);
+        
+        //we then compute the convex hull
+        _is_simple = !boost::geometry::intersects(_poly);
+    }
 }
 
 bool polygon::test_intersection(const rb::polygon &other) const {
@@ -1284,7 +1305,7 @@ polygon& polygon::offset(const float strength) {
 
 const edge polygon::closest_edge(const vec2& pt, uint32_t& index) const{
     assert(!is_empty());
-    assert(is_simple());
+//    assert(is_simple());
     auto& _edges = const_cast<polygon*>(this)->get_edges();
     nullable<edge> _best_edge = nullptr;
     float _last_distance = numeric_limits<float>::max();

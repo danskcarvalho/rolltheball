@@ -29,10 +29,7 @@ void keyframe_animation_component::describe_type(){
         {u"Bounce In/Out", easing_function::ease_bounce_in_out},
         {u"Back In", easing_function::ease_back_in},
         {u"Back Out", easing_function::ease_back_out},
-        {u"Back In/Out", easing_function::ease_back_in_out},
-        {u"Exponential In", easing_function::ease_exponential_in},
-        {u"Exponential Out", easing_function::ease_exponential_out},
-        {u"Exponential In/Out", easing_function::ease_exponential_in_out}
+        {u"Back In/Out", easing_function::ease_back_in_out}
     };
     nvnode::describe_type();
     
@@ -60,6 +57,9 @@ void keyframe_animation_component::describe_type(){
         [](keyframe_animation_component* site, bool value){
             site->_mirror = value;
         }
+    });
+    action<keyframe_animation_component>(u"dirty", u"", action_flags::multi_dispatch, {u"Make Dirty"}, [](keyframe_animation_component* site, const rb_string& actionName){
+        site->_dirty_anim = true;
     });
     action<keyframe_animation_component>(u"see", u"See", action_flags::multi_dispatch, {u"Select", u"Preview"}, [](keyframe_animation_component* site, const rb_string& actionName){
         if(actionName == u"Select")
@@ -147,7 +147,17 @@ void keyframe_animation_component::describe_type(){
             site->current_rotation_factor(value);
         }
     });
-    action<keyframe_animation_component>(u"set_keyframe", u"Set Keyframe", action_flags::multi_dispatch, {u"Update", u"Record", u"Record Add", u"Delete"}, [](keyframe_animation_component* site, const rb_string& action){
+    action<keyframe_animation_component>(u"set_keyframe", u"Set Keyframe", action_flags::multi_dispatch, {u"Record", u"Record Add"}, [](keyframe_animation_component* site, const rb_string& action){
+        if(action == u"Update")
+            site->update_transforms();
+        else if(action == u"Record")
+            site->record_keyframe();
+        else if(action == u"Delete")
+            site->delete_current();
+        else
+            site->record_add_to_keyframe();
+    });
+    action<keyframe_animation_component>(u"set_keyframe_2", u"", action_flags::multi_dispatch, {u"Update", u"Delete"}, [](keyframe_animation_component* site, const rb_string& action){
         if(action == u"Update")
             site->update_transforms();
         else if(action == u"Record")

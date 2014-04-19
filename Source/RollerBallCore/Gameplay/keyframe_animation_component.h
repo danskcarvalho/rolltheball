@@ -30,10 +30,7 @@ namespace rb {
         ease_bounce_in_out,
         ease_back_in,
         ease_back_out,
-        ease_back_in_out,
-        ease_exponential_in,
-        ease_exponential_out,
-        ease_exponential_in_out,
+        ease_back_in_out
     };
     struct keyframe {
         struct easing_info {
@@ -67,7 +64,7 @@ namespace rb {
         std::vector<node*> _anim_nodes; //this includes the polygon points and attached nodes...
         std::unordered_set<node*> _anim_nodes_set; //set of animated nodes, the same as _anim_nodes...
         std::unordered_map<node*, transform_space> _anim_nodes_saved_transforms;
-        uint32_t _n_frames; //number of frames...
+        int32_t _n_frames; //number of frames...
         std::vector<vec2> _anim_positions; //positions of animated elements... //each [n_frames] corresponds to one node...
         std::vector<float> _anim_rotations; //animated rotations
         bool _dirty_anim; //if _anim_positions and _anim_rotations needs to be updated...
@@ -121,9 +118,6 @@ namespace rb {
         static float ease_back_in(float t, float f);
         static float ease_back_out(float t, float f);
         static float ease_back_in_out(float t, float f);
-        static float ease_exponential_in(float t, float f);
-        static float ease_exponential_out(float t, float f);
-        static float ease_exponential_in_out(float t, float f);
         //placeholder
         void placeholder_updated();
     public:
@@ -188,7 +182,7 @@ namespace rb {
         //serialization
     private:
         buffer save_state() const;
-        void restore_state(buffer buff);
+        bool restore_state(buffer buff);
         void restore_pending_buffer();
     protected:
         //Reset component

@@ -311,7 +311,8 @@ void scene::mouse_down(const vec2& normalized_position) {
         _current_new->_new_template = false;
         rename_nodes_recursively(_current_new);
         _new_start_point = current()->from_space_to(space::normalized_screen).from_base_to_space().transformed_point(normalized_position);
-        transform_space _new_tr = transform_space(_new_start_point, vec2::zero, vec2::zero);
+        //transform_space _new_tr = transform_space(_new_start_point, vec2::zero, vec2::zero);
+        transform_space _new_tr = transform_space(_new_start_point, vec2(0.001, 0.001), 0);
         _current_new->transform(_new_tr);
         if(!current()->add_node(_current_new)) {
             delete _current_new;

@@ -122,11 +122,11 @@ buffer::buffer(buffer&& other){
 }
 
 buffer& buffer::operator=(const buffer& other){
+    if(other._internals)
+        other._internals->add_ref();
     if(_internals)
         _internals->remove_ref(&_internals);
     _internals = other._internals;
-    if(_internals)
-        _internals->add_ref();
     return *this;
 }
 

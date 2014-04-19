@@ -57,6 +57,16 @@ void keyframe_animation_component::init(){
     _loop = false;
     _mirror = false;
     _initialized = false;
+    _current_delay = 0;
+    notify_property_changed(u"mirror");
+    notify_property_changed(u"loop");
+    notify_property_changed(u"current_delay");
+    notify_property_changed(u"current_position_x_easing");
+    notify_property_changed(u"current_position_x_factor");
+    notify_property_changed(u"current_position_y_easing");
+    notify_property_changed(u"current_position_y_factor");
+    notify_property_changed(u"current_rotation_easing");
+    notify_property_changed(u"current_rotation_factor");
 }
 
 static inline float to_canonical_angle(float a){
@@ -131,7 +141,8 @@ polygon reconstruct_polygon(rb::polygon_component *pol_component, std::vector<ve
     ts.from_space_to_base().transform_polygon(_polygon);
     
     if (pol_component->smooth() && pts.size() >= 4){
-        smooth_curve _sc = smooth_curve::build_open_curve(pts, _sc);
+        smooth_curve _sc;
+        smooth_curve::build_open_curve(pts, _sc);
         
         polygon _f_pol;
         _sc.to_polygon(_f_pol, pol_component->smooth_quality(), pol_component->smooth_divisions());
@@ -181,11 +192,14 @@ void keyframe_animation_component::generate_animation_for_attached(std::vector<n
             //4. infer positions and rotations
             for (size_t j = 0; j < nodes.size(); j++) {
                 auto _p = _path.point_at(_attachments[nodes[j]].at_length, true);
-                auto _pa = (j != (nodes.size() - 1)) ? _path.point_at(_attachments[nodes[j + 1]].at_length, true) : _path.point_at(_attachments[nodes[j - 1]].at_length, true);
-                _pa = _pa - _p;
-                if(j == (nodes.size() - 1))
-                    _pa = -_pa;
-                auto _r = vec2::right.angle_between(_pa, rotation_direction::ccw);
+                uint32_t _e_index;
+                auto _e = _polygon.closest_edge(_p, _e_index);
+                auto _v = _e.normal();
+                if(nodes[j]->has_class(u"perpDir"))
+                    _v = _v.rotated90();
+                if(nodes[j]->has_class(u"revDir"))
+                    _v = -_v;
+                auto _r = vec2::right.angle_between(_v, rotation_direction::ccw);
                 
                 //set position and r...
                 _anim_positions[_indexes[nodes[j]] * _n_frames + _offset] = _p;
@@ -205,11 +219,11 @@ void keyframe_animation_component::set_internal_animation_if_dirty(){
         return;
     
     _n_frames = 0;
-    for (auto _k : _keyframes){
-        if(_k.is_placeholder)
+    for (auto _it = _keyframes.begin(); _it != _keyframes.end(); _it++){
+        if(_it->is_placeholder)
             continue;
-        _k.n_frames = roundf(_k.delay * 30.0f);
-        _n_frames += _k.n_frames;
+        _it->n_frames = roundf(_it->delay * 30.0f);
+        _n_frames += _it->n_frames;
     }
     
     //1. generate dummy values
@@ -273,12 +287,6 @@ float keyframe_animation_component::ease(rb::easing_function func, float t, floa
         return ease_elastic_in_out(t, f);
     else if(func == easing_function::ease_elastic_out)
         return ease_elastic_out(t, f);
-    else if(func == easing_function::ease_exponential_in)
-        return ease_exponential_in(t, f);
-    else if(func == easing_function::ease_exponential_in_out)
-        return ease_exponential_in_out(t, f);
-    else if(func == easing_function::ease_exponential_out)
-        return ease_exponential_out(t, f);
     else if(func == easing_function::ease_in)
         return ease_in(t, f);
     else if(func == easing_function::ease_in_out)
@@ -296,26 +304,16 @@ float keyframe_animation_component::ease_out(float t, float f){
 }
 
 float keyframe_animation_component::ease_in_out(float t, float f){
-    int sign = 1;
-    int r = (int)f;
-    
-    if (r % 2 == 0)
-    {
-        sign = -1;
-    }
-    
     t *= 2;
-    if (t < 1)
-    {
-        return 0.5f * powf(t, f);
+	if (t < 1) {
+		return 0.5f * powf (t, f);
     }
-    else
-    {
-        return sign * 0.5f * (powf(t - 2, f) + sign * 2);
+	else {
+		return 1.0f - 0.5f * powf(2-t, f);
     }
 }
 
-#define M_PI_X_2 ((float)M_PI * 2.0f)
+#define M_PI_X_2 (float)M_PI * 2.0f
 
 float keyframe_animation_component::ease_elastic_in(float t, float f){
     float newT = 0;
@@ -366,7 +364,7 @@ float keyframe_animation_component::ease_elastic_in_out(float t, float f){
         float s = _period / 4;
         
         t = t - 1;
-        if (time < 0)
+        if (t < 0)
         {
             newT = -0.5f * powf(2, 10 * t) * sinf((t - s) * M_PI_X_2 / _period);
         }
@@ -400,26 +398,35 @@ float bounce_time(float time) {
 }
 
 float keyframe_animation_component::ease_bounce_in(float t, float f){
-    float newT = 1 - bounce_time(1 - t);
-    return newT;
+    float newT = t;
+	// prevents rounding errors
+	if( t !=0 && t!=1)
+		newT = 1 - bounce_time(1-t);
+    
+	return newT;
 }
 
 float keyframe_animation_component::ease_bounce_out(float t, float f){
-    return bounce_time(t);
+    float newT = t;
+	// prevents rounding errors
+	if( t !=0 && t!=1)
+		newT = bounce_time(t);
+    
+	return newT;
 }
 
 float keyframe_animation_component::ease_bounce_in_out(float t, float f){
-    float newT = 0;
-    if (t < 0.5f)
-    {
-        t = t * 2;
-        newT = (1 - bounce_time(1 - t)) * 0.5f;
-    }
-    else
-    {
-        newT = bounce_time(t * 2 - 1) * 0.5f + 0.5f;
-    }
-    return newT;
+    float newT;
+	// prevents possible rounding errors
+	if( t ==0 || t==1)
+		newT = t;
+	else if (t < 0.5) {
+		t = t * 2;
+		newT = (1 - bounce_time(1-t)) * 0.5f;
+	} else
+		newT = bounce_time(t * 2 - 1) * 0.5f + 0.5f;
+    
+	return newT;
 }
 
 float keyframe_animation_component::ease_back_in(float t, float f){
@@ -440,35 +447,13 @@ float keyframe_animation_component::ease_back_in_out(float t, float f){
     t = t * 2;
     if (t < 1)
     {
-        return ((t * t * ((overshoot + 1) * t - overshoot)) / 2);
+        return (t * t * ((overshoot + 1) * t - overshoot)) / 2;
     }
     else
     {
         t = t - 2;
-        return ((t * t * ((overshoot + 1) + overshoot)) / 2 + 1);
+        return (t * t * ((overshoot + 1) * t + overshoot)) / 2 + 1;
     }
-}
-
-float keyframe_animation_component::ease_exponential_in(float t, float f){
-    return t == 0 ? 0 : powf(2, 10 * (t/1 - 1)) - 1 * 0.001f;
-}
-
-float keyframe_animation_component::ease_exponential_out(float t, float f){
-    return t == 1 ? 1 : (-powf(2, -10 * t / 1) + 1);
-}
-
-float keyframe_animation_component::ease_exponential_in_out(float t, float f){
-    t /= 0.5f;
-    if (t < 1)
-    {
-        t = 0.5f * powf(2, 10 * (t - 1));
-    }
-    else
-    {
-        t = 0.5f * (-powf(2, 10 * (t - 1)) + 2);
-    }
-    
-    return t;
 }
 
 
@@ -491,8 +476,21 @@ void keyframe_animation_component::reselect_animated(){
 void keyframe_animation_component::preview_current_keyframe(){
     if(!in_editor())
         return;
-    for (auto _n : _current_pos->animated)
-        _n->transform(_current_pos->transforms[_n]);
+    if(_current_pos->is_placeholder)
+        return;
+    restore_pending_buffer();
+    set_internal_animation_if_dirty();
+    
+    auto _current_frame = 0.0f;
+    for (auto _it = _keyframes.begin(); _it != _current_pos; _it++) {
+        _current_frame += _it->n_frames;
+    }
+    
+    for (size_t i = 0; i < _anim_nodes.size(); i++) {
+        auto _pos = _anim_positions[_n_frames * i + _current_frame];
+        auto _rot = _anim_rotations[_n_frames * i + _current_frame];
+        _anim_nodes[i]->transform(_anim_nodes[i]->transform().moved(_pos).rotated(_rot, _rot + (float)M_PI_2));
+    }
 }
 
 
@@ -536,6 +534,7 @@ void keyframe_animation_component::record_keyframe(){
             return;
         }
     }
+    _current_pos->delay = _current_delay;
     //do it...
     for (auto _n : _sel){
         _current_pos->animated.insert(_n);
@@ -715,8 +714,8 @@ void keyframe_animation_component::delete_current(){
     
     _current_pos = _keyframes.erase(_current_pos);
     auto _index = 0;
-    for (auto _k : _keyframes){
-        _k.index = _index;
+    for (auto _it = _keyframes.begin(); _it != _keyframes.end(); _it++){
+        _it->index = _index;
         _index++;
     }
     
@@ -727,9 +726,10 @@ void keyframe_animation_component::delete_current(){
 }
 
 void keyframe_animation_component::record_start(){
-    if(_keyframes.size() > 1 && in_editor()){
-        parent_scene()->confirm(u"Would you like to remove all the keyframes?", [this](bool result){
-            continue_record_start();
+    if(in_editor()){
+        parent_scene()->confirm(u"Would you like to record a new start?", [this](bool result){
+            if(result)
+                continue_record_start();
         });
         return;
     }
@@ -758,12 +758,31 @@ void keyframe_animation_component::continue_record_start(){
             parent_scene()->alert(u"Invalid name: '" + _n->name() + u"'");
             return;
         }
+        //check polygon points
+        auto _pol = dynamic_cast<polygon_component*>(_n);
+        if(_pol){
+            for(auto _p : *_pol){
+                if(!is_valid_id(_p->name()))
+                {
+                    parent_scene()->alert(u"Invalid name: '" + _p->name() + u"'");
+                    return;
+                }
+            }
+        }
     }
     //do it...
     for (auto _n : _sel){
         _anim_nodes_set.insert(_n);
         _anim_nodes.push_back(_n);
         _anim_nodes_saved_transforms.insert({_n, _n->transform()});
+        auto _pol = dynamic_cast<polygon_component*>(_n);
+        if(_pol){
+            for(auto _p : *_pol){
+                _anim_nodes_set.insert(_p);
+                _anim_nodes.push_back(_p);
+                _anim_nodes_saved_transforms.insert({_p, _p->transform()});
+            }
+        }
     }
     notify_property_changed(u"current_index");
     notify_property_changed(u"current_delay");
@@ -771,8 +790,11 @@ void keyframe_animation_component::continue_record_start(){
 }
 
 void keyframe_animation_component::reset_transforms(){
+    std::vector<node*> _sel;
+    parent_scene()->current()->fill_with_selection(_sel);
+    auto _no_selection = (parent_scene()->current()->selection_count() == 0) || (_sel.size() == 1 && _sel[0] == (node*)this);
     for (auto _n : _anim_nodes){
-        if(parent_scene()->current()->selection_count() != 0){
+        if(!_no_selection){
             if(_n->is_selected())
                 _n->transform(_anim_nodes_saved_transforms[_n]);
         }
@@ -1147,7 +1169,7 @@ buffer keyframe_animation_component::save_state() const {
     return _buff;
 }
 
-void keyframe_animation_component::restore_state(rb::buffer buff){
+bool keyframe_animation_component::restore_state(rb::buffer buff){
     auto _buff = const_cast<void*>(buff.internal_buffer());
     void* _cont = nullptr;
     auto _names = sfrom_buffer(_buff, &_cont);
@@ -1158,7 +1180,8 @@ void keyframe_animation_component::restore_state(rb::buffer buff){
     _anim_nodes_set.clear();
     for (auto _name : _nv){
         auto _n = parent_scene()->node_with_name(_name);
-        assert(_n);
+        if(!_n)
+            return false;
         _anim_nodes.push_back(_n);
         _anim_nodes_set.insert(_n);
     }
@@ -1191,18 +1214,20 @@ void keyframe_animation_component::restore_state(rb::buffer buff){
     kfrom_buffer(_keyframes, _anim_nodes, _buff);
     _current_pos = _keyframes.end();
     _current_pos--;
+    return true;
 }
 
 void keyframe_animation_component::restore_pending_buffer(){
     if(!_pending_buffer.has_value())
         return;
     
-    restore_state(_pending_buffer.value());
-    _pending_buffer = nullptr;
+    if(restore_state(_pending_buffer.value()))
+        _pending_buffer = nullptr;
 }
 
 void keyframe_animation_component::reset_component(){
     restore_pending_buffer();
+    set_internal_animation_if_dirty();
     
     for (size_t i = 0; i < _anim_nodes.size(); i++) {
         _anim_nodes[i]->transform(_anim_nodes_saved_transforms[_anim_nodes[i]]);
@@ -1218,11 +1243,12 @@ void keyframe_animation_component::playing(){
         _saved_playing_anim = _playing_anim;
         _current_frame_an = 0;
         restore_pending_buffer();
+        set_internal_animation_if_dirty();
     }
 }
 
 void keyframe_animation_component::was_deserialized(){
-    restore_pending_buffer();
+//    restore_pending_buffer();
 }
 
 void keyframe_animation_component::update(float dt){
@@ -1243,8 +1269,11 @@ void keyframe_animation_component::update(float dt){
                 _playing_mirror = true;
             }
         }
-        else
+        else {
+            _current_frame_an = 0;
+            _playing_anim = false;
             return;
+        }
     }
     else if(_current_frame_an < 0){
         _current_frame_an = 0;
@@ -1264,14 +1293,15 @@ void keyframe_animation_component::update(float dt){
 }
 
 void keyframe_animation_component::in_editor_update(float dt){
+    restore_pending_buffer();
+    
     if(is_playing())
         return;
     
-    restore_pending_buffer();
-    set_internal_animation_if_dirty();
-    
     if(!_ed_playing_anim)
         return;
+    
+    set_internal_animation_if_dirty();
     
     if(_ed_current_frame_an >= _n_frames){
         if(_loop){
@@ -1284,8 +1314,11 @@ void keyframe_animation_component::in_editor_update(float dt){
                 _ed_playing_mirror = true;
             }
         }
-        else
+        else {
+            _ed_current_frame_an = 0;
+            _ed_playing_anim = false;
             return;
+        }
     }
     else if(_ed_current_frame_an < 0){
         _ed_current_frame_an = 0;

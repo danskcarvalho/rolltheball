@@ -114,21 +114,6 @@ namespace rb {
     public:
         virtual float operator()(float time) const override;
     };
-    
-    class ease_exponential_in : public animation_function {
-    public:
-        virtual float operator()(float time) const override;
-    };
-    
-    class ease_exponential_out : public animation_function {
-    public:
-        virtual float operator()(float time) const override;
-    };
-    
-    class ease_exponential_in_out : public animation_function {
-    public:
-        virtual float operator()(float time) const override;
-    };
 }
 
 #endif /* defined(__RollerBallCore__animation_function__) */

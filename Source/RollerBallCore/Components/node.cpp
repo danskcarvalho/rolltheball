@@ -285,7 +285,7 @@ bool node::remove_node(rb::node *n, bool cleanup){
     assert(n->_added);
     bool _n_removed = this->node_container::remove_node(n, false);
     if(_n_removed){
-        if(parent_scene()->_locked_selection == this)
+        if(parent_scene() && parent_scene()->_locked_selection == this)
             parent_scene()->unlock_selection();
         
         if(_parent_layer && _parent_layer->parent_scene()->active()){
@@ -293,9 +293,9 @@ bool node::remove_node(rb::node *n, bool cleanup){
         }
         
         n->_added = false;
+        n->set_layer_recursively(nullptr);
         n->_parent_layer = nullptr;
         n->_parent_node = nullptr;
-        n->set_layer_recursively(nullptr);
         
         if(_parent_layer && _parent_layer->parent_scene()->active()){
             n->internal_after_becoming_inactive(n->_move_flag != 0);
