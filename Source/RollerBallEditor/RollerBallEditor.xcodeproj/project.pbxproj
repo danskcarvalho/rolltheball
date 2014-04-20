@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		450AF1E21903553E00F564D3 /* Distribute.xib in Resources */ = {isa = PBXBuildFile; fileRef = 450AF1E11903553E00F564D3 /* Distribute.xib */; };
+		450AF1E4190365BA00F564D3 /* PerformAction.xib in Resources */ = {isa = PBXBuildFile; fileRef = 450AF1E3190365BA00F564D3 /* PerformAction.xib */; };
 		4523D93216CF7B50001E77A0 /* Settings.icns in Resources */ = {isa = PBXBuildFile; fileRef = 4523D93116CF7B50001E77A0 /* Settings.icns */; };
 		452EEC81175CB60E00AE561B /* NavigablePropertyInspector.m in Sources */ = {isa = PBXBuildFile; fileRef = 452EEC80175CB60E00AE561B /* NavigablePropertyInspector.m */; };
 		4534237116DFC3E600615198 /* 1361981129_check-all.png in Resources */ = {isa = PBXBuildFile; fileRef = 4534237016DFC3E600615198 /* 1361981129_check-all.png */; };
@@ -119,6 +121,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		450AF1E11903553E00F564D3 /* Distribute.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Distribute.xib; sourceTree = "<group>"; };
+		450AF1E3190365BA00F564D3 /* PerformAction.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PerformAction.xib; sourceTree = "<group>"; };
 		4523D93116CF7B50001E77A0 /* Settings.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Settings.icns; sourceTree = "<group>"; };
 		452EEC7F175CB60E00AE561B /* NavigablePropertyInspector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NavigablePropertyInspector.h; sourceTree = "<group>"; };
 		452EEC80175CB60E00AE561B /* NavigablePropertyInspector.m */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = NavigablePropertyInspector.m; sourceTree = "<group>"; };
@@ -24671,6 +24675,8 @@
 				45EA05D81635B554002ECC37 /* DSAppDelegate.m */,
 				45EA05DA1635B554002ECC37 /* MainMenu.xib */,
 				45AACCF517AC97D800C04218 /* SelectNodeWithClass.xib */,
+				450AF1E11903553E00F564D3 /* Distribute.xib */,
+				450AF1E3190365BA00F564D3 /* PerformAction.xib */,
 				4563A48A165D8BCF00F38B64 /* DSCustomOpenGLView.h */,
 				4563A48B165D8BCF00F38B64 /* DSCustomOpenGLView.m */,
 				45B348E116DC1ABE0047334E /* DSCustomOpenGLViewDelegate.h */,
@@ -24753,6 +24759,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				45EA05D01635B554002ECC37 /* InfoPlist.strings in Resources */,
+				450AF1E4190365BA00F564D3 /* PerformAction.xib in Resources */,
 				45EA05D61635B554002ECC37 /* Credits.rtf in Resources */,
 				45EA05DC1635B554002ECC37 /* MainMenu.xib in Resources */,
 				45893CF4166565DD002B397D /* Editor-Icon.icns in Resources */,
@@ -24786,6 +24793,7 @@
 				45E612F516DCEF55007E1D79 /* 1361901969_layer.png in Resources */,
 				45E612F616DCEF55007E1D79 /* 1361902076_database.png in Resources */,
 				45E612F716DCEF55007E1D79 /* 1361902168_node-tree.png in Resources */,
+				450AF1E21903553E00F564D3 /* Distribute.xib in Resources */,
 				45E612F816DCEF55007E1D79 /* 1361902203_server_components.png in Resources */,
 				4534237116DFC3E600615198 /* 1361981129_check-all.png in Resources */,
 				45AACCF617AC97D800C04218 /* SelectNodeWithClass.xib in Resources */,

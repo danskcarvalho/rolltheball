@@ -58,6 +58,7 @@ void keyframe_animation_component::init(){
     _mirror = false;
     _initialized = false;
     _current_delay = 0;
+    _sync_attachable = false;
     notify_property_changed(u"mirror");
     notify_property_changed(u"loop");
     notify_property_changed(u"current_delay");
@@ -135,7 +136,7 @@ void keyframe_animation_component::generate_animation(rb::node *n, size_t start_
     }
 }
 
-polygon reconstruct_polygon(rb::polygon_component *pol_component, std::vector<vec2>& pts, transform_space& ts){
+static polygon reconstruct_polygon(rb::polygon_component *pol_component, std::vector<vec2>& pts, const transform_space& ts){
     polygon _polygon;
     _polygon = polygon::build_open_polygon(pts, _polygon);
     ts.from_space_to_base().transform_polygon(_polygon);
@@ -151,6 +152,56 @@ polygon reconstruct_polygon(rb::polygon_component *pol_component, std::vector<ve
     }
     else
         return _polygon;
+}
+
+void keyframe_animation_component::sync_attached(rb::polygon_component *pc, const std::vector<node *> &nodes){
+    //1. reconstruct polygon...
+    //get all the points current situations
+    std::vector<vec2> _pt_pos;
+    for(auto _p : *pc)
+        _pt_pos.push_back(_p->transform().origin());
+    //get the current transformation of polygon
+    auto _polygon = reconstruct_polygon(pc, _pt_pos, pc->transform());
+    //2. do a length mapping
+    polygon_path _path = polygon_path(_polygon);
+    for(auto _n : nodes){
+        auto _len = _attachments[_n].at_length;
+        auto _p = _path.point_at(_len, true);
+        uint32_t _e_index;
+        auto _e = _polygon.closest_edge(_p, _e_index);
+        auto _v = _e.normal();
+        if(_n->has_class(u"perpDir"))
+            _v = _v.rotated90();
+        if(_n->has_class(u"revDir"))
+            _v = -_v;
+        auto _r = vec2::right.angle_between(_v, rotation_direction::ccw);
+        
+        //set position and r...
+        _n->transform(_n->transform().moved(_p).rotated(vec2(_r, _r + (float)M_PI_2)));
+    }
+}
+
+void keyframe_animation_component::sync_attached(){
+    if(!_sync_attachable)
+        return;
+    std::unordered_set<polygon_component*> _attachable_set;
+    std::unordered_multimap<polygon_component*, node*> _attachments_s;
+    for (auto _kvp : _attachments){
+        _attachable_set.insert(_kvp.second.attached);
+        _attachments_s.insert({_kvp.second.attached, _kvp.first});
+    }
+    
+    for (auto _p : _attachable_set){
+        auto _r = _attachments_s.equal_range(_p);
+        std::vector<node*> _att_nodes;
+        for(auto _it = _r.first; _it != _r.second; _it++)
+            _att_nodes.push_back(_it->second);
+        std::sort(_att_nodes.begin(), _att_nodes.end(), [=](node* a, node* b){
+            return _attachments.at(a).at_length < _attachments.at(b).at_length;
+        });
+        
+        sync_attached(_p, _att_nodes);
+    }
 }
 
 void keyframe_animation_component::generate_animation_for_attached(std::vector<node *> &nodes, rb::polygon_component *attachable){
@@ -1298,8 +1349,10 @@ void keyframe_animation_component::in_editor_update(float dt){
     if(is_playing())
         return;
     
-    if(!_ed_playing_anim)
+    if(!_ed_playing_anim){
+        sync_attached();
         return;
+    }
     
     set_internal_animation_if_dirty();
     

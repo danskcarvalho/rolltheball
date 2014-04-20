@@ -546,13 +546,25 @@
                                 </connections>
                             </menuItem>
                             <menuItem isSeparatorItem="YES" id="WNo-KS-ilx"/>
-                            <menuItem title="Lock Selection" keyEquivalent="L" id="DuJ-mi-EMx">
+                            <menuItem title="Distribute" keyEquivalent="d" id="LxE-DC-b5y">
+                                <connections>
+                                    <action selector="distributeNodes:" target="581" id="GY0-LD-rsn"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Perform Action" keyEquivalent="k" id="WVV-Ah-pNb">
+                                <connections>
+                                    <action selector="performActionOnNodes:" target="581" id="1qK-kL-O1S"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="HQi-XW-wUh"/>
+                            <menuItem title="Lock Selection" keyEquivalent="l" id="DuJ-mi-EMx">
+                                <modifierMask key="keyEquivalentModifierMask" control="YES"/>
                                 <connections>
                                     <action selector="lockSelection:" target="581" id="Avp-jE-Lso"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Unlock Selection" keyEquivalent="L" id="Y2F-iz-eOL">
-                                <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
+                            <menuItem title="Unlock Selection" keyEquivalent="l" id="Y2F-iz-eOL">
+                                <modifierMask key="keyEquivalentModifierMask" control="YES" option="YES"/>
                                 <connections>
                                     <action selector="unlockSelection:" target="581" id="VjZ-Zh-VWr"/>
                                 </connections>

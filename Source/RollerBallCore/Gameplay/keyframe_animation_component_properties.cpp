@@ -197,6 +197,14 @@ void keyframe_animation_component::describe_type(){
         else
             site->remove_attachment_for_all();
     });
+    boolean_property<keyframe_animation_component>(u"sync_attached", u"Sync Att", true, {
+        [](const keyframe_animation_component* site){
+            return site->_sync_attachable;
+        },
+        [](keyframe_animation_component* site, bool value){
+            site->_sync_attachable = value;
+        }
+    });
     action<keyframe_animation_component>(u"play", u"Play", action_flags::multi_dispatch, {u"Play", u"Resume", u"Pause"}, [](keyframe_animation_component* site, const rb_string& actionName){
         if(actionName == u"Play")
             site->editor_play_animation();

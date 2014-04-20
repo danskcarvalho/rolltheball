@@ -34,6 +34,23 @@ namespace rb {
     class mesh;
     class dynamic_mesh_batch;
     class basic_process;
+    struct distribution_info {
+        distribution_type type;
+        nullable<float> space;
+        bool clamp;
+        float min_size;
+        float max_size;
+        bool change_size;
+        distribution_info(){
+            type = distribution_type::horizontally;
+            space = nullptr;
+            clamp = false;
+            min_size = 1.0f;
+            max_size = 1.0f;
+            change_size = false;
+        }
+    };
+    
     class scene : private responder, public typed_object {
     private:
         typedef std::unordered_set<node*, std::hash<node*>, std::equal_to<node*>, boost::pool_allocator<node*>> node_set;
@@ -352,6 +369,13 @@ namespace rb {
         //removing degenerated
     public:
         uint32_t remove_degenerated();
+        //distribute
+    public:
+        void distribute(const distribution_info& di);
+        //perform action
+    public:
+        void perform_action_with_class(const rb_string& cls, action_type act);
+        void perform_action_with_id(const rb_string& idd, action_type act);
     };
 }
 

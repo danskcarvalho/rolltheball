@@ -1029,6 +1029,19 @@ inline rb_string from_platform_string(NSString* str){
     [[NSApplication sharedApplication] endSheet:self.selectNodeWithClassWindow];
 }
 
+- (IBAction)doPerformAction:(id)sender {
+    rb::action_type act = (rb::action_type)[self.pfActionSel selectedTag];
+    if([self.pfActionClassOpt state] == NSOnState)
+        director::active_scene()->perform_action_with_class(from_platform_string([self.pfActionTxt stringValue]), act);
+    else
+        director::active_scene()->perform_action_with_id(from_platform_string([self.pfActionTxt stringValue]), act);
+    [[NSApplication sharedApplication] endSheet:self.pfActionWindow];
+}
+
+- (IBAction)cancelPerformAction:(id)sender {
+    [[NSApplication sharedApplication] endSheet:self.pfActionWindow];
+}
+
 -(NSUInteger)countOfComponents{
     return [self.components count];
 }
@@ -1588,6 +1601,60 @@ inline rb_string from_platform_string(NSString* str){
 
 - (IBAction)unlockSelection:(id)sender {
     director::active_scene()->unlock_selection();
+}
+
+- (IBAction)performActionOnNodes:(id)sender {
+    NSArray* topLevelObjects;
+    [[NSBundle mainBundle] loadNibNamed: @"PerformAction" owner: self topLevelObjects:&topLevelObjects];
+    NSWindow* sheet;
+    for (int i = 0; i < topLevelObjects.count; i++) {
+        id obj = [topLevelObjects objectAtIndex:i];
+        if([obj isKindOfClass:[NSWindow class]]){
+            sheet = obj;
+            break;
+        }
+    }
+    [[NSApplication sharedApplication] beginSheet:sheet modalForWindow:[self window] modalDelegate:self didEndSelector:@selector(didEndSelectNode:returnCode:contextInfo:) contextInfo:NULL];
+}
+
+- (IBAction)distribCancel:(id)sender {
+    [[NSApplication sharedApplication] endSheet:self.distributeWindow];
+}
+
+- (IBAction)doDistrib:(id)sender {
+    rb::distribution_info di;
+    if([self.distribHorOption state] == NSOnState)
+        di.type = distribution_type::horizontally;
+    else if([self.distribVerOption state] == NSOnState)
+        di.type = distribution_type::vertically;
+    else
+        di.type = distribution_type::along_path;
+    if(![[self.distribSpaceTxt stringValue] isEqualToString:@""])
+        di.space = [self.distribSpaceTxt floatValue];
+    di.clamp = [self.distribClampOption state] == NSOnState;
+    if(![[self.distribMinTxt stringValue] isEqualToString:@""] && ![[self.distribMaxTxt stringValue] isEqualToString:@""]){
+        di.min_size = [self.distribMinTxt floatValue];
+        di.max_size = [self.distribMaxTxt floatValue];
+        di.change_size = true;
+    }
+    else
+        di.change_size = false;
+    director::active_scene()->distribute(di);
+    [[NSApplication sharedApplication] endSheet:self.distributeWindow];
+}
+
+- (IBAction)distributeNodes:(id)sender {
+    NSArray* topLevelObjects;
+    [[NSBundle mainBundle] loadNibNamed: @"Distribute" owner: self topLevelObjects:&topLevelObjects];
+    NSWindow* sheet;
+    for (int i = 0; i < topLevelObjects.count; i++) {
+        id obj = [topLevelObjects objectAtIndex:i];
+        if([obj isKindOfClass:[NSWindow class]]){
+            sheet = obj;
+            break;
+        }
+    }
+    [[NSApplication sharedApplication] beginSheet:sheet modalForWindow:[self window] modalDelegate:self didEndSelector:@selector(didEndSelectNode:returnCode:contextInfo:) contextInfo:NULL];
 }
 - (void)confirmDidEnd:(NSAlert *)alert returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo{
     ConfirmationBlock block = (__bridge_transfer ConfirmationBlock)contextInfo;

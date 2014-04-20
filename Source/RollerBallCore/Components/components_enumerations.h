@@ -136,6 +136,22 @@ namespace rb {
         stopped = 0,
         playing = 1
     };
+    
+    enum class distribution_type {
+        horizontally = 0,
+        vertically = 1,
+        along_path = 2
+    };
+    
+    enum class action_type {
+        select = 0,
+        add_to_selection = 1,
+        unselect = 2,
+        block = 3,
+        unblock = 4,
+        hide = 5,
+        unhide = 6
+    };
 }
 
 BEGIN_STRINGIFY_ENUM(node_filter)

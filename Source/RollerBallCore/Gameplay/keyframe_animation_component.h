@@ -59,6 +59,7 @@ namespace rb {
     public:
         typedef std::list<keyframe>::iterator iterator;
     private:
+        bool _sync_attachable;
         std::list<keyframe> _keyframes; //list of keyframes...
         iterator _current_pos; //keyframe current pos...
         std::vector<node*> _anim_nodes; //this includes the polygon points and attached nodes...
@@ -100,6 +101,10 @@ namespace rb {
         nullable<buffer> _pending_buffer;
         //initialization
         void init();
+        //sync attached
+    private:
+        void sync_attached(polygon_component* pc, const std::vector<node*>& nodes);
+        void sync_attached();
     private:
         void generate_animation(node* n, size_t start_index);
         void generate_animation_for_attached(std::vector<node*>& nodes, polygon_component* attachable);
