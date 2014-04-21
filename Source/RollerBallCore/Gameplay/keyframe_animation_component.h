@@ -14,6 +14,7 @@
 #include "vec2.h"
 #include "resettable_component.h"
 #include "transform_space.h"
+#include "action_target.h"
 
 namespace rb {
     class buffer;
@@ -55,7 +56,7 @@ namespace rb {
         keyframe();
     };
     class polygon_component;
-    class keyframe_animation_component : public nvnode, public resettable_component {
+    class keyframe_animation_component : public nvnode, public resettable_component, public action_target {
     public:
         typedef std::list<keyframe>::iterator iterator;
     private:
@@ -204,7 +205,8 @@ namespace rb {
         virtual void playing() override;
     protected:
         virtual void in_editor_update(float dt);
-        virtual void was_deserialized() override;
+    public:
+        virtual void do_action(const rb_string& action_name, const rb_string& arg) override;
     };
 }
 

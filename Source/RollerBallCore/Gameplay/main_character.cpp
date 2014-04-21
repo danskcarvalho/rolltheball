@@ -24,8 +24,8 @@
 //Some constants
 #define PHYS_CHARACTER_VELOCITY 5.5f
 #define PHYS_CHARACTER_ACCEL (PHYS_CHARACTER_VELOCITY / (0.25f * 30.0f))
-#define PHYS_CHARACTER_JUMP 5.5f
-#define PHYS_CHARACTER_JUMP_COUNT 1
+#define PHYS_CHARACTER_JUMP 4.5f
+#define PHYS_CHARACTER_JUMP_COUNT 2
 //Camera Constants
 #define CAMERA_SCALE_X 8
 #define CAMERA_SCALE_Y 8
@@ -625,7 +625,12 @@ void main_character::update_movingplatform(vec2& vel, nullable<float>& rot_vel, 
                 vel = _tangent * _moving_vel;
                 _set_to_null = true;
                 rot_vel = _rotation_vel;
-                vel.y(_vy + vel.y() / 3);
+                if(!_previous_g.has_value())
+                    vel.y(_vy + vel.y() / 3);
+                else{
+                    vel.y(vel.y() / 3);
+                    vel += -_vy * _previous_g.value().normalized();
+                }
             }
         }
     }
@@ -690,8 +695,10 @@ void main_character::update_character(vec2& cam_gravity, float dt){
         _current_gZone = nullptr;
     }
     
-    if (_current_gZone)
+    if (_current_gZone && _current_gZone->planet())
         _g = _current_gZone->planet()->gravity_vector(transform().origin(), cam_gravity);
+    else if(_current_gZone)
+        _g = _current_gZone->gravity_vector(transform().origin(), cam_gravity);
     
     if(_g == vec2::zero){
         _g = _default_gravity;
@@ -1209,6 +1216,9 @@ void main_character::BeginContact(b2Contact *contact){
         auto _ground = std::get<1>(_groundContact);
         auto _block = std::get<1>(_groundContact2);
         
+        if(_ground)
+            _ground->main_character_entered();
+        
         if(_block && _block->explode_character_contact())
             this->_block_to_break = _block;
         
@@ -1266,6 +1276,9 @@ void main_character::EndContact(b2Contact *contact){
         (std::get<0>(_groundContact2) && std::get<1>(_groundContact2)))
         && contact->IsEnabled()){
         
+        if(std::get<1>(_groundContact))
+            std::get<1>(_groundContact)->main_character_exitted();
+        
         if(_current_ground == contact->GetFixtureA()->GetBody() ||
            _current_ground == contact->GetFixtureB()->GetBody()){
             _normal = nullptr;
@@ -1291,6 +1304,10 @@ void main_character::PreSolve(b2Contact *contact, const b2Manifold *oldManifold)
 
 void main_character::PostSolve(b2Contact *contact, const b2ContactImpulse *impulse){
 //    EndContact(contact);
+}
+
+void main_character::do_action(const rb_string& action_name, const rb_string& arg){
+    
 }
 
 

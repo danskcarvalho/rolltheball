@@ -127,6 +127,10 @@ void saw::playing(){
     }
 }
 
+void saw::do_action(const rb_string& action_name, const rb_string& arg){
+    
+}
+
 
 
 

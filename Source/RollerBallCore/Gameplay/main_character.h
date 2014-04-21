@@ -15,6 +15,7 @@
 #include "touch.h"
 #include "resettable_component.h"
 #include "polygon.h"
+#include "action_target.h"
 #include <Box2D/Box2D.h>
 
 class b2World;
@@ -27,7 +28,7 @@ namespace rb {
     class particle_emitter_component;
     class base_enemy;
     typedef void* animation_id;
-    class main_character : public node, public b2ContactListener, public resettable_component {
+    class main_character : public node, public b2ContactListener, public resettable_component, public action_target {
     private:
         //touches
         std::vector<std::tuple<touch, vec2>> _touches; //current touches (touch, Initial position)
@@ -171,6 +172,8 @@ namespace rb {
         void shake_camera();
         const vec2& camera_scale() const;
         const vec2& camera_scale(const vec2& value);
+    public:
+        virtual void do_action(const rb_string& action_name, const rb_string& arg) override;
     };
 }
 

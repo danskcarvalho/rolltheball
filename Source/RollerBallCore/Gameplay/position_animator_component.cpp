@@ -431,6 +431,13 @@ float position_animator_component::endpoint_asleep_duration(float value){
     return _endpoint_asleep_duration = value;
 }
 
+void position_animator_component::do_action(const rb_string& action_name, const rb_string& arg){
+    if(action_name == u"play")
+        paused_animation(false);
+    else if(action_name == u"pause")
+        paused_animation(true);
+}
+
 
 
 

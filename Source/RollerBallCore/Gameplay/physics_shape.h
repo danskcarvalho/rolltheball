@@ -12,6 +12,7 @@
 #include "components_base.h"
 #include "polygon_component.h"
 #include "resettable_component.h"
+#include "action_target.h"
 
 class b2World;
 class b2Body;
@@ -20,7 +21,7 @@ namespace rb {
     class main_character;
     class ray;
 //    class position_animator_component;
-    class physics_shape : public polygon_component, public resettable_component {
+    class physics_shape : public polygon_component, public resettable_component, public action_target {
 //    public:
 //        friend class position_animator_component;
     protected:
@@ -28,7 +29,8 @@ namespace rb {
     public:
         enum type {
             kStaticGravityZone = 0,
-            kStaticPlanet = 1
+            kStaticPlanet = 1,
+            kNothing = 2
         };
     private:
         float _gravity;
@@ -51,6 +53,14 @@ namespace rb {
         bool _moving_platform;
         vec2 _pt0;
         vec2 _pt1;
+        //action-fire
+        bool _fire_action_once;
+        bool _fired_on_enter;
+        bool _fired_on_exit;
+        rb_string _on_enter_action_buffer;
+        rb_string _on_enter_action_name;
+        rb_string _on_exit_action_buffer;
+        rb_string _on_exit_action_name;
     public:
         friend class main_character;
         physics_shape();
@@ -69,6 +79,8 @@ namespace rb {
     protected:
         virtual void playing() override;
     public:
+        void main_character_entered();
+        void main_character_exitted();
         bool animatable() const;
         bool animatable(bool value);
         type shape_type() const;
@@ -96,6 +108,8 @@ namespace rb {
         ray get_ray() const;
         vec2 get_velocity_at_pt(const vec2& pt) const;
         b2Body* get_body();
+    public:
+        virtual void do_action(const rb_string& action_name, const rb_string& arg) override;
     };
 }
 

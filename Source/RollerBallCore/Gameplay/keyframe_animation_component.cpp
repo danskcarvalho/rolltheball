@@ -952,7 +952,7 @@ void keyframe_animation_component::editor_pause_animation(){
     _ed_playing_anim = false;
 }
 
-void align4(size_t* s){
+static void align4(size_t* s){
     if((*s) == 0)
         return;
     auto _mod = (*s) % 4;
@@ -963,7 +963,7 @@ void align4(size_t* s){
 }
 
 template<class T>
-void * tto_buffer(const std::vector<T>& v, uint32_t* size){
+static void * tto_buffer(const std::vector<T>& v, uint32_t* size){
     auto _size = 8 + v.size() * sizeof(T);
     align4(&_size);
     auto _mem = (uint32_t*)malloc(_size);
@@ -978,7 +978,7 @@ void * tto_buffer(const std::vector<T>& v, uint32_t* size){
 }
 
 template<class T>
-void tfrom_buffer(void* buffer, std::vector<T>& v, void** next){
+static void tfrom_buffer(void* buffer, std::vector<T>& v, void** next){
     uint32_t* _u32mem = (uint32_t*)buffer;
     uint32_t _sizeBytes = _u32mem[0];
     uint32_t _countItems = _u32mem[1];
@@ -994,7 +994,7 @@ void tfrom_buffer(void* buffer, std::vector<T>& v, void** next){
     *next = (((char*)buffer) + _sizeBytes);
 }
 
-void* to_buffer(const rb_string& str, uint32_t* size){
+static void* to_buffer(const rb_string& str, uint32_t* size){
     auto _size = 8 + str.size() * sizeof(rb_string::value_type);
     align4(&_size);
     auto _mem = (uint32_t*)malloc(_size);
@@ -1008,7 +1008,7 @@ void* to_buffer(const rb_string& str, uint32_t* size){
     return _mem;
 }
 
-rb_string sfrom_buffer(void* buffer, void** next){
+static rb_string sfrom_buffer(void* buffer, void** next){
     uint32_t* _u32mem = (uint32_t*)buffer;
     uint32_t _sizeBytes = _u32mem[0];
     uint32_t _countItems = _u32mem[1];
@@ -1298,10 +1298,6 @@ void keyframe_animation_component::playing(){
     }
 }
 
-void keyframe_animation_component::was_deserialized(){
-//    restore_pending_buffer();
-}
-
 void keyframe_animation_component::update(float dt){
     restore_pending_buffer();
     set_internal_animation_if_dirty();
@@ -1403,6 +1399,14 @@ rb_string keyframe_animation_component::displayable_type_name() const {
     return u"Keyframe Animator";
 }
 
+void keyframe_animation_component::do_action(const rb_string& action_name, const rb_string& arg){
+    if(action_name == u"play")
+        play_animation();
+    else if(action_name == u"pause")
+        pause_animation();
+    else if(action_name == u"resume")
+        resume_animation();
+}
 
 
 

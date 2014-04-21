@@ -12,9 +12,10 @@
 #include "components_base.h"
 #include "nvnode.h"
 #include "resettable_component.h"
+#include "action_target.h"
 
 namespace rb {
-    class rotation_animator_component : public nvnode, public resettable_component {
+    class rotation_animator_component : public nvnode, public resettable_component, public action_target {
     protected:
         virtual void reset_component();
     private:
@@ -74,6 +75,8 @@ namespace rb {
         const nullable<float>& max_angle(const nullable<float>& value);
     public:
         virtual void playing() override;
+    public:
+        virtual void do_action(const rb_string& action_name, const rb_string& arg) override;
     };
 }
 

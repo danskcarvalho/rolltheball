@@ -25,6 +25,7 @@
 #include "position_animator_component.h"
 #include "breakable_block.h"
 #include "keyframe_animation_component.h"
+#include "action_buffer.h"
 #import <Foundation/Foundation.h>
 
 using namespace rb;
@@ -63,6 +64,7 @@ void director::register_creatable_types(){
     register_creatable_type(type_descriptor::get<saw>());
     register_creatable_type(type_descriptor::get<breakable_block>());
     register_creatable_type(type_descriptor::get<keyframe_animation_component>());
+    register_creatable_type(type_descriptor::get<action_buffer>());
     
     //register serializable types
     register_serializable_type<scene>();
@@ -80,6 +82,7 @@ void director::register_creatable_types(){
     register_serializable_type<position_animator_component>();
     register_serializable_type<breakable_block>();
     register_serializable_type<keyframe_animation_component>();
+    register_serializable_type<action_buffer>();
 }
 
 void director::active_scene(rb::scene *scene, bool cleanup){

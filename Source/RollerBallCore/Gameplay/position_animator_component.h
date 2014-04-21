@@ -13,9 +13,10 @@
 #include "nvnode.h"
 #include "resettable_component.h"
 #include "polygon_path.h"
+#include "action_target.h"
 
 namespace rb {
-    class position_animator_component : public nvnode, public resettable_component {
+    class position_animator_component : public nvnode, public resettable_component, public action_target {
     private:
         std::vector<node*> _nodes;
         std::vector<float> _lengths;
@@ -80,6 +81,8 @@ namespace rb {
         void adjust_objects_to_path();
     public:
         virtual void playing() override;
+    public:
+        virtual void do_action(const rb_string& action_name, const rb_string& arg) override;
     };
 }
 

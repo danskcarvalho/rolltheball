@@ -83,6 +83,9 @@ const vec2& physics_engine::default_gravity(const rb::vec2 &value){
     return _default_gravity = value;
 }
 
+void physics_engine::do_action(const rb_string& action_name, const rb_string& arg){
+    
+}
 
 
 

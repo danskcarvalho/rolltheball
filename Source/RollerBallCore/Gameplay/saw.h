@@ -13,11 +13,12 @@
 #include "node.h"
 #include "base_enemy.h"
 #include "resettable_component.h"
+#include "action_target.h"
 #include <Box2D/Box2D.h>
 
 namespace rb {
     class sprite_component;
-    class saw : public node, public base_enemy, public resettable_component {
+    class saw : public node, public base_enemy, public resettable_component, public action_target {
     protected:
         virtual void reset_component() override;
     private:
@@ -44,6 +45,8 @@ namespace rb {
         virtual void playing() override;
     public:
         saw();
+    public:
+        virtual void do_action(const rb_string& action_name, const rb_string& arg) override;
     };
 }
 

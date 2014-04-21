@@ -395,6 +395,10 @@
 		4585F4D816E60D0800B605C4 /* sweep_context.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4585F4CA16E60D0800B605C4 /* sweep_context.cc */; };
 		4585F4D916E60D0800B605C4 /* sweep_context.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4585F4CA16E60D0800B605C4 /* sweep_context.cc */; };
 		4585F4DA16E60D0800B605C4 /* sweep_context.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4585F4CA16E60D0800B605C4 /* sweep_context.cc */; };
+		4586707A190449EB00544B7B /* action_buffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 45867078190449EB00544B7B /* action_buffer.cpp */; };
+		4586707B190449EB00544B7B /* action_buffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 45867078190449EB00544B7B /* action_buffer.cpp */; };
+		4586707E19044E7600544B7B /* action_target.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4586707C19044E7600544B7B /* action_target.cpp */; };
+		4586707F19044E7600544B7B /* action_target.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4586707C19044E7600544B7B /* action_target.cpp */; };
 		458969C7186F2CD400BAFDBB /* particle_emitter_component.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 458969C5186F2CD400BAFDBB /* particle_emitter_component.cpp */; };
 		458969C8186F2CD400BAFDBB /* particle_emitter_component.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 458969C5186F2CD400BAFDBB /* particle_emitter_component.cpp */; };
 		458A013D1778966800E8D7AD /* TextureAtlasLoader.mm in Sources */ = {isa = PBXBuildFile; fileRef = 458A013C1778966800E8D7AD /* TextureAtlasLoader.mm */; };
@@ -9974,6 +9978,10 @@
 		4585F4C916E60D0800B605C4 /* sweep.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sweep.h; sourceTree = "<group>"; };
 		4585F4CA16E60D0800B605C4 /* sweep_context.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = sweep_context.cc; sourceTree = "<group>"; };
 		4585F4CB16E60D0800B605C4 /* sweep_context.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sweep_context.h; sourceTree = "<group>"; };
+		45867078190449EB00544B7B /* action_buffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = action_buffer.cpp; path = Gameplay/action_buffer.cpp; sourceTree = "<group>"; };
+		45867079190449EB00544B7B /* action_buffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = action_buffer.h; path = Gameplay/action_buffer.h; sourceTree = "<group>"; };
+		4586707C19044E7600544B7B /* action_target.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = action_target.cpp; path = Gameplay/action_target.cpp; sourceTree = "<group>"; };
+		4586707D19044E7600544B7B /* action_target.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = action_target.h; path = Gameplay/action_target.h; sourceTree = "<group>"; };
 		458969C5186F2CD400BAFDBB /* particle_emitter_component.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = particle_emitter_component.cpp; path = Components/particle_emitter_component.cpp; sourceTree = "<group>"; };
 		458969C6186F2CD400BAFDBB /* particle_emitter_component.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = particle_emitter_component.h; path = Components/particle_emitter_component.h; sourceTree = "<group>"; };
 		458A013B1778966800E8D7AD /* TextureAtlasLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TextureAtlasLoader.h; path = Components/TextureAtlasLoader.h; sourceTree = "<group>"; };
@@ -10126,6 +10134,8 @@
 				451FACF618F208FB000D82CC /* breakable_block.cpp */,
 				45BA096D18FACBC7006444C4 /* keyframe_animation_component.cpp */,
 				45285E2818FCD1870031A628 /* keyframe_animation_component_properties.cpp */,
+				45867078190449EB00544B7B /* action_buffer.cpp */,
+				4586707C19044E7600544B7B /* action_target.cpp */,
 			);
 			name = Gameplay;
 			sourceTree = "<group>";
@@ -10133,6 +10143,8 @@
 		45139D6E17BAAAD2003AC03D /* Include */ = {
 			isa = PBXGroup;
 			children = (
+				45867079190449EB00544B7B /* action_buffer.h */,
+				4586707D19044E7600544B7B /* action_target.h */,
 				45BA096E18FACBC7006444C4 /* keyframe_animation_component.h */,
 				451FACF718F208FB000D82CC /* breakable_block.h */,
 				4575ADCB18C554B40017815A /* position_animator_component.h */,
@@ -26042,6 +26054,7 @@
 				4567710E15F040B900C91B3C /* b2ChainShape.cpp in Sources */,
 				4567711215F040B900C91B3C /* b2CircleShape.cpp in Sources */,
 				4567711615F040B900C91B3C /* b2EdgeShape.cpp in Sources */,
+				4586707F19044E7600544B7B /* action_target.cpp in Sources */,
 				4567711A15F040B900C91B3C /* b2PolygonShape.cpp in Sources */,
 				4567711F15F040B900C91B3C /* b2BlockAllocator.cpp in Sources */,
 				4567712315F040B900C91B3C /* b2Draw.cpp in Sources */,
@@ -26162,6 +26175,7 @@
 				458A01421778974F00E8D7AD /* Resolutions.m in Sources */,
 				457EFAD2177B78DA0042AF9F /* texture_atlas_loader.mm in Sources */,
 				45BA097018FACBC7006444C4 /* keyframe_animation_component.cpp in Sources */,
+				4586707B190449EB00544B7B /* action_buffer.cpp in Sources */,
 				45AACCDC17AC620700C04218 /* tokenizer.cpp in Sources */,
 				45A06C1417AEB794009087B7 /* misc_classes_2.cpp in Sources */,
 				45A06C1917AEB7AA009087B7 /* misc_classes_3.cpp in Sources */,
@@ -26262,6 +26276,7 @@
 				4567711915F040B900C91B3C /* b2PolygonShape.cpp in Sources */,
 				4567711E15F040B900C91B3C /* b2BlockAllocator.cpp in Sources */,
 				4567712215F040B900C91B3C /* b2Draw.cpp in Sources */,
+				4586707E19044E7600544B7B /* action_target.cpp in Sources */,
 				4567712715F040B900C91B3C /* b2Math.cpp in Sources */,
 				4567712B15F040B900C91B3C /* b2Settings.cpp in Sources */,
 				4567712F15F040B900C91B3C /* b2StackAllocator.cpp in Sources */,
@@ -26382,6 +26397,7 @@
 				457EFAD1177B78DA0042AF9F /* texture_atlas_loader.mm in Sources */,
 				45AACCDB17AC620700C04218 /* tokenizer.cpp in Sources */,
 				45BA096F18FACBC7006444C4 /* keyframe_animation_component.cpp in Sources */,
+				4586707A190449EB00544B7B /* action_buffer.cpp in Sources */,
 				45A06C1317AEB794009087B7 /* misc_classes_2.cpp in Sources */,
 				45A06C1817AEB7AA009087B7 /* misc_classes_3.cpp in Sources */,
 				4531D70B17B421DD004F0AA8 /* polygon_component.cpp in Sources */,

@@ -14,6 +14,7 @@
 #include "scene.h"
 #include "physics_engine.h"
 #include "physics_mask.h"
+#include "action_buffer.h"
 #include <random>
 #include <Box2D/Box2D.h> 
 
@@ -41,6 +42,7 @@ breakable_block::breakable_block(){
     _restoration_left = _restoration_time = 0;
     _restoration_enabled = false;
     _should_be_active = true;
+    _no_reentrancy = false;
     //sprite
     _sprite = new destructible_sprite_component();
     _sprite->matrix(vec2(DESTRUCTION_MATRIX, DESTRUCTION_MATRIX));
@@ -78,7 +80,9 @@ void breakable_block::animate_break(float t){
     
     auto _dt = t - _last_t;
     _last_t = t;
-    auto _gravity = vec2::down * EXPLOSION_GRAVITY_MAGNITUDE;
+    auto _down_vec = vec2::down;
+    this->from_node_space_to(space::camera).from_base_to_space().transform_vector(_down_vec).normalize();
+    auto _gravity = _down_vec * EXPLOSION_GRAVITY_MAGNITUDE;
     for (size_t i = 0; i < (DESTRUCTION_MATRIX * DESTRUCTION_MATRIX); i++) {
         _velocities[i] += _gravity * _dt;
     }
@@ -138,7 +142,7 @@ void breakable_block::break_block(bool animation){
         _should_be_active = false;
         _body->SetActive(false);
         _sprite->visible(false);
-        return;
+        goto CallAction;
     }
     
     _broken = true;
@@ -150,6 +154,15 @@ void breakable_block::break_block(bool animation){
     _sprite->opacity(1);
     _should_be_active = false;
     _body->SetActive(false);
+CallAction:
+    if(!_no_reentrancy){
+        if(_on_break_action_buffer != u""){
+            auto _buffer = dynamic_cast<action_buffer*>(parent_scene()->node_with_name(_on_break_action_buffer));
+            if(_buffer){
+                _buffer->perform_action(_on_break_action_name);
+            }
+        }
+    }
 }
 
 void breakable_block::restore_block(bool animation){
@@ -171,7 +184,7 @@ void breakable_block::restore_block(bool animation){
         _body->SetActive(true);
         _sprite->visible(true);
         _sprite->opacity(1);
-        return;
+        goto CallAction;
     }
     
     _broken = false;
@@ -183,6 +196,15 @@ void breakable_block::restore_block(bool animation){
     _sprite->opacity(0);
     _should_be_active = false;
     _body->SetActive(false);
+CallAction:
+    if(!_no_reentrancy){
+        if(_on_restore_action_buffer != u""){
+            auto _buffer = dynamic_cast<action_buffer*>(parent_scene()->node_with_name(_on_restore_action_buffer));
+            if(_buffer){
+                _buffer->perform_action(_on_restore_action_name);
+            }
+        }
+    }
 }
 
 bool breakable_block::is_touching_main_character(){
@@ -422,7 +444,53 @@ void breakable_block::describe_type() {
             site->explode_character_contact(value);
         }
     });
+    //actions
+    string_property<breakable_block>(u"on_break_action_buffer", u"Break Buffer", true, true, {
+        [](const breakable_block* site){
+            return site->_on_break_action_buffer;
+        },
+        [](breakable_block* site, const rb_string& value){
+            site->_on_break_action_buffer = value;
+        }
+    });
+    string_property<breakable_block>(u"on_break_action_name", u"Break Action", true, true, {
+        [](const breakable_block* site){
+            return site->_on_break_action_name;
+        },
+        [](breakable_block* site, const rb_string& value){
+            site->_on_break_action_name = value;
+        }
+    });
+    string_property<breakable_block>(u"on_restore_action_buffer", u"Restore Buffer", true, true, {
+        [](const breakable_block* site){
+            return site->_on_restore_action_buffer;
+        },
+        [](breakable_block* site, const rb_string& value){
+            site->_on_restore_action_buffer = value;
+        }
+    });
+    string_property<breakable_block>(u"on_restore_action_name", u"Restore Name", true, true, {
+        [](const breakable_block* site){
+            return site->_on_restore_action_name;
+        },
+        [](breakable_block* site, const rb_string& value){
+            site->_on_restore_action_name = value;
+        }
+    });
     end_type();
+}
+
+void breakable_block::do_action(const rb_string& action_name, const rb_string& arg){
+    if(action_name == u"break"){
+        _no_reentrancy = true;
+        break_block(true);
+        _no_reentrancy = false;
+    }
+    else if(action_name == u"restore"){
+        _no_reentrancy = true;
+        restore_block(true);
+        _no_reentrancy = false;
+    }
 }
 
 

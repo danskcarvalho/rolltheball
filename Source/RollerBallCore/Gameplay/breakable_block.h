@@ -13,6 +13,7 @@
 #include "node.h"
 #include "resettable_component.h"
 #include "vec2.h"
+#include "action_target.h"
 
 class b2World;
 class b2Body;
@@ -21,7 +22,7 @@ namespace rb {
     class destructible_sprite_component;
     class animation_manager_component;
     typedef void* animation_id;
-    class breakable_block : public node, public resettable_component {
+    class breakable_block : public node, public resettable_component, public action_target {
     protected:
         virtual void reset_component() override;
     private:
@@ -46,6 +47,12 @@ namespace rb {
         float _restoration_left;
         float _restoration_time;
         bool _restoration_enabled;
+        //on break
+        rb_string _on_break_action_buffer;
+        rb_string _on_break_action_name;
+        rb_string _on_restore_action_buffer;
+        rb_string _on_restore_action_name;
+        bool _no_reentrancy;
     protected:
         virtual bool should_serialize_children() const override;
     protected:
@@ -82,6 +89,8 @@ namespace rb {
         bool can_kill_character(bool value);
         bool explode_character_contact() const;
         bool explode_character_contact(bool value);
+    public:
+        virtual void do_action(const rb_string& action_name, const rb_string& arg) override;
     };
 }
 

@@ -11,6 +11,7 @@
 
 #include "components_base.h"
 #include "nvnode.h"
+#include "action_target.h"
 
 #define PHYS_ENGINE_UPDATE_PRIORITY -10000
 #define PHYS_OBJECT_UPDATE_PRIORITY -20000
@@ -20,7 +21,7 @@
 class b2World;
 
 namespace rb {
-    class physics_engine : public nvnode {
+    class physics_engine : public nvnode, public action_target {
     private:
         b2World* _world;
         vec2 _default_gravity;
@@ -44,6 +45,8 @@ namespace rb {
     public:
         const vec2& default_gravity() const;
         const vec2& default_gravity(const vec2& value);
+    public:
+        virtual void do_action(const rb_string& action_name, const rb_string& arg) override;
     };
 }
 

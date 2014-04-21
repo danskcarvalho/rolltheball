@@ -11,6 +11,7 @@
 #include "scene.h"
 #include "physics_mask.h"
 #include "ray.h"
+#include "action_buffer.h"
 #include <Box2D/Box2D.h>
 
 using namespace rb;
@@ -29,6 +30,9 @@ physics_shape::physics_shape(){
     _gravity_ref_node = nullptr;
     _animatable = false;
     _moving_platform = false;
+    _fire_action_once = true;
+    _fired_on_enter = false;
+    _fired_on_exit = false;
 }
 
 physics_shape::~physics_shape(){
@@ -39,7 +43,7 @@ void physics_shape::describe_type(){
     polygon_component::describe_type();
     
     start_type<physics_shape>([](){ return new physics_shape(); });
-    enumeration_property<physics_shape, type>(u"shape_type", u"Type", {{u"Static Planet", kStaticPlanet}, {u"Static Gravity Zone", kStaticGravityZone}}, true, {
+    enumeration_property<physics_shape, type>(u"shape_type", u"Type", {{u"Static Planet", kStaticPlanet}, {u"Static Gravity Zone", kStaticGravityZone}, {u"Nothing", kNothing}}, true, {
         [](const physics_shape* site){
             return site->_type;
         },
@@ -95,6 +99,46 @@ void physics_shape::describe_type(){
             site->animatable(value);
         }
     });
+    boolean_property<physics_shape>(u"fire_action_once", u"Fire Act Once", true, {
+        [](const physics_shape* site){
+            return site->_fire_action_once;
+        },
+        [](physics_shape* site, const bool value){
+            site->_fire_action_once = value;
+        }
+    });
+    string_property<physics_shape>(u"on_enter_action_buffer", u"Enter Buffer", true, true, {
+        [](const physics_shape* site){
+            return site->_on_enter_action_buffer;
+        },
+        [](physics_shape* site, const rb_string& value){
+            site->_on_enter_action_buffer = value;
+        }
+    });
+    string_property<physics_shape>(u"on_enter_action_name", u"Enter Action", true, true, {
+        [](const physics_shape* site){
+            return site->_on_enter_action_name;
+        },
+        [](physics_shape* site, const rb_string& value){
+            site->_on_enter_action_name = value;
+        }
+    });
+    string_property<physics_shape>(u"on_exit_action_buffer", u"Exit Buffer", true, true, {
+        [](const physics_shape* site){
+            return site->_on_exit_action_buffer;
+        },
+        [](physics_shape* site, const rb_string& value){
+            site->_on_exit_action_buffer = value;
+        }
+    });
+    string_property<physics_shape>(u"on_exit_action_name", u"Exit Name", true, true, {
+        [](const physics_shape* site){
+            return site->_on_exit_action_name;
+        },
+        [](physics_shape* site, const rb_string& value){
+            site->_on_exit_action_name = value;
+        }
+    });
     end_type();
 }
 
@@ -122,6 +166,8 @@ void physics_shape::reset_component() {
     _body->SetTransform(b2Vec2(_t.origin().x(), _t.origin().y()), _t.rotation().x());
     _body->SetLinearVelocity(b2Vec2(0, 0));
     _body->SetAngularVelocity(0);
+    _fired_on_enter = false;
+    _fired_on_exit = false;
 }
 
 rb_string physics_shape::type_name() const {
@@ -173,7 +219,7 @@ void physics_shape::playing() {
         _body = _world->CreateBody(&_bDef);
         
         b2FixtureDef _fDef;
-        _fDef.isSensor = _type == kStaticGravityZone;
+        _fDef.isSensor = _type == kStaticGravityZone || _type == kNothing;
         _fDef.friction = 1;
         _fDef.restitution = 0;
         _fDef.filter.categoryBits = _type == kStaticPlanet ? PHYS_MASK_SHAPE : PHYS_MASK_GRAVITY_REGION;
@@ -418,6 +464,33 @@ b2Body* physics_shape::get_body() {
     return _body;
 }
 
+void physics_shape::main_character_entered(){
+    if(_fired_on_enter && _fire_action_once)
+        return;
+    if(_on_enter_action_buffer == u"")
+        return;
+    auto _buffer = dynamic_cast<action_buffer*>(parent_scene()->node_with_name(_on_enter_action_buffer));
+    if(_buffer){
+        _buffer->perform_action(_on_enter_action_name);
+        _fired_on_enter = true;
+    }
+}
+
+void physics_shape::main_character_exitted(){
+    if(_fired_on_exit && _fire_action_once)
+        return;
+    if(_on_exit_action_buffer == u"")
+        return;
+    auto _buffer = dynamic_cast<action_buffer*>(parent_scene()->node_with_name(_on_exit_action_buffer));
+    if(_buffer){
+        _buffer->perform_action(_on_exit_action_name);
+        _fired_on_exit = true;
+    }
+}
+
+void physics_shape::do_action(const rb_string& action_name, const rb_string& arg){
+    
+}
 
 
 
