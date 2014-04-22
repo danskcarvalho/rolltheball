@@ -63,6 +63,8 @@ namespace rb {
         rb_string _on_exit_action_name;
         //phase through
         bool _phase_through;
+        //free jump zone
+        bool _free_jump_zone;
     public:
         friend class main_character;
         physics_shape();
@@ -101,6 +103,8 @@ namespace rb {
         const nullable<rb_string>& gravity_reference(const nullable<rb_string>& value);
         bool phase_through() const;
         bool phase_through(bool value);
+        bool free_jump_zone() const;
+        bool free_jump_zone(bool value);
         //moving platform
     private:
         void check_moving_platform();

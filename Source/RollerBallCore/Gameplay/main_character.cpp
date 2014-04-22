@@ -79,6 +79,12 @@ inline float signed_length(const vec2& v, const vec2& axis){
     return v.length() * sgn(vec2::dot(v, axis));
 }
 
+static bool circle_intersects(const vec2& pt1, float r1, const vec2& pt2, float r2){
+    auto _dd = vec2::distance(pt1, pt2);
+    auto _rSum = r1 + r2;
+    return _dd <= _rSum;
+}
+
 main_character::main_character(){
     _invert_xaxis = false;
     _body = nullptr;
@@ -154,6 +160,13 @@ main_character::main_character(){
     _current_ground = nullptr;
     _moving_platform = nullptr;
     _last_moving_platform = nullptr;
+    //coins
+    _fixed_coins = 0;
+    _nonfixed_coins = 0;
+    _hearts = 0;
+    _saved_coin_scale = 0;
+    //jump zone
+    _inside_jump_zone = false;
 }
 
 main_character::~main_character(){
@@ -227,7 +240,39 @@ void main_character::describe_type(){
             site->_bounce_velocity = value;
         }
     });
+    single_property<main_character>(u"hearts", u"Hearts", true, {
+        [](const main_character* site){
+            return site->_hearts;
+        },
+        [](main_character* site, float value){
+            site->_hearts = value;
+        }
+    });
     end_type();
+}
+
+float main_character::fixed_coins() const {
+    return _fixed_coins;
+}
+
+float main_character::fixed_coins(float value){
+    return _fixed_coins = value;
+}
+
+float main_character::nonfixed_coins() const {
+    return _nonfixed_coins;
+}
+
+float main_character::nonfixed_coins(float value){
+    return _nonfixed_coins = value;
+}
+
+float main_character::hearts() const {
+    return _hearts;
+}
+
+float main_character::hearts(float value){
+    return _hearts = value;
 }
 
 const vec2& main_character::camera_scale() const {
@@ -259,6 +304,16 @@ void main_character::before_becoming_inactive(bool node_was_moved){
 }
 
 bool main_character::check_die(){
+    _inside_jump_zone = false;
+    for (b2ContactEdge* ce = _body->GetContactList(); ce; ce = ce->next) {
+        //Also check for jump zone
+        auto _shape = dynamic_cast<physics_shape*>((node*)ce->other->GetUserData());
+        if(_shape && _shape->free_jump_zone() && ce->contact->IsTouching() && ce->contact->IsEnabled()){
+            _jumpCount = PHYS_CHARACTER_JUMP_COUNT;
+            _inside_jump_zone = true;
+        }
+    }
+    
     for (b2ContactEdge* ce = _body->GetContactList(); ce; ce = ce->next) {
         auto _other = dynamic_cast<base_enemy*>((node*)ce->other->GetUserData());
         if(_other && ce->contact->IsTouching() && ce->contact->IsEnabled()){
@@ -381,11 +436,51 @@ void main_character::update_bounceball(float dt){
     }
 }
 
+void main_character::check_for_coins(){
+    auto _it = _coins.begin();
+    auto _end = _coins.end();
+    while(_it != _end){
+        auto _c = *_it;
+        auto _tcc = _c->from_node_space_to(space::layer).origin();
+        auto _intersects = circle_intersects(_tcc, _c->transform().scale().x() / 2.0f, this->transform().origin(), 0.5f);
+        if(_intersects && _coins.count(_c) != 0){
+            animation_info ai;
+            ai.auto_destroy = true;
+            ai.duration = 0.25f;
+            auto _init_scale = _c->transform().scale().x();
+            ai.update_function = [_c, _init_scale, this](float t, animation_info*){
+                if(this->_died)
+                    return;
+                _c->opacity(1 - t);
+                _c->transform(_c->transform().scaled(_init_scale + t * 0.5f, _init_scale + t * 0.5f));
+            };
+            auto _aid = _an_manager->add_animation(&ai);
+            _an_manager->animation(_aid)->state = animation_state::playing;
+            if(this->_hearts > 0)
+            {
+                this->_fixed_coins += 1.0f;
+                this->_fixed_taken_coins.insert(_c);
+                _it = this->_coins.erase(_it);
+                continue;
+            }
+            else {
+                this->_nonfixed_coins += 1.0f;
+                this->_taken_coins.insert(_c);
+                _it = this->_coins.erase(_it);
+                continue;
+            }
+        }
+        _it++;
+    }
+}
+
 void main_character::update(float dt){
     if(_died){
         update_died(dt);
         return;
     }
+    
+    check_for_coins();
 
     if(check_die())
         return;
@@ -637,7 +732,8 @@ void main_character::update_movingplatform(vec2& vel, nullable<float>& rot_vel, 
                 auto _vAt = _moving_platform->get_velocity_at_pt(_pt);
                 if(_vAt.y() > 0)
                     _vy += _vAt.y() / 3;
-                _jumpCount--;
+                if(!_inside_jump_zone)
+                    _jumpCount--;
                 
                 _last_moving_platform = _moving_platform;
                 _clear_last_moving_platform = _frame_count + (uint64_t)(JUMP_TOUCH_DURATION * 2);
@@ -821,7 +917,8 @@ void main_character::update_character(vec2& cam_gravity, float dt){
             if(_jumpCount > 0){
                 _vy = -_true_gy * PHYS_CHARACTER_JUMP;
                 _v = _vx + _vy;
-                _jumpCount--;
+                if(!_inside_jump_zone)
+                    _jumpCount--;
             }
         }
         
@@ -912,6 +1009,10 @@ void main_character::die(){
     if(_died)
         return;
     
+    _hearts -= 1.0f;
+    if(_hearts < 0)
+        _hearts = 0.0f;
+    
     shake_camera();
     _camera_died = parent_scene()->camera();
     _die_emitter->reset_emitter();
@@ -986,6 +1087,20 @@ void main_character::reset_component(){
     _moving_platform = nullptr;
     _last_moving_platform = nullptr;
     _block_to_break = nullptr;
+    //coins
+    _nonfixed_coins = 0;
+    for (auto _tkc : _taken_coins)
+        _coins.insert(_tkc);
+    _taken_coins.clear();
+    for (auto _cc : _coins){
+        _cc->transform(_cc->transform().scaled(_saved_coin_scale, _saved_coin_scale));
+        _cc->opacity(1);
+    }
+    for (auto _cc : _fixed_taken_coins){
+        _cc->opacity(0);
+    }
+    //jump zone
+    _inside_jump_zone = false;
 }
 
 void main_character::playing(){
@@ -1081,6 +1196,15 @@ void main_character::playing(){
         _normal = nullptr;
         _current_ground = nullptr;
         _block_to_break = nullptr;
+        //hearts and coins
+        auto _coins_v = parent_scene()->node_with_one_class(u"coin");
+        for (auto _cv : _coins_v){
+            auto _spr = dynamic_cast<sprite_component*>(_cv);
+            if(_spr){
+                _coins.insert(_spr);
+                _saved_coin_scale = _spr->transform().scale().x();
+            }
+        }
     }
 }
 

@@ -1297,6 +1297,7 @@ void keyframe_animation_component::playing(){
         _current_frame_an = 0;
         restore_pending_buffer();
         set_internal_animation_if_dirty();
+        _initialized = true;
     }
 }
 

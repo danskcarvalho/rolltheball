@@ -27,6 +27,7 @@ namespace rb {
     class animation_manager_component;
     class particle_emitter_component;
     class base_enemy;
+    class sprite_component;
     typedef void* animation_id;
     class main_character : public node, public b2ContactListener, public resettable_component, public action_target {
     private:
@@ -107,6 +108,16 @@ namespace rb {
         vec2 _up_vector;
         float _moving_vel;
         float _rotation_vel;
+        //coins and hearts
+        float _fixed_coins;
+        float _nonfixed_coins;
+        float _hearts;
+        float _saved_coin_scale;
+        std::unordered_set<sprite_component*> _coins;
+        std::unordered_set<sprite_component*> _taken_coins;
+        std::unordered_set<sprite_component*> _fixed_taken_coins;
+        //free jump zone
+        bool _inside_jump_zone;
     private:
         bool testSlopeAngle(b2WorldManifold* manifold, const nullable<vec2>& gravity) const;
         //get closest point from camera track...
@@ -174,6 +185,17 @@ namespace rb {
         const vec2& camera_scale(const vec2& value);
     public:
         virtual void do_action(const rb_string& action_name, const rb_string& arg) override;
+        //coins and hearts
+    public:
+        float fixed_coins() const;
+        float fixed_coins(float value);
+        float nonfixed_coins() const;
+        float nonfixed_coins(float value);
+        float hearts() const;
+        float hearts(float value);
+        //methods for coins
+    private:
+        void check_for_coins();
     };
 }
 

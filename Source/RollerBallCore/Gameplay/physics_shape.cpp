@@ -34,6 +34,7 @@ physics_shape::physics_shape(){
     _fired_on_enter = false;
     _fired_on_exit = false;
     _phase_through = false;
+    _free_jump_zone = false;
 }
 
 physics_shape::~physics_shape(){
@@ -106,6 +107,14 @@ void physics_shape::describe_type(){
         },
         [](physics_shape* site, const bool value){
             site->animatable(value);
+        }
+    });
+    boolean_property<physics_shape>(u"free_jump_zone", u"Free Jump", true, {
+        [](const physics_shape* site){
+            return site->_free_jump_zone;
+        },
+        [](physics_shape* site, const bool value){
+            site->_free_jump_zone = value;
         }
     });
     boolean_property<physics_shape>(u"fire_action_once", u"Fire Act Once", true, {
@@ -193,6 +202,14 @@ const nullable<rb_string>& physics_shape::gravity_reference() const {
 
 const nullable<rb_string>& physics_shape::gravity_reference(const nullable<rb_string> &value){
     return _gravity_ref = value;
+}
+
+bool physics_shape::free_jump_zone() const {
+    return _free_jump_zone;
+}
+
+bool physics_shape::free_jump_zone(bool value){
+    return _free_jump_zone = value;
 }
 
 void physics_shape::playing() {
