@@ -208,6 +208,8 @@ CallAction:
 }
 
 bool breakable_block::is_touching_main_character(){
+    if(!_main_character)
+        return false;
     auto _t = from_node_space_to(space::layer);
     auto _myR = sqrtf(2 * _t.scale().x() * _t.scale().x());
     auto _minR = _t.scale().x() / 2.0f;
@@ -226,7 +228,7 @@ bool breakable_block::is_touching_main_character(){
 bool breakable_block::is_touching_saw(){
     for (b2ContactEdge* ce = _body->GetContactList(); ce; ce = ce->next) {
         auto _other = dynamic_cast<saw*>((node*)ce->other->GetUserData());
-        if(_other && ce->contact->IsTouching() && ce->contact->IsEnabled()){
+        if(_other && !_other->destroyed() && ce->contact->IsTouching() && ce->contact->IsEnabled()){
             return true;
         }
     }

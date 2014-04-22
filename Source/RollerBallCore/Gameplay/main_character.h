@@ -118,6 +118,21 @@ namespace rb {
         std::unordered_set<sprite_component*> _fixed_taken_coins;
         //free jump zone
         bool _inside_jump_zone;
+        //debug mode
+        bool _debug_mode;
+        //win-zone
+        node* _win_zone;
+        bool _won;
+        vec2 _saved_position_at_win;
+        bool _full_win_an;
+        //win animation
+        animation_id _win_an;
+    private:
+        void check_win();
+        void win_animation(float t);
+    public:
+        bool full_win_animation() const;
+        bool full_win_animation(bool value);
     private:
         bool testSlopeAngle(b2WorldManifold* manifold, const nullable<vec2>& gravity) const;
         //get closest point from camera track...

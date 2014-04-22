@@ -20,6 +20,7 @@
 #include "ray.h"
 #include "sprite_component.h"
 #include "layer.h"
+#include "saw.h"
 #include <random>
 #include <Box2D/Box2D.h>
 
@@ -66,6 +67,8 @@
 #define MIN_DESTRUCTION_VELOCITY 4
 
 #define EXPLOSION_GRAVITY_MAGNITUDE 25
+
+#define INVINCIBILITY_FLAG false
 
 using namespace rb;
 
@@ -167,6 +170,12 @@ main_character::main_character(){
     _saved_coin_scale = 0;
     //jump zone
     _inside_jump_zone = false;
+    //debug mode
+    _debug_mode = false;
+    //win zone
+    _win_zone = nullptr;
+    _won = false;
+    _full_win_an = false;
 }
 
 main_character::~main_character(){
@@ -248,7 +257,31 @@ void main_character::describe_type(){
             site->_hearts = value;
         }
     });
+    boolean_property<main_character>(u"debug_mode", u"Debug", true, {
+        [](const main_character* site){
+            return site->_debug_mode;
+        },
+        [](main_character* site, bool value){
+            site->_debug_mode = value;
+        }
+    });
+    boolean_property<main_character>(u"full_win_animation", u"Full Win An", true, {
+        [](const main_character* site){
+            return site->_full_win_an;
+        },
+        [](main_character* site, bool value){
+            site->_full_win_an = value;
+        }
+    });
     end_type();
+}
+
+bool main_character::full_win_animation() const {
+    return _full_win_an;
+}
+
+bool main_character::full_win_animation(bool value){
+    return _full_win_an = value;
 }
 
 float main_character::fixed_coins() const {
@@ -314,11 +347,20 @@ bool main_character::check_die(){
         }
     }
     
+    //check for dying...
     for (b2ContactEdge* ce = _body->GetContactList(); ce; ce = ce->next) {
-        auto _other = dynamic_cast<base_enemy*>((node*)ce->other->GetUserData());
-        if(_other && ce->contact->IsTouching() && ce->contact->IsEnabled()){
-            die();
-            return true;
+        auto _other = dynamic_cast<saw*>((node*)ce->other->GetUserData());
+        if(_other && !_other->destroyed() && ce->contact->IsTouching() && ce->contact->IsEnabled()){
+            if(_debug_mode || INVINCIBILITY_FLAG || (_other->destructible() && _hearts > 0)){
+                _hearts -= 1.0f;
+                if(_hearts < 0)
+                    _hearts = 0.0f;
+                _other->destroy_saw();
+            }
+            else {
+                die();
+                return true;
+            }
         }
     }
     return false;
@@ -474,7 +516,47 @@ void main_character::check_for_coins(){
     }
 }
 
+void main_character::check_win(){
+    if(!_win_zone)
+        return;
+    if(_won)
+        return;
+    auto _t = _win_zone->from_node_space_to(space::layer);
+    _won = circle_intersects(this->transform().origin(), 0.5f, _t.origin(), _t.scale().x() / 2.0f);
+    if(_won){
+        _an_manager->animation(_win_an)->state = animation_state::playing;
+        _saved_position_at_win = this->transform().origin();
+    }
+}
+
+void main_character::win_animation(float t){
+    if(!_full_win_an){
+        if(t >= 1){
+            parent_scene()->fade_color(color::from_rgba(0, 1, 0, 1));
+            return;
+        }
+        parent_scene()->fade_color(color::from_rgba(0, 1, 0, t));
+        auto _t = _win_zone->from_node_space_to(space::layer);
+        auto _pos = vec2::lerp(t, _saved_position_at_win, _t.origin());
+        this->transform(this->transform().moved(_pos).scaled(1 - t));
+    }
+    else {
+        if(t >= 1){
+            this->transform(this->transform().scaled(0));
+            return;
+        }
+        
+        auto _t = _win_zone->from_node_space_to(space::layer);
+        auto _pos = vec2::lerp(t, _saved_position_at_win, _t.origin());
+        this->transform(this->transform().moved(_pos).scaled(1 - t));
+    }
+}
+
 void main_character::update(float dt){
+    check_win();
+    if (_won)
+        return;
+    
     if(_died){
         update_died(dt);
         return;
@@ -732,7 +814,7 @@ void main_character::update_movingplatform(vec2& vel, nullable<float>& rot_vel, 
                 auto _vAt = _moving_platform->get_velocity_at_pt(_pt);
                 if(_vAt.y() > 0)
                     _vy += _vAt.y() / 3;
-                if(!_inside_jump_zone)
+                if(!_inside_jump_zone && !INVINCIBILITY_FLAG && !_debug_mode)
                     _jumpCount--;
                 
                 _last_moving_platform = _moving_platform;
@@ -917,7 +999,7 @@ void main_character::update_character(vec2& cam_gravity, float dt){
             if(_jumpCount > 0){
                 _vy = -_true_gy * PHYS_CHARACTER_JUMP;
                 _v = _vx + _vy;
-                if(!_inside_jump_zone)
+                if(!_inside_jump_zone && !INVINCIBILITY_FLAG && !_debug_mode)
                     _jumpCount--;
             }
         }
@@ -1105,6 +1187,7 @@ void main_character::reset_component(){
 
 void main_character::playing(){
     if(!_phys_initialized){
+        _win_zone = parent_scene()->node_with_name(u"winZone");
         _direction = _saved_direction;
         auto _t = transform();
         _phys_initialized = true;
@@ -1126,6 +1209,14 @@ void main_character::playing(){
             this->die_animation(t);
         };
         _die_an = _an_manager->add_animation(&_ai);
+        //win animation
+        _ai.auto_destroy = false;
+        _ai.duration = DESTRUCTION_ANIM_DURATION / 4.0f;
+        _ai.state = animation_state::stopped;
+        _ai.update_function = [this](float t, animation_info* ai){
+            this->win_animation(t);
+        };
+        _win_an = _an_manager->add_animation(&_ai);
         
         auto _engine = dynamic_cast<physics_engine*>(parent_scene()->node_with_name(u"Physic's Engine"));
         _world = _engine->world();

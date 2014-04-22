@@ -18,6 +18,7 @@
 
 namespace rb {
     class sprite_component;
+    class animation_manager_component;
     class saw : public node, public base_enemy, public resettable_component, public action_target {
     protected:
         virtual void reset_component() override;
@@ -28,6 +29,10 @@ namespace rb {
         b2World* _world;
         b2Body* _body;
         transform_space _saved_transform;
+        //destruction
+        bool _destructible;
+        bool _destroyed;
+        animation_manager_component* _an_manager;
     protected:
         virtual bool should_serialize_children() const override;
         virtual void after_becoming_active(bool node_was_moved) override;
@@ -47,6 +52,12 @@ namespace rb {
         saw();
     public:
         virtual void do_action(const rb_string& action_name, const rb_string& arg) override;
+        //destruction
+    public:
+        bool destructible() const;
+        bool destructible(bool value);
+        bool destroyed() const;
+        void destroy_saw();
     };
 }
 

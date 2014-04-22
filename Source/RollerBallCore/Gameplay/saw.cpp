@@ -11,15 +11,19 @@
 #include "physics_engine.h"
 #include "scene.h"
 #include "physics_mask.h"
+#include "animation_manager_component.h"
 
 using namespace rb;
 
 saw::saw(){
     _initialized = false;
     _animatable = false;
+    _destructible = false;
+    _destroyed = false;
     _sprite = new sprite_component();
     _sprite->classes(u"saw");
     _sprite->image_name(u"saw");
+    _sprite->tint(color::from_rgba(1, 1, 1, 1));
     add_node(_sprite);
 }
 
@@ -44,6 +48,14 @@ void saw::describe_type(){
         },
         [](saw* site, const bool value){
             site->animatable(value);
+        }
+    });
+    boolean_property<saw>(u"destructible", u"Destructible", true, {
+        [](const saw* site){
+            return site->destructible();
+        },
+        [](saw* site, const bool value){
+            site->destructible(value);
         }
     });
     end_type();
@@ -96,6 +108,7 @@ rb_string saw::displayable_type_name() const {
 void saw::playing(){
     if(!_initialized){
         _initialized = true;
+        _an_manager = dynamic_cast<animation_manager_component*>(parent_scene()->node_with_name(u"Animation Manager"));
         _saved_transform = transform();
         
         auto _engine = dynamic_cast<physics_engine*>(parent_scene()->node_with_name(u"Physic's Engine"));
@@ -129,6 +142,34 @@ void saw::playing(){
 
 void saw::do_action(const rb_string& action_name, const rb_string& arg){
     
+}
+
+bool saw::destructible() const {
+    return _destructible;
+}
+
+bool saw::destructible(bool value){
+    return _destructible = value;
+}
+
+bool saw::destroyed() const {
+    return _destroyed;
+}
+
+void saw::destroy_saw(){
+    if(_destroyed)
+        return;
+    _destroyed = true;
+    animation_info ai;
+    ai.auto_destroy = true;
+    ai.duration = 0.5f;
+    auto _saved_scale = this->_sprite->transform().scale();
+    ai.update_function = [this, _saved_scale](float t, animation_info* ai){
+        this->_sprite->blend(1 - t);
+        this->_sprite->transform(this->_sprite->transform().scaled(_saved_scale * (1 - t)));
+    };
+    auto _aidd = _an_manager->add_animation(&ai);
+    _an_manager->animation(_aidd)->state = animation_state::playing;
 }
 
 

@@ -29,7 +29,11 @@ rotation_animator_component::rotation_animator_component(){
 
 void rotation_animator_component::reset_component(){
     for (size_t i = 0; i < _nodes.size(); i++) {
-        _nodes[i]->transform(_saved_transforms[i]);
+        //HACK: We just restore the rotations to avoid the problem of destructed saws reappearing again!
+        if(_nodes[i]->has_class(u"saw"))
+            _nodes[i]->transform(_nodes[i]->transform().rotated(_saved_transforms[i].rotation()));
+        else
+            _nodes[i]->transform(_saved_transforms[i]);
         _directions[i] = 1;
         _current_asleep_endpoint[i] = 0;
         _current_asleep[i] = 0;
