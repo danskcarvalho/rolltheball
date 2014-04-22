@@ -249,6 +249,11 @@ void scene::perform_action_with_class(const rb_string &cls, rb::action_type act)
             _n->remove_from_selection();
         }
     }
+    else if(act == action_type::remove){
+        for(auto _n : _nodes){
+            _n->parent()->remove_node(_n, true);
+        }
+    }
     else {
         assert(false); //Never should be here...
     }
@@ -308,6 +313,11 @@ void scene::perform_action_with_id(const rb_string &idd, rb::action_type act){
             if(_n->in_editor_hidden() || _n->blocked())
                 continue;
             _n->remove_from_selection();
+        }
+    }
+    else if(act == action_type::remove){
+        for(auto _n : _nodes){
+            _n->parent()->remove_node(_n, true);
         }
     }
     else {

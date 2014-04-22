@@ -33,6 +33,7 @@ physics_shape::physics_shape(){
     _fire_action_once = true;
     _fired_on_enter = false;
     _fired_on_exit = false;
+    _phase_through = false;
 }
 
 physics_shape::~physics_shape(){
@@ -89,6 +90,14 @@ void physics_shape::describe_type(){
         },
         [](physics_shape* site, const bool value){
             site->_invert_velocity = (bool)value;
+        }
+    });
+    boolean_property<physics_shape>(u"phase_through", u"Phasing", true, {
+        [](const physics_shape* site){
+            return site->phase_through();
+        },
+        [](physics_shape* site, const bool value){
+            site->phase_through(value);
         }
     });
     boolean_property<physics_shape>(u"animatable", u"Animatable", true, {
@@ -490,6 +499,14 @@ void physics_shape::main_character_exitted(){
 
 void physics_shape::do_action(const rb_string& action_name, const rb_string& arg){
     
+}
+
+bool physics_shape::phase_through() const {
+    return _phase_through;
+}
+
+bool physics_shape::phase_through(bool value){
+    return _phase_through = value;
 }
 
 

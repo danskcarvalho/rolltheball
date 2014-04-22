@@ -1279,11 +1279,13 @@ void keyframe_animation_component::restore_pending_buffer(){
 void keyframe_animation_component::reset_component(){
     restore_pending_buffer();
     set_internal_animation_if_dirty();
-    
+
     for (size_t i = 0; i < _anim_nodes.size(); i++) {
-        _anim_nodes[i]->transform(_anim_nodes_saved_transforms[_anim_nodes[i]]);
-        
+        auto _pos = _anim_positions[_n_frames * i + 0];
+        auto _rot = _anim_rotations[_n_frames * i + 0];
+        _anim_nodes[i]->transform(_anim_nodes[i]->transform().moved(_pos).rotated(_rot, _rot + (float)M_PI_2));
     }
+    
     _playing_anim = _saved_playing_anim;
     _current_frame_an = 0;
     _playing_mirror = false;

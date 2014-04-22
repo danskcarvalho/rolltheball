@@ -150,7 +150,8 @@ namespace rb {
         block = 3,
         unblock = 4,
         hide = 5,
-        unhide = 6
+        unhide = 6,
+        remove = 7
     };
 }
 

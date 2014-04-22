@@ -26,6 +26,7 @@
 #define KEY_LEFT 123
 #define KEY_RIGHT 124
 #define KEY_DELETE 51
+#define KEY_G 5
 
 //multipliers
 #define ROTATION_MULTIPLIER 1

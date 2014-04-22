@@ -61,6 +61,8 @@ namespace rb {
         rb_string _on_enter_action_name;
         rb_string _on_exit_action_buffer;
         rb_string _on_exit_action_name;
+        //phase through
+        bool _phase_through;
     public:
         friend class main_character;
         physics_shape();
@@ -97,6 +99,8 @@ namespace rb {
         bool invert_velocity(const bool value);
         const nullable<rb_string>& gravity_reference() const;
         const nullable<rb_string>& gravity_reference(const nullable<rb_string>& value);
+        bool phase_through() const;
+        bool phase_through(bool value);
         //moving platform
     private:
         void check_moving_platform();

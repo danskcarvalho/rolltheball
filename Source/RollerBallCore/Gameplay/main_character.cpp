@@ -18,6 +18,8 @@
 #include "base_enemy.h"
 #include "breakable_block.h"
 #include "ray.h"
+#include "sprite_component.h"
+#include "layer.h"
 #include <random>
 #include <Box2D/Box2D.h>
 
@@ -498,6 +500,19 @@ void main_character::update_camera(const rb::vec2 &cam_gravity){
     parent_scene()->camera(_final_camera);
 }
 
+float calc_penetration(physics_shape* ps, const transform_space& ts){
+    circle _circle = circle(ts.origin(), 0.5f);
+    polygon _circle_pol;
+    _circle.to_polygon(_circle_pol);
+    polygon _pol = ps->to_polygon();
+    ps->from_node_space_to(space::layer).from_space_to_base().transform_polygon(_pol);
+    std::vector<polygon> _others;
+    _pol.intersection(_circle_pol, _others);
+    if(_pol.point_count() < 3)
+        return 0;
+    return _pol.area().has_value() ? _pol.area().value() : 0;
+}
+
 void main_character::check_new_moving_platform(vec2& v, nullable<float>& rot_vel){
 MvPlatform:
     rot_vel = nullptr;
@@ -539,6 +554,11 @@ MvPlatform:
             if(_pshape && _pshape->is_moving_platform()){
                 if(_last_moving_platform && _last_moving_platform == _pshape)
                     return;
+                if(_pshape->phase_through()){
+                    auto _penetration = calc_penetration(_pshape, this->transform());
+                    if(_penetration >= (0.5f * 0.07f))
+                        return;
+                }
                 _moving_platform = _pshape;
                 auto _rMoving = _moving_platform->get_ray();
                 _moving_max_t = _rMoving.get_parameter(_moving_platform->get_pt1());
@@ -784,8 +804,14 @@ void main_character::update_character(vec2& cam_gravity, float dt){
         }
         else {
             _vx = vec2::zero;
-            if(_current_ground)
-                _vy = vec2::zero;
+            if(_current_ground){
+                auto _phasing_t = dynamic_cast<physics_shape*>((node*)_current_ground->GetUserData());
+                if(_phasing_t && _phasing_t->phase_through()){
+                    //do nothing
+                }
+                else
+                    _vy = vec2::zero;
+            }
             //_vx *= _damping;
             _v = _vx + _vy;
         }
@@ -1075,6 +1101,15 @@ void main_character::keydown(const uint32_t keycode, const rb::keyboard_modifier
     else if(keycode == KEY_UP){
         _jumpButton = true;
     }
+    else if(keycode == KEY_G){
+        auto _ghost = new sprite_component();
+        _ghost->classes(u"ghostData");
+        _ghost->image_name(image_name());
+        _ghost->tint(color::from_rgba(1, 1, 1, 1));
+        _ghost->blend(0.5f);
+        _ghost->transform(transform());
+        parent_layer()->add_node_at(_ghost, parent_layer()->node_count());
+    }
 }
 
 void main_character::keyup(const uint32_t keycode, const rb::keyboard_modifier modifier, bool &swallow){
@@ -1208,7 +1243,7 @@ void main_character::BeginContact(b2Contact *contact){
     
     if((std::get<0>(_groundContact) || std::get<0>(_groundContact2)) &&
        (std::get<1>(_groundContact) || std::get<1>(_groundContact2)) &&
-        contact->IsEnabled() && contact->IsTouching()){
+        contact->IsTouching()){
         
         auto _character = std::get<0>(_groundContact);
         if(!_character)
@@ -1273,11 +1308,13 @@ void main_character::EndContact(b2Contact *contact){
     auto _groundContact2 = get_objects<main_character, breakable_block>(contact);
     
     if(((std::get<0>(_groundContact) && std::get<1>(_groundContact)) ||
-        (std::get<0>(_groundContact2) && std::get<1>(_groundContact2)))
-        && contact->IsEnabled()){
+        (std::get<0>(_groundContact2) && std::get<1>(_groundContact2)))){
+        auto _ground = std::get<1>(_groundContact);
+        auto _block = std::get<1>(_groundContact2);
         
-        if(std::get<1>(_groundContact))
-            std::get<1>(_groundContact)->main_character_exitted();
+        if(_ground){
+            _ground->main_character_exitted();
+        }
         
         if(_current_ground == contact->GetFixtureA()->GetBody() ||
            _current_ground == contact->GetFixtureB()->GetBody()){
@@ -1285,8 +1322,6 @@ void main_character::EndContact(b2Contact *contact){
             _current_ground = nullptr;
         }
         
-        auto _ground = std::get<1>(_groundContact);
-        auto _block = std::get<1>(_groundContact2);
         if(_ground)
             _contacts.erase(_ground);
         else
@@ -1299,11 +1334,14 @@ void main_character::EndContact(b2Contact *contact){
 }
 
 void main_character::PreSolve(b2Contact *contact, const b2Manifold *oldManifold){
-//    BeginContact(contact);
+    auto _groundContact = get_objects<main_character, physics_shape>(contact);
+    auto _ground = std::get<1>(_groundContact);
+    
+    if(_ground && _ground->phase_through())
+        contact->SetEnabled(false);
 }
 
 void main_character::PostSolve(b2Contact *contact, const b2ContactImpulse *impulse){
-//    EndContact(contact);
 }
 
 void main_character::do_action(const rb_string& action_name, const rb_string& arg){

@@ -305,6 +305,31 @@ void scene::playing(const bool value){
     }
     
     if(!_playing && in_editor() && _saved_scene != u""){
+        //HACK: Manage ghost data
+        auto _ghosts = this->node_with_one_class(u"ghostData");
+        struct transform_layer {
+            node* ghost;
+            int32_t layer;
+        };
+        std::vector<transform_layer> _ghost_layers;
+        for (auto _g : _ghosts){
+            if(!_g->parent_layer())
+                continue;
+            transform_layer tl;
+            tl.ghost = _g;
+            tl.layer = -1;
+            for (uint32_t i = 0; i < MAX_LAYERS; i++){
+                if(this->layer(i) == _g->parent_layer()){
+                    tl.layer = i;
+                    break;
+                }
+            }
+            if(tl.layer != -1){
+                _g->parent_layer()->remove_node(_g, false);
+                _ghost_layers.push_back(tl);
+            }
+        }
+        
         rb_string _ss_scene = _saved_scene;
         director::active_scene(nullptr, true);
         auto _s = dynamic_cast<scene*>(scene_loader::deserialize_from_string(_ss_scene));
@@ -313,6 +338,12 @@ void scene::playing(const bool value){
         if(director::editor_delegate()){
             director::editor_delegate()->current_changed();
             director::editor_delegate()->hierarchy_changed(nullptr);
+        }
+        
+        //HACK: Manage ghost data
+        for (auto _g : _ghost_layers){
+            _s->layer(_g.layer)->add_node_at(_g.ghost, _s->layer(_g.layer)->node_count());
+            _g.ghost->blocked(true);
         }
     }
 }
