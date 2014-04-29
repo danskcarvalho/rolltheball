@@ -11,5 +11,5 @@
 @protocol CppBridgeProtocol <NSObject>
 -(void)notifyObservers:(NSString*)property;
 -(void)notifyObserversOfDeletedObject;
-+(void)textureAtlasChanged:(void*)newAtlas;
++(void)textureAtlasChanged:(void*)newAtlas withURL:(NSURL*)url;
 @end

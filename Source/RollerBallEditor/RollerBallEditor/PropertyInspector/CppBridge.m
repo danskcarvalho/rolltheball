@@ -35,6 +35,7 @@ inline rb::rb_string from_platform_string(NSString* str){
 
 
 @implementation CppBridge
+static NSURL* fPreviousAtlas;
 static NSMutableDictionary* fImageMap;
 static NSMutableDictionary* fCreatedTypes;
 
@@ -42,10 +43,14 @@ static NSMutableDictionary* fCreatedTypes;
     if ([self class] == [CppBridge class]) {
         fImageMap = [NSMutableDictionary dictionary];
         fCreatedTypes = [NSMutableDictionary dictionary];
+        fPreviousAtlas = nullptr;
     }
 }
 
-+(void)textureAtlasChanged:(void *)_newAtlas{
++(void)textureAtlasChanged:(void *)_newAtlas withURL:(NSURL*)url{
+    if(fPreviousAtlas != nil && [url isEqual:fPreviousAtlas])
+        return;
+    fPreviousAtlas = url;
     rb::texture_atlas* newAtlas = (rb::texture_atlas*)_newAtlas;
     [fImageMap removeAllObjects];
     [ImagePicker removeAllImages];

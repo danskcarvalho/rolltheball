@@ -468,16 +468,16 @@ void scene::load_atlas(const rb_string& url){
     atlas(_a);
     
     NSString* urlStr = to_platform_string(url);
-    NSURL* originalUrl = [NSURL URLWithString: [urlStr stringByExpandingTildeInPath]];
+    NSURL* originalUrl = [NSURL fileURLWithPath: [urlStr stringByExpandingTildeInPath]];
     urlStr = [originalUrl path];
     originalUrl = [NSURL fileURLWithPath:urlStr isDirectory:YES];
-    NSURL* urlAtlas = [NSURL URLWithString: urlStr];
+    NSURL* urlAtlas = [NSURL fileURLWithPath: urlStr];
     if([[[urlAtlas pathComponents] objectAtIndex:1] isEqualToString:[originalUrl host]])
     {
         NSMutableArray* array = [NSMutableArray arrayWithArray:[urlAtlas pathComponents]];
         [array removeObjectAtIndex:1];
         urlStr = [NSString pathWithComponents:array];
-        urlAtlas = [NSURL URLWithString: urlStr];
+        urlAtlas = [NSURL fileURLWithPath: urlStr];
     }
     
     _atlas_path = from_platform_string([urlStr stringByAbbreviatingWithTildeInPath]);

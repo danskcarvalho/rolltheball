@@ -19,7 +19,7 @@ std::unordered_map<texture_atlas*, rb_string> texture_atlas_loader::_inv_map;
 std::unordered_map<rb_string, texture_atlas*> texture_atlas_loader::_map;
 std::unordered_map<rb_string, texture_atlas*> texture_atlas_loader::_to_be_deleted;
 std::unordered_map<rb_string, uint32_t> texture_atlas_loader::_ref_count;
-uint32_t texture_atlas_loader::_max_unused_atlases = 2;
+uint32_t texture_atlas_loader::_max_unused_atlases = 4;
 
 inline NSString* to_platform_string(const rb::rb_string& str){
     std::wstring_convert<std::codecvt_utf8_utf16<char16_t>, char16_t> _str_converter;
@@ -46,16 +46,17 @@ texture_atlas* texture_atlas_loader::load_atlas(const rb_string &url){
     release_atlases();
     
     NSString* urlStr = to_platform_string(url);
-    NSURL* originalUrl = [NSURL URLWithString: [urlStr stringByExpandingTildeInPath]];
+    NSString* expandedStr = [urlStr stringByExpandingTildeInPath];
+    NSURL* originalUrl = [NSURL fileURLWithPath: expandedStr];
     urlStr = [originalUrl path];
     originalUrl = [NSURL fileURLWithPath:urlStr isDirectory:YES];
-    NSURL* urlAtlas = [NSURL URLWithString: urlStr];
+    NSURL* urlAtlas = [NSURL fileURLWithPath: urlStr];
     if([[[urlAtlas pathComponents] objectAtIndex:1] isEqualToString:[originalUrl host]])
     {
         NSMutableArray* array = [NSMutableArray arrayWithArray:[urlAtlas pathComponents]];
         [array removeObjectAtIndex:1];
         urlStr = [NSString pathWithComponents:array];
-        urlAtlas = [NSURL URLWithString: urlStr];
+        urlAtlas = [NSURL fileURLWithPath: urlStr];
     }
     
     rb_string _atlas_path = from_platform_string([urlStr stringByAbbreviatingWithTildeInPath]);

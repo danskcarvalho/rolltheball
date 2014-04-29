@@ -1,0 +1,561 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<texture-atlas atlas-count="5" max-atlas-size="4096">
+	<all-groups>
+		<group name="g03">
+			<textures>
+				<texture size-y="540" center-x="272" center-y="272" atlas-index="0" size-x="540" name="saw1" />
+				<texture size-y="540" center-x="2448" center-y="272" atlas-index="0" size-x="540" name="saw2" />
+				<texture size-y="540" center-x="3536" center-y="272" atlas-index="0" size-x="540" name="saw3" />
+				<texture size-y="540" center-x="1360" center-y="272" atlas-index="0" size-x="540" name="saw4" />
+				<texture size-y="540" center-x="1904" center-y="272" atlas-index="0" size-x="540" name="saw5" />
+				<texture size-y="540" center-x="272" center-y="816" atlas-index="0" size-x="540" name="saw6" />
+				<texture size-y="540" center-x="2992" center-y="272" atlas-index="0" size-x="540" name="saw7" />
+				<texture size-y="540" center-x="816" center-y="272" atlas-index="0" size-x="540" name="saw8" />
+				<texture size-y="255" center-x="636" center-y="673.5" atlas-index="0" size-x="180" name="sensor1" />
+				<texture size-y="255" center-x="820" center-y="673.5" atlas-index="0" size-x="180" name="sensor2" />
+				<texture size-y="255" center-x="1004" center-y="673.5" atlas-index="0" size-x="180" name="sensor3" />
+			</textures>
+			<atlases>
+				<atlas index="0" />
+			</atlases>
+		</group>
+		<group name="g02">
+			<textures>
+				<texture size-y="446" center-x="2730" center-y="225" atlas-index="1" size-x="360" name="ballReactor1" />
+				<texture size-y="446" center-x="2366" center-y="225" atlas-index="1" size-x="360" name="ballReactor2" />
+				<texture size-y="446" center-x="3094" center-y="225" atlas-index="1" size-x="360" name="ballReactor3" />
+				<texture size-y="375" center-x="2366" center-y="639.5" atlas-index="1" size-x="360" name="ballReactor4" />
+				<texture size-y="375" center-x="3822" center-y="189.5" atlas-index="1" size-x="360" name="ballReactor5" />
+				<texture size-y="375" center-x="3458" center-y="189.5" atlas-index="1" size-x="360" name="ballReactor6" />
+				<texture size-y="357" center-x="276" center-y="180.5" atlas-index="2" size-x="180" name="downSign1" />
+				<texture size-y="357" center-x="92" center-y="3440.5" atlas-index="1" size-x="180" name="downSign2" />
+				<texture size-y="357" center-x="460" center-y="180.5" atlas-index="2" size-x="180" name="downSign3" />
+				<texture size-y="426" center-x="92" center-y="2255" atlas-index="1" size-x="180" name="rocket1" />
+				<texture size-y="426" center-x="3916" center-y="594" atlas-index="1" size-x="180" name="rocket2" />
+				<texture size-y="425" center-x="92" center-y="2684.5" atlas-index="1" size-x="180" name="rocket3" />
+				<texture size-y="357" center-x="92" center-y="3801.5" atlas-index="1" size-x="180" name="noSign1" />
+				<texture size-y="357" center-x="92" center-y="3079.5" atlas-index="1" size-x="180" name="noSign2" />
+				<texture size-y="357" center-x="92" center-y="180.5" atlas-index="2" size-x="180" name="noSign3" />
+				<texture size-y="403" center-x="599" center-y="203.5" atlas-index="2" size-x="90" name="photo1" />
+				<texture size-y="403" center-x="787" center-y="203.5" atlas-index="2" size-x="90" name="photo2" />
+				<texture size-y="403" center-x="693" center-y="203.5" atlas-index="2" size-x="90" name="photo3" />
+				<texture size-y="658" center-x="1638" center-y="331" atlas-index="1" size-x="360" name="reactor1" />
+				<texture size-y="736" center-x="546" center-y="370" atlas-index="1" size-x="360" name="reactor2" />
+				<texture size-y="658" center-x="1274" center-y="331" atlas-index="1" size-x="360" name="reactor3" />
+				<texture size-y="736" center-x="910" center-y="370" atlas-index="1" size-x="360" name="reactor4" />
+				<texture size-y="658" center-x="2002" center-y="331" atlas-index="1" size-x="360" name="reactor5" />
+				<texture size-y="736" center-x="182" center-y="370" atlas-index="1" size-x="360" name="reactor6" />
+				<texture size-y="385" center-x="137" center-y="1023.5" atlas-index="1" size-x="270" name="wwindow1" />
+				<texture size-y="385" center-x="3413" center-y="573.5" atlas-index="1" size-x="270" name="wwindow2" />
+				<texture size-y="385" center-x="3687" center-y="573.5" atlas-index="1" size-x="270" name="wwindow3" />
+				<texture size-y="270" center-x="156" center-y="1629" atlas-index="1" size-x="308" name="wfan1" />
+				<texture size-y="270" center-x="156" center-y="1355" atlas-index="1" size-x="308" name="wfan2" />
+				<texture size-y="270" center-x="156" center-y="1903" atlas-index="1" size-x="308" name="wfan3" />
+			</textures>
+			<atlases>
+				<atlas index="1" />
+				<atlas index="2" />
+			</atlases>
+		</group>
+		<group name="g00">
+			<textures>
+				<texture size-y="180" center-x="2946" center-y="2386" atlas-index="3" size-x="180" name="armGear1" />
+				<texture size-y="180" center-x="950" center-y="2018" atlas-index="3" size-x="180" name="armGear2" />
+				<texture size-y="180" center-x="370" center-y="2386" atlas-index="3" size-x="180" name="armGear3" />
+				<texture size-y="180" center-x="2144.5" center-y="1830" atlas-index="3" size-x="221" name="armHolder1" />
+				<texture size-y="180" center-x="1221.5" center-y="1830" atlas-index="3" size-x="255" name="armHolder2" />
+				<texture size-y="180" center-x="2790.5" center-y="1830" atlas-index="3" size-x="207" name="armHolder3" />
+				<texture size-y="180" center-x="1694.5" center-y="1830" atlas-index="3" size-x="221" name="armHolder4" />
+				<texture size-y="180" center-x="3586.5" center-y="1646" atlas-index="3" size-x="255" name="armHolder5" />
+				<texture size-y="180" center-x="3001.5" center-y="1830" atlas-index="3" size-x="207" name="armHolder6" />
+				<texture size-y="180" center-x="1919.5" center-y="1830" atlas-index="3" size-x="221" name="armHolder7" />
+				<texture size-y="180" center-x="3845.5" center-y="1646" atlas-index="3" size-x="255" name="armHolder8" />
+				<texture size-y="180" center-x="3212.5" center-y="1830" atlas-index="3" size-x="207" name="armHolder9" />
+				<texture size-y="360" center-x="182" center-y="1736" atlas-index="3" size-x="360" name="ball0" />
+				<texture size-y="360" center-x="3094" center-y="1372" atlas-index="3" size-x="360" name="ball1" />
+				<texture size-y="360" center-x="1274" center-y="1372" atlas-index="3" size-x="360" name="ball2" />
+				<texture size-y="360" center-x="1638" center-y="1372" atlas-index="3" size-x="360" name="ball3" />
+				<texture size-y="360" center-x="2366" center-y="1372" atlas-index="3" size-x="360" name="arrow1" />
+				<texture size-y="360" center-x="2722" center-y="1008" atlas-index="3" size-x="360" name="arrow2" />
+				<texture size-y="360" center-x="3814" center-y="1008" atlas-index="3" size-x="360" name="arrow3" />
+				<texture size-y="360" center-x="910" center-y="1372" atlas-index="3" size-x="360" name="olaunch1" />
+				<texture size-y="360" center-x="546" center-y="1372" atlas-index="3" size-x="360" name="olaunch2" />
+				<texture size-y="360" center-x="182" center-y="1372" atlas-index="3" size-x="360" name="olaunch3" />
+				<texture size-y="360" center-x="2730" center-y="1372" atlas-index="3" size-x="360" name="oalauncher1" />
+				<texture size-y="360" center-x="3086" center-y="1008" atlas-index="3" size-x="360" name="oalauncher2" />
+				<texture size-y="360" center-x="2002" center-y="1372" atlas-index="3" size-x="360" name="oalauncher3" />
+				<texture size-y="360" center-x="3450" center-y="1008" atlas-index="3" size-x="360" name="lancher1" />
+				<texture size-y="360" center-x="2358" center-y="1008" atlas-index="3" size-x="360" name="lancher2" />
+				<texture size-y="360" center-x="3458" center-y="1372" atlas-index="3" size-x="360" name="lancher3" />
+				<texture size-y="180" center-x="582" center-y="2018" atlas-index="3" size-x="180" name="losa1" />
+				<texture size-y="180" center-x="766" center-y="2018" atlas-index="3" size-x="180" name="losa2" />
+				<texture size-y="180" center-x="2394" center-y="2386" atlas-index="3" size-x="180" name="losa3" />
+				<texture size-y="360" center-x="3822" center-y="1372" atlas-index="3" size-x="360" name="character1" />
+				<texture size-y="360" center-x="546" center-y="1736" atlas-index="3" size-x="360" name="character2" />
+				<texture size-y="360" center-x="910" center-y="1736" atlas-index="3" size-x="360" name="character3" />
+				<texture size-y="180" center-x="186" center-y="2386" atlas-index="3" size-x="180" name="coin1" />
+				<texture size-y="180" center-x="1474" center-y="2386" atlas-index="3" size-x="180" name="coin2" />
+				<texture size-y="180" center-x="2578" center-y="2386" atlas-index="3" size-x="180" name="coin3" />
+				<texture size-y="180" center-x="2394" center-y="2202" atlas-index="3" size-x="180" name="destructible1" />
+				<texture size-y="180" center-x="1106" center-y="2386" atlas-index="3" size-x="180" name="destructible2" />
+				<texture size-y="180" center-x="2578" center-y="1830" atlas-index="3" size-x="210" name="explosion" />
+				<texture size-y="420" center-x="47" center-y="2982" atlas-index="3" size-x="90" name="lantern1" />
+				<texture size-y="420" center-x="47" center-y="2558" atlas-index="3" size-x="90" name="lantern2" />
+				<texture size-y="420" center-x="47" center-y="2134" atlas-index="3" size-x="90" name="lantern3" />
+				<texture size-y="90" center-x="2959" center-y="591" atlas-index="3" size-x="1562" name="longArm1" />
+				<texture size-y="90" center-x="2958.5" center-y="685" atlas-index="3" size-x="1561" name="longArm2" />
+				<texture size-y="90" center-x="2958" center-y="779" atlas-index="3" size-x="1560" name="longArm3" />
+				<texture size-y="90" center-x="3063" center-y="1601" atlas-index="3" size-x="784" name="mediumArm1" />
+				<texture size-y="90" center-x="1486.5" center-y="1601" atlas-index="3" size-x="785" name="mediumArm2" />
+				<texture size-y="90" center-x="2275" center-y="1601" atlas-index="3" size-x="784" name="mediumArm3" />
+				<texture size-y="180" center-x="2238" center-y="2018" atlas-index="3" size-x="180" name="pa1" />
+				<texture size-y="180" center-x="2606" center-y="2018" atlas-index="3" size-x="180" name="pa2" />
+				<texture size-y="180" center-x="2790" center-y="2018" atlas-index="3" size-x="180" name="pa3" />
+				<texture size-y="180" center-x="2974" center-y="2018" atlas-index="3" size-x="180" name="pa4" />
+				<texture size-y="180" center-x="922" center-y="2202" atlas-index="3" size-x="180" name="pa5" />
+				<texture size-y="180" center-x="3158" center-y="2018" atlas-index="3" size-x="180" name="pb1" />
+				<texture size-y="180" center-x="3526" center-y="2018" atlas-index="3" size-x="180" name="pb2" />
+				<texture size-y="180" center-x="3710" center-y="2018" atlas-index="3" size-x="180" name="pb3" />
+				<texture size-y="180" center-x="1658" center-y="2202" atlas-index="3" size-x="180" name="pb4" />
+				<texture size-y="180" center-x="1134" center-y="2018" atlas-index="3" size-x="180" name="pb5" />
+				<texture size-y="180" center-x="1686" center-y="2018" atlas-index="3" size-x="180" name="pc1" />
+				<texture size-y="180" center-x="3894" center-y="2018" atlas-index="3" size-x="180" name="pc2" />
+				<texture size-y="180" center-x="1318" center-y="2018" atlas-index="3" size-x="180" name="pc3" />
+				<texture size-y="180" center-x="186" center-y="2202" atlas-index="3" size-x="180" name="pc4" />
+				<texture size-y="180" center-x="370" center-y="2202" atlas-index="3" size-x="180" name="pc5" />
+				<texture size-y="180" center-x="554" center-y="2202" atlas-index="3" size-x="180" name="pc6" />
+				<texture size-y="180" center-x="738" center-y="2202" atlas-index="3" size-x="180" name="pc7" />
+				<texture size-y="180" center-x="922" center-y="2386" atlas-index="3" size-x="180" name="pc8" />
+				<texture size-y="180" center-x="1842" center-y="2386" atlas-index="3" size-x="180" name="pc9" />
+				<texture size-y="180" center-x="1290" center-y="2386" atlas-index="3" size-x="180" name="pd1" />
+				<texture size-y="180" center-x="3682" center-y="2202" atlas-index="3" size-x="180" name="pd2" />
+				<texture size-y="180" center-x="2422" center-y="2018" atlas-index="3" size-x="180" name="pd3" />
+				<texture size-y="180" center-x="1106" center-y="2202" atlas-index="3" size-x="180" name="pd4" />
+				<texture size-y="180" center-x="1290" center-y="2202" atlas-index="3" size-x="180" name="pd5" />
+				<texture size-y="180" center-x="738" center-y="2386" atlas-index="3" size-x="180" name="pe1" />
+				<texture size-y="180" center-x="1474" center-y="2202" atlas-index="3" size-x="180" name="pe2" />
+				<texture size-y="180" center-x="1842" center-y="2202" atlas-index="3" size-x="180" name="pe3" />
+				<texture size-y="180" center-x="554" center-y="2386" atlas-index="3" size-x="180" name="pe4" />
+				<texture size-y="180" center-x="2762" center-y="2202" atlas-index="3" size-x="180" name="pe5" />
+				<texture size-y="180" center-x="2210" center-y="2386" atlas-index="3" size-x="180" name="pf1" />
+				<texture size-y="180" center-x="2026" center-y="2386" atlas-index="3" size-x="180" name="pf2" />
+				<texture size-y="180" center-x="1658" center-y="2386" atlas-index="3" size-x="180" name="pf3" />
+				<texture size-y="180" center-x="2210" center-y="2202" atlas-index="3" size-x="180" name="pf4" />
+				<texture size-y="180" center-x="2578" center-y="2202" atlas-index="3" size-x="180" name="pf5" />
+				<texture size-y="180" center-x="2946" center-y="2202" atlas-index="3" size-x="180" name="ph1" />
+				<texture size-y="180" center-x="1870" center-y="2018" atlas-index="3" size-x="180" name="ph2" />
+				<texture size-y="180" center-x="2026" center-y="2202" atlas-index="3" size-x="180" name="ph3" />
+				<texture size-y="180" center-x="1502" center-y="2018" atlas-index="3" size-x="180" name="ph4" />
+				<texture size-y="180" center-x="3130" center-y="2202" atlas-index="3" size-x="180" name="ph5" />
+				<texture size-y="180" center-x="3314" center-y="2202" atlas-index="3" size-x="180" name="pk1" />
+				<texture size-y="180" center-x="3342" center-y="2018" atlas-index="3" size-x="180" name="pk2" />
+				<texture size-y="180" center-x="3498" center-y="2202" atlas-index="3" size-x="180" name="pk3" />
+				<texture size-y="180" center-x="2054" center-y="2018" atlas-index="3" size-x="180" name="pk4" />
+				<texture size-y="180" center-x="3866" center-y="2202" atlas-index="3" size-x="180" name="pk5" />
+				<texture size-y="540" center-x="1904" center-y="816" atlas-index="3" size-x="540" name="saw1" />
+				<texture size-y="540" center-x="1360" center-y="816" atlas-index="3" size-x="540" name="saw2" />
+				<texture size-y="540" center-x="272" center-y="816" atlas-index="3" size-x="540" name="saw3" />
+				<texture size-y="540" center-x="2992" center-y="272" atlas-index="3" size-x="540" name="saw4" />
+				<texture size-y="540" center-x="1360" center-y="272" atlas-index="3" size-x="540" name="saw5" />
+				<texture size-y="540" center-x="2448" center-y="272" atlas-index="3" size-x="540" name="saw6" />
+				<texture size-y="540" center-x="1904" center-y="272" atlas-index="3" size-x="540" name="saw7" />
+				<texture size-y="540" center-x="816" center-y="272" atlas-index="3" size-x="540" name="saw8" />
+				<texture size-y="90" center-x="3724" center-y="1785" atlas-index="3" size-x="392" name="shortArm1" />
+				<texture size-y="90" center-x="3724" center-y="1879" atlas-index="3" size-x="392" name="shortArm2" />
+				<texture size-y="90" center-x="292" center-y="1973" atlas-index="3" size-x="392" name="shortArm3" />
+				<texture size-y="180" center-x="2364" center-y="1830" atlas-index="3" size-x="210" name="smoke1" />
+				<texture size-y="180" center-x="1466.5" center-y="1830" atlas-index="3" size-x="227" name="smoke2" />
+				<texture size-y="180" center-x="3422" center-y="1830" atlas-index="3" size-x="204" name="smoke3" />
+				<texture size-y="180" center-x="2762" center-y="2386" atlas-index="3" size-x="180" name="window1" />
+				<texture size-y="540" center-x="272" center-y="272" atlas-index="3" size-x="540" name="win1" />
+				<texture size-y="540" center-x="3536" center-y="272" atlas-index="3" size-x="540" name="win2" />
+				<texture size-y="540" center-x="816" center-y="816" atlas-index="3" size-x="540" name="win3" />
+			</textures>
+			<atlases>
+				<atlas index="3" />
+			</atlases>
+		</group>
+		<group name="g01">
+			<textures>
+				<texture size-y="313" center-x="1530" center-y="800.5" atlas-index="4" size-x="180" name="antenna1" />
+				<texture size-y="313" center-x="3895" center-y="475.5" atlas-index="4" size-x="180" name="antenna2" />
+				<texture size-y="313" center-x="3895" center-y="158.5" atlas-index="4" size-x="180" name="antenna3" />
+				<texture size-y="180" center-x="3519" center-y="1244" atlas-index="4" size-x="180" name="armGear1" />
+				<texture size-y="180" center-x="306" center-y="1428" atlas-index="4" size-x="180" name="armGear2" />
+				<texture size-y="180" center-x="2514" center-y="1428" atlas-index="4" size-x="180" name="armGear3" />
+				<texture size-y="180" center-x="2742.5" center-y="959" atlas-index="4" size-x="221" name="armHolder1" />
+				<texture size-y="180" center-x="2662.5" center-y="734" atlas-index="4" size-x="255" name="armHolder2" />
+				<texture size-y="180" center-x="105.5" center-y="3237" atlas-index="4" size-x="207" name="armHolder3" />
+				<texture size-y="180" center-x="2333.5" center-y="959" atlas-index="4" size-x="221" name="armHolder4" />
+				<texture size-y="180" center-x="3180.5" center-y="734" atlas-index="4" size-x="255" name="armHolder5" />
+				<texture size-y="180" center-x="105.5" center-y="2869" atlas-index="4" size-x="207" name="armHolder6" />
+				<texture size-y="180" center-x="3335.5" center-y="959" atlas-index="4" size-x="221" name="armHolder7" />
+				<texture size-y="180" center-x="2921.5" center-y="734" atlas-index="4" size-x="255" name="armHolder8" />
+				<texture size-y="180" center-x="105.5" center-y="3053" atlas-index="4" size-x="207" name="armHolder9" />
+				<texture size-y="90" center-x="850.5" center-y="1939" atlas-index="4" size-x="233" name="base1" />
+				<texture size-y="90" center-x="1324.5" center-y="1939" atlas-index="4" size-x="233" name="base2" />
+				<texture size-y="90" center-x="1087.5" center-y="1939" atlas-index="4" size-x="233" name="base3" />
+				<texture size-y="448" center-x="794" center-y="500" atlas-index="4" size-x="180" name="lamp1" />
+				<texture size-y="449" center-x="426" center-y="500.5" atlas-index="4" size-x="180" name="lamp2" />
+				<texture size-y="448" center-x="978" center-y="500" atlas-index="4" size-x="180" name="lamp3" />
+				<texture size-y="448" center-x="1346" center-y="500" atlas-index="4" size-x="180" name="lamp4" />
+				<texture size-y="448" center-x="1162" center-y="500" atlas-index="4" size-x="180" name="lamp5" />
+				<texture size-y="449" center-x="610" center-y="500.5" atlas-index="4" size-x="180" name="lamp6" />
+				<texture size-y="180" center-x="2514" center-y="1796" atlas-index="4" size-x="180" name="losa1" />
+				<texture size-y="180" center-x="3887" center-y="1244" atlas-index="4" size-x="180" name="losa2" />
+				<texture size-y="180" center-x="674" center-y="1796" atlas-index="4" size-x="180" name="losa3" />
+				<texture size-y="270" center-x="1575" center-y="411" atlas-index="4" size-x="270" name="rhole1" />
+				<texture size-y="270" center-x="2397" center-y="411" atlas-index="4" size-x="270" name="rhole2" />
+				<texture size-y="270" center-x="1849" center-y="411" atlas-index="4" size-x="270" name="rhole3" />
+				<texture size-y="270" center-x="2671" center-y="411" atlas-index="4" size-x="270" name="rwhole1" />
+				<texture size-y="270" center-x="2123" center-y="411" atlas-index="4" size-x="270" name="rwhole2" />
+				<texture size-y="270" center-x="2945" center-y="411" atlas-index="4" size-x="270" name="rwhole3" />
+				<texture size-y="210" center-x="1584" center-y="2025" atlas-index="4" size-x="90" name="column1" />
+				<texture size-y="210" center-x="3974" center-y="1811" atlas-index="4" size-x="90" name="column2" />
+				<texture size-y="210" center-x="1490" center-y="2025" atlas-index="4" size-x="90" name="column3" />
+				<texture size-y="211" center-x="92" center-y="2055.5" atlas-index="4" size-x="180" name="battery1" />
+				<texture size-y="211" center-x="92" center-y="2485.5" atlas-index="4" size-x="180" name="battery2" />
+				<texture size-y="211" center-x="92" center-y="2270.5" atlas-index="4" size-x="180" name="battery3" />
+				<texture size-y="180" center-x="1490.5" center-y="1244" atlas-index="4" size-x="183" name="fan1" />
+				<texture size-y="180" center-x="1677.5" center-y="1244" atlas-index="4" size-x="183" name="fan2" />
+				<texture size-y="180" center-x="1303.5" center-y="1244" atlas-index="4" size-x="183" name="fan3" />
+				<texture size-y="180" center-x="2599" center-y="1244" atlas-index="4" size-x="180" name="hfloor1" />
+				<texture size-y="180" center-x="3151" center-y="1244" atlas-index="4" size-x="180" name="hfloor2" />
+				<texture size-y="180" center-x="490" center-y="1428" atlas-index="4" size-x="180" name="hfloor3" />
+				<texture size-y="180" center-x="1774" center-y="734" atlas-index="4" size-x="300" name="sbase1" />
+				<texture size-y="180" center-x="2078" center-y="734" atlas-index="4" size-x="300" name="sbase2" />
+				<texture size-y="180" center-x="2381.5" center-y="734" atlas-index="4" size-x="299" name="sbase3" />
+				<texture size-y="270" center-x="3298" center-y="137" atlas-index="4" size-x="330" name="ifloor1" />
+				<texture size-y="270" center-x="167" center-y="411" atlas-index="4" size-x="330" name="ifloor2" />
+				<texture size-y="270" center-x="3632" center-y="137" atlas-index="4" size-x="330" name="ifloor3" />
+				<texture size-y="420" center-x="47" center-y="1312" atlas-index="4" size-x="90" name="lantern1" />
+				<texture size-y="420" center-x="4034" center-y="846" atlas-index="4" size-x="90" name="lantern2" />
+				<texture size-y="420" center-x="47" center-y="1736" atlas-index="4" size-x="90" name="lantern3" />
+				<texture size-y="90" center-x="783" center-y="47" atlas-index="4" size-x="1562" name="longArm1" />
+				<texture size-y="90" center-x="2348.5" center-y="47" atlas-index="4" size-x="1561" name="longArm2" />
+				<texture size-y="90" center-x="782" center-y="141" atlas-index="4" size-x="1560" name="longArm3" />
+				<texture size-y="90" center-x="3409" center-y="595" atlas-index="4" size-x="784" name="mediumArm1" />
+				<texture size-y="90" center-x="1832.5" center-y="595" atlas-index="4" size-x="785" name="mediumArm2" />
+				<texture size-y="90" center-x="2621" center-y="595" atlas-index="4" size-x="784" name="mediumArm3" />
+				<texture size-y="180" center-x="2146" center-y="1428" atlas-index="4" size-x="180" name="pa1" />
+				<texture size-y="180" center-x="2330" center-y="1428" atlas-index="4" size-x="180" name="pa2" />
+				<texture size-y="180" center-x="2698" center-y="1428" atlas-index="4" size-x="180" name="pa3" />
+				<texture size-y="180" center-x="2882" center-y="1428" atlas-index="4" size-x="180" name="pa4" />
+				<texture size-y="180" center-x="1594" center-y="1612" atlas-index="4" size-x="180" name="pa5" />
+				<texture size-y="180" center-x="3066" center-y="1428" atlas-index="4" size-x="180" name="pb1" />
+				<texture size-y="180" center-x="3434" center-y="1428" atlas-index="4" size-x="180" name="pb2" />
+				<texture size-y="180" center-x="3618" center-y="1428" atlas-index="4" size-x="180" name="pb3" />
+				<texture size-y="180" center-x="3335" center-y="1244" atlas-index="4" size-x="180" name="pb4" />
+				<texture size-y="180" center-x="674" center-y="1428" atlas-index="4" size-x="180" name="pb5" />
+				<texture size-y="180" center-x="1226" center-y="1428" atlas-index="4" size-x="180" name="pc1" />
+				<texture size-y="180" center-x="3802" center-y="1428" atlas-index="4" size-x="180" name="pc2" />
+				<texture size-y="180" center-x="3066" center-y="1796" atlas-index="4" size-x="180" name="pc3" />
+				<texture size-y="180" center-x="3986" center-y="1428" atlas-index="4" size-x="180" name="pc4" />
+				<texture size-y="180" center-x="306" center-y="1612" atlas-index="4" size-x="180" name="pc5" />
+				<texture size-y="180" center-x="490" center-y="1612" atlas-index="4" size-x="180" name="pc6" />
+				<texture size-y="180" center-x="674" center-y="1612" atlas-index="4" size-x="180" name="pc7" />
+				<texture size-y="180" center-x="1962" center-y="1428" atlas-index="4" size-x="180" name="pc8" />
+				<texture size-y="180" center-x="2967" center-y="1244" atlas-index="4" size-x="180" name="pc9" />
+				<texture size-y="180" center-x="2415" center-y="1244" atlas-index="4" size-x="180" name="pd1" />
+				<texture size-y="180" center-x="3986" center-y="1612" atlas-index="4" size-x="180" name="pd2" />
+				<texture size-y="180" center-x="2698" center-y="1796" atlas-index="4" size-x="180" name="pd3" />
+				<texture size-y="180" center-x="858" center-y="1612" atlas-index="4" size-x="180" name="pd4" />
+				<texture size-y="180" center-x="1042" center-y="1612" atlas-index="4" size-x="180" name="pd5" />
+				<texture size-y="180" center-x="1410" center-y="1428" atlas-index="4" size-x="180" name="pe1" />
+				<texture size-y="180" center-x="1226" center-y="1612" atlas-index="4" size-x="180" name="pe2" />
+				<texture size-y="180" center-x="1778" center-y="1612" atlas-index="4" size-x="180" name="pe3" />
+				<texture size-y="180" center-x="3703" center-y="1244" atlas-index="4" size-x="180" name="pe4" />
+				<texture size-y="180" center-x="2698" center-y="1612" atlas-index="4" size-x="180" name="pe5" />
+				<texture size-y="180" center-x="1410" center-y="1612" atlas-index="4" size-x="180" name="pf1" />
+				<texture size-y="180" center-x="1042" center-y="1796" atlas-index="4" size-x="180" name="pf2" />
+				<texture size-y="180" center-x="2783" center-y="1244" atlas-index="4" size-x="180" name="pf3" />
+				<texture size-y="180" center-x="2146" center-y="1612" atlas-index="4" size-x="180" name="pf4" />
+				<texture size-y="180" center-x="2514" center-y="1612" atlas-index="4" size-x="180" name="pf5" />
+				<texture size-y="180" center-x="3066" center-y="1612" atlas-index="4" size-x="180" name="ph1" />
+				<texture size-y="180" center-x="1594" center-y="1428" atlas-index="4" size-x="180" name="ph2" />
+				<texture size-y="180" center-x="1778" center-y="1796" atlas-index="4" size-x="180" name="ph3" />
+				<texture size-y="180" center-x="1042" center-y="1428" atlas-index="4" size-x="180" name="ph4" />
+				<texture size-y="180" center-x="3250" center-y="1612" atlas-index="4" size-x="180" name="ph5" />
+				<texture size-y="180" center-x="3434" center-y="1612" atlas-index="4" size-x="180" name="pk1" />
+				<texture size-y="180" center-x="3250" center-y="1428" atlas-index="4" size-x="180" name="pk2" />
+				<texture size-y="180" center-x="3802" center-y="1612" atlas-index="4" size-x="180" name="pk3" />
+				<texture size-y="180" center-x="1778" center-y="1428" atlas-index="4" size-x="180" name="pk4" />
+				<texture size-y="180" center-x="490" center-y="1796" atlas-index="4" size-x="180" name="pk5" />
+				<texture size-y="180" center-x="910" center-y="1244" atlas-index="4" size-x="196" name="endPipe1" />
+				<texture size-y="180" center-x="710" center-y="1244" atlas-index="4" size-x="196" name="endPipe2" />
+				<texture size-y="180" center-x="1110" center-y="1244" atlas-index="4" size-x="196" name="endPipe3" />
+				<texture size-y="180" center-x="2472.5" center-y="2010" atlas-index="4" size-x="201" name="pipeTurn1" />
+				<texture size-y="180" center-x="102.5" center-y="3973" atlas-index="4" size-x="201" name="pipeTurn2" />
+				<texture size-y="180" center-x="2677.5" center-y="2010" atlas-index="4" size-x="201" name="pipeTurn3" />
+				<texture size-y="180" center-x="102.5" center-y="3605" atlas-index="4" size-x="201" name="pipePart1" />
+				<texture size-y="180" center-x="2267.5" center-y="2010" atlas-index="4" size-x="201" name="pipePart2" />
+				<texture size-y="180" center-x="102.5" center-y="3789" atlas-index="4" size-x="201" name="pipePart3" />
+				<texture size-y="90" center-x="2076" center-y="1965" atlas-index="4" size-x="174" name="pipeTrigger1" />
+				<texture size-y="90" center-x="1898" center-y="1965" atlas-index="4" size-x="174" name="pipeTrigger2" />
+				<texture size-y="90" center-x="1720" center-y="1965" atlas-index="4" size-x="174" name="pipeTrigger3" />
+				<texture size-y="90" center-x="3488" center-y="1845" atlas-index="4" size-x="288" name="pipeTop1" />
+				<texture size-y="90" center-x="3781" center-y="1751" atlas-index="4" size-x="288" name="pipeTop2" />
+				<texture size-y="90" center-x="3488.5" center-y="1751" atlas-index="4" size-x="289" name="pipeTop3" />
+				<texture size-y="229" center-x="1714" center-y="983.5" atlas-index="4" size-x="180" name="pipeTurn4" />
+				<texture size-y="229" center-x="1898" center-y="983.5" atlas-index="4" size-x="180" name="pipeTurn5" />
+				<texture size-y="229" center-x="3895" center-y="750.5" atlas-index="4" size-x="180" name="pipeTurn6" />
+				<texture size-y="221" center-x="2947" center-y="979.5" atlas-index="4" size-x="180" name="pipeMachine1" />
+				<texture size-y="221" center-x="3131" center-y="979.5" atlas-index="4" size-x="180" name="pipeMachine2" />
+				<texture size-y="221" center-x="2538" center-y="979.5" atlas-index="4" size-x="180" name="pipeMachine3" />
+				<texture size-y="180" center-x="1226" center-y="1796" atlas-index="4" size-x="180" name="floor1" />
+				<texture size-y="180" center-x="2882" center-y="1612" atlas-index="4" size-x="180" name="floor2" />
+				<texture size-y="180" center-x="1962" center-y="1612" atlas-index="4" size-x="180" name="floor3" />
+				<texture size-y="180" center-x="1962" center-y="1796" atlas-index="4" size-x="180" name="pfloor1" />
+				<texture size-y="180" center-x="2330" center-y="1612" atlas-index="4" size-x="180" name="pfloor2" />
+				<texture size-y="180" center-x="858" center-y="1796" atlas-index="4" size-x="180" name="pfloor3" />
+				<texture size-y="180" center-x="1863" center-y="1244" atlas-index="4" size-x="180" name="poofloor1" />
+				<texture size-y="180" center-x="3618" center-y="1612" atlas-index="4" size-x="180" name="poofloor2" />
+				<texture size-y="180" center-x="2882" center-y="1796" atlas-index="4" size-x="180" name="poofloor3" />
+				<texture size-y="90" center-x="3421" center-y="1105" atlas-index="4" size-x="392" name="shortArm1" />
+				<texture size-y="90" center-x="412" center-y="1199" atlas-index="4" size-x="392" name="shortArm2" />
+				<texture size-y="90" center-x="3817" center-y="1105" atlas-index="4" size-x="392" name="shortArm3" />
+				<texture size-y="180" center-x="107" center-y="2685" atlas-index="4" size-x="210" name="smoke1" />
+				<texture size-y="180" center-x="2105.5" center-y="959" atlas-index="4" size-x="227" name="smoke2" />
+				<texture size-y="180" center-x="104" center-y="3421" atlas-index="4" size-x="204" name="smoke3" />
+				<texture size-y="180" center-x="306" center-y="1796" atlas-index="4" size-x="180" name="vvfloor1" />
+				<texture size-y="180" center-x="2146" center-y="1796" atlas-index="4" size-x="180" name="vvfloor2" />
+				<texture size-y="180" center-x="1594" center-y="1796" atlas-index="4" size-x="180" name="vvfloor3" />
+				<texture size-y="90" center-x="602.5" center-y="1939" atlas-index="4" size-x="255" name="ttop1" />
+				<texture size-y="90" center-x="3763.5" center-y="1845" atlas-index="4" size-x="255" name="ttop2" />
+				<texture size-y="90" center-x="343.5" center-y="1939" atlas-index="4" size-x="255" name="ttop3" />
+				<texture size-y="180" center-x="1410" center-y="1796" atlas-index="4" size-x="180" name="veflow1" />
+				<texture size-y="180" center-x="2330" center-y="1796" atlas-index="4" size-x="180" name="veflow2" />
+				<texture size-y="180" center-x="3250" center-y="1796" atlas-index="4" size-x="180" name="veflow3" />
+				<texture size-y="180" center-x="2231" center-y="1244" atlas-index="4" size-x="180" name="window1" />
+				<texture size-y="180" center-x="2047" center-y="1244" atlas-index="4" size-x="180" name="window2" />
+				<texture size-y="180" center-x="858" center-y="1428" atlas-index="4" size-x="180" name="window3" />
+			</textures>
+			<atlases>
+				<atlas index="4" />
+			</atlases>
+		</group>
+	</all-groups>
+	<all-textures>
+		<texture border="rb::texture_border::clamp" scale="1" name="wfan3" />
+		<texture border="rb::texture_border::clamp" scale="1" name="wfan2" />
+		<texture border="rb::texture_border::clamp" scale="1" name="wwindow3" />
+		<texture border="rb::texture_border::empty" scale="1" name="win1" />
+		<texture border="rb::texture_border::clamp" scale="1" name="window2" />
+		<texture border="rb::texture_border::clamp" scale="1" name="window1" />
+		<texture border="rb::texture_border::clamp" scale="1" name="veflow1" />
+		<texture border="rb::texture_border::empty" scale="1" name="ttop3" />
+		<texture border="rb::texture_border::empty" scale="1" name="ttop1" />
+		<texture border="rb::texture_border::clamp" scale="1" name="vvfloor3" />
+		<texture border="rb::texture_border::clamp" scale="1" name="vvfloor2" />
+		<texture border="rb::texture_border::empty" scale="1" name="smoke3" />
+		<texture border="rb::texture_border::empty" scale="1" name="smoke2" />
+		<texture border="rb::texture_border::empty" scale="1" name="smoke1" />
+		<texture border="rb::texture_border::empty" scale="1" name="shortArm3" />
+		<texture border="rb::texture_border::repeat" scale="1" name="pc9" />
+		<texture border="rb::texture_border::repeat" scale="1" name="pf3" />
+		<texture border="rb::texture_border::clamp" scale="1" name="pfloor3" />
+		<texture border="rb::texture_border::clamp" scale="1" name="floor1" />
+		<texture border="rb::texture_border::empty" scale="1" name="sensor3" />
+		<texture border="rb::texture_border::empty" scale="1" name="saw8" />
+		<texture border="rb::texture_border::empty" scale="1" name="saw7" />
+		<texture border="rb::texture_border::empty" scale="1" name="saw6" />
+		<texture border="rb::texture_border::clamp" scale="1" name="veflow3" />
+		<texture border="rb::texture_border::empty" scale="1" name="ball0" />
+		<texture border="rb::texture_border::empty" scale="1" name="saw3" />
+		<texture border="rb::texture_border::empty" scale="1" name="reactor5" />
+		<texture border="rb::texture_border::empty" scale="1" name="ball2" />
+		<texture border="rb::texture_border::clamp" scale="1" name="ifloor1" />
+		<texture border="rb::texture_border::empty" scale="1" name="reactor4" />
+		<texture border="rb::texture_border::empty" scale="1" name="rwhole3" />
+		<texture border="rb::texture_border::empty" scale="1" name="pipeMachine3" />
+		<texture border="rb::texture_border::empty" scale="1" name="pipeMachine1" />
+		<texture border="rb::texture_border::clamp" scale="1" name="veflow2" />
+		<texture border="rb::texture_border::empty" scale="1" name="olaunch1" />
+		<texture border="rb::texture_border::empty" scale="1" name="pipeTurn6" />
+		<texture border="rb::texture_border::empty" scale="1" name="pipeTurn5" />
+		<texture border="rb::texture_border::empty" scale="1" name="coin1" />
+		<texture border="rb::texture_border::empty" scale="1" name="pipeTurn4" />
+		<texture border="rb::texture_border::empty" scale="1" name="pipePart3" />
+		<texture border="rb::texture_border::empty" scale="1" name="pipePart2" />
+		<texture border="rb::texture_border::empty" scale="1" name="reactor1" />
+		<texture border="rb::texture_border::empty" scale="1" name="pipeTrigger1" />
+		<texture border="rb::texture_border::empty" scale="1" name="pipeTurn1" />
+		<texture border="rb::texture_border::empty" scale="1" name="pipeTrigger2" />
+		<texture border="rb::texture_border::empty" scale="1" name="endPipe2" />
+		<texture border="rb::texture_border::clamp" scale="1" name="wwindow2" />
+		<texture border="rb::texture_border::repeat" scale="1" name="pk5" />
+		<texture border="rb::texture_border::clamp" scale="1" name="vvfloor1" />
+		<texture border="rb::texture_border::repeat" scale="1" name="pd2" />
+		<texture border="rb::texture_border::repeat" scale="1" name="pk3" />
+		<texture border="rb::texture_border::empty" scale="1" name="lamp3" />
+		<texture border="rb::texture_border::repeat" scale="1" name="pk1" />
+		<texture border="rb::texture_border::empty" scale="1" name="photo2" />
+		<texture border="rb::texture_border::repeat" scale="1" name="ph5" />
+		<texture border="rb::texture_border::repeat" scale="1" name="ph1" />
+		<texture border="rb::texture_border::clamp" scale="1" name="floor2" />
+		<texture border="rb::texture_border::repeat" scale="1" name="pe5" />
+		<texture border="rb::texture_border::repeat" scale="1" name="pf5" />
+		<texture border="rb::texture_border::clamp" scale="1" name="pfloor2" />
+		<texture border="rb::texture_border::empty" scale="1" name="saw1" />
+		<texture border="rb::texture_border::repeat" scale="1" name="pf4" />
+		<texture border="rb::texture_border::empty" scale="1" name="mediumArm3" />
+		<texture border="rb::texture_border::repeat" scale="1" name="pe3" />
+		<texture border="rb::texture_border::empty" scale="1" name="armHolder7" />
+		<texture border="rb::texture_border::empty" scale="1" name="pipeTurn3" />
+		<texture border="rb::texture_border::repeat" scale="1" name="pe2" />
+		<texture border="rb::texture_border::repeat" scale="1" name="pd5" />
+		<texture border="rb::texture_border::repeat" scale="1" name="pd4" />
+		<texture border="rb::texture_border::clamp" scale="1" name="wwindow1" />
+		<texture border="rb::texture_border::empty" scale="1" name="saw2" />
+		<texture border="rb::texture_border::repeat" scale="1" name="pc7" />
+		<texture border="rb::texture_border::repeat" scale="1" name="pc6" />
+		<texture border="rb::texture_border::repeat" scale="1" name="pc5" />
+		<texture border="rb::texture_border::repeat" scale="1" name="pc4" />
+		<texture border="rb::texture_border::empty" scale="1" name="photo3" />
+		<texture border="rb::texture_border::repeat" scale="1" name="pc2" />
+		<texture border="rb::texture_border::repeat" scale="1" name="pb3" />
+		<texture border="rb::texture_border::repeat" scale="1" name="pb2" />
+		<texture border="rb::texture_border::repeat" scale="1" name="pk2" />
+		<texture border="rb::texture_border::repeat" scale="1" name="pb1" />
+		<texture border="rb::texture_border::repeat" scale="1" name="pa4" />
+		<texture border="rb::texture_border::empty" scale="1" name="rocket2" />
+		<texture border="rb::texture_border::repeat" scale="1" name="pa3" />
+		<texture border="rb::texture_border::empty" scale="1" name="fan3" />
+		<texture border="rb::texture_border::repeat" scale="1" name="pa2" />
+		<texture border="rb::texture_border::empty" scale="1" name="saw5" />
+		<texture border="rb::texture_border::repeat" scale="1" name="pa1" />
+		<texture border="rb::texture_border::empty" scale="1" name="noSign2" />
+		<texture border="rb::texture_border::empty" scale="1" name="rocket3" />
+		<texture border="rb::texture_border::empty" scale="1" name="reactor3" />
+		<texture border="rb::texture_border::empty" scale="1" name="pipePart1" />
+		<texture border="rb::texture_border::repeat" scale="1" name="pk4" />
+		<texture border="rb::texture_border::repeat" scale="1" name="ph2" />
+		<texture border="rb::texture_border::empty" scale="1" name="fan2" />
+		<texture border="rb::texture_border::repeat" scale="1" name="pc1" />
+		<texture border="rb::texture_border::empty" scale="1" name="noSign1" />
+		<texture border="rb::texture_border::repeat" scale="1" name="ph4" />
+		<texture border="rb::texture_border::repeat" scale="1" name="pc3" />
+		<texture border="rb::texture_border::repeat" scale="1" name="pb5" />
+		<texture border="rb::texture_border::clamp" scale="1" name="hfloor3" />
+		<texture border="rb::texture_border::empty" scale="1" name="armGear2" />
+		<texture border="rb::texture_border::empty" scale="1" name="losa2" />
+		<texture border="rb::texture_border::empty" scale="1" name="lancher2" />
+		<texture border="rb::texture_border::empty" scale="1" name="arrow2" />
+		<texture border="rb::texture_border::empty" scale="1" name="armHolder8" />
+		<texture border="rb::texture_border::empty" scale="1" name="downSign3" />
+		<texture border="rb::texture_border::empty" scale="1" name="ballReactor6" />
+		<texture border="rb::texture_border::empty" scale="1" name="rocket1" />
+		<texture border="rb::texture_border::empty" scale="1" name="photo1" />
+		<texture border="rb::texture_border::empty" scale="1" name="mediumArm1" />
+		<texture border="rb::texture_border::empty" scale="1" name="pipeMachine2" />
+		<texture border="rb::texture_border::empty" scale="1" name="mediumArm2" />
+		<texture border="rb::texture_border::empty" scale="1" name="lantern3" />
+		<texture border="rb::texture_border::empty" scale="1" name="endPipe3" />
+		<texture border="rb::texture_border::empty" scale="1" name="ballReactor4" />
+		<texture border="rb::texture_border::empty" scale="1" name="armHolder2" />
+		<texture border="rb::texture_border::empty" scale="1" name="explosion" />
+		<texture border="rb::texture_border::empty" scale="1" name="longArm3" />
+		<texture border="rb::texture_border::empty" scale="1" name="sbase1" />
+		<texture border="rb::texture_border::empty" scale="1" name="longArm2" />
+		<texture border="rb::texture_border::clamp" scale="1" name="poofloor1" />
+		<texture border="rb::texture_border::empty" scale="1" name="ttop2" />
+		<texture border="rb::texture_border::empty" scale="1" name="base1" />
+		<texture border="rb::texture_border::clamp" scale="1" name="hfloor2" />
+		<texture border="rb::texture_border::repeat" scale="1" name="pb4" />
+		<texture border="rb::texture_border::empty" scale="1" name="shortArm1" />
+		<texture border="rb::texture_border::empty" scale="1" name="ball3" />
+		<texture border="rb::texture_border::clamp" scale="1" name="ifloor3" />
+		<texture border="rb::texture_border::empty" scale="1" name="battery3" />
+		<texture border="rb::texture_border::empty" scale="1" name="ball1" />
+		<texture border="rb::texture_border::empty" scale="1" name="pipeTurn2" />
+		<texture border="rb::texture_border::repeat" scale="1" name="pe4" />
+		<texture border="rb::texture_border::empty" scale="1" name="battery2" />
+		<texture border="rb::texture_border::repeat" scale="1" name="pe1" />
+		<texture border="rb::texture_border::empty" scale="1" name="destructible2" />
+		<texture border="rb::texture_border::empty" scale="1" name="battery1" />
+		<texture border="rb::texture_border::empty" scale="1" name="lantern1" />
+		<texture border="rb::texture_border::empty" scale="1" name="fan1" />
+		<texture border="rb::texture_border::empty" scale="1" name="ballReactor5" />
+		<texture border="rb::texture_border::empty" scale="1" name="downSign1" />
+		<texture border="rb::texture_border::empty" scale="1" name="column3" />
+		<texture border="rb::texture_border::clamp" scale="1" name="ifloor2" />
+		<texture border="rb::texture_border::empty" scale="1" name="character1" />
+		<texture border="rb::texture_border::empty" scale="1" name="rwhole2" />
+		<texture border="rb::texture_border::empty" scale="1" name="column2" />
+		<texture border="rb::texture_border::empty" scale="1" name="lantern2" />
+		<texture border="rb::texture_border::repeat" scale="1" name="pf1" />
+		<texture border="rb::texture_border::empty" scale="1" name="rwhole1" />
+		<texture border="rb::texture_border::empty" scale="1" name="rhole2" />
+		<texture border="rb::texture_border::empty" scale="1" name="saw4" />
+		<texture border="rb::texture_border::empty" scale="1" name="character2" />
+		<texture border="rb::texture_border::empty" scale="1" name="endPipe1" />
+		<texture border="rb::texture_border::empty" scale="1" name="rhole1" />
+		<texture border="rb::texture_border::empty" scale="1" name="sensor2" />
+		<texture border="rb::texture_border::empty" scale="1" name="character3" />
+		<texture border="rb::texture_border::empty" scale="1" name="coin3" />
+		<texture border="rb::texture_border::empty" scale="1" name="noSign3" />
+		<texture border="rb::texture_border::empty" scale="1" name="losa3" />
+		<texture border="rb::texture_border::repeat" scale="1" name="pf2" />
+		<texture border="rb::texture_border::empty" scale="1" name="lancher3" />
+		<texture border="rb::texture_border::empty" scale="1" name="destructible1" />
+		<texture border="rb::texture_border::empty" scale="1" name="oalauncher1" />
+		<texture border="rb::texture_border::empty" scale="1" name="lamp5" />
+		<texture border="rb::texture_border::empty" scale="1" name="antenna3" />
+		<texture border="rb::texture_border::empty" scale="1" name="downSign2" />
+		<texture border="rb::texture_border::empty" scale="1" name="arrow1" />
+		<texture border="rb::texture_border::empty" scale="1" name="oalauncher3" />
+		<texture border="rb::texture_border::empty" scale="1" name="pipeTop1" />
+		<texture border="rb::texture_border::empty" scale="1" name="lamp1" />
+		<texture border="rb::texture_border::repeat" scale="1" name="ph3" />
+		<texture border="rb::texture_border::empty" scale="1" name="win3" />
+		<texture border="rb::texture_border::empty" scale="1" name="armHolder6" />
+		<texture border="rb::texture_border::empty" scale="1" name="armHolder5" />
+		<texture border="rb::texture_border::empty" scale="1" name="olaunch3" />
+		<texture border="rb::texture_border::empty" scale="1" name="ballReactor1" />
+		<texture border="rb::texture_border::empty" scale="1" name="arrow3" />
+		<texture border="rb::texture_border::clamp" scale="1" name="wfan1" />
+		<texture border="rb::texture_border::clamp" scale="1" name="pfloor1" />
+		<texture border="rb::texture_border::empty" scale="1" name="lancher1" />
+		<texture border="rb::texture_border::empty" scale="1" name="reactor2" />
+		<texture border="rb::texture_border::empty" scale="1" name="oalauncher2" />
+		<texture border="rb::texture_border::empty" scale="1" name="base3" />
+		<texture border="rb::texture_border::empty" scale="1" name="base2" />
+		<texture border="rb::texture_border::empty" scale="1" name="antenna1" />
+		<texture border="rb::texture_border::empty" scale="1" name="sbase2" />
+		<texture border="rb::texture_border::clamp" scale="1" name="window3" />
+		<texture border="rb::texture_border::empty" scale="1" name="ballReactor3" />
+		<texture border="rb::texture_border::empty" scale="1" name="ballReactor2" />
+		<texture border="rb::texture_border::repeat" scale="1" name="pd3" />
+		<texture border="rb::texture_border::empty" scale="1" name="losa1" />
+		<texture border="rb::texture_border::empty" scale="1" name="lamp6" />
+		<texture border="rb::texture_border::empty" scale="1" name="olaunch2" />
+		<texture border="rb::texture_border::empty" scale="1" name="rhole3" />
+		<texture border="rb::texture_border::empty" scale="1" name="reactor6" />
+		<texture border="rb::texture_border::empty" scale="1" name="armHolder9" />
+		<texture border="rb::texture_border::empty" scale="1" name="pipeTrigger3" />
+		<texture border="rb::texture_border::empty" scale="1" name="column1" />
+		<texture border="rb::texture_border::clamp" scale="1" name="poofloor2" />
+		<texture border="rb::texture_border::repeat" scale="1" name="pa5" />
+		<texture border="rb::texture_border::empty" scale="1" name="antenna2" />
+		<texture border="rb::texture_border::empty" scale="1" name="shortArm2" />
+		<texture border="rb::texture_border::empty" scale="1" name="sensor1" />
+		<texture border="rb::texture_border::empty" scale="1" name="lamp2" />
+		<texture border="rb::texture_border::empty" scale="1" name="armGear3" />
+		<texture border="rb::texture_border::empty" scale="1" name="pipeTop2" />
+		<texture border="rb::texture_border::empty" scale="1" name="lamp4" />
+		<texture border="rb::texture_border::clamp" scale="1" name="hfloor1" />
+		<texture border="rb::texture_border::empty" scale="1" name="armHolder1" />
+		<texture border="rb::texture_border::clamp" scale="1" name="floor3" />
+		<texture border="rb::texture_border::empty" scale="1" name="armHolder3" />
+		<texture border="rb::texture_border::empty" scale="1" name="win2" />
+		<texture border="rb::texture_border::clamp" scale="1" name="poofloor3" />
+		<texture border="rb::texture_border::empty" scale="1" name="sbase3" />
+		<texture border="rb::texture_border::repeat" scale="1" name="pc8" />
+		<texture border="rb::texture_border::empty" scale="1" name="armHolder4" />
+		<texture border="rb::texture_border::empty" scale="1" name="pipeTop3" />
+		<texture border="rb::texture_border::repeat" scale="1" name="pd1" />
+		<texture border="rb::texture_border::empty" scale="1" name="longArm1" />
+		<texture border="rb::texture_border::empty" scale="1" name="coin2" />
+		<texture border="rb::texture_border::empty" scale="1" name="armGear1" />
+	</all-textures>
+</texture-atlas>

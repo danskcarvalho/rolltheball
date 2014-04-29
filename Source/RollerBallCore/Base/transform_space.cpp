@@ -40,7 +40,7 @@ void transform_space::update_inv_matrix(){
     if(_inv_matrix.has_value())
         return;
     auto _determinant = _matrix.determinant();
-    if (almost_equal(_determinant, 0)){
+    if (_determinant == 0){
         //not inversible
         _inv_matrix = nullptr;
     }

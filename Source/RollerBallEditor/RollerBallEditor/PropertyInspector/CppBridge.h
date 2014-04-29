@@ -13,6 +13,6 @@
 
 @interface CppBridge : NSObject < CppBridgeProtocol, ObservableObject >
 -(id)initWithCppObject:(rb::typed_object*)object;
-+(void)textureAtlasChanged:(void*)newAtlas;
++(void)textureAtlasChanged:(void*)newAtlas withURL:(NSURL*)url;
 -(void)deleteInternalObject;
 @end

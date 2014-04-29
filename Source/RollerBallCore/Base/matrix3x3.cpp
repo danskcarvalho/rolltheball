@@ -76,7 +76,7 @@ void matrix3x3::_invert(rb::matrix3x3 *m_ptr, bool set){
 //    K = a*e - b*d;
     
     float _determinant = determinant();
-    assert(!almost_equal(_determinant, 0));
+    assert(_determinant != 0);
     float inv_det = 1.0f / _determinant;
     
 //    assert(almost_equal(inv_det * C, 0));

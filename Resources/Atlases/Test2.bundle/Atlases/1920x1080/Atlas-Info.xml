@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<texture-atlas atlas-count="1" max-atlas-size="4096">
+	<all-groups>
+		<group name="g00">
+			<textures>
+				<texture size-y="120" center-x="1050" center-y="62" atlas-index="0" size-x="120" name="pt0" />
+				<texture size-y="128" center-x="674" center-y="310" atlas-index="0" size-x="128" name="pt1" />
+				<texture size-y="120" center-x="802" center-y="430" atlas-index="0" size-x="120" name="pt2" />
+				<texture size-y="120" center-x="802" center-y="306" atlas-index="0" size-x="120" name="pt3" />
+				<texture size-y="120" center-x="926" center-y="62" atlas-index="0" size-x="120" name="pt4" />
+				<texture size-y="120" center-x="926" center-y="186" atlas-index="0" size-x="120" name="pt5" />
+				<texture size-y="120" center-x="926" center-y="434" atlas-index="0" size-x="120" name="pt6" />
+				<texture size-y="240" center-x="730" center-y="122" atlas-index="0" size-x="240" name="character" />
+				<texture size-y="240" center-x="486" center-y="122" atlas-index="0" size-x="240" name="laucher" />
+				<texture size-y="240" center-x="486" center-y="366" atlas-index="0" size-x="240" name="launcherDir" />
+				<texture size-y="120" center-x="926" center-y="310" atlas-index="0" size-x="120" name="coin" />
+				<texture size-y="360" center-x="182" center-y="182" atlas-index="0" size-x="360" name="saw" />
+			</textures>
+			<atlases>
+				<atlas index="0" />
+			</atlases>
+		</group>
+	</all-groups>
+	<all-textures>
+		<texture border="rb::texture_border::empty" scale="1" name="character" />
+		<texture border="rb::texture_border::repeat" scale="1" name="pt6" />
+		<texture border="rb::texture_border::empty" scale="1" name="saw" />
+		<texture border="rb::texture_border::repeat" scale="1" name="pt5" />
+		<texture border="rb::texture_border::empty" scale="1" name="launcherDir" />
+		<texture border="rb::texture_border::repeat" scale="1" name="pt2" />
+		<texture border="rb::texture_border::empty" scale="1" name="laucher" />
+		<texture border="rb::texture_border::repeat" scale="1" name="pt4" />
+		<texture border="rb::texture_border::repeat" scale="1" name="pt3" />
+		<texture border="rb::texture_border::repeat" scale="1" name="pt1" />
+		<texture border="rb::texture_border::empty" scale="1" name="coin" />
+		<texture border="rb::texture_border::repeat" scale="1" name="pt0" />
+	</all-textures>
+</texture-atlas>

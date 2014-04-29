@@ -9,7 +9,7 @@
 #ifndef TextureAtlasEditor_Constants_h
 #define TextureAtlasEditor_Constants_h
 
-#define THUMBNAIL_DIR @"/Users/danilocarvalho/Projects/GameRollerBall/Design/Thumbnail"
-#define IMAGE_DIR @"/Users/danilocarvalho/Projects/GameRollerBall/Design/Resized"
+#define THUMBNAIL_DIR @"/Users/danilocarvalho/Projects/GameRollerBall/Design 2/Thumbnail"
+#define IMAGE_DIR @"/Users/danilocarvalho/Projects/GameRollerBall/Design 2/Resized"
 #define IPAD3_BLOCK_SIZE 128.0
 #endif

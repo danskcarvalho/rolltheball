@@ -57,7 +57,7 @@ static __weak Class _bridgeClass;
         director::active_scene()->atlas(atlas);
     
     if(director::in_editor()){
-        [_bridgeClass textureAtlasChanged: const_cast<rb::texture_atlas*>(atlas)];
+        [_bridgeClass textureAtlasChanged: const_cast<rb::texture_atlas*>(atlas) withURL:atlasUrl];
         
         if(director::active_scene()){
             auto _current = director::active_scene()->current();
