@@ -22,13 +22,11 @@
 		456C8A0E161267900001B343 /* basic_shader.fsh in CopyFiles */ = {isa = PBXBuildFile; fileRef = 456C8A06161267510001B343 /* basic_shader.fsh */; };
 		456C8A0F161267900001B343 /* basic_shader.vsh in CopyFiles */ = {isa = PBXBuildFile; fileRef = 456C8A07161267510001B343 /* basic_shader.vsh */; };
 		4570FB0C17C40B0D002A063F /* DSCustomOpenGLView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4570FB0B17C40B0D002A063F /* DSCustomOpenGLView.mm */; };
-		45A06C1017AE9C22009087B7 /* Test.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 45A06C0F17AE9C22009087B7 /* Test.bundle */; };
 		45A2A44F18E87C7700A2397E /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 45A2A44E18E87C7700A2397E /* Default-568h@2x.png */; };
-		45D3CC7A17A4138D0034EDBF /* Test.scene in CopyFiles */ = {isa = PBXBuildFile; fileRef = 45D3CC7817A413820034EDBF /* Test.scene */; };
-		45E1799F190F09BB00803E4E /* Test2.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 45E1799E190F09BB00803E4E /* Test2.bundle */; };
-		45E179A0190F0C1200803E4E /* Test3.scene in CopyFiles */ = {isa = PBXBuildFile; fileRef = 45E1799C190F09A500803E4E /* Test3.scene */; };
+		45A7335D19132E8C00E7905E /* Level1.scene in CopyFiles */ = {isa = PBXBuildFile; fileRef = 45A7335919132E6800E7905E /* Level1.scene */; };
+		45A7335E19132E8C00E7905E /* Level2.scene in CopyFiles */ = {isa = PBXBuildFile; fileRef = 45A7335A19132E6800E7905E /* Level2.scene */; };
+		45BC87EA1911A6A100CF23AF /* Level0.scene in CopyFiles */ = {isa = PBXBuildFile; fileRef = 45BC87E81911A68C00CF23AF /* Level0.scene */; };
 		45E179A4190F2B9100803E4E /* Gameplay.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 45E179A3190F2B9100803E4E /* Gameplay.bundle */; };
-		45E179A5190F2BA800803E4E /* Test2.scene in CopyFiles */ = {isa = PBXBuildFile; fileRef = 45E179A1190F2B7C00803E4E /* Test2.scene */; };
 		45E52957161265E9002159FF /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45E52956161265E9002159FF /* ImageIO.framework */; };
 /* End PBXBuildFile section */
 
@@ -39,9 +37,9 @@
 			dstPath = "";
 			dstSubfolderSpec = 7;
 			files = (
-				45E179A5190F2BA800803E4E /* Test2.scene in CopyFiles */,
-				45E179A0190F0C1200803E4E /* Test3.scene in CopyFiles */,
-				45D3CC7A17A4138D0034EDBF /* Test.scene in CopyFiles */,
+				45A7335D19132E8C00E7905E /* Level1.scene in CopyFiles */,
+				45A7335E19132E8C00E7905E /* Level2.scene in CopyFiles */,
+				45BC87EA1911A6A100CF23AF /* Level0.scene in CopyFiles */,
 				4506F10F1623238B009AA030 /* basic_shader_with_wrapping.fsh in CopyFiles */,
 				456C8A0E161267900001B343 /* basic_shader.fsh in CopyFiles */,
 				456C8A0F161267900001B343 /* basic_shader.vsh in CopyFiles */,
@@ -9084,12 +9082,10 @@
 		456C8A07161267510001B343 /* basic_shader.vsh */ = {isa = PBXFileReference; explicitFileType = sourcecode.glsl; fileEncoding = 4; name = basic_shader.vsh; path = ../../RollerBallCore/Shaders/basic_shader.vsh; sourceTree = "<group>"; };
 		4570FB0A17C40B0D002A063F /* DSCustomOpenGLView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSCustomOpenGLView.h; sourceTree = "<group>"; };
 		4570FB0B17C40B0D002A063F /* DSCustomOpenGLView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = DSCustomOpenGLView.mm; sourceTree = "<group>"; };
-		45A06C0F17AE9C22009087B7 /* Test.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = Test.bundle; path = ../../../Resources/Atlases/Test.bundle; sourceTree = "<group>"; };
-		45A2A44E18E87C7700A2397E /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
-		45D3CC7817A413820034EDBF /* Test.scene */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = Test.scene; path = ../../../Resources/Scenes/Test.scene; sourceTree = "<group>"; };
-		45E1799C190F09A500803E4E /* Test3.scene */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = Test3.scene; path = ../../../Resources/Scenes/Test3.scene; sourceTree = "<group>"; };
-		45E1799E190F09BB00803E4E /* Test2.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = Test2.bundle; path = ../../../Resources/Atlases/Test2.bundle; sourceTree = "<group>"; };
-		45E179A1190F2B7C00803E4E /* Test2.scene */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = Test2.scene; path = ../../../Resources/Scenes/Test2.scene; sourceTree = "<group>"; };
+		45A2A44E18E87C7700A2397E /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "../Default-568h@2x.png"; sourceTree = "<group>"; };
+		45A7335919132E6800E7905E /* Level1.scene */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = Level1.scene; path = ../../../Resources/Scenes/Level1.scene; sourceTree = "<group>"; };
+		45A7335A19132E6800E7905E /* Level2.scene */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = Level2.scene; path = ../../../Resources/Scenes/Level2.scene; sourceTree = "<group>"; };
+		45BC87E81911A68C00CF23AF /* Level0.scene */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = Level0.scene; path = ../../../Resources/Scenes/Level0.scene; sourceTree = "<group>"; };
 		45E179A3190F2B9100803E4E /* Gameplay.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = Gameplay.bundle; path = ../../../Resources/Atlases/Gameplay.bundle; sourceTree = "<group>"; };
 		45E52956161265E9002159FF /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
@@ -24208,7 +24204,6 @@
 		456726C015F0322E00C91B3C = {
 			isa = PBXGroup;
 			children = (
-				45A2A44E18E87C7700A2397E /* Default-568h@2x.png */,
 				456726D915F0322E00C91B3C /* RollerBalliOS */,
 				455CF2FD162729E80052A9F5 /* Libs */,
 				456726CE15F0322E00C91B3C /* Frameworks */,
@@ -24257,6 +24252,7 @@
 		456726DA15F0322E00C91B3C /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				45A2A44E18E87C7700A2397E /* Default-568h@2x.png */,
 				456726DB15F0322E00C91B3C /* RollerBalliOS-Info.plist */,
 				456726DC15F0322E00C91B3C /* InfoPlist.strings */,
 				456726DF15F0322E00C91B3C /* main.m */,
@@ -24268,9 +24264,9 @@
 		45D3CC7517A411680034EDBF /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
-				45E179A1190F2B7C00803E4E /* Test2.scene */,
-				45E1799C190F09A500803E4E /* Test3.scene */,
-				45D3CC7817A413820034EDBF /* Test.scene */,
+				45A7335919132E6800E7905E /* Level1.scene */,
+				45A7335A19132E6800E7905E /* Level2.scene */,
+				45BC87E81911A68C00CF23AF /* Level0.scene */,
 			);
 			name = Scenes;
 			sourceTree = "<group>";
@@ -24299,8 +24295,6 @@
 			isa = PBXGroup;
 			children = (
 				45E179A3190F2B9100803E4E /* Gameplay.bundle */,
-				45E1799E190F09BB00803E4E /* Test2.bundle */,
-				45A06C0F17AE9C22009087B7 /* Test.bundle */,
 			);
 			name = Atlases;
 			sourceTree = "<group>";
@@ -24358,12 +24352,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				45E1799F190F09BB00803E4E /* Test2.bundle in Resources */,
 				456726DE15F0322E00C91B3C /* InfoPlist.strings in Resources */,
 				45E179A4190F2B9100803E4E /* Gameplay.bundle in Resources */,
 				45A2A44F18E87C7700A2397E /* Default-568h@2x.png in Resources */,
 				456726EE15F0322E00C91B3C /* DSViewController.xib in Resources */,
-				45A06C1017AE9C22009087B7 /* Test.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

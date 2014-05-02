@@ -381,7 +381,8 @@ inline rb_string from_platform_string(NSString* str){
         NSURL* fileNameURL = [[fTextureAtlasOpenPanel URLs] lastObject];
         [[self.openGLView openGLContext] makeCurrentContext];
         [self.openGLView setRenderingEnabled:YES];
-        director::active_scene()->load_atlas(from_platform_string([fileNameURL absoluteString]));
+        NSString* filePath = [fileNameURL path];
+        director::active_scene()->load_atlas(from_platform_string(filePath));
     }];
 }
 -(void)setToolbarImages{

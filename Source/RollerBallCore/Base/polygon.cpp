@@ -1209,7 +1209,8 @@ mesh& polygon::to_outline_mesh(rb::mesh &storage, const texture_map& map, const 
         if(!textureless){
             mesh* _m = new mesh();
             _p.to_mesh(*_m, 0, map);
-            _meshes.push_back(_m);
+            if(!_m->is_empty())
+                _meshes.push_back(_m);
         }
         else
             _p._to_mesh(_vertexes, _indexes, 0, map);
@@ -1400,6 +1401,8 @@ mesh& polygon::to_untextured_mesh(rb::mesh &storage, const uint32_t subdivisions
 
 mesh& polygon::to_mesh(mesh& storage, const uint32_t subdivisions, const texture_map& map){
     optimize();
+    if(_points.size() <= 2)
+        return storage;
     assert(!is_empty());
     assert(is_simple().has_value() && is_simple().value() == true);
     assert(area().has_value());
