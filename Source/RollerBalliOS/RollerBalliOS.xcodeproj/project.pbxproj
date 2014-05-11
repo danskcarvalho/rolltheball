@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		4506F10F1623238B009AA030 /* basic_shader_with_wrapping.fsh in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4506F10A16232362009AA030 /* basic_shader_with_wrapping.fsh */; };
+		451739FD191EB46C0006EF90 /* Level6.scene in Resources */ = {isa = PBXBuildFile; fileRef = 451739FC191EB46C0006EF90 /* Level6.scene */; };
+		4553A42C191DBD9900930C8F /* Level4.scene in Resources */ = {isa = PBXBuildFile; fileRef = 4553A42B191DBD9900930C8F /* Level4.scene */; };
+		4553A42E191E020E00930C8F /* Level5.scene in Resources */ = {isa = PBXBuildFile; fileRef = 4553A42D191E020E00930C8F /* Level5.scene */; };
+		455481841916EF6F00681587 /* Level3.scene in CopyFiles */ = {isa = PBXBuildFile; fileRef = 455481821916EF6100681587 /* Level3.scene */; };
 		456726D015F0322E00C91B3C /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 456726CF15F0322E00C91B3C /* UIKit.framework */; };
 		456726D215F0322E00C91B3C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 456726D115F0322E00C91B3C /* Foundation.framework */; };
 		456726D415F0322E00C91B3C /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 456726D315F0322E00C91B3C /* CoreGraphics.framework */; };
@@ -37,6 +41,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 7;
 			files = (
+				455481841916EF6F00681587 /* Level3.scene in CopyFiles */,
 				45A7335D19132E8C00E7905E /* Level1.scene in CopyFiles */,
 				45A7335E19132E8C00E7905E /* Level2.scene in CopyFiles */,
 				45BC87EA1911A6A100CF23AF /* Level0.scene in CopyFiles */,
@@ -50,6 +55,10 @@
 
 /* Begin PBXFileReference section */
 		4506F10A16232362009AA030 /* basic_shader_with_wrapping.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = basic_shader_with_wrapping.fsh; path = ../../RollerBallCore/Shaders/basic_shader_with_wrapping.fsh; sourceTree = "<group>"; };
+		451739FC191EB46C0006EF90 /* Level6.scene */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = Level6.scene; path = ../../../Resources/Scenes/Level6.scene; sourceTree = "<group>"; };
+		4553A42B191DBD9900930C8F /* Level4.scene */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = Level4.scene; path = ../../../Resources/Scenes/Level4.scene; sourceTree = "<group>"; };
+		4553A42D191E020E00930C8F /* Level5.scene */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = Level5.scene; path = ../../../Resources/Scenes/Level5.scene; sourceTree = "<group>"; };
+		455481821916EF6100681587 /* Level3.scene */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = Level3.scene; path = ../../../Resources/Scenes/Level3.scene; sourceTree = "<group>"; };
 		455C000016272A200052A9F5 /* managed_memory_impl.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = managed_memory_impl.hpp; sourceTree = "<group>"; };
 		455C000116272A200052A9F5 /* managed_multi_shared_memory.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = managed_multi_shared_memory.hpp; sourceTree = "<group>"; };
 		455C000216272A200052A9F5 /* managed_open_or_create_impl.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = managed_open_or_create_impl.hpp; sourceTree = "<group>"; };
@@ -24264,6 +24273,10 @@
 		45D3CC7517A411680034EDBF /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				451739FC191EB46C0006EF90 /* Level6.scene */,
+				4553A42D191E020E00930C8F /* Level5.scene */,
+				4553A42B191DBD9900930C8F /* Level4.scene */,
+				455481821916EF6100681587 /* Level3.scene */,
 				45A7335919132E6800E7905E /* Level1.scene */,
 				45A7335A19132E6800E7905E /* Level2.scene */,
 				45BC87E81911A68C00CF23AF /* Level0.scene */,
@@ -24352,10 +24365,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4553A42C191DBD9900930C8F /* Level4.scene in Resources */,
+				4553A42E191E020E00930C8F /* Level5.scene in Resources */,
 				456726DE15F0322E00C91B3C /* InfoPlist.strings in Resources */,
 				45E179A4190F2B9100803E4E /* Gameplay.bundle in Resources */,
 				45A2A44F18E87C7700A2397E /* Default-568h@2x.png in Resources */,
 				456726EE15F0322E00C91B3C /* DSViewController.xib in Resources */,
+				451739FD191EB46C0006EF90 /* Level6.scene in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

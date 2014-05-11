@@ -120,6 +120,8 @@ namespace rb {
         node* _current_new; //the current node being manipulated by the user
         //locked selection
         node* _locked_selection;
+        //move 10x
+        bool _move10x;
         //fading..
     private:
         void create_fading_machinery();
@@ -376,6 +378,9 @@ namespace rb {
     public:
         void perform_action_with_class(const rb_string& cls, action_type act);
         void perform_action_with_id(const rb_string& idd, action_type act);
+        //join
+    public:
+        void join_selected();
     };
 }
 

@@ -1525,6 +1525,10 @@ inline rb_string from_platform_string(NSString* str){
     director::active_scene()->bring_forward(l);
 }
 
+- (IBAction)join:(id)sender {
+    director::active_scene()->join_selected();
+}
+
 - (IBAction)sendLayerBack:(id)sender {
     uint32_t l = (uint32_t)[(NSView*)sender tag];
     director::active_scene()->bring_to_front(l);

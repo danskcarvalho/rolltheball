@@ -126,6 +126,7 @@ typedef void (^ConfirmationBlock)(BOOL);
 - (IBAction)bringLayerFront:(id)sender;
 - (IBAction)bringLayerForward:(id)sender;
 - (IBAction)sendLayerBackward:(id)sender;
+- (IBAction)join:(id)sender;
 - (IBAction)sendLayerBack:(id)sender;
 - (IBAction)addToSelection:(id)sender;
 -(void)confirm:(NSString*)message confirmationBlock:(ConfirmationBlock)block;

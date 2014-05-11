@@ -109,7 +109,7 @@ void distribute_vertically(std::vector<node*>& nodes, const rb::distribution_inf
 
 static polygon reconstruct_polygon(rb::polygon_component *pol_component, std::vector<vec2>& pts, const transform_space& ts){
     polygon _polygon;
-    _polygon = polygon::build_open_polygon(pts, _polygon);
+    _polygon = pol_component->opened() ? polygon::build_open_polygon(pts, _polygon) : polygon::build_closed_polygon(pts, _polygon);
     ts.from_space_to_base().transform_polygon(_polygon);
     
     if (pol_component->smooth() && pts.size() >= 4){
@@ -323,6 +323,47 @@ void scene::perform_action_with_id(const rb_string &idd, rb::action_type act){
     else {
         assert(false); //Never should be here...
     }
+}
+
+void scene::join_selected(){
+    if(!current()){
+        alert(u"No current!");
+        return;
+    }
+    std::vector<node*> _nodes;
+    current()->fill_with_selection(_nodes, node_filter::renderable);
+    if(_nodes.size() != 2){
+        alert(u"Must select two nodes!");
+        return;
+    }
+    node* _target = nullptr;
+    node* _change = nullptr;
+    if(_nodes[0]->has_class(u"@target")){
+        _target = _nodes[0];
+        _change = _nodes[1];
+    }
+    else if(_nodes[1]->has_class(u"@target")){
+        _target = _nodes[1];
+        _change = _nodes[0];
+    }
+    else {
+        alert(u"No target!");
+        return;
+    }
+    
+    _change->transform(_change->transform().moved(_target->transform().origin()));
+    //remove target class
+    auto _classes = rb::tokenize(_target->classes());
+    rb_string _strClass = u"";
+    for (size_t i = 0; i < _classes.size(); i++){
+        if(_classes[i] == u"@target")
+            continue;
+        if(i != 0)
+            _strClass += u" ";
+        
+        _strClass += _classes[i];
+    }
+    _target->classes(_strClass);
 }
 
 

@@ -112,7 +112,7 @@ void position_animator_component::playing(){
         
         for (auto _n : _nodes){
             for (auto _p : _paths){
-                if(_n->has_class(_p.first->name())){
+                if(_n->has_class(_p.first->name()) || (_n->has_class(u"@parent") && _n->parent() == _p.first->parent())){
                     _attached_path.insert({_n, _p.first});
                     //calc the length offset in the path...
                     auto _xy = _n->transform().origin();

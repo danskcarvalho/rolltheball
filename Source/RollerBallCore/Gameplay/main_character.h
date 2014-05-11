@@ -28,6 +28,7 @@ namespace rb {
     class particle_emitter_component;
     class base_enemy;
     class sprite_component;
+    class physics_engine;
     typedef void* animation_id;
     class main_character : public node, public b2ContactListener, public resettable_component, public action_target {
     private:
@@ -41,7 +42,7 @@ namespace rb {
         physics_shape* _current_gZone;
         b2World* _world;
         b2Body* _body;
-        vec2 _default_gravity;
+        physics_engine* _engine;
         bool _phys_initialized;
         float _direction;
         nullable<vec2> _previous_g;

@@ -500,6 +500,12 @@ void physics_shape::main_character_entered(){
         _buffer->perform_action(_on_enter_action_name);
         _fired_on_enter = true;
     }
+    else {
+        auto _at = dynamic_cast<action_target*>(parent_scene()->node_with_name(_on_enter_action_buffer));
+        if(_at){
+            _at->do_action(_on_enter_action_name, u"");
+        }
+    }
 }
 
 void physics_shape::main_character_exitted(){
@@ -511,6 +517,12 @@ void physics_shape::main_character_exitted(){
     if(_buffer){
         _buffer->perform_action(_on_exit_action_name);
         _fired_on_exit = true;
+    }
+    else {
+        auto _at = dynamic_cast<action_target*>(parent_scene()->node_with_name(_on_exit_action_buffer));
+        if(_at){
+            _at->do_action(_on_exit_action_name, u"");
+        }
     }
 }
 

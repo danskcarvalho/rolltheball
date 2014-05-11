@@ -709,10 +709,14 @@ mesh* polygon_component::create_skeleton(const polygon& p){
         _e->set_blend(0);
         _e->set_color(marker() ? parent_scene()->alternate_gizmo_color() : parent_scene()->selection_color());
         
-        auto _temp = mesh::merge_meshes({_sk, _e});
-        delete _sk;
-        delete _e;
-        _sk = _temp;
+        if(!_e->is_empty() && _e->vertex_count() != 0){
+            auto _temp = mesh::merge_meshes({_sk, _e});
+            delete _sk;
+            delete _e;
+            _sk = _temp;
+        }
+        else
+            delete _e;
     }
     
     auto _u_rc = rectangle(0.5, 0.5, 1, 1);
@@ -726,10 +730,14 @@ mesh* polygon_component::create_skeleton(const polygon& p){
             _p->set_blend(0);
             _p->set_color(this->node_at(i)->is_selected() ? parent_scene()->alternate_gizmo_color() : parent_scene()->gizmo_color());
             
-            auto _temp = mesh::merge_meshes({_sk, _p});
-            delete _sk;
-            delete _p;
-            _sk = _temp;
+            if(!_p->is_empty() && _p->vertex_count() != 0){
+                auto _temp = mesh::merge_meshes({_sk, _p});
+                delete _sk;
+                delete _p;
+                _sk = _temp;
+            }
+            else
+                delete _p;
         }
     }
     
@@ -1549,7 +1557,8 @@ void polygon_component::render_gizmo() {
         if(_skeleton)
             delete _skeleton;
         _skeleton = _g;
-        add_gizmo(_skeleton, no_texture, false);
+        if(_skeleton && !_skeleton->is_empty() && _skeleton->vertex_count() != 0)
+            add_gizmo(_skeleton, no_texture, false);
     }
 }
 

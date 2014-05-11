@@ -12,6 +12,7 @@
 #include "components_base.h"
 #include "nvnode.h"
 #include "action_target.h"
+#include "resettable_component.h"
 
 #define PHYS_ENGINE_UPDATE_PRIORITY -10000
 #define PHYS_OBJECT_UPDATE_PRIORITY -20000
@@ -21,10 +22,15 @@
 class b2World;
 
 namespace rb {
-    class physics_engine : public nvnode, public action_target {
+    class physics_engine : public nvnode, public action_target, public resettable_component {
     private:
         b2World* _world;
         vec2 _default_gravity;
+        vec2 _saved_gravity;
+        bool _initialized;
+    protected:
+        virtual void reset_component() override;
+        virtual void playing() override;
     public:
         physics_engine();
         ~physics_engine();

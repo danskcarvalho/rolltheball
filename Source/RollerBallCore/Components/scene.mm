@@ -81,6 +81,7 @@ scene::scene(){
     _textureless_process = nullptr;
     _fade_color = color::from_rgba(0, 0, 0, 0);
     _locked_selection = nullptr;
+    _move10x = false;
 }
 
 node* scene::locked_selection() const {
@@ -917,6 +918,14 @@ void scene::describe_type() {
         },
         [](scene* site, bool value){
             site->camera_aspect_correction(value);
+        }
+    });
+    boolean_property<scene>(u"move_10x", u"Move 10x", true, {
+        [](const scene* site){
+            return site->_move10x;
+        },
+        [](scene* site, bool value){
+            site->_move10x = value;
         }
     });
     color_property<scene>(u"background_color", u"Background", true, true, {

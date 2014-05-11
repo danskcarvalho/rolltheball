@@ -46,7 +46,7 @@
 
 //Touch Events
 //Touch Control only implemented for iOS
-#define JUMP_TOUCH_DURATION 6 //in frames
+#define JUMP_TOUCH_DURATION 3 //in frames
 #define ZERO_VELOCITY_LENGTH 0.1f
 
 #define kTouchIndex 0
@@ -899,7 +899,7 @@ void main_character::update_character(vec2& cam_gravity, float dt){
         _g = _current_gZone->gravity_vector(transform().origin(), cam_gravity);
     
     if(_g == vec2::zero){
-        _g = _default_gravity;
+        _g = _engine->default_gravity();
         if(_g != vec2::zero)
             cam_gravity = -_g.normalized();
     }
@@ -1218,10 +1218,9 @@ void main_character::playing(){
         };
         _win_an = _an_manager->add_animation(&_ai);
         
-        auto _engine = dynamic_cast<physics_engine*>(parent_scene()->node_with_name(u"Physic's Engine"));
+        _engine = dynamic_cast<physics_engine*>(parent_scene()->node_with_name(u"Physic's Engine"));
         _world = _engine->world();
         _world->SetContactListener(this);
-        _default_gravity = _engine->default_gravity();
         b2BodyDef _bDef;
         _bDef.active = true;
         _bDef.allowSleep = false;

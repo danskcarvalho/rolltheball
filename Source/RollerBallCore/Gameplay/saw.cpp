@@ -85,7 +85,8 @@ bool saw::animatable(bool value){
 
 void saw::reset_component(){
     transform(_saved_transform);
-    _body->SetTransform(b2Vec2(_saved_transform.origin().x(), _saved_transform.origin().y()), _saved_transform.rotation().x());
+    auto _t = this->from_node_space_to(space::layer);
+    _body->SetTransform(b2Vec2(_t.origin().x(), _t.origin().y()), _t.rotation().x());
 }
 
 void saw::update(float dt){

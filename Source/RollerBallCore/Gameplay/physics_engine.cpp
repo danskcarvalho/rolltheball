@@ -15,6 +15,8 @@ physics_engine::physics_engine(){
     _world = nullptr;
     classes(u"physEngine");
     name(u"Physic's Engine");
+    _initialized = false;
+    _saved_gravity = vec2::zero;
 }
 
 physics_engine::~physics_engine(){
@@ -84,7 +86,35 @@ const vec2& physics_engine::default_gravity(const rb::vec2 &value){
 }
 
 void physics_engine::do_action(const rb_string& action_name, const rb_string& arg){
-    
+    if(action_name == u"changeGravityY"){
+        std::wstring_convert<std::codecvt_utf8_utf16<char16_t>, char16_t> convert; // ... filled in with a codecvt to do UTF-8 <-> UTF-16
+        std::string utf8_string = convert.to_bytes(arg);
+        
+        float _value;
+        std::stringstream ss(utf8_string);
+        ss >> _value;
+        _default_gravity = vec2(_default_gravity.x(), _value);
+    }
+    else if(action_name == u"changeGravityX"){
+        std::wstring_convert<std::codecvt_utf8_utf16<char16_t>, char16_t> convert; // ... filled in with a codecvt to do UTF-8 <-> UTF-16
+        std::string utf8_string = convert.to_bytes(arg);
+        
+        float _value;
+        std::stringstream ss(utf8_string);
+        ss >> _value;
+        _default_gravity = vec2(_value, _default_gravity.y());
+    }
+}
+
+void physics_engine::reset_component(){
+    _default_gravity = _saved_gravity;
+}
+
+void physics_engine::playing(){
+    if(!_initialized){
+        _initialized = true;
+        _saved_gravity = _default_gravity;
+    }
 }
 
 

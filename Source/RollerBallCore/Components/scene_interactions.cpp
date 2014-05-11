@@ -705,6 +705,8 @@ void scene::move_selected(const rb::vec2 &dir){
     if(!_tr.test_direction(transform_direction::from_base_to_space))
         return;
     _tr.from_base_to_space().transform_vector(_dir);
+    if(_move10x)
+        _dir *= 10;
     _delta_transform.move_by(_dir);
     std::vector<node*> _selected;
     current()->fill_with_selection(_selected, node_filter::renderable);

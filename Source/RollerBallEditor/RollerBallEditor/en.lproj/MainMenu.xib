@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="5056" systemVersion="13C64" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="5056" systemVersion="13C1021" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment defaultVersion="1080" identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="5056"/>
@@ -546,6 +546,11 @@
                                 </connections>
                             </menuItem>
                             <menuItem isSeparatorItem="YES" id="WNo-KS-ilx"/>
+                            <menuItem title="Join" keyEquivalent="j" id="tVI-oe-YfT">
+                                <connections>
+                                    <action selector="join:" target="581" id="aGY-mQ-czi"/>
+                                </connections>
+                            </menuItem>
                             <menuItem title="Distribute" keyEquivalent="d" id="LxE-DC-b5y">
                                 <connections>
                                     <action selector="distributeNodes:" target="581" id="GY0-LD-rsn"/>
