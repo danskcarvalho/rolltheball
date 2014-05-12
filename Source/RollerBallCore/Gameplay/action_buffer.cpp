@@ -431,7 +431,6 @@ void action_buffer::perform_action(const rb_string &name){
         if(_adi.by_class)
             _nodes = parent_scene()->node_with_one_class(_adi.target);
         else {
-            MSG("name: ", _adi.target);
             auto _n = parent_scene()->node_with_name(_adi.target);
             if(_n)
                 _nodes.push_back(_n);

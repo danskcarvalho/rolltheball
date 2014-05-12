@@ -52,6 +52,8 @@ namespace rb {
         bool _jumpButton;
         bool _didJump;
         uint32_t _jumpCount;
+        float _gravity_mult;
+        float _jump_velocity;
         //Camera
         nullable<vec2> _cam_offset;
         nullable<vec2> _saved_cam_offset;

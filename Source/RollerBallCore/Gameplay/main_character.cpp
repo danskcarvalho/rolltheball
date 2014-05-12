@@ -88,6 +88,19 @@ static bool circle_intersects(const vec2& pt1, float r1, const vec2& pt2, float 
     return _dd <= _rSum;
 }
 
+float calc_penetration(physics_shape* ps, const transform_space& ts){
+    circle _circle = circle(ts.origin(), 0.5f);
+    polygon _circle_pol;
+    _circle.to_polygon(_circle_pol);
+    polygon _pol = ps->to_polygon();
+    ps->from_node_space_to(space::layer).from_space_to_base().transform_polygon(_pol);
+    std::vector<polygon> _others;
+    _pol.intersection(_circle_pol, _others);
+    if(_pol.point_count() < 3)
+        return 0;
+    return _pol.area().has_value() ? _pol.area().value() : 0;
+}
+
 main_character::main_character(){
     _invert_xaxis = false;
     _body = nullptr;
@@ -176,6 +189,9 @@ main_character::main_character(){
     _win_zone = nullptr;
     _won = false;
     _full_win_an = false;
+    //jumping
+    _jump_velocity = PHYS_CHARACTER_JUMP;
+    _gravity_mult = 1.0f;
 }
 
 main_character::~main_character(){
@@ -199,6 +215,22 @@ void main_character::describe_type(){
         },
         [](main_character* site, const float value){
             site->damping(value);
+        }
+    });
+    single_property<main_character>(u"gravity_mult", u"Gravity M", true, {
+        [](const main_character* site){
+            return site->_gravity_mult;
+        },
+        [](main_character* site, const float value){
+            site->_gravity_mult = value;
+        }
+    });
+    single_property<main_character>(u"jump_velocity", u"Jump Vel", true, {
+        [](const main_character* site){
+            return site->_jump_velocity;
+        },
+        [](main_character* site, const float value){
+            site->_jump_velocity = value;
         }
     });
     vec2_property<main_character>(u"camera_scale", u"Cam Scale", true, {
@@ -601,8 +633,18 @@ void main_character::update(float dt){
             auto _breakBlock = dynamic_cast<breakable_block*>(_kp.first);
             auto _cond1 = _physShape && _physShape->shape_type() == physics_shape::kStaticPlanet;
             auto _cond2 = _breakBlock != nullptr;
-            if((_cond1 || _cond2) && testSlopeAngle(&_kp.second, _previous_g))
-                this->_jumpCount = PHYS_CHARACTER_JUMP_COUNT;
+            if((_cond1 || _cond2) && testSlopeAngle(&_kp.second, _previous_g)){
+                if(_physShape && _physShape->phase_through()){
+                    auto _penetration = calc_penetration(_physShape, this->transform());
+                    auto _rMoving = _physShape->get_ray();
+                    _moving_max_t = _rMoving.get_parameter(_physShape->get_pt1());
+                    _moving_t = _rMoving.get_parameter(vec2(_body->GetPosition().x, _body->GetPosition().y));
+                    if(_penetration < (0.5f * 0.04f) && !(_moving_t < 0 || _moving_t > _moving_max_t))
+                        _jumpCount = PHYS_CHARACTER_JUMP_COUNT;
+                }
+                else
+                    this->_jumpCount = PHYS_CHARACTER_JUMP_COUNT;
+            }
         }
     }
 }
@@ -677,19 +719,6 @@ void main_character::update_camera(const rb::vec2 &cam_gravity){
     parent_scene()->camera(_final_camera);
 }
 
-float calc_penetration(physics_shape* ps, const transform_space& ts){
-    circle _circle = circle(ts.origin(), 0.5f);
-    polygon _circle_pol;
-    _circle.to_polygon(_circle_pol);
-    polygon _pol = ps->to_polygon();
-    ps->from_node_space_to(space::layer).from_space_to_base().transform_polygon(_pol);
-    std::vector<polygon> _others;
-    _pol.intersection(_circle_pol, _others);
-    if(_pol.point_count() < 3)
-        return 0;
-    return _pol.area().has_value() ? _pol.area().value() : 0;
-}
-
 void main_character::check_new_moving_platform(vec2& v, nullable<float>& rot_vel){
 MvPlatform:
     rot_vel = nullptr;
@@ -733,7 +762,7 @@ MvPlatform:
                     return;
                 if(_pshape->phase_through()){
                     auto _penetration = calc_penetration(_pshape, this->transform());
-                    if(_penetration >= (0.5f * 0.07f))
+                    if(_penetration >= (0.5f * 0.04f))
                         return;
                 }
                 _moving_platform = _pshape;
@@ -810,7 +839,7 @@ void main_character::update_movingplatform(vec2& vel, nullable<float>& rot_vel, 
         if(_jumpButton && !_didJump){
             _didJump = true;
             if(_jumpCount > 0){
-                auto _vy = PHYS_CHARACTER_JUMP;
+                auto _vy = _jump_velocity;
                 auto _vAt = _moving_platform->get_velocity_at_pt(_pt);
                 if(_vAt.y() > 0)
                     _vy += _vAt.y() / 3;
@@ -997,7 +1026,7 @@ void main_character::update_character(vec2& cam_gravity, float dt){
         if(_jumpButton && !_didJump && !_moving_platform){
             _didJump = true;
             if(_jumpCount > 0){
-                _vy = -_true_gy * PHYS_CHARACTER_JUMP;
+                _vy = -_true_gy * _jump_velocity;
                 _v = _vx + _vy;
                 if(!_inside_jump_zone && !INVINCIBILITY_FLAG && !_debug_mode)
                     _jumpCount--;
@@ -1028,7 +1057,7 @@ void main_character::update_character(vec2& cam_gravity, float dt){
         _body->SetLinearVelocity(b2Vec2(_v.x(), _v.y()));
     else
         _body->SetLinearVelocity(b2Vec2(0, 0));
-    auto _fg = _g * _body->GetMass();
+    auto _fg = _g * _body->GetMass() * _gravity_mult;
     _body->ApplyForceToCenter(b2Vec2(_fg.x(), _fg.y()));
 }
 
@@ -1499,8 +1528,19 @@ void main_character::BeginContact(b2Contact *contact){
                 _current_ground = contact->GetFixtureA()->GetBody();
             //////
             
-            if(!_character->_didJump)
-                _character->_jumpCount = PHYS_CHARACTER_JUMP_COUNT;
+            if(!_character->_didJump){
+                if(_ground && _ground->phase_through()){
+                    auto _penetration = calc_penetration(_ground, this->transform());
+                    auto _rMoving = _ground->get_ray();
+                    _moving_max_t = _rMoving.get_parameter(_ground->get_pt1());
+                    _moving_t = _rMoving.get_parameter(vec2(_body->GetPosition().x, _body->GetPosition().y));
+                    
+                    if(_penetration < (0.5f * 0.04f) && !(_moving_t < 0 || _moving_t > _moving_max_t))
+                        _character->_jumpCount = PHYS_CHARACTER_JUMP_COUNT;
+                }
+                else
+                    _character->_jumpCount = PHYS_CHARACTER_JUMP_COUNT;
+            }
         }
     }
 }

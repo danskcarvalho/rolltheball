@@ -114,7 +114,10 @@ static polygon reconstruct_polygon(rb::polygon_component *pol_component, std::ve
     
     if (pol_component->smooth() && pts.size() >= 4){
         smooth_curve _sc;
-        smooth_curve::build_open_curve(pts, _sc);
+        if(pol_component->opened())
+            smooth_curve::build_open_curve(pts, _sc);
+        else
+            smooth_curve::build_closed_curve(pts, _sc);
         
         polygon _f_pol;
         _sc.to_polygon(_f_pol, pol_component->smooth_quality(), pol_component->smooth_divisions());

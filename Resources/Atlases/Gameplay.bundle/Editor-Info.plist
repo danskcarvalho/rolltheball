@@ -11768,7 +11768,7 @@
 			<key>group09</key>
 			<false/>
 			<key>height</key>
-			<real>128</real>
+			<real>76</real>
 			<key>maskAggressively</key>
 			<false/>
 			<key>name</key>
@@ -11801,9 +11801,9 @@
 				<integer>12</integer>
 			</dict>
 			<key>width</key>
-			<real>128</real>
+			<real>76</real>
 		</dict>
-		<string>128 X 128</string>
+		<string>76 X 76</string>
 		<string>coin1</string>
 		<dict>
 			<key>$class</key>
@@ -11952,7 +11952,7 @@
 			<key>group09</key>
 			<false/>
 			<key>height</key>
-			<real>128</real>
+			<real>76</real>
 			<key>maskAggressively</key>
 			<false/>
 			<key>name</key>
@@ -11985,9 +11985,9 @@
 				<integer>12</integer>
 			</dict>
 			<key>width</key>
-			<real>128</real>
+			<real>76</real>
 		</dict>
-		<string>128 X 128</string>
+		<string>76 X 76</string>
 		<string>coin2</string>
 		<dict>
 			<key>$class</key>
@@ -12136,7 +12136,7 @@
 			<key>group09</key>
 			<false/>
 			<key>height</key>
-			<real>128</real>
+			<real>76</real>
 			<key>maskAggressively</key>
 			<false/>
 			<key>name</key>
@@ -12169,9 +12169,9 @@
 				<integer>12</integer>
 			</dict>
 			<key>width</key>
-			<real>128</real>
+			<real>76</real>
 		</dict>
-		<string>128 X 128</string>
+		<string>76 X 76</string>
 		<string>coin3</string>
 		<dict>
 			<key>$class</key>

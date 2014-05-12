@@ -32,6 +32,8 @@
 		45BC87EA1911A6A100CF23AF /* Level0.scene in CopyFiles */ = {isa = PBXBuildFile; fileRef = 45BC87E81911A68C00CF23AF /* Level0.scene */; };
 		45E179A4190F2B9100803E4E /* Gameplay.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 45E179A3190F2B9100803E4E /* Gameplay.bundle */; };
 		45E52957161265E9002159FF /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45E52956161265E9002159FF /* ImageIO.framework */; };
+		45F3A72C19205A610095E7F3 /* Level7.scene in Resources */ = {isa = PBXBuildFile; fileRef = 45F3A72A19205A600095E7F3 /* Level7.scene */; };
+		45F3A72D19205A610095E7F3 /* Level8.scene in Resources */ = {isa = PBXBuildFile; fileRef = 45F3A72B19205A600095E7F3 /* Level8.scene */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -9097,6 +9099,8 @@
 		45BC87E81911A68C00CF23AF /* Level0.scene */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = Level0.scene; path = ../../../Resources/Scenes/Level0.scene; sourceTree = "<group>"; };
 		45E179A3190F2B9100803E4E /* Gameplay.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = Gameplay.bundle; path = ../../../Resources/Atlases/Gameplay.bundle; sourceTree = "<group>"; };
 		45E52956161265E9002159FF /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
+		45F3A72A19205A600095E7F3 /* Level7.scene */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = Level7.scene; path = ../../../Resources/Scenes/Level7.scene; sourceTree = "<group>"; };
+		45F3A72B19205A600095E7F3 /* Level8.scene */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = Level8.scene; path = ../../../Resources/Scenes/Level8.scene; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -24273,6 +24277,8 @@
 		45D3CC7517A411680034EDBF /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				45F3A72A19205A600095E7F3 /* Level7.scene */,
+				45F3A72B19205A600095E7F3 /* Level8.scene */,
 				451739FC191EB46C0006EF90 /* Level6.scene */,
 				4553A42D191E020E00930C8F /* Level5.scene */,
 				4553A42B191DBD9900930C8F /* Level4.scene */,
@@ -24372,6 +24378,8 @@
 				45A2A44F18E87C7700A2397E /* Default-568h@2x.png in Resources */,
 				456726EE15F0322E00C91B3C /* DSViewController.xib in Resources */,
 				451739FD191EB46C0006EF90 /* Level6.scene in Resources */,
+				45F3A72D19205A610095E7F3 /* Level8.scene in Resources */,
+				45F3A72C19205A610095E7F3 /* Level7.scene in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

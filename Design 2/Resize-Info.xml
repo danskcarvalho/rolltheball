@@ -68,9 +68,9 @@
     <file path="Circ-Window-1.png" width="1.5" height="1.5"/>
     <file path="Circ-Window-2.png" width="1.5" height="1.5"/>
     <file path="Circ-Window-3.png" width="1.5" height="1.5"/>
-    <file path="Coin-1.png" width="1" height="1"/>
-    <file path="Coin-2.png" width="1" height="1"/>
-    <file path="Coin-3.png" width="1" height="1"/>
+    <file path="Coin-1.png" width="0.6" height="0.6"/>
+    <file path="Coin-2.png" width="0.6" height="0.6"/>
+    <file path="Coin-3.png" width="0.6" height="0.6"/>
     <file path="Column-1.png" width="0.5" height="0.5"/>
     <file path="Column-2.png" width="0.5" height="0.5"/>
     <file path="Column-3.png" width="0.5" height="0.5"/>
