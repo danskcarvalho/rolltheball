@@ -911,6 +911,7 @@ void main_character::update_character(vec2& cam_gravity, float dt){
         }
     }
     
+    auto _previous_gZone = _current_gZone;
     if(_possible_shapes.size() != 0){
         _current_gZone = _possible_shapes.front();
         _current_gZone->_active_gravity = true;
@@ -921,6 +922,9 @@ void main_character::update_character(vec2& cam_gravity, float dt){
     else {
         _current_gZone = nullptr;
     }
+    
+    if(_previous_gZone != _current_gZone)
+        _jumpCount = 0;
     
     if (_current_gZone && _current_gZone->planet())
         _g = _current_gZone->planet()->gravity_vector(transform().origin(), cam_gravity);
