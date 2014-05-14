@@ -214,6 +214,7 @@ namespace rb {
         void reset_to_circle();
         polygon to_smooth_polygon() const;
         virtual typed_object* clone() const override;
+        void remove_scaling();
         //start transformation
     public:
         virtual std::vector<rb_string> transformables() override;

@@ -797,14 +797,21 @@ MvPlatform:
 
 void main_character::update_movingplatform(vec2& vel, nullable<float>& rot_vel, float dt, float direction){
     rot_vel = nullptr;
+    if(_moving_platform->_auto_move_dir != 0)
+        _direction = (_moving_platform->_auto_move_dir / fabs(_moving_platform->_auto_move_dir));
+    
+    auto _velocity_mult = fabs(_moving_platform->_auto_move_dir);
+    if(_moving_platform->_auto_move_dir == 0)
+        _velocity_mult = 1;
+    
     if(_direction > 0) { //to right
-        if(_moving_vel < PHYS_CHARACTER_VELOCITY)
+        if(_moving_vel < (PHYS_CHARACTER_VELOCITY * _velocity_mult))
         {
             _moving_vel += PHYS_CHARACTER_ACCEL;
         }
     }
     else if(_direction < 0) { //to left
-        if(_moving_vel > (-PHYS_CHARACTER_VELOCITY)){
+        if(_moving_vel > (-PHYS_CHARACTER_VELOCITY * _velocity_mult)){
             _moving_vel -= PHYS_CHARACTER_ACCEL;
         }
     }
@@ -834,6 +841,8 @@ void main_character::update_movingplatform(vec2& vel, nullable<float>& rot_vel, 
         vel = _tangent * _moving_vel;
         _set_to_null = true;
         rot_vel = _rotation_vel;
+        if(_moving_platform->_direction_on_jumping != 0)
+            _direction = 0;
     }
     else {
         if(_jumpButton && !_didJump){
@@ -857,6 +866,10 @@ void main_character::update_movingplatform(vec2& vel, nullable<float>& rot_vel, 
                 else{
                     vel.y(vel.y() / 3);
                     vel += -_vy * _previous_g.value().normalized();
+                }
+                if(_moving_platform->_direction_on_jumping != 0){
+                    _direction = _moving_platform->_direction_on_jumping;
+                    vel.x(PHYS_CHARACTER_VELOCITY * _moving_platform->_direction_on_jumping);
                 }
             }
         }
@@ -1524,7 +1537,7 @@ void main_character::BeginContact(b2Contact *contact){
             _direction = 0;
         }
         
-        if((_cond1 || _cond2) && testSlopeAngle(&manifold, _previous_g)){
+        if((_cond1 || _cond2) && (testSlopeAngle(&manifold, _previous_g) || (_ground && _ground->_auto_move_dir != 0))){
             //normal pos + current ground
             _normal = vec2(manifold.normal.x, manifold.normal.y);
             if(((node*)contact->GetFixtureA()->GetBody()->GetUserData()) == (node*)this)

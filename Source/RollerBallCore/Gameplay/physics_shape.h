@@ -65,6 +65,11 @@ namespace rb {
         bool _phase_through;
         //free jump zone
         bool _free_jump_zone;
+        //auto-move_character
+        float _auto_move_dir;
+        float _direction_on_jumping;
+        //texture animation
+        vec2 _tex_transform_anim;
     public:
         friend class main_character;
         physics_shape();

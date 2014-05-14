@@ -35,6 +35,8 @@ physics_shape::physics_shape(){
     _fired_on_exit = false;
     _phase_through = false;
     _free_jump_zone = false;
+    _auto_move_dir = 0;
+    _direction_on_jumping = 0;
 }
 
 physics_shape::~physics_shape(){
@@ -51,6 +53,14 @@ void physics_shape::describe_type(){
         },
         [](physics_shape* site, type value){
             site->_type = value;
+        }
+    });
+    vec2_property<physics_shape>(u"texture_anim", u"Tx Anim", true, {
+        [](const physics_shape* site){
+            return site->_tex_transform_anim;
+        },
+        [](physics_shape* site, const vec2& value){
+            site->_tex_transform_anim = value;
         }
     });
     single_property<physics_shape>(u"gravity", u"Gravity", true, {
@@ -99,6 +109,22 @@ void physics_shape::describe_type(){
         },
         [](physics_shape* site, const bool value){
             site->phase_through(value);
+        }
+    });
+    single_property<physics_shape>(u"auto_move", u"Auto Move", true, {
+        [](const physics_shape* site){
+            return site->_auto_move_dir;
+        },
+        [](physics_shape* site, float value){
+            site->_auto_move_dir = value;
+        }
+    });
+    single_property<physics_shape>(u"direction_jump", u"Direction Jump", true, {
+        [](const physics_shape* site){
+            return site->_direction_on_jumping;
+        },
+        [](physics_shape* site, float value){
+            site->_direction_on_jumping = value;
         }
     });
     boolean_property<physics_shape>(u"animatable", u"Animatable", true, {
@@ -420,6 +446,8 @@ void physics_shape::update(float dt){
     _body->SetAngularVelocity(0);
     auto _t = this->from_node_space_to(space::layer);
     _body->SetTransform(b2Vec2(_t.origin().x(), _t.origin().y()), _t.rotation().x());
+    if(this->transformable())
+        this->texture_space(this->texture_space().moved(this->texture_space().origin() + dt * _tex_transform_anim));
 }
 
 void physics_shape::check_moving_platform(){

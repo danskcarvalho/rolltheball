@@ -878,6 +878,11 @@ void polygon_component::describe_type(){
                 site->reset_to_circle();
         }
     );
+    action<polygon_component>(u"remove_scaling", u"Rem Scale", action_flags::multi_dispatch, {u"Remove Scale"},
+          [](polygon_component* site, const rb_string& action_name){
+              site->remove_scaling();
+          }
+      );
     boolean_property<polygon_component>(u"visible", u"Visible", true, {
         [](const polygon_component* site){
             return site->visible();
@@ -1272,7 +1277,16 @@ const rb_string& polygon_component::image_name(const rb_string& value){
 }
 uint32_t polygon_component::circle_sides() const{
     return _circle_sides;
-    
+}
+void polygon_component::remove_scaling(){
+    //we take scale into consideration
+    for (uint32_t i = 0; i < this->node_count(); i++){
+        auto _pt = this->node_at(i);
+        auto _ptt = _pt->transform();
+        _ptt = _ptt.moved(_ptt.origin() * this->transform().scale());
+        _pt->transform(_ptt);
+    }
+    this->transform(this->transform().scaled(1, 1));
 }
 uint32_t polygon_component::circle_sides(const uint32_t value){
     if(_circle_sides == value)
