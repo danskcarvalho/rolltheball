@@ -34,7 +34,7 @@ void rotation_animator_component::reset_component(){
             _nodes[i]->transform(_nodes[i]->transform().rotated(_saved_transforms[i].rotation()));
         else
             _nodes[i]->transform(_saved_transforms[i]);
-        _directions[i] = 1;
+        _directions[i] = _nodes[i]->has_class(u"revDir") ? -1 : 1;
         _current_asleep_endpoint[i] = 0;
         _current_asleep[i] = 0;
         _current_awake[i] = _awake_duration;
