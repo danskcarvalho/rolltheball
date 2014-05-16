@@ -22,6 +22,7 @@ namespace rb {
     class saw : public node, public base_enemy, public resettable_component, public action_target {
     protected:
         virtual void reset_component() override;
+        virtual void reset_physics() override;
     private:
         bool _initialized;
         bool _animatable;

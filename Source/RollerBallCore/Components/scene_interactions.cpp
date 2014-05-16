@@ -311,6 +311,8 @@ void scene::mouse_down(const vec2& normalized_position) {
         _current_new->_new_template = false;
         rename_nodes_recursively(_current_new);
         _new_start_point = current()->from_space_to(space::normalized_screen).from_base_to_space().transformed_point(normalized_position);
+        if(_alignToGrid)
+            _new_start_point = align_to_grid(_new_start_point);
         //transform_space _new_tr = transform_space(_new_start_point, vec2::zero, vec2::zero);
         transform_space _new_tr = transform_space(_new_start_point, vec2(0.001, 0.001), 0);
         _current_new->transform(_new_tr);
@@ -423,6 +425,10 @@ void scene::mouse_up(const vec2& normalized_position) {
             std::vector<node*> _selected;
             current()->fill_with_selection(_selected, node_filter::renderable);
             transform_nodes(_selected);
+            if(_alignToGrid){
+                for(auto _sel : _selected)
+                    _sel->transform(_sel->transform().moved(align_to_grid(_sel->transform().origin())));
+            }
             start_transformation();
         }
     }
@@ -742,8 +748,8 @@ transform_space scene::get_current_transform(bool live){
     }
     
     vec2 _move = _delta_transform.origin();
-//    if(rb::has_flag(responder::modifiers(), keyboard_modifier::shift) && _transform_mode == tm_move)
-//        _move = snap_vector(_move);
+//    if(_alignToGrid)
+//        _move = align_to_grid(_move);
     
     _transform.scale(_transform.scale() + _delta_transform.scale());
     _transform.origin(_transform.origin() + _move);

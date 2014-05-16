@@ -17,8 +17,10 @@ namespace rb {
     class resettable_component {
     private:
         static void reset_component(node* n);
+        static void reset_physics(node* n);
     protected:
         virtual void reset_component();
+        virtual void reset_physics();
     public:
         static void reset_components(scene* s);
         virtual ~resettable_component();

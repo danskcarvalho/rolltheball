@@ -37,6 +37,9 @@ physics_shape::physics_shape(){
     _free_jump_zone = false;
     _auto_move_dir = 0;
     _direction_on_jumping = 0;
+    _force_zone = false;
+    _force_one = vec2::zero;
+    _force_two = vec2::zero;
 }
 
 physics_shape::~physics_shape(){
@@ -183,7 +186,112 @@ void physics_shape::describe_type(){
             site->_on_exit_action_name = value;
         }
     });
+    boolean_property<physics_shape>(u"force_zone", u"Force Zone", true, {
+        [](const physics_shape* site){
+            return site->_force_zone;
+        },
+        [](physics_shape* site, const bool value){
+            site->_force_zone = value;
+        }
+    });
+    vec2_property<physics_shape>(u"force_one", u"Force One", true, {
+        [](const physics_shape* site){
+            return site->_force_one;
+        },
+        [](physics_shape* site, const vec2& value){
+            site->_force_one = value;
+        }
+    });
+    vec2_property<physics_shape>(u"force_two", u"Force Two", true, {
+        [](const physics_shape* site){
+            return site->_force_two;
+        },
+        [](physics_shape* site, const vec2& value){
+            site->_force_two = value;
+        }
+    });
+    single_property<physics_shape>(u"max_velocity", u"Max Vel", true, {
+        [](const physics_shape* site){
+            return site->_max_velocity;
+        },
+        [](physics_shape* site, float value){
+            site->_max_velocity = value;
+        }
+    });
+    boolean_property<physics_shape>(u"zero_gravity", u"Zero Gravity", true, {
+        [](const physics_shape* site){
+            return site->_zero_gravity;
+        },
+        [](physics_shape* site, const bool value){
+            site->_zero_gravity = value;
+        }
+    });
     end_type();
+}
+
+bool physics_shape::is_force_zone() const {
+    if(!_force_zone)
+        return false;
+    
+    std::vector<node*> _children;
+    this->copy_nodes_to_vector(_children, node_filter::renderable);
+    if(_children.size() != 4)
+        return false;
+    int _first = 0, _second = 0;
+    for(size_t i = 0; i < _children.size(); i++){
+        if(_children[i]->has_class(u"first"))
+            _first++;
+        if(_children[i]->has_class(u"second"))
+            _second++;
+    }
+    return _first == 1 && _second == 1;
+}
+
+vec2 physics_shape::get_force(const rb::vec2 &worldPt) const{
+    if(!is_force_zone())
+        return vec2::zero;
+    
+    std::vector<node*> _children;
+    std::vector<node*> _edgeOne;
+    std::vector<node*> _edgeTwo;
+    float _max_x = std::numeric_limits<float>::min();
+    float _max_y = std::numeric_limits<float>::min();
+    float _min_x = std::numeric_limits<float>::max();
+    float _min_y = std::numeric_limits<float>::max();
+    this->copy_nodes_to_vector(_children, node_filter::renderable);
+    for(size_t i = 0; i < _children.size(); i++){
+        if(_children[i]->has_class(u"first"))
+            _edgeOne.push_back(_children[i]);
+        else if(_children[i]->has_class(u"second"))
+            _edgeOne.push_back(_children[i]);
+        else
+            _edgeTwo.push_back(_children[i]);
+        
+        if(_children[i]->transform().origin().x() > _max_x)
+            _max_x = _children[i]->transform().origin().x();
+        if(_children[i]->transform().origin().y() > _max_y)
+            _max_y = _children[i]->transform().origin().y();
+        if(_children[i]->transform().origin().x() < _min_x)
+            _min_x = _children[i]->transform().origin().x();
+        if(_children[i]->transform().origin().y() < _min_y)
+            _min_y = _children[i]->transform().origin().y();
+    }
+    auto _pt0 = _edgeOne[0]->from_node_space_to(space::layer).origin();
+    auto _pt1 = _edgeOne[1]->from_node_space_to(space::layer).origin();
+    auto _pt2 = _edgeTwo[0]->from_node_space_to(space::layer).origin();
+    auto _pt3 = _edgeTwo[1]->from_node_space_to(space::layer).origin();
+    auto _r = rectangle(vec2((_min_x + _max_x) / 2.0f, (_min_y + _max_y) / 2.0f), vec2(fabsf(_max_x - _min_x), fabsf(_max_y - _min_y)));
+    auto _localPt = from_node_space_to(space::layer).from_base_to_space().transformed_point(worldPt);
+    if(!_r.intersects(_localPt))
+        return vec2::zero;
+    auto _pm0 = (_pt0 + _pt1) / 2.0f;
+    auto _pm1 = (_pt2 + _pt3) / 2.0f;
+    auto _maxDY = vec2::distance(_pm0, _pm1);
+    
+    auto _e1 = edge(_pt0, _pt1, vec2::down);
+    auto _d1 = _e1.distance(worldPt);
+    auto _t = _d1 / _maxDY;
+    return _force_one * (1 - _t) + _force_two * _t;
 }
 
 void physics_shape::after_becoming_active(bool node_was_moved){
@@ -200,13 +308,16 @@ void physics_shape::before_becoming_inactive(bool node_was_moved){
 }
 
 void physics_shape::reset_component() {
-    transform(_saved_transform);
+}
 
+void physics_shape::reset_physics(){
+    transform(_saved_transform);
+    
     auto _saved_scale = transform().scale();
     transform(transform().scaled(1, 1)); //no scale
     auto _t = from_node_space_to(space::layer);
     transform(transform().scaled(_saved_scale)); //restore scale
-
+    
     _body->SetTransform(b2Vec2(_t.origin().x(), _t.origin().y()), _t.rotation().x());
     _body->SetLinearVelocity(b2Vec2(0, 0));
     _body->SetAngularVelocity(0);

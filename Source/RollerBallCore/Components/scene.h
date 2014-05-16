@@ -122,6 +122,11 @@ namespace rb {
         node* _locked_selection;
         //move 10x
         bool _move10x;
+        //align to grid
+        bool _alignToGrid;
+    public:
+        float align_to_grid(float value);
+        vec2 align_to_grid(vec2 value);
         //fading..
     private:
         void create_fading_machinery();

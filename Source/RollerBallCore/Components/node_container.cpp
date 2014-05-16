@@ -401,6 +401,7 @@ group_component* node_container::group_nodes(const std::vector<node *> &nodes){
     }
     
     transform_space _grp_space = transform_space(_rc.has_value() ? _rc.value().center() : vec2::zero, 1, 0);
+    _grp_space = _grp_space.moved(director::active_scene()->align_to_grid(_grp_space.origin()));
     auto _new_grp = new group_component();
     _new_grp->transform(_grp_space);
     bool _added_grp = this->add_node(_new_grp);

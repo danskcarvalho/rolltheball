@@ -240,4 +240,7 @@
     <file path="Window-Fan-1.png" width="1.5" height="1.5"/>
     <file path="Window-Fan-2.png" width="1.5" height="1.5"/>
     <file path="Window-Fan-3.png" width="1.5" height="1.5"/>
+    <file path="Down-1.png" width="1" height="1"/>
+    <file path="Down-2.png" width="1" height="1"/>
+    <file path="Down-3.png" width="1" height="1"/>
 </images>

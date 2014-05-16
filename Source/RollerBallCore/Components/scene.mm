@@ -82,6 +82,7 @@ scene::scene(){
     _fade_color = color::from_rgba(0, 0, 0, 0);
     _locked_selection = nullptr;
     _move10x = false;
+    _alignToGrid = false;
 }
 
 node* scene::locked_selection() const {
@@ -894,6 +895,32 @@ rb_string scene::displayable_type_name() const {
     return u"Scene";
 }
 
+float scene::align_to_grid(float value){
+    bool _lessThan0 = value < 0;
+    if(_lessThan0)
+        value = -value;
+    auto _ceill = ceilf(value);
+    auto _floor = floorf(value);
+    auto _mid = (_ceill + _floor) / 2.0f;
+    auto _dc = fabsf(value - _ceill);
+    auto _df = fabsf(value - _floor);
+    auto _dm = fabsf(value - _mid);
+    auto _min = std::min(_dc, std::min(_df, _dm));
+    if(_min == _dc)
+        return _lessThan0 ? -_ceill : _ceill;
+    else if(_min == _df)
+        return _lessThan0 ? -_floor : _floor;
+    else
+        return _lessThan0 ? -_mid : _mid;
+}
+
+vec2 scene::align_to_grid(rb::vec2 value){
+    if(!_alignToGrid)
+        return value;
+    else
+        return vec2(align_to_grid(value.x()), align_to_grid(value.y()));
+}
+
 void scene::describe_type() {
     start_type<scene>([]() { return new scene(); });
     string_property<scene>(u"atlas_path", u"Atlas Path", false, false, {
@@ -926,6 +953,14 @@ void scene::describe_type() {
         },
         [](scene* site, bool value){
             site->_move10x = value;
+        }
+    });
+    boolean_property<scene>(u"align_grid", u"Align To Grid", true, {
+        [](const scene* site){
+            return site->_alignToGrid;
+        },
+        [](scene* site, bool value){
+            site->_alignToGrid = value;
         }
     });
     color_property<scene>(u"background_color", u"Background", true, true, {

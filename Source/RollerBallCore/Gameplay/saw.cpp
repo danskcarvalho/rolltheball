@@ -89,6 +89,11 @@ void saw::reset_component(){
     _body->SetTransform(b2Vec2(_t.origin().x(), _t.origin().y()), _t.rotation().x());
 }
 
+void saw::reset_physics(){
+    auto _t = this->from_node_space_to(space::layer);
+    _body->SetTransform(b2Vec2(_t.origin().x(), _t.origin().y()), _t.rotation().x());
+}
+
 void saw::update(float dt){
     if(!_initialized)
         return;

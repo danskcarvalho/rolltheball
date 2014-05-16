@@ -192,6 +192,9 @@ main_character::main_character(){
     //jumping
     _jump_velocity = PHYS_CHARACTER_JUMP;
     _gravity_mult = 1.0f;
+    //force zone
+    _velocity_force_zones = vec2::zero;
+    _zero_gravity = false;
 }
 
 main_character::~main_character(){
@@ -368,8 +371,11 @@ void main_character::before_becoming_inactive(bool node_was_moved){
     
 }
 
-bool main_character::check_die(){
+bool main_character::check_die(float dt){
     _inside_jump_zone = false;
+    _zero_gravity = false;
+    vec2 _forces = vec2::zero;
+    float _max_velocity = std::numeric_limits<float>::max();
     for (b2ContactEdge* ce = _body->GetContactList(); ce; ce = ce->next) {
         //Also check for jump zone
         auto _shape = dynamic_cast<physics_shape*>((node*)ce->other->GetUserData());
@@ -377,14 +383,30 @@ bool main_character::check_die(){
             _jumpCount = PHYS_CHARACTER_JUMP_COUNT;
             _inside_jump_zone = true;
         }
+        //Also check for force zones
+        if(_shape && _shape->is_force_zone() && ce->contact->IsTouching() && ce->contact->IsEnabled()){
+            _forces += _shape->get_force(transform().origin());
+            _zero_gravity = _shape->_zero_gravity;
+            if(_shape->_max_velocity != 0 && _shape->_max_velocity < _max_velocity)
+                _max_velocity = _shape->_max_velocity;
+        }
     }
+    
+    if(_forces == vec2::zero)
+        _velocity_force_zones = vec2::zero;
+    else
+        _velocity_force_zones = _forces * dt;
+    
+    if(_max_velocity != 0 && _velocity_force_zones.length() > _max_velocity)
+        _velocity_force_zones = _velocity_force_zones.normalized() * _max_velocity;
     
     //check for dying...
     for (b2ContactEdge* ce = _body->GetContactList(); ce; ce = ce->next) {
         auto _other = dynamic_cast<saw*>((node*)ce->other->GetUserData());
         if(_other && !_other->destroyed() && ce->contact->IsTouching() && ce->contact->IsEnabled()){
             if(_debug_mode || INVINCIBILITY_FLAG || (_other->destructible() && _hearts > 0)){
-                _hearts -= 1.0f;
+                if(_coins.size() != 0)
+                    _hearts -= 1.0f;
                 if(_hearts < 0)
                     _hearts = 0.0f;
                 _other->destroy_saw();
@@ -596,7 +618,7 @@ void main_character::update(float dt){
     
     check_for_coins();
 
-    if(check_die())
+    if(check_die(dt))
         return;
     
     if(_block_to_break){
@@ -1071,8 +1093,10 @@ void main_character::update_character(vec2& cam_gravity, float dt){
     if(_direction == 0 || _moving_platform)
         _body->SetAngularVelocity(0);
     
-    if(!_moving_platform)
+    if(!_moving_platform){
+        _v += _velocity_force_zones;
         _body->SetLinearVelocity(b2Vec2(_v.x(), _v.y()));
+    }
     else
         _body->SetLinearVelocity(b2Vec2(0, 0));
     auto _fg = _g * _body->GetMass() * _gravity_mult;
@@ -1165,6 +1189,13 @@ void main_character::die(){
     _died = true;
 }
 
+void main_character::reset_physics(){
+    auto _t = transform();
+    _body->SetTransform(b2Vec2(_t.origin().x(), _t.origin().y()), _t.rotation().x());
+    _body->SetLinearVelocity(b2Vec2(0, 0));
+    _body->SetAngularVelocity(0);
+}
+
 void main_character::reset_component(){
     _block_to_break = nullptr;
     _sprite->opacity(1);
@@ -1230,6 +1261,9 @@ void main_character::reset_component(){
     }
     //jump zone
     _inside_jump_zone = false;
+    //force zone
+    _velocity_force_zones = vec2::zero;
+    _zero_gravity = false;
 }
 
 void main_character::playing(){
@@ -1342,6 +1376,9 @@ void main_character::playing(){
                 _saved_coin_scale = _spr->transform().scale().x();
             }
         }
+        //force zone
+        _velocity_force_zones = vec2::zero;
+        _zero_gravity = false;
     }
 }
 

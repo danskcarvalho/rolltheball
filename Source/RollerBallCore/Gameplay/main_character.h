@@ -130,6 +130,9 @@ namespace rb {
         bool _full_win_an;
         //win animation
         animation_id _win_an;
+        //force zones
+        vec2 _velocity_force_zones;
+        bool _zero_gravity;
     private:
         void check_win();
         void win_animation(float t);
@@ -141,6 +144,7 @@ namespace rb {
         //get closest point from camera track...
         nullable<vec2> getClosestPointFromCameraTrack(const vec2& charPos) const;
     protected:
+        virtual void reset_physics() override;
         virtual void reset_component() override;
     private:
         void check_new_moving_platform(vec2& v, nullable<float>& rot_vel);
@@ -195,7 +199,7 @@ namespace rb {
         //die
     public:
         void die();
-        bool check_die();
+        bool check_die(float dt);
         //shake camera
     public:
         void shake_camera();

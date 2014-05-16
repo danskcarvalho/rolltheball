@@ -26,6 +26,7 @@ namespace rb {
 //        friend class position_animator_component;
     protected:
         virtual void reset_component() override;
+        virtual void reset_physics() override;
     public:
         enum type {
             kStaticGravityZone = 0,
@@ -70,6 +71,12 @@ namespace rb {
         float _direction_on_jumping;
         //texture animation
         vec2 _tex_transform_anim;
+        //force zone
+        bool _force_zone;
+        vec2 _force_one;
+        vec2 _force_two;
+        float _max_velocity;
+        bool _zero_gravity;
     public:
         friend class main_character;
         physics_shape();
@@ -121,6 +128,10 @@ namespace rb {
         ray get_ray() const;
         vec2 get_velocity_at_pt(const vec2& pt) const;
         b2Body* get_body();
+        //force zone
+    public:
+        bool is_force_zone() const;
+        vec2 get_force(const vec2& worldPt) const;
     public:
         virtual void do_action(const rb_string& action_name, const rb_string& arg) override;
     };

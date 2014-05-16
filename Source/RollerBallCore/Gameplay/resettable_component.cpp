@@ -17,6 +17,10 @@ void resettable_component::reset_component(){
     
 }
 
+void resettable_component::reset_physics(){
+    
+}
+
 void resettable_component::reset_component(rb::node *n){
     auto _rc = dynamic_cast<resettable_component*>(n);
     if(_rc)
@@ -26,12 +30,27 @@ void resettable_component::reset_component(rb::node *n){
     }
 }
 
+void resettable_component::reset_physics(rb::node *n){
+    auto _rc = dynamic_cast<resettable_component*>(n);
+    if(_rc)
+        _rc->reset_physics();
+    for (auto _cn : *n){
+        reset_physics(_cn);
+    }
+}
+
 void resettable_component::reset_components(scene* s){
     assert(s);
     for (uint32_t i = 0; i < MAX_LAYERS; i++) {
         auto _l = s->layer(i);
         for (auto _n : *_l){
             reset_component(_n);
+        }
+    }
+    for (uint32_t i = 0; i < MAX_LAYERS; i++) {
+        auto _l = s->layer(i);
+        for (auto _n : *_l){
+            reset_physics(_n);
         }
     }
 }
