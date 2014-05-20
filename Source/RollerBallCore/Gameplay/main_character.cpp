@@ -841,6 +841,10 @@ void main_character::update_movingplatform(vec2& vel, nullable<float>& rot_vel, 
         _moving_vel = 0;
     }
     
+    //HACK
+    if(fabsf(_moving_platform->_auto_move_dir) < 0.001f)
+        _moving_vel = 0;
+    
     auto _to_move = _moving_vel * dt;
     auto _angle_obj = -_to_move / 0.5f;
     _rotation_vel = _angle_obj * 30.0f;
