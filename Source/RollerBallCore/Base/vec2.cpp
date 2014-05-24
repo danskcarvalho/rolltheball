@@ -34,40 +34,6 @@ using namespace rb;
 //    return *this;
 //}
 
-const vec2& vec2::operator +=(const vec2& v2){
-    _x += v2._x;
-    _y += v2._y;
-    return *this;
-}
-const vec2& vec2::operator -=(const vec2& v2){
-    _x -= v2._x;
-    _y -= v2._y;
-    return *this;
-}
-const vec2& vec2::operator *=(const vec2& v2){
-    _x *= v2._x;
-    _y *= v2._y;
-    return *this;
-}
-const vec2& vec2::operator /=(const vec2& v2){
-    assert(!almost_equal(v2._x, 0));
-    assert(!almost_equal(v2._y, 0));
-    _x /= v2._x;
-    _y /= v2._y;
-    return *this;
-}
-const vec2& vec2::operator *=(const float t){
-    _x *= t;
-    _y *= t;
-    return *this;
-}
-const vec2& vec2::operator /=(const float t){
-    assert(!almost_equal(t, 0));
-    _x /= t;
-    _y /= t;
-    return *this;
-}
-
 const vec2 vec2::zero = vec2();
 const vec2 vec2::up = vec2(0, 1);
 const vec2 vec2::right = vec2(1, 0);
@@ -280,85 +246,6 @@ vec2& vec2::project(const vec2& v){
 float vec2::distance(const vec2& first, const vec2& second){
     vec2 diff = first - second;
     return sqrtf(diff.x()*diff.x() + diff.y()*diff.y());
-}
-
-vec2 rb::operator +(const vec2& v1, const vec2& v2){
-    return vec2(v1._x + v2._x, v1._y + v2._y);
-}
-
-vec2 rb::operator -(const vec2& v1, const vec2& v2){
-    return vec2(v1._x - v2._x, v1._y - v2._y);
-}
-
-vec2 rb::operator *(const vec2& v1, const vec2& v2){
-    return vec2(v1._x * v2._x, v1._y * v2._y);
-}
-
-vec2 rb::operator /(const vec2& v1, const vec2& v2){
-    assert(!almost_equal(v2._x, 0));
-    assert(!almost_equal(v2._y, 0));
-    return vec2(v1._x / v2._x, v1._y / v2._y);
-}
-
-vec2 rb::operator *(const vec2& v1, const float t){
-    return vec2(v1._x * t, v1._y * t);
-}
-
-vec2 rb::operator *(const float t, const vec2& v1){
-    return vec2(v1._x * t, v1._y * t);
-}
-
-vec2 rb::operator /(const vec2& v1, const float t){
-    assert(!almost_equal(t, 0));
-    return vec2(v1._x / t, v1._y / t);
-}
-
-vec2 rb::operator -(const vec2& v1){
-    return vec2(-v1._x, -v1._y);
-}
-
-bool rb::operator ==(const vec2& v1, const vec2& v2){
-    return almost_equal(v1._x, v2._x) && almost_equal(v1._y, v2._y);
-}
-
-bool rb::exact_match(const rb::vec2 &v1, const rb::vec2 &v2){
-    return v1.x() == v2.x() && v1.y() == v2.y();
-}
-
-bool rb::operator !=(const vec2& v1, const vec2& v2){
-    return !almost_equal(v1._x, v2._x) || !almost_equal(v1._y, v2._y);
-}
-
-//those are provided so vec2 can be used with container as keys
-bool rb::operator >(const vec2& v1, const vec2& v2){
-    if(v1._x == v2._x)
-        return v1._y > v2._y;
-    else
-        return v1._x > v2._x;
-}
-bool rb::operator <(const vec2& v1, const vec2& v2){
-    if(v1._x == v2._x)
-        return v1._y < v2._y;
-    else
-        return v1._x < v2._x;
-}
-bool rb::operator >=(const vec2& v1, const vec2& v2){
-    if(v1._x == v2._x && v1._y == v2._y)
-        return true;
-    
-    if(v1._x == v2._x)
-        return v1._y > v2._y;
-    else
-        return v1._x > v2._x;
-}
-bool rb::operator <=(const vec2& v1, const vec2& v2){
-    if(v1._x == v2._x && v1._y == v2._y)
-        return true;
-    
-    if(v1._x == v2._x)
-        return v1._y < v2._y;
-    else
-        return v1._x < v2._x;
 }
 
 bool vec2::is_nan() const{

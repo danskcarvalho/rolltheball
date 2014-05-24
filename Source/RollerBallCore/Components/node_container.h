@@ -32,7 +32,9 @@ namespace rb {
     private:
         std::unordered_set<node*> _selection;
         node_list _child_nodes;
-        transform_space _transform;
+        matrix3x3 _transform;
+        transform_space _transform_space;
+        bool _transform_space_dirty;
         bool _dirty_transform;
         bool _in_editor_hidden;
         rb::nullable<bool> _selected;
@@ -77,11 +79,13 @@ namespace rb {
         const node_container* parent() const;
         node_container* parent();
     private:
-        transform_space from_space_to(const space another) const;
+        matrix3x3 from_space_to(const space another) const;
         bool has_space_changed() const;
     public:
-        virtual const transform_space& transform() const;
-        virtual const transform_space& transform(const rb::transform_space &value);
+        virtual const matrix3x3& transform() const;
+        virtual const matrix3x3& transform(const rb::matrix3x3 &value);
+        virtual const transform_space old_transform() const;
+        virtual const transform_space old_transform(const rb::transform_space &value);
         //current
     private:
         void internal_became_current();

@@ -240,7 +240,7 @@ void scene::start_transformation(){
         current()->fill_with_selection(_selected, node_filter::renderable);
         _original_transforms.clear();
         for (auto _s : _selected){
-            _original_transforms[_s] = _s->transform();
+            _original_transforms[_s] = _s->old_transform();
         }
         _selected_nodes_bounds = compute_selection_bounds(_selected);
         _delta_transform = transform_space(vec2::zero, vec2::zero, vec2::zero);
@@ -310,12 +310,12 @@ void scene::mouse_down(const vec2& normalized_position) {
         assert(_current_new);
         _current_new->_new_template = false;
         rename_nodes_recursively(_current_new);
-        _new_start_point = current()->from_space_to(space::normalized_screen).from_base_to_space().transformed_point(normalized_position);
+        _new_start_point = current()->from_space_to(space::normalized_screen).inverse().transformed_point(normalized_position);
         if(_alignToGrid)
             _new_start_point = align_to_grid(_new_start_point);
         //transform_space _new_tr = transform_space(_new_start_point, vec2::zero, vec2::zero);
         transform_space _new_tr = transform_space(_new_start_point, vec2(0.001, 0.001), 0);
-        _current_new->transform(_new_tr);
+        _current_new->old_transform(_new_tr);
         if(!current()->add_node(_current_new)) {
             delete _current_new;
             _current_new = nullptr;
@@ -427,7 +427,7 @@ void scene::mouse_up(const vec2& normalized_position) {
             transform_nodes(_selected);
             if(_alignToGrid){
                 for(auto _sel : _selected)
-                    _sel->transform(_sel->transform().moved(align_to_grid(_sel->transform().origin())));
+                    _sel->old_transform(_sel->old_transform().moved(align_to_grid(_sel->old_transform().origin())));
             }
             start_transformation();
         }
@@ -469,7 +469,7 @@ void scene::mouse_dragged(const vec2& normalized_position) {
     }
     
     if(_current_new){
-        auto _current_point = current()->from_space_to(space::normalized_screen).from_base_to_space().transformed_point(normalized_position);
+        auto _current_point = current()->from_space_to(space::normalized_screen).inverse().transformed_point(normalized_position);
         auto _y_vec = _current_point - _new_start_point;
         _y_vec = has_flag(responder::modifiers(), keyboard_modifier::shift) ? snap_vector(_y_vec) : _y_vec;
         auto _x_vec = _y_vec.rotated(TO_RADIANS(-90));
@@ -479,7 +479,7 @@ void scene::mouse_dragged(const vec2& normalized_position) {
             _new_tr = transform_space(_new_start_point, vec2(_x_vec.length(), _y_vec.length()), _canonical_x.angle_between(_x_vec, rotation_direction::ccw));
         else
             _new_tr = transform_space(_new_start_point, vec2(0, 0), 0);
-        _current_new->transform(_new_tr);
+        _current_new->old_transform(_new_tr);
         return;
     }
     
@@ -511,9 +511,9 @@ void scene::scale_selected(const vec2& delta){
     if(delta == vec2::zero)
         return;
     auto _tr = current()->from_space_to(space::normalized_screen);
-    if(!_tr.test_direction(transform_direction::from_base_to_space))
+    if(_tr.determinant() == 0)
         return;
-    auto _delta = _tr.from_base_to_space().transformed_vector(delta); //in current space
+    auto _delta = _tr.inverse().transformed_vector(delta); //in current space
     transform_space _original_transform;
     if(current()->selection_count() == 1)
         _original_transform = _original_transforms.begin().operator*().second;
@@ -583,9 +583,9 @@ void scene::scale_selected(const vec2& delta){
 
 void scene::rotate_selected(const rb::vec2 &normalized_position){
     auto _tr = current()->from_space_to(space::normalized_screen);
-    if(!_tr.test_direction(transform_direction::from_base_to_space))
+    if(_tr.determinant() == 0)
         return;
-    auto _position = _tr.from_base_to_space().transformed_point(normalized_position); //in current space
+    auto _position = _tr.inverse().transformed_point(normalized_position); //in current space
     
     std::vector<node*> _selection;
     current()->fill_with_selection(_selection, node_filter::renderable);
@@ -603,7 +603,7 @@ void scene::rotate_selected(const rb::vec2 &normalized_position){
     vec2 _center;
     
     if(_selection.size() == 1)
-        _center = _selection[0]->transform().origin();
+        _center = _selection[0]->old_transform().origin();
     else
         _center = compute_selection_bounds(_selection).center();
     
@@ -708,9 +708,9 @@ void scene::move_selected(const rb::vec2 &dir){
     if(!current())
         return;
     auto _tr = current()->from_space_to(space::screen);
-    if(!_tr.test_direction(transform_direction::from_base_to_space))
+    if(_tr.determinant() == 0)
         return;
-    _tr.from_base_to_space().transform_vector(_dir);
+    _tr.inverse().transform_vector(_dir);
     if(_move10x)
         _dir *= 10;
     _delta_transform.move_by(_dir);
@@ -723,9 +723,9 @@ void scene::drag_selected(const rb::vec2 &delta){
     if(!current())
         return;
     auto _tr = current()->from_space_to(space::normalized_screen);
-    if(!_tr.test_direction(transform_direction::from_base_to_space))
+    if(_tr.determinant() == 0)
         return;
-    auto _delta = _tr.from_base_to_space().transformed_vector(delta);
+    auto _delta = _tr.inverse().transformed_vector(delta);
     
     _delta_transform.move_by(_delta);
     std::vector<node*> _selected;
@@ -759,14 +759,14 @@ transform_space scene::get_current_transform(bool live){
 
 void scene::transform_nodes(const std::vector<node *>& selection){
     if(selection.size() == 1){
-        selection[0]->transform(get_current_transform());
+        selection[0]->old_transform(get_current_transform());
         return;
     }
     
     for(auto n : selection){
         auto _n_t = _original_transforms[n];
         auto _new_t = transform_space(_original_transforms[n].origin() - _selected_nodes_bounds.center(), _original_transforms[n].scale(), _original_transforms[n].rotation());
-        n->transform(get_current_transform() * _new_t);
+        n->old_transform(get_current_transform() * _new_t);
     }
 }
 
@@ -776,9 +776,9 @@ rectangle scene::compute_selection_bounds(const std::vector<node *>& selection, 
         auto _current = _n->transform();
         _n->shutdown_transform_notifications();
         if(!live)
-            _n->transform(_original_transforms[_n]);
+            _n->old_transform(_original_transforms[_n]);
         auto _b = _n->bounds();
-        _n->from_node_space_to(current()).from_space_to_base().transform_rectangle(_b);
+        _n->from_node_space_to(current()).transform_rectangle(_b);
         _rc = _rc.compute_union(_b);
         if(!live)
             _n->transform(_current);

@@ -122,8 +122,8 @@ namespace rb {
         buffer to_buffer() const;
         
         //operators
-        const transform_space& operator=(const transform_space& other);
-        const transform_space& operator=(transform_space&& other);
+        transform_space& operator=(const transform_space& other);
+        transform_space& operator=(transform_space&& other);
         const transform_space& operator*=(const transform_space& other);
         
         //friend operators

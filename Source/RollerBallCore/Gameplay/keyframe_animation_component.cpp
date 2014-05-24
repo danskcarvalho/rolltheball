@@ -159,9 +159,9 @@ void keyframe_animation_component::sync_attached(rb::polygon_component *pc, cons
     //get all the points current situations
     std::vector<vec2> _pt_pos;
     for(auto _p : *pc)
-        _pt_pos.push_back(_p->transform().origin());
+        _pt_pos.push_back(_p->old_transform().origin());
     //get the current transformation of polygon
-    auto _polygon = reconstruct_polygon(pc, _pt_pos, pc->transform());
+    auto _polygon = reconstruct_polygon(pc, _pt_pos, pc->old_transform());
     //2. do a length mapping
     polygon_path _path = polygon_path(_polygon);
     for(auto _n : nodes){
@@ -177,7 +177,7 @@ void keyframe_animation_component::sync_attached(rb::polygon_component *pc, cons
         auto _r = vec2::right.angle_between(_v, rotation_direction::ccw);
         
         //set position and r...
-        _n->transform(_n->transform().moved(_p).rotated(vec2(_r, _r + (float)M_PI_2)));
+        _n->old_transform(_n->old_transform().moved(_p).rotated(vec2(_r, _r + (float)M_PI_2)));
     }
 }
 
@@ -236,7 +236,7 @@ void keyframe_animation_component::generate_animation_for_attached(std::vector<n
             //get the current transformation of polygon
             auto _current_pol_pt = _anim_positions[_indexes[attachable] * _n_frames + _offset];
             auto _current_pol_rot = _anim_rotations[_indexes[attachable] * _n_frames + _offset];
-            auto _current_pol_t = attachable->transform().moved(_current_pol_pt).rotated(_current_pol_rot, _current_pol_rot + M_PI_2);
+            auto _current_pol_t = attachable->old_transform().moved(_current_pol_pt).rotated(_current_pol_rot, _current_pol_rot + M_PI_2);
             auto _polygon = reconstruct_polygon(attachable, _pt_pos, _current_pol_t);
             //3. do a length mapping
             polygon_path _path = polygon_path(_polygon);
@@ -257,7 +257,7 @@ void keyframe_animation_component::generate_animation_for_attached(std::vector<n
                 if(nodes[j]->has_class(u"changeRot"))
                     _anim_rotations[_indexes[nodes[j]] * _n_frames + _offset] = _r;
                 else
-                    _anim_rotations[_indexes[nodes[j]] * _n_frames + _offset] = nodes[j]->transform().rotation().x();
+                    _anim_rotations[_indexes[nodes[j]] * _n_frames + _offset] = nodes[j]->old_transform().rotation().x();
             }
             
             _offset++;
@@ -540,7 +540,7 @@ void keyframe_animation_component::preview_current_keyframe(){
     for (size_t i = 0; i < _anim_nodes.size(); i++) {
         auto _pos = _anim_positions[_n_frames * i + _current_frame];
         auto _rot = _anim_rotations[_n_frames * i + _current_frame];
-        _anim_nodes[i]->transform(_anim_nodes[i]->transform().moved(_pos).rotated(_rot, _rot + (float)M_PI_2));
+        _anim_nodes[i]->old_transform(_anim_nodes[i]->old_transform().moved(_pos).rotated(_rot, _rot + (float)M_PI_2));
     }
 }
 
@@ -552,7 +552,7 @@ void keyframe_animation_component::update_transforms(){
         if(!_n->is_selected())
             continue;
         if(_current_pos->transforms.count(_n))
-            _current_pos->transforms[_n] = _n->transform();
+            _current_pos->transforms[_n] = _n->old_transform();
     }
     placeholder_updated();
     _dirty_anim = true;
@@ -589,7 +589,7 @@ void keyframe_animation_component::record_keyframe(){
     //do it...
     for (auto _n : _sel){
         _current_pos->animated.insert(_n);
-        _current_pos->transforms.insert({_n, _n->transform()});
+        _current_pos->transforms.insert({_n, _n->old_transform()});
         keyframe::easing_info _ei;
         _ei.position_x_easing = _current_position_x_easing;
         _ei.position_x_easing_factor = _current_position_x_factor;
@@ -621,9 +621,9 @@ void keyframe_animation_component::record_add_to_keyframe(){
         if(_current_pos->animated.count(_n) == 0)
             _current_pos->animated.insert(_n);
         if(_current_pos->animated.count(_n) == 0)
-            _current_pos->transforms.insert({_n, _n->transform()});
+            _current_pos->transforms.insert({_n, _n->old_transform()});
         else
-            _current_pos->transforms[_n] = _n->transform();
+            _current_pos->transforms[_n] = _n->old_transform();
         keyframe::easing_info _ei;
         _ei.position_x_easing = _current_position_x_easing;
         _ei.position_x_easing_factor = _current_position_x_factor;
@@ -825,13 +825,13 @@ void keyframe_animation_component::continue_record_start(){
     for (auto _n : _sel){
         _anim_nodes_set.insert(_n);
         _anim_nodes.push_back(_n);
-        _anim_nodes_saved_transforms.insert({_n, _n->transform()});
+        _anim_nodes_saved_transforms.insert({_n, _n->old_transform()});
         auto _pol = dynamic_cast<polygon_component*>(_n);
         if(_pol){
             for(auto _p : *_pol){
                 _anim_nodes_set.insert(_p);
                 _anim_nodes.push_back(_p);
-                _anim_nodes_saved_transforms.insert({_p, _p->transform()});
+                _anim_nodes_saved_transforms.insert({_p, _p->old_transform()});
             }
         }
     }
@@ -847,23 +847,23 @@ void keyframe_animation_component::reset_transforms(){
     for (auto _n : _anim_nodes){
         if(!_no_selection){
             if(_n->is_selected())
-                _n->transform(_anim_nodes_saved_transforms[_n]);
+                _n->old_transform(_anim_nodes_saved_transforms[_n]);
         }
         else
-            _n->transform(_anim_nodes_saved_transforms[_n]);
+            _n->old_transform(_anim_nodes_saved_transforms[_n]);
     }
 }
 
 polygon_path get_path(const polygon_component* pol){
     auto _pol = pol->to_smooth_polygon();
-    pol->transform().from_space_to_base().transform_polygon(_pol);
+    pol->old_transform().from_space_to_base().transform_polygon(_pol);
     
     polygon_path _path(_pol);
     return _path;
 }
 
 float get_length(const node* n, const polygon_path& path){
-    auto _pt = n->transform().origin();
+    auto _pt = n->old_transform().origin();
     
     uint32_t _index;
     auto _e = path.polygon().closest_edge(_pt, _index);
@@ -1283,7 +1283,7 @@ void keyframe_animation_component::reset_component(){
     for (size_t i = 0; i < _anim_nodes.size(); i++) {
         auto _pos = _anim_positions[_n_frames * i + 0];
         auto _rot = _anim_rotations[_n_frames * i + 0];
-        _anim_nodes[i]->transform(_anim_nodes[i]->transform().moved(_pos).rotated(_rot, _rot + (float)M_PI_2));
+        _anim_nodes[i]->old_transform(_anim_nodes[i]->old_transform().moved(_pos).rotated(_rot, _rot + (float)M_PI_2));
     }
     
     _playing_anim = _saved_playing_anim;
@@ -1333,7 +1333,7 @@ void keyframe_animation_component::update(float dt){
     for (size_t i = 0; i < _anim_nodes.size(); i++) {
         auto _pos = _anim_positions[_n_frames * i + _current_frame_an];
         auto _rot = _anim_rotations[_n_frames * i + _current_frame_an];
-        _anim_nodes[i]->transform(_anim_nodes[i]->transform().moved(_pos).rotated(_rot, _rot + (float)M_PI_2));
+        _anim_nodes[i]->old_transform(_anim_nodes[i]->old_transform().moved(_pos).rotated(_rot, _rot + (float)M_PI_2));
     }
     
     if(!_playing_mirror)
@@ -1380,7 +1380,7 @@ void keyframe_animation_component::in_editor_update(float dt){
     for (size_t i = 0; i < _anim_nodes.size(); i++) {
         auto _pos = _anim_positions[_n_frames * i + _ed_current_frame_an];
         auto _rot = _anim_rotations[_n_frames * i + _ed_current_frame_an];
-        _anim_nodes[i]->transform(_anim_nodes[i]->transform().moved(_pos).rotated(_rot, _rot + (float)M_PI_2));
+        _anim_nodes[i]->old_transform(_anim_nodes[i]->old_transform().moved(_pos).rotated(_rot, _rot + (float)M_PI_2));
     }
     
     if(!_ed_playing_mirror)

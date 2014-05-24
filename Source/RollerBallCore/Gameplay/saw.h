@@ -29,7 +29,7 @@ namespace rb {
         sprite_component* _sprite;
         b2World* _world;
         b2Body* _body;
-        transform_space _saved_transform;
+        matrix3x3 _saved_transform;
         //destruction
         bool _destructible;
         bool _destroyed;

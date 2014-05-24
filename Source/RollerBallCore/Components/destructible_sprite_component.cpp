@@ -32,8 +32,8 @@ destructible_sprite_component::destructible_sprite_component(){
     _last_atlas = nullptr;
     
     for (size_t i = 0; i < _matrix.x() * _matrix.y(); i++) {
-        _part_transforms.push_back(transform_space());
-        _part_befores.push_back(transform_space());
+        _part_transforms.push_back(matrix3x3::identity);
+        _part_befores.push_back(matrix3x3::identity);
     }
 }
 
@@ -47,8 +47,8 @@ void destructible_sprite_component::destroy(){
 //    _part_befores.clear();
 //    _part_transforms.clear();
     for (size_t i = 0; i < _matrix.x() * _matrix.y(); i++) {
-        _part_transforms[i] = transform_space();
-        _part_befores[i] = transform_space();
+        _part_transforms[i] = matrix3x3::identity;
+        _part_befores[i] = matrix3x3::identity;
     }
     if(_map)
         delete _map;
@@ -110,7 +110,7 @@ void destructible_sprite_component::update_collapsed_mesh(){
     else{
         for (size_t i = 0; i < _m.size(); i++) {
             *_m[i] = *_m_copy[i];
-            _part_befores[i] = transform_space();
+            _part_befores[i] = matrix3x3::identity;
         }
     }
 }
@@ -197,13 +197,12 @@ bool destructible_sprite_component::aspect_correction(const bool value){
     return _aspect_correction;
 }
 
-transform_space destructible_sprite_component::aspect_correction_factor() const {
+matrix3x3 destructible_sprite_component::aspect_correction_factor() const {
     vec2 _tex_s = size_of_tex();
     if(almost_equal(_tex_s.x(), 0))
         _tex_s.x(1);
     if(almost_equal(_tex_s.y(), 0))
         _tex_s.y(1);
-    transform_space _ac;
     auto _tx = _tex_s.x() / _tex_s.y();
     auto _ty = _tex_s.y() / _tex_s.x();
     if(_tex_s.x() > _tex_s.y())
@@ -211,18 +210,18 @@ transform_space destructible_sprite_component::aspect_correction_factor() const 
     else
         _ty = 1;
     
-    return _aspect_correction ? transform_space(vec2(0, 0), vec2(_tx, _ty), 0) : transform_space();
+    return _aspect_correction ? matrix3x3::build_scale(_tx, _ty) : matrix3x3::identity;
 }
 
 void destructible_sprite_component::transform_mesh(const bool refill_buffers){
     for (size_t i = 0; i < _m.size(); i++) {
-        transform_space _to_layer = from_node_space_to(space::layer) *
+        matrix3x3 _to_layer = from_node_space_to(space::layer) *
             _part_transforms[i] *
             aspect_correction_factor();
         if(_part_befores[i] != _to_layer || refill_buffers){
             *_m[i] = *_m_copy[i];
             _part_befores[i] = _to_layer;
-            _to_layer.from_space_to_base().transform_mesh(*_m[i]);
+            _to_layer.transform_mesh(*_m[i]);
         }
     }
 }
@@ -254,7 +253,7 @@ void destructible_sprite_component::render(const bool refill_buffers){
 rectangle destructible_sprite_component::bounds() const{
     auto _rc = rectangle(0, 0, 1, 1);
     auto _ac = aspect_correction_factor();
-    _rc.size(_rc.size() * _ac.scale());
+    _rc.size(_rc.size() * vec2(_ac.x_vector().length(), _ac.y_vector().length()));
     return _rc;
 }
 
@@ -389,18 +388,34 @@ void destructible_sprite_component::describe_type(){
     });
     buffer_property<destructible_sprite_component>(u"before_transformation", u"Before Transformation", {
         [](const destructible_sprite_component* site){
-            return transform_space::to_buffer(site->_part_befores);
+            std::vector<transform_space> _ts_part_befores;
+            for(auto& _pb : site->_part_befores)
+                _ts_part_befores.push_back(transform_space::from_matrix(_pb));
+            return transform_space::to_buffer(_ts_part_befores);
         },
         [](destructible_sprite_component* site, const buffer value){
-            site->_part_befores = transform_space::from_buffer(value);
+            std::vector<matrix3x3> _ms;
+            auto _tss = transform_space::from_buffer(value);
+            for (auto _t : _tss){
+                _ms.push_back(_t.from_space_to_base());
+            }
+            site->_part_befores = _ms;
         }
     });
     buffer_property<destructible_sprite_component>(u"part_transformation", u"Part Transformation", {
         [](const destructible_sprite_component* site){
-            return transform_space::to_buffer(site->_part_transforms);
+            std::vector<transform_space> _ts_part_transforms;
+            for(auto& _pt : site->_part_transforms)
+                _ts_part_transforms.push_back(transform_space::from_matrix(_pt));
+            return transform_space::to_buffer(_ts_part_transforms);
         },
         [](destructible_sprite_component* site, const buffer value){
-            site->_part_transforms = transform_space::from_buffer(value);
+            std::vector<matrix3x3> _ms;
+            auto _tss = transform_space::from_buffer(value);
+            for (auto _t : _tss){
+                _ms.push_back(_t.from_space_to_base());
+            }
+            site->_part_transforms = _ms;
         }
     });
     boolean_property<destructible_sprite_component>(u"collapsed", u"Collapsed", true, {
@@ -477,8 +492,8 @@ const vec2& destructible_sprite_component::matrix(const rb::vec2 &value){
     _part_transforms.clear();
     
     for (size_t i = 0; i < value.x() * value.y(); i++) {
-        _part_transforms.push_back(transform_space());
-        _part_befores.push_back(transform_space());
+        _part_transforms.push_back(matrix3x3::identity);
+        _part_befores.push_back(matrix3x3::identity);
     }
     
     if(active())
@@ -487,7 +502,7 @@ const vec2& destructible_sprite_component::matrix(const rb::vec2 &value){
     return _matrix;
 }
 
-const transform_space& destructible_sprite_component::transform(const uint32_t x, const uint32_t y) const {
+const matrix3x3& destructible_sprite_component::transform(const uint32_t x, const uint32_t y) const {
     auto _new_matrix = _matrix;
     _new_matrix.x(roundf(_new_matrix.x()));
     _new_matrix.y(roundf(_new_matrix.y()));
@@ -501,7 +516,7 @@ const transform_space& destructible_sprite_component::transform(const uint32_t x
     return _part_transforms[_m_index];
 }
 
-const transform_space& destructible_sprite_component::transform(const uint32_t x, const uint32_t y, const rb::transform_space &value){
+const matrix3x3& destructible_sprite_component::transform(const uint32_t x, const uint32_t y, const rb::matrix3x3 &value){
     auto _new_matrix = _matrix;
     _new_matrix.x(roundf(_new_matrix.x()));
     _new_matrix.y(roundf(_new_matrix.y()));

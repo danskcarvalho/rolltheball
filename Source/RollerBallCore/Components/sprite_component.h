@@ -27,7 +27,7 @@ namespace rb {
         mesh* _m;
         mesh* _m_copy;
         texture_map* _map;
-        transform_space _before;
+        matrix3x3 _before;
         rb_string _image;
         bool _reapply_mapping;
         float _opacity;
@@ -76,7 +76,7 @@ namespace rb {
         const vec2& matrix(const vec2& value);
     private:
         vec2 size_of_tex() const;
-        transform_space aspect_correction_factor() const;
+        matrix3x3 aspect_correction_factor() const;
     };
 }
 

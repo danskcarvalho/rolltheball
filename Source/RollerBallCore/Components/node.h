@@ -154,8 +154,8 @@ namespace rb {
         virtual const node_container* parent_node_container() const override;
         virtual void space_changed();
     public:
-        transform_space from_node_space_to(const space another) const;
-        transform_space from_node_space_to(const node_container* another) const;
+        matrix3x3 from_node_space_to(const space another) const;
+        matrix3x3 from_node_space_to(const node_container* another) const;
         //Bounds and Hit Test
     protected:
         //returns the bounds in self space...
@@ -200,8 +200,8 @@ namespace rb {
         virtual rb_string displayable_type_name() const override;
         //Transform
     public:
-        virtual const transform_space& transform() const override;
-        virtual const transform_space& transform(const rb::transform_space &value) override;
+        virtual const matrix3x3& transform() const override;
+        virtual const matrix3x3& transform(const rb::matrix3x3 &value) override;
     private:
         void shutdown_transform_notifications();
         void restore_transform_notification();

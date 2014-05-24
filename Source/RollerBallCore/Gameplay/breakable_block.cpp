@@ -73,7 +73,7 @@ void breakable_block::animate_break(float t){
         generate_random_velocities();
         for (uint32_t i = 0; i < DESTRUCTION_MATRIX; i++) {
             for (uint32_t j = 0; j < DESTRUCTION_MATRIX; j++) {
-                _sprite->transform(i, j, transform_space()); //reset to identity
+                _sprite->transform(i, j, matrix3x3::identity); //reset to identity
             }
         }
     }
@@ -81,7 +81,7 @@ void breakable_block::animate_break(float t){
     auto _dt = t - _last_t;
     _last_t = t;
     auto _down_vec = vec2::down;
-    this->from_node_space_to(space::camera).from_base_to_space().transform_vector(_down_vec).normalize();
+    this->from_node_space_to(space::camera).inverse().transform_vector(_down_vec).normalize();
     auto _gravity = _down_vec * EXPLOSION_GRAVITY_MAGNITUDE;
     for (size_t i = 0; i < (DESTRUCTION_MATRIX * DESTRUCTION_MATRIX); i++) {
         _velocities[i] += _gravity * _dt;
@@ -90,7 +90,7 @@ void breakable_block::animate_break(float t){
         for (uint32_t j = 0; j < DESTRUCTION_MATRIX; j++) {
             auto _t = _sprite->transform(i, j);
             auto _v = _velocities[i + j * DESTRUCTION_MATRIX];
-            _t.origin(_t.origin() + _v * _dt);
+            _t.translation(_t.translation() + _v * _dt);
             _sprite->transform(i, j, _t);
         }
     }
@@ -102,16 +102,16 @@ void breakable_block::animate_restore(float t){
     if(_last_t == 0){
         for (uint32_t i = 0; i < DESTRUCTION_MATRIX; i++) {
             for (uint32_t j = 0; j < DESTRUCTION_MATRIX; j++) {
-                _sprite->transform(i, j, transform_space()); //reset to identity
+                _sprite->transform(i, j, matrix3x3::identity); //reset to identity
             }
         }
-        _sprite->node::transform(_sprite->node::transform().scaled(0.0001, 0.0001));
+        _sprite->node::old_transform(_sprite->node::old_transform().scaled(0.0001, 0.0001));
         _last_t = 1;
         return;
     }
     
     _sprite->opacity(2 * t);
-    _sprite->node::transform(_sprite->node::transform().scaled(t, t));
+    _sprite->node::old_transform(_sprite->node::old_transform().scaled(t, t));
     
     if(t >= 1){
         //check contact with user
@@ -119,17 +119,17 @@ void breakable_block::animate_restore(float t){
         if(!is_touching_main_character())
             _body->SetActive(true);
         _sprite->opacity(1);
-        _sprite->node::transform(_sprite->node::transform().scaled(1, 1));
+        _sprite->node::old_transform(_sprite->node::old_transform().scaled(1, 1));
     }
 }
 
 void breakable_block::break_block(bool animation){
     if(_broken && animation)
         return;
-    _sprite->node::transform(_sprite->node::transform().scaled(1));
+    _sprite->node::old_transform(_sprite->node::old_transform().scaled(1));
     for (uint32_t i = 0; i < DESTRUCTION_MATRIX; i++) {
         for (uint32_t j = 0; j < DESTRUCTION_MATRIX; j++) {
-            _sprite->transform(i, j, transform_space()); //reset to identity
+            _sprite->transform(i, j, matrix3x3::identity); //reset to identity
         }
     }
     
@@ -168,10 +168,10 @@ CallAction:
 void breakable_block::restore_block(bool animation){
     if(!_broken  && animation)
         return;
-    _sprite->node::transform(_sprite->node::transform().scaled(1));
+    _sprite->node::old_transform(_sprite->node::old_transform().scaled(1));
     for (uint32_t i = 0; i < DESTRUCTION_MATRIX; i++) {
         for (uint32_t j = 0; j < DESTRUCTION_MATRIX; j++) {
-            _sprite->transform(i, j, transform_space()); //reset to identity
+            _sprite->transform(i, j, matrix3x3::identity); //reset to identity
         }
     }
     
@@ -210,12 +210,12 @@ CallAction:
 bool breakable_block::is_touching_main_character(){
     if(!_main_character)
         return false;
-    auto _t = from_node_space_to(space::layer);
+    auto _t = transform_space::from_matrix(from_node_space_to(space::layer));
     auto _myR = sqrtf(2 * _t.scale().x() * _t.scale().x());
     auto _minR = _t.scale().x() / 2.0f;
-    auto _cR = _main_character->transform().scale().x() / 2.0f;
+    auto _cR = _main_character->old_transform().scale().x() / 2.0f;
     auto _sumR = _myR + _cR;
-    auto _distance = vec2::distance(_t.origin(), _main_character->transform().origin());
+    auto _distance = vec2::distance(_t.origin(), _main_character->old_transform().origin());
     auto _sumMinR = _minR + _cR;
     auto _penetration = _sumMinR - _distance;
     
@@ -236,7 +236,7 @@ bool breakable_block::is_touching_saw(){
 }
 
 void breakable_block::update(float dt){
-    auto _t = from_node_space_to(space::layer);
+    auto _t = transform_space::from_matrix(from_node_space_to(space::layer));
     _body->SetTransform(b2Vec2(_t.origin().x(), _t.origin().y()), _t.rotation().x());
     if(!_broken){ //not broken
         if(_should_be_active != _body->IsActive()){
@@ -290,7 +290,7 @@ void breakable_block::playing(){
         //world
         _world = dynamic_cast<physics_engine*>(parent_scene()->node_with_name(u"Physic's Engine"))->world();
         //static body
-        auto _t = from_node_space_to(space::layer);
+        auto _t = transform_space::from_matrix(from_node_space_to(space::layer));
         b2BodyDef _bDef;
         _bDef.active = true;
         _bDef.angle = _t.rotation().x();
@@ -308,7 +308,7 @@ void breakable_block::playing(){
         _fDef.filter.categoryBits = PHYS_BREAKABLE_BLOCK | PHYS_MASK_SHAPE;
         _fDef.filter.maskBits = PHYS_MASK_CHARACTER | PHYS_MASK_ENEMY;
         b2PolygonShape _p;
-        auto _scale = this->transform().scale();
+        auto _scale = this->old_transform().scale();
         _p.SetAsBox(_scale.x() / 2.0f, _scale.y() / 2.0f);
         _fDef.shape = &_p;
         _body->CreateFixture(&_fDef);

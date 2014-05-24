@@ -95,8 +95,8 @@ namespace rb {
         mesh* _skeleton;
         
         texture_map* _map;
-        transform_space _before;
-        transform_space _before_b;
+        matrix3x3 _before;
+        matrix3x3 _before_b;
         rb_string _image;
         
         uint32_t _circle_sides;

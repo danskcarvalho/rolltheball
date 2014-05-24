@@ -62,21 +62,21 @@ void polygon_point_component::split(){
         if(_i != (parent()->node_count() - 1)){
             if(parent()->node_at(_i)->is_selected() && parent()->node_at(_i + 1)->is_selected()){
                 _insertion_pt = _i + 1;
-                _pt0 = parent()->node_at(_i)->transform().origin();
-                _pt1 = parent()->node_at(_i + 1)->transform().origin();
+                _pt0 = parent()->node_at(_i)->transform().translation();
+                _pt1 = parent()->node_at(_i + 1)->transform().translation();
             }
         }
         else {
             if(parent()->node_at(_i)->is_selected() && parent()->node_at(0)->is_selected()){
                 _insertion_pt = (uint32_t)0;
-                _pt0 = parent()->node_at(_i)->transform().origin();
-                _pt1 = parent()->node_at(0)->transform().origin();
+                _pt0 = parent()->node_at(_i)->transform().translation();
+                _pt1 = parent()->node_at(0)->transform().translation();
             }
         }
         
         if(_insertion_pt.has_value()){
             auto _new_pt = new polygon_point_component();
-            _new_pt->transform(_new_pt->transform().moved((_pt0 + _pt1) / 2.0f));
+            _new_pt->old_transform(_new_pt->old_transform().moved((_pt0 + _pt1) / 2.0f));
             parent()->add_node_at(_new_pt, _insertion_pt.value());
             _i++;
         }
@@ -102,7 +102,7 @@ void polygon_point_component::transform_changed(){
         if(_p){
             auto _index = _p->search_node(this);
             assert(_index.has_value());
-            _p->_polygon.set_point(this->node::transform().origin(), _index.value());
+            _p->_polygon.set_point(this->node::transform().translation(), _index.value());
         }
     }
 }
@@ -135,10 +135,10 @@ void polygon_point_component::end_live_edit(){
 rectangle polygon_point_component::bounds() const {
     rectangle _rc(0, 0, POINT_SIZE, POINT_SIZE);
     auto _t = from_node_space_to(space::screen);
-    if(_t.test_direction(transform_direction::from_base_to_space)){
-        auto _center = _t.from_space_to_base().transformed_point(vec2::zero);
+    if(_t.determinant() != 0){
+        auto _center = _t.transformed_point(vec2::zero);
         _rc.center(_center);
-        return _t.from_base_to_space().transformed_rectangle(_rc);
+        return _t.inverse().transformed_rectangle(_rc);
     }
     else
         return node::bounds();
@@ -194,8 +194,8 @@ polygon_component::polygon_component(){
     _skeleton = nullptr;
     
     _map = nullptr;
-    _before = transform_space();
-    _before_b = transform_space();
+    _before = matrix3x3::identity;
+    _before_b = matrix3x3::identity;
     _image = u"";
     _circle_sides = 32;
     _opacity = 1;
@@ -264,7 +264,7 @@ void polygon_component::create_polygon_data(){
     else { //Freeform
         _polygon.reset();
         for (auto _n : *this){
-            _polygon.add_point_after(_n->transform().origin(), _polygon.point_count() == 0 ? 0 : _polygon.point_count() - 1);
+            _polygon.add_point_after(_n->transform().translation(), _polygon.point_count() == 0 ? 0 : _polygon.point_count() - 1);
         }
         
         if(_flags.open)
@@ -284,7 +284,7 @@ void polygon_component::reset_children(polygon_component::PolType pt){
         auto _p = to_polygon();
         for (uint32_t i = 0; i < _p.point_count(); i++) {
             auto _pt = new polygon_point_component();
-            _pt->transform(transform_space(_p.get_point(i)));
+            _pt->old_transform(transform_space(_p.get_point(i)));
             this->add_node(_pt);
         }
         _flags.type = pt;
@@ -427,7 +427,7 @@ void polygon_component::update_polygon(bool refill_buffers){
         //we set _flags.polygon_transformable
         recreate_polygon();
         _already_added = true;
-        _before = transform_space();
+        _before = matrix3x3::identity;
         _flags.polygon_transformable = false;
         
         //the following becomes dirty
@@ -445,10 +445,11 @@ void polygon_component::update_polygon(bool refill_buffers){
     
     _already_added = false;
     
-    if(_flags.dirty_border_polygon){ //we should recreate the border polygon...
+    //(_b && !_b_copy) was added because of a bug
+    if(_flags.dirty_border_polygon || (_b && !_b_copy)){ //we should recreate the border polygon...
         recreate_border();
         _already_added = true;
-        _before_b = transform_space();
+        _before_b = matrix3x3::identity;
         //the following becomes dirty
         _flags.dirty_border_polygon = false;
         _flags.dirty_opacity = true;
@@ -592,7 +593,7 @@ void polygon_component::update_polygon(bool refill_buffers){
         {
             if(_border_color.has_value())
                 _b_copy->set_color(_border_color.value());
-            _b->set_blend(_border_blend);
+            _b_copy->set_blend(_border_blend);
         }
     }
     _flags.dirty_border_color = false;
@@ -635,7 +636,7 @@ void polygon_component::update_collapsed_mesh(){
     }
     else{
         *_m = *_m_copy;
-        _before = transform_space();
+        _before = matrix3x3::identity;
     }
 }
 
@@ -652,40 +653,40 @@ void polygon_component::update_collapsed_border_mesh(){
     }
     else {
         *_b = *_b_copy;
-        _before_b = transform_space();
+        _before_b = matrix3x3::identity;
     }
 }
 
 void polygon_component::transform_mesh(){
     if(_m && !_flags.collapsed){
-        transform_space _to_layer = from_node_space_to(space::layer);
+        matrix3x3 _to_layer = from_node_space_to(space::layer);
         if(_before != _to_layer){
-            if(_before.both_directions()){
-                transform_space _final_transform = _to_layer * _before.inverse();
-                _before = _to_layer;
-                _final_transform.from_space_to_base().transform_mesh(*_m);
-            }
-            else {
+//            if(_before.both_directions()){
+//                transform_space _final_transform = _to_layer * _before.inverse();
+//                _before = _to_layer;
+//                _final_transform.from_space_to_base().transform_mesh(*_m);
+//            }
+//            else {
                 *_m = *_m_copy;
                 _before = _to_layer;
-                _to_layer.from_space_to_base().transform_mesh(*_m);
-            }
+                _to_layer.transform_mesh(*_m);
+//            }
         }
     }
     
     if(_b && !_flags.border_collapsed){
-        transform_space _to_layer = from_node_space_to(space::layer);
+        matrix3x3 _to_layer = from_node_space_to(space::layer);
         if(_before_b != _to_layer){
-            if(_before_b.both_directions()){
-                transform_space _final_transform = _to_layer * _before_b.inverse();
-                _before_b = _to_layer;
-                _final_transform.from_space_to_base().transform_mesh(*_b);
-            }
-            else {
+//            if(_before_b.both_directions()){
+//                transform_space _final_transform = _to_layer * _before_b.inverse();
+//                _before_b = _to_layer;
+//                _final_transform.from_space_to_base().transform_mesh(*_b);
+//            }
+//            else {
                 *_b = *_b_copy;
                 _before_b = _to_layer;
-                _to_layer.from_space_to_base().transform_mesh(*_b);
-            }
+                _to_layer.transform_mesh(*_b);
+//            }
         }
     }
 }
@@ -695,7 +696,7 @@ mesh* polygon_component::create_skeleton(const polygon& p){
         return nullptr;
     mesh* _sk = new mesh();
     auto _nm = null_texture_map();
-    auto _t = from_node_space_to(space::screen).from_space_to_base();
+    auto _t = from_node_space_to(space::screen);
     
     for (uint32_t i = 0; i < p.edge_count(); i++) {
         auto _e1 = _t.transformed_point(p.get_edge(i).pt0());
@@ -1145,7 +1146,7 @@ void polygon_component::describe_type(){
                 site->_b = nullptr;
         }
     });
-    nullable_buffer_property<polygon_component>(u"b", u"B Copy", {
+    nullable_buffer_property<polygon_component>(u"b_copy", u"B Copy", {
         [](const polygon_component* site){
             if(site->_b_copy)
                 return (nullable<buffer>)site->_b_copy->to_buffer();
@@ -1164,18 +1165,18 @@ void polygon_component::describe_type(){
     
     buffer_property<polygon_component>(u"before", u"Before", {
         [](const polygon_component* site){
-            return site->_before.to_buffer();
+            return transform_space::from_matrix(site->_before).to_buffer();
         },
         [](polygon_component* site, buffer value){
-            site->_before = transform_space(value);
+            site->_before = transform_space(value).from_space_to_base();
         }
     });
     buffer_property<polygon_component>(u"before_b", u"Before B", {
         [](const polygon_component* site){
-            return site->_before_b.to_buffer();
+            return transform_space::from_matrix(site->_before_b).to_buffer();
         },
         [](polygon_component* site, buffer value){
-            site->_before_b = transform_space(value);
+            site->_before_b = transform_space(value).from_space_to_base();
         }
     });
     buffer_property<polygon_component>(u"tx_space", u"Tx Space", {
@@ -1214,9 +1215,9 @@ bool polygon_component::hit_test(const rb::vec2 &pt) const {
     if(_pol.is_empty())
         return false;
     auto _t = from_node_space_to(space::screen);
-    if(!_t.test_direction(transform_direction::from_base_to_space))
+    if(_t.determinant() == 0)
         return false;
-    auto _p = _t.from_base_to_space().transformed_point(pt);
+    auto _p = _t.inverse().transformed_point(pt);
     return _pol.test_intersection(_p);
 }
 
@@ -1225,11 +1226,11 @@ bool polygon_component::hit_test(const rb::rectangle &rc) const {
     if(_pol.is_empty())
         return false;
     auto _t = from_node_space_to(space::screen);
-    if(!_t.test_direction(transform_direction::from_base_to_space))
+    if(_t.determinant() == 0)
         return false;
     polygon _other;
     rc.to_polygon(_other);
-    _t.from_base_to_space().transform_polygon(_other);
+    _t.inverse().transform_polygon(_other);
     return _pol.test_intersection(_other);
 }
 
@@ -1282,11 +1283,11 @@ void polygon_component::remove_scaling(){
     //we take scale into consideration
     for (uint32_t i = 0; i < this->node_count(); i++){
         auto _pt = this->node_at(i);
-        auto _ptt = _pt->transform();
-        _ptt = _ptt.moved(_ptt.origin() * this->transform().scale());
-        _pt->transform(_ptt);
+        auto _ptt = _pt->old_transform();
+        _ptt = _ptt.moved(_ptt.origin() * this->old_transform().scale());
+        _pt->old_transform(_ptt);
     }
-    this->transform(this->transform().scaled(1, 1));
+    this->old_transform(this->old_transform().scaled(1, 1));
 }
 uint32_t polygon_component::circle_sides(const uint32_t value){
     if(_circle_sides == value)
@@ -1615,20 +1616,20 @@ std::vector<rb_string> polygon_component::transformables() {
 
 void polygon_component::start_transformation(long index){
     if(index == 0){
-        transform_gizmo::start_transformation(this->parent(), this->transform(), rectangle(0, 0, 1, 1), false, [=](transform_gizmo* g, const transform_space& t){
-            auto _new_t = this->transform();
+        transform_gizmo::start_transformation(this->parent(), this->old_transform(), rectangle(0, 0, 1, 1), false, [=](transform_gizmo* g, const transform_space& t){
+            auto _new_t = this->old_transform();
             _new_t.origin(t.origin());
             _new_t.rotation(t.rotation());
             this->adjust_transformation(_new_t);
         });
     }
     else {
-        if(!this->transform().both_directions())
+        if(this->transform().determinant() == 0)
             return;
         _flags.in_texture_transformation = true;
         _flags.dirty_transformable = true;
-        transform_gizmo::start_transformation(this->parent(), this->transform() * this->texture_space(), rectangle(0, 0, 1, 1), true, [=](transform_gizmo* g, const transform_space& t){
-            this->texture_space(this->transform().inverse() * t);
+        transform_gizmo::start_transformation(this->parent(), this->old_transform() * this->texture_space(), rectangle(0, 0, 1, 1), true, [=](transform_gizmo* g, const transform_space& t){
+            this->texture_space(this->old_transform().inverse() * t);
         }, [=](){ //end
             _flags.in_texture_transformation = false;
             _flags.dirty_transformable = true;
@@ -1653,7 +1654,7 @@ void polygon_component::compute_union(){
     polygon _p;
     for (size_t i = 0; i < _polygons.size(); i++) {
         auto _pol = _polygons[i]->to_polygon();
-        _polygons[i]->from_node_space_to(parent()).from_space_to_base().transform_polygon(_pol);
+        _polygons[i]->from_node_space_to(parent()).transform_polygon(_pol);
         if(i == 0)
             _p = _pol;
         else {
@@ -1662,7 +1663,7 @@ void polygon_component::compute_union(){
     }
     
     auto _rc = _p.bounds();
-    transform_space _t = this->transform();
+    transform_space _t = this->old_transform();
     if(_rc.has_value()){
         _t = transform_space();
         _t.origin(_rc.value().center());
@@ -1677,10 +1678,10 @@ void polygon_component::compute_union(){
         _new_p->remove_node(_n, true);
     for (uint32_t i = 0; i < _p.point_count(); i++) {
         auto _pt = new polygon_point_component();
-        _pt->transform(transform_space(_p.get_point(i)));
+        _pt->old_transform(transform_space(_p.get_point(i)));
         _new_p->add_node(_pt);
     }
-    _new_p->transform(_t);
+    _new_p->old_transform(_t);
     _new_p->image_name(this->image_name());
     _new_p->opacity(this->opacity());
     _new_p->tint(this->tint());
@@ -1719,7 +1720,7 @@ void polygon_component::compute_intersection(){
     polygon _p;
     for (size_t i = 0; i < _polygons.size(); i++) {
         auto _pol = _polygons[i]->to_polygon();
-        _polygons[i]->from_node_space_to(parent()).from_space_to_base().transform_polygon(_pol);
+        _polygons[i]->from_node_space_to(parent()).transform_polygon(_pol);
         if(i == 0)
             _p = _pol;
         else {
@@ -1729,7 +1730,7 @@ void polygon_component::compute_intersection(){
     }
     
     auto _rc = _p.bounds();
-    transform_space _t = this->transform();
+    transform_space _t = this->old_transform();
     if(_rc.has_value()){
         _t = transform_space();
         _t.origin(_rc.value().center());
@@ -1744,10 +1745,10 @@ void polygon_component::compute_intersection(){
         _new_p->remove_node(_n, true);
     for (uint32_t i = 0; i < _p.point_count(); i++) {
         auto _pt = new polygon_point_component();
-        _pt->transform(transform_space(_p.get_point(i)));
+        _pt->old_transform(transform_space(_p.get_point(i)));
         _new_p->add_node(_pt);
     }
-    _new_p->transform(_t);
+    _new_p->old_transform(_t);
     _new_p->image_name(this->image_name());
     _new_p->opacity(this->opacity());
     _new_p->tint(this->tint());
@@ -1781,7 +1782,7 @@ void polygon_component::to_convex_hull() {
         this->remove_node(_n, true);
     for (uint32_t i = 0; i < _p.point_count(); i++) {
         auto _pt = new polygon_point_component();
-        _pt->transform(transform_space(_p.get_point(i)));
+        _pt->old_transform(transform_space(_p.get_point(i)));
         this->add_node(_pt);
     }
 }
@@ -1800,7 +1801,7 @@ void polygon_component::to_ccw(){
         this->remove_node(_n, true);
     for (uint32_t i = 0; i < _p.point_count(); i++) {
         auto _pt = new polygon_point_component();
-        _pt->transform(transform_space(_p.get_point(i)));
+        _pt->old_transform(transform_space(_p.get_point(i)));
         this->add_node(_pt);
     }
 }

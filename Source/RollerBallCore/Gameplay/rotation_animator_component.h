@@ -21,7 +21,7 @@ namespace rb {
     private:
         std::vector<node*> _nodes;
         std::vector<float> _directions;
-        std::vector<transform_space> _saved_transforms;
+        std::vector<matrix3x3> _saved_transforms;
         std::vector<nullable<float>> _current_min_angles;
         std::vector<nullable<float>> _current_max_angles;
         rb_string _class;

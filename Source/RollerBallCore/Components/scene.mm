@@ -642,9 +642,9 @@ void scene::render_selection_indicator(){
     polygon _p;
     _bounds.to_polygon(_p);
     if(_selection.size() != 1)
-        current()->from_space_to(space::screen).from_space_to_base().transform_polygon(_p);
+        current()->from_space_to(space::screen).transform_polygon(_p);
     else {
-        _selection[0]->from_space_to(space::screen).from_space_to_base().transform_polygon(_p);
+        _selection[0]->from_space_to(space::screen).transform_polygon(_p);
     }
     if(!_selection_indicator)
         _selection_indicator = new mesh();
@@ -666,10 +666,10 @@ void scene::center_camera_on_selection(){
         return;
     auto _current_transform = get_current_transform(true);
     if(current()->selection_count() == 1)
-        _current_transform = (*current()->_selection.begin())->transform();
+        _current_transform = (*current()->_selection.begin())->old_transform();
     
     auto _center = _current_transform.origin();
-    current()->from_space_to(space::scene).from_space_to_base().transform_point(_center);
+    current()->from_space_to(space::scene).transform_point(_center);
     camera(camera().moved(_center));
 }
 
@@ -699,15 +699,15 @@ void scene::render_handles(){
     vec2 _center, _x, _y;
     auto _current_transform = get_current_transform(true);
     if(current() && current()->selection_count() == 1)
-        _current_transform = (*current()->_selection.begin())->transform();
+        _current_transform = (*current()->_selection.begin())->old_transform();
     
     _center = _current_transform.origin();
     _x = _current_transform.origin() + _current_transform.from_space_to_base().x_vector();
     _y = _current_transform.origin() + _current_transform.from_space_to_base().y_vector();
     
-    current()->from_space_to(space::screen).from_space_to_base().transform_point(_center);
-    current()->from_space_to(space::screen).from_space_to_base().transform_point(_x);
-    current()->from_space_to(space::screen).from_space_to_base().transform_point(_y);
+    current()->from_space_to(space::screen).transform_point(_center);
+    current()->from_space_to(space::screen).transform_point(_x);
+    current()->from_space_to(space::screen).transform_point(_y);
     
     _x = _center + (_x - _center).normalized() * HANDLE_STEM_SIZE;
     _y = _center + (_y - _center).normalized() * HANDLE_STEM_SIZE;
@@ -763,9 +763,9 @@ nullable<vec2> scene::hit_test_handler(const vec2& normalized_position){
     _x = _current_transform.origin() + _current_transform.from_space_to_base().x_vector();
     _y = _current_transform.origin() + _current_transform.from_space_to_base().y_vector();
     
-    current()->from_space_to(space::screen).from_space_to_base().transform_point(_center);
-    current()->from_space_to(space::screen).from_space_to_base().transform_point(_x);
-    current()->from_space_to(space::screen).from_space_to_base().transform_point(_y);
+    current()->from_space_to(space::screen).transform_point(_center);
+    current()->from_space_to(space::screen).transform_point(_x);
+    current()->from_space_to(space::screen).transform_point(_y);
     
     _x = _center + (_x - _center).normalized() * HANDLE_STEM_SIZE;
     _y = _center + (_y - _center).normalized() * HANDLE_STEM_SIZE;
@@ -1089,8 +1089,8 @@ void scene::paste_nodes(rb_string copied){
     assert(current());
     auto _obj = dynamic_cast<node*>(typed_object::deserialize_from_string(copied));
     assert(_obj);
-    vec2 _center = current()->from_space_to(space::normalized_screen).inverse().from_space_to_base().transformed_point(vec2::zero);
-    _obj->transform(_obj->transform().moved(_center));
+    vec2 _center = current()->from_space_to(space::normalized_screen).inverse().transformed_point(vec2::zero);
+    _obj->old_transform(_obj->old_transform().moved(_center));
     rename_nodes_recursively(_obj);
     bool _added = current()->add_node(_obj);
     if(!_added){
@@ -1104,7 +1104,7 @@ void scene::paste_nodes(rb_string copied){
 
 void scene::camera_to_match_current_rotation(){
     if(current()){
-        auto _t = current()->from_space_to(space::scene);
+        auto _t = transform_space::from_matrix(current()->from_space_to(space::scene));
         camera(camera().rotated(_t.rotation()));
     }
 }
