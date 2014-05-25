@@ -66,11 +66,11 @@ void particle_emitter_component::paused(){
 }
 
 void particle_emitter_component::render(const bool refill_buffers){
-    transform_space _p_to_layer = parent_node() ? parent_node()->from_node_space_to(space::layer) : transform_space();
-    transform_space _to_layer = _p_to_layer * transform_space(transform().origin());
-    _ei.transform = _to_layer.from_space_to_base();
+    matrix3x3 _p_to_layer = parent_node() ? parent_node()->from_node_space_to(space::layer) : matrix3x3::identity;
+    matrix3x3 _to_layer = _p_to_layer * transform_space(old_transform().origin()).from_space_to_base();
+    _ei.transform = _to_layer;
     if(_id)
-        parent_layer()->particle_layer()->emitter(_id)->transform = _to_layer.from_space_to_base();
+        parent_layer()->particle_layer()->emitter(_id)->transform = _to_layer;
 }
 
 rb_string particle_emitter_component::type_name() const {

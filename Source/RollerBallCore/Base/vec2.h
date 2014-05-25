@@ -87,12 +87,39 @@ namespace rb {
             this->_y = other._y;
             return *this;
         }
-        const vec2& operator +=(const vec2& v2);
-        const vec2& operator -=(const vec2& v2);
-        const vec2& operator *=(const vec2& v2);
-        const vec2& operator /=(const vec2& v2);
-        const vec2& operator *=(const float t);
-        const vec2& operator /=(const float t);
+        inline __attribute__ ((always_inline)) const vec2& operator +=(const vec2& v2){
+            _x += v2._x;
+            _y += v2._y;
+            return *this;
+        }
+        inline __attribute__ ((always_inline)) const vec2& operator -=(const vec2& v2){
+            _x -= v2._x;
+            _y -= v2._y;
+            return *this;
+        }
+        inline __attribute__ ((always_inline)) const vec2& operator *=(const vec2& v2){
+            _x *= v2._x;
+            _y *= v2._y;
+            return *this;
+        }
+        inline __attribute__ ((always_inline)) const vec2& operator /=(const vec2& v2){
+            assert(!almost_equal(v2._x, 0));
+            assert(!almost_equal(v2._y, 0));
+            _x /= v2._x;
+            _y /= v2._y;
+            return *this;
+        }
+        inline __attribute__ ((always_inline)) const vec2& operator *=(const float t){
+            _x *= t;
+            _y *= t;
+            return *this;
+        }
+        inline __attribute__ ((always_inline)) const vec2& operator /=(const float t){
+            assert(!almost_equal(t, 0));
+            _x /= t;
+            _y /= t;
+            return *this;
+        }
         
         //basic mathematical
         float squared_length() const;
@@ -132,23 +159,84 @@ namespace rb {
     };
     
     
+    inline __attribute__ ((always_inline)) vec2 operator +(const vec2& v1, const vec2& v2){
+        return vec2(v1._x + v2._x, v1._y + v2._y);
+    }
     
-    vec2 operator +(const vec2& v1, const vec2& v2);
-    vec2 operator -(const vec2& v1, const vec2& v2);
-    vec2 operator *(const vec2& v1, const vec2& v2);
-    vec2 operator /(const vec2& v1, const vec2& v2);
-    vec2 operator *(const vec2& v1, const float t);
-    vec2 operator *(const float t, const vec2& v1);
-    vec2 operator /(const vec2& v1, const float t);
-    vec2 operator -(const vec2& v1);
-    bool operator ==(const vec2& v1, const vec2& v2);
-    bool operator !=(const vec2& v1, const vec2& v2);
+    inline __attribute__ ((always_inline)) vec2 operator -(const vec2& v1, const vec2& v2){
+        return vec2(v1._x - v2._x, v1._y - v2._y);
+    }
+    
+    inline __attribute__ ((always_inline)) vec2 operator *(const vec2& v1, const vec2& v2){
+        return vec2(v1._x * v2._x, v1._y * v2._y);
+    }
+    
+    inline __attribute__ ((always_inline)) vec2 operator /(const vec2& v1, const vec2& v2){
+        assert(!almost_equal(v2._x, 0));
+        assert(!almost_equal(v2._y, 0));
+        return vec2(v1._x / v2._x, v1._y / v2._y);
+    }
+    
+    inline __attribute__ ((always_inline)) vec2 operator *(const vec2& v1, const float t){
+        return vec2(v1._x * t, v1._y * t);
+    }
+    
+    inline __attribute__ ((always_inline)) vec2 operator *(const float t, const vec2& v1){
+        return vec2(v1._x * t, v1._y * t);
+    }
+    
+    inline __attribute__ ((always_inline)) vec2 operator /(const vec2& v1, const float t){
+        assert(!almost_equal(t, 0));
+        return vec2(v1._x / t, v1._y / t);
+    }
+    
+    inline __attribute__ ((always_inline)) vec2 operator -(const vec2& v1){
+        return vec2(-v1._x, -v1._y);
+    }
+    
+    inline __attribute__ ((always_inline)) bool operator ==(const vec2& v1, const vec2& v2){
+        return almost_equal(v1._x, v2._x) && almost_equal(v1._y, v2._y);
+    }
+    
+    inline __attribute__ ((always_inline)) bool exact_match(const rb::vec2 &v1, const rb::vec2 &v2){
+        return v1.x() == v2.x() && v1.y() == v2.y();
+    }
+    
+    inline __attribute__ ((always_inline)) bool operator !=(const vec2& v1, const vec2& v2){
+        return !almost_equal(v1._x, v2._x) || !almost_equal(v1._y, v2._y);
+    }
+    
     //those are provided so vec2 can be used with container as keys
-    bool operator >(const vec2& v1, const vec2& v2);
-    bool operator <(const vec2& v1, const vec2& v2);
-    bool operator >=(const vec2& v1, const vec2& v2);
-    bool operator <=(const vec2& v1, const vec2& v2);
-    bool exact_match(const vec2& v1, const vec2& v2);
+    inline __attribute__ ((always_inline)) bool operator >(const vec2& v1, const vec2& v2){
+        if(v1._x == v2._x)
+            return v1._y > v2._y;
+        else
+            return v1._x > v2._x;
+    }
+    inline __attribute__ ((always_inline)) bool operator <(const vec2& v1, const vec2& v2){
+        if(v1._x == v2._x)
+            return v1._y < v2._y;
+        else
+            return v1._x < v2._x;
+    }
+    inline __attribute__ ((always_inline)) bool operator >=(const vec2& v1, const vec2& v2){
+        if(v1._x == v2._x && v1._y == v2._y)
+            return true;
+        
+        if(v1._x == v2._x)
+            return v1._y > v2._y;
+        else
+            return v1._x > v2._x;
+    }
+    inline __attribute__ ((always_inline)) bool operator <=(const vec2& v1, const vec2& v2){
+        if(v1._x == v2._x && v1._y == v2._y)
+            return true;
+        
+        if(v1._x == v2._x)
+            return v1._y < v2._y;
+        else
+            return v1._x < v2._x;
+    }
 }
 
 DEFINE_HASH(rb::vec2);

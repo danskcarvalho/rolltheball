@@ -78,7 +78,7 @@ std::vector<rb_string> group_component::transformables() {
 }
 
 void group_component::start_transformation(long index){
-    transform_gizmo::start_transformation(this->parent(), this->transform(), rectangle(0, 0, 1, 1), false, [=](transform_gizmo* g, const transform_space& t){
+    transform_gizmo::start_transformation(this->parent(), this->old_transform(), rectangle(0, 0, 1, 1), false, [=](transform_gizmo* g, const transform_space& t){
         this->adjust_transformation(t);
     });
 }

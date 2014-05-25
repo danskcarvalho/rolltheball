@@ -51,6 +51,7 @@ void physics_engine::after_becoming_active(bool node_was_moved){
     if(!_world){
         _world = new b2World(b2Vec2(0, 0));
         _world->SetAutoClearForces(false);
+        _world->SetContinuousPhysics(false);
     }
     register_for(registrable_event::update, PHYS_ENGINE_UPDATE_PRIORITY);
 }

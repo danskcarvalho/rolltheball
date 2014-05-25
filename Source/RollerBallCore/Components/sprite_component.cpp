@@ -72,7 +72,7 @@ void sprite_component::create(){
         _m_copy = new mesh();
         *_m_copy = *_m;
         _collapsed = false;
-        _before = transform_space();
+        _before = matrix3x3::identity;
     }
 }
 
@@ -93,7 +93,7 @@ void sprite_component::update_collapsed_mesh(){
     }
     else{
         *_m = *_m_copy;
-        _before = transform_space();
+        _before = matrix3x3::identity;
     }
 }
 
@@ -155,13 +155,12 @@ bool sprite_component::aspect_correction(const bool value){
     return _aspect_correction;
 }
 
-transform_space sprite_component::aspect_correction_factor() const {
+matrix3x3 sprite_component::aspect_correction_factor() const {
     vec2 _tex_s = size_of_tex();
     if(almost_equal(_tex_s.x(), 0))
         _tex_s.x(1);
     if(almost_equal(_tex_s.y(), 0))
         _tex_s.y(1);
-    transform_space _ac;
     auto _tx = _tex_s.x() / _tex_s.y();
     auto _ty = _tex_s.y() / _tex_s.x();
     if(_tex_s.x() > _tex_s.y())
@@ -169,15 +168,15 @@ transform_space sprite_component::aspect_correction_factor() const {
     else
         _ty = 1;
     
-    return _aspect_correction ? transform_space(vec2(0, 0), vec2(_tx, _ty), 0) : transform_space();
+    return _aspect_correction ? matrix3x3::build_scale(_tx, _ty) : matrix3x3::identity;
 }
 
 void sprite_component::transform_mesh(const bool refill_buffers){
-    transform_space _to_layer = from_node_space_to(space::layer) * aspect_correction_factor();
+    matrix3x3 _to_layer = from_node_space_to(space::layer) * aspect_correction_factor();
     if(_before != _to_layer || refill_buffers){
         *_m = *_m_copy;
         _before = _to_layer;
-        _to_layer.from_space_to_base().transform_mesh(*_m);
+        _to_layer.transform_mesh(*_m);
     }
 }
 
@@ -186,7 +185,7 @@ void sprite_component::render(const bool refill_buffers){
         if(!_m){
             destroy();
             create();
-            _before = transform_space();
+            _before = matrix3x3::identity;
             _reapply_mapping = false;
         }
         else if(_reapply_mapping){
@@ -208,7 +207,7 @@ void sprite_component::render(const bool refill_buffers){
 rectangle sprite_component::bounds() const{
     auto _rc = rectangle(0, 0, 1, 1);
     auto _ac = aspect_correction_factor();
-    _rc.size(_rc.size() * _ac.scale());
+    _rc.size(_rc.size() * vec2(_ac.x_vector().length(), _ac.y_vector().length()));
     return _rc;
 }
 
@@ -345,10 +344,10 @@ void sprite_component::describe_type(){
     });
     buffer_property<sprite_component>(u"before_transformation", u"Before Transformation", {
         [](const sprite_component* site){
-            return site->_before.to_buffer();
+            return transform_space::from_matrix(site->_before).to_buffer();
         },
         [](sprite_component* site, const buffer value){
-            site->_before = transform_space(value);
+            site->_before = transform_space(value).from_space_to_base();
         }
     });
     boolean_property<sprite_component>(u"collapsed", u"Collapsed", true, {

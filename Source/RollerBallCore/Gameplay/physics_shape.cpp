@@ -267,21 +267,21 @@ vec2 physics_shape::get_force(const rb::vec2 &worldPt) const{
         else
             _edgeTwo.push_back(_children[i]);
         
-        if(_children[i]->transform().origin().x() > _max_x)
-            _max_x = _children[i]->transform().origin().x();
-        if(_children[i]->transform().origin().y() > _max_y)
-            _max_y = _children[i]->transform().origin().y();
-        if(_children[i]->transform().origin().x() < _min_x)
-            _min_x = _children[i]->transform().origin().x();
-        if(_children[i]->transform().origin().y() < _min_y)
-            _min_y = _children[i]->transform().origin().y();
+        if(_children[i]->transform().translation().x() > _max_x)
+            _max_x = _children[i]->transform().translation().x();
+        if(_children[i]->transform().translation().y() > _max_y)
+            _max_y = _children[i]->transform().translation().y();
+        if(_children[i]->transform().translation().x() < _min_x)
+            _min_x = _children[i]->transform().translation().x();
+        if(_children[i]->transform().translation().y() < _min_y)
+            _min_y = _children[i]->transform().translation().y();
     }
-    auto _pt0 = _edgeOne[0]->from_node_space_to(space::layer).origin();
-    auto _pt1 = _edgeOne[1]->from_node_space_to(space::layer).origin();
-    auto _pt2 = _edgeTwo[0]->from_node_space_to(space::layer).origin();
-    auto _pt3 = _edgeTwo[1]->from_node_space_to(space::layer).origin();
+    auto _pt0 = _edgeOne[0]->from_node_space_to(space::layer).translation();
+    auto _pt1 = _edgeOne[1]->from_node_space_to(space::layer).translation();
+    auto _pt2 = _edgeTwo[0]->from_node_space_to(space::layer).translation();
+    auto _pt3 = _edgeTwo[1]->from_node_space_to(space::layer).translation();
     auto _r = rectangle(vec2((_min_x + _max_x) / 2.0f, (_min_y + _max_y) / 2.0f), vec2(fabsf(_max_x - _min_x), fabsf(_max_y - _min_y)));
-    auto _localPt = from_node_space_to(space::layer).from_base_to_space().transformed_point(worldPt);
+    auto _localPt = from_node_space_to(space::layer).inverse().transformed_point(worldPt);
     if(!_r.intersects(_localPt))
         return vec2::zero;
     auto _pm0 = (_pt0 + _pt1) / 2.0f;
@@ -311,12 +311,12 @@ void physics_shape::reset_component() {
 }
 
 void physics_shape::reset_physics(){
-    transform(_saved_transform);
+    old_transform(_saved_transform);
     
-    auto _saved_scale = transform().scale();
-    transform(transform().scaled(1, 1)); //no scale
-    auto _t = from_node_space_to(space::layer);
-    transform(transform().scaled(_saved_scale)); //restore scale
+    auto _saved_scale = old_transform().scale();
+    old_transform(old_transform().scaled(1, 1)); //no scale
+    auto _t = transform_space::from_matrix(from_node_space_to(space::layer));
+    old_transform(old_transform().scaled(_saved_scale)); //restore scale
     
     _body->SetTransform(b2Vec2(_t.origin().x(), _t.origin().y()), _t.rotation().x());
     _body->SetLinearVelocity(b2Vec2(0, 0));
@@ -358,13 +358,13 @@ void physics_shape::playing() {
         if(_gravity_ref.has_value())
             _gravity_ref_node = parent_scene()->node_with_name(_gravity_ref.value());
         
-        auto _saved_scale = transform().scale();
-        transform(transform().scaled(1, 1)); //no scale
-        auto _t = from_node_space_to(space::layer);
-        transform(transform().scaled(_saved_scale)); //restore scale
+        auto _saved_scale = old_transform().scale();
+        old_transform(old_transform().scaled(1, 1)); //no scale
+        auto _t = transform_space::from_matrix(from_node_space_to(space::layer));
+        old_transform(old_transform().scaled(_saved_scale)); //restore scale
         
         //Here we insert code so the object can be reset
-        _saved_transform = transform();
+        _saved_transform = old_transform();
         if(_animatable)
             register_for(registrable_event::update, PHYS_OBJECT_UPDATE_PRIORITY);
         else
@@ -423,7 +423,7 @@ void physics_shape::playing() {
         check_moving_platform();
         //save polygon
         _cached_pol = _cached_pol_copy;
-        from_node_space_to(space::layer).from_space_to_base().transform_polygon(_cached_pol); //we transform to layer space
+        from_node_space_to(space::layer).transform_polygon(_cached_pol); //we transform to layer space
     }
 }
 
@@ -448,7 +448,7 @@ float physics_shape::gravity(const float value){
 vec2 physics_shape::gravity_vector(const rb::vec2 &position, vec2& cam_gravity){
     if(_gravity_ref_node) //if gravity is fixed
     {
-        auto _g = _gravity_ref_node->transform().from_space_to_base().y_vector().normalized();
+        auto _g = _gravity_ref_node->transform().y_vector().normalized();
         cam_gravity = -_g;
         return _g * _gravity;
     }
@@ -555,7 +555,7 @@ void physics_shape::update(float dt){
     
     _body->SetLinearVelocity(b2Vec2(0, 0));
     _body->SetAngularVelocity(0);
-    auto _t = this->from_node_space_to(space::layer);
+    auto _t = transform_space::from_matrix(this->from_node_space_to(space::layer));
     _body->SetTransform(b2Vec2(_t.origin().x(), _t.origin().y()), _t.rotation().x());
     if(this->transformable())
         this->texture_space(this->texture_space().moved(this->texture_space().origin() + dt * _tex_transform_anim));
@@ -577,12 +577,12 @@ void physics_shape::check_moving_platform(){
     for(auto _n : _nodes){
         if(_n->has_class(u"first")){
             _has_first = true;
-            _pt0 = _n->transform().origin() * this->transform().scale();
+            _pt0 = _n->old_transform().origin() * this->old_transform().scale();
             continue;
         }
         if(_n->has_class(u"second")){
             _has_second = true;
-            _pt1 = _n->transform().origin() * this->transform().scale();
+            _pt1 = _n->old_transform().origin() * this->old_transform().scale();
             continue;
         }
     }

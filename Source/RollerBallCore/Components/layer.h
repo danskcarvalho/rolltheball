@@ -147,8 +147,8 @@ namespace rb {
     protected:
         virtual const node_container* parent_node_container() const override;
     public:
-        transform_space from_layer_space_to(const space another) const;
-        transform_space from_layer_space_to(const node_container* another) const;
+        matrix3x3 from_layer_space_to(const space another) const;
+        matrix3x3 from_layer_space_to(const node_container* another) const;
     protected:
         //Typed Object
         virtual void describe_type() override;

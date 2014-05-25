@@ -23,7 +23,7 @@ namespace rb {
         std::vector<float> _dirs;
         std::unordered_map<node*, polygon_path> _paths;
         std::unordered_map<node*, node*> _attached_path;
-        std::vector<transform_space> _saved_transforms;
+        std::vector<matrix3x3> _saved_transforms;
         std::vector<float> _saved_lengths;
         std::vector<float> _saved_dirs;
         rb_string _class;

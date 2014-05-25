@@ -31,9 +31,10 @@ node::node(){
     _id->named_node = this;
     _transformation = new transformation_values();
     _transformation->transformed_node = this;
-    _transformation->translation(transform().origin());
-    _transformation->scale(transform().scale());
-    _transformation->rotation(vec2(TO_DEGREES(transform().rotation().x()), TO_DEGREES(transform().rotation().y())));
+    auto _old_t = old_transform();
+    _transformation->translation(_old_t.origin());
+    _transformation->scale(_old_t.scale());
+    _transformation->rotation(vec2(TO_DEGREES(_old_t.rotation().x()), TO_DEGREES(_old_t.rotation().y())));
     for (int i = 0; i < (int)registrable_event::count; i++)
         _registration_ids[i] = nullptr;
     _enabled_transformation_notifications = true;
@@ -127,17 +128,20 @@ rb_string node::displayable_type_name() const {
 }
 
 //Transform
-const transform_space& node::transform() const {
+const matrix3x3& node::transform() const {
     return node_container::transform();
 }
 
-const transform_space& node::transform(const rb::transform_space &value){
+const matrix3x3& node::transform(const rb::matrix3x3 &value){
     if(value == node_container::transform())
         return node_container::transform();
-    auto _t = node_container::transform(value);
-    _transformation->translation(_t.origin());
-    _transformation->rotation(vec2(TO_DEGREES(_t.rotation().x()), TO_DEGREES(_t.rotation().y())));
-    _transformation->scale(_t.scale());
+    node_container::transform(value);
+    if(director::in_editor()){
+        auto _t = old_transform();
+        _transformation->translation(_t.origin());
+        _transformation->rotation(vec2(TO_DEGREES(_t.rotation().x()), TO_DEGREES(_t.rotation().y())));
+        _transformation->scale(_t.scale());
+    }
     if(_registration_ids[(size_t)registrable_event::transform_changed].has_value() && _enabled_transformation_notifications)
         transform_changed();
     return node_container::transform();
@@ -484,7 +488,7 @@ void node::render_selection_marquee(){
         auto _b = bounds();
         polygon _p;
         _b.to_polygon(_p);
-        from_node_space_to(space::screen).from_space_to_base().transform_polygon(_p);
+        from_node_space_to(space::screen).transform_polygon(_p);
         if(!_p.is_simple())
             return;
         _p.optimize();
@@ -555,17 +559,17 @@ const node_container* node::parent_node_container() const {
     else
         return parent_layer();
 }
-transform_space node::from_node_space_to(const space another) const {
+matrix3x3 node::from_node_space_to(const space another) const {
     assert(active());
     return from_space_to(another);
 }
 
-transform_space node::from_node_space_to(const rb::node_container *another) const {
+matrix3x3 node::from_node_space_to(const rb::node_container *another) const {
     assert(active());
     assert(parent_scene() == another->parent_scene());
     assert(another);
     if(this == another)
-        return transform_space(); //identity
+        return matrix3x3::identity; //identity
     auto _to_scene_1 = another->from_space_to(space::scene);
     auto _to_scene_2 = from_space_to(space::scene);
     return _to_scene_1.inverse() * _to_scene_2;
@@ -577,17 +581,17 @@ void node::transform_changed(){
 
 bool node::fast_hit_test(const vec2& pt) const {
     auto _t = from_node_space_to(space::screen);
-    if(!_t.test_direction(transform_direction::from_base_to_space))
+    if(_t.determinant() == 0)
         return false;
-    auto _pt_in_self_space = _t.from_base_to_space().transformed_point(pt);
+    auto _pt_in_self_space = _t.inverse().transformed_point(pt);
     return bounds().intersects(_pt_in_self_space);
 }
 
 bool node::fast_hit_test(const rb::rectangle &rc) const {
     auto _t = from_node_space_to(space::screen);
-    if(!_t.test_direction(transform_direction::from_base_to_space))
+    if(_t.determinant() == 0)
         return false;
-    auto _rc_in_self_space = _t.from_base_to_space().transformed_rectangle(rc);
+    auto _rc_in_self_space = _t.inverse().transformed_rectangle(rc);
     return bounds().intersects(_rc_in_self_space);
 }
 
@@ -599,10 +603,9 @@ bool node::hit_test(const rb::rectangle &rc) const {
     polygon _rc;
     rc.to_polygon(_rc);
     auto _t = from_node_space_to(space::screen);
-    if(!_t.test_direction(transform_direction::from_base_to_space))
+    if(_t.determinant() == 0)
         return false;
-    _t.from_base_to_space()
-    .transform_polygon(_rc);
+    _t.inverse().transform_polygon(_rc);
     polygon _this_rc;
     bounds().to_polygon(_this_rc);
     
@@ -612,7 +615,7 @@ bool node::hit_test(const rb::rectangle &rc) const {
 rectangle node::bounds() const {
     rectangle _current_rc = rectangle(vec2::zero, vec2::zero);
     for(auto _child : *(node*)this){
-        auto _b = _child->transform().from_space_to_base().transformed_rectangle(_child->bounds());
+        auto _b = _child->transform().transformed_rectangle(_child->bounds());
         _current_rc = _current_rc.compute_union(_b);
     }
     return _current_rc;

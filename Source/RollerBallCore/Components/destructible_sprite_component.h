@@ -28,8 +28,8 @@ namespace rb {
         std::vector<mesh*> _m;
         std::vector<mesh*> _m_copy;
         texture_map* _map;
-        std::vector<transform_space> _part_befores;
-        std::vector<transform_space> _part_transforms;
+        std::vector<matrix3x3> _part_befores;
+        std::vector<matrix3x3> _part_transforms;
         rb_string _image;
         bool _reapply_mapping;
         float _opacity;
@@ -76,11 +76,11 @@ namespace rb {
         float blend(float value);
         const vec2& matrix() const;
         const vec2& matrix(const vec2& value);
-        const transform_space& transform(const uint32_t x, const uint32_t y) const;
-        const transform_space& transform(const uint32_t x, const uint32_t y, const transform_space& value);
+        const matrix3x3& transform(const uint32_t x, const uint32_t y) const;
+        const matrix3x3& transform(const uint32_t x, const uint32_t y, const matrix3x3& value);
     private:
         vec2 size_of_tex() const;
-        transform_space aspect_correction_factor() const;
+        matrix3x3 aspect_correction_factor() const;
     };
 }
 

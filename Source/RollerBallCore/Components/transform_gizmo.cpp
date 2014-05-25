@@ -76,7 +76,7 @@ void transform_gizmo::start_transformation(rb::node_container *parent, const rb:
     auto _tg = new transform_gizmo(bounds, live, update_function);
     auto _tgs = new transform_gizmo_space();
     _tgs->name(u"Gizmo Space");
-    _tg->transform(transform);
+    _tg->old_transform(transform);
     _tgs->_saved_current = _tg->_saved_current = director::active_scene()->current();
     _tgs->add_node(_tg);
     _tgs->_call_end_function = false;
@@ -90,7 +90,7 @@ void transform_gizmo::start_transformation(rb::node_container *parent, const rb:
     auto _tg = new transform_gizmo(bounds, live, update_function);
     auto _tgs = new transform_gizmo_space();
     _tgs->name(u"Gizmo Space");
-    _tg->transform(transform);
+    _tg->old_transform(transform);
     _tgs->_saved_current = _tg->_saved_current = director::active_scene()->current();
     _tgs->add_node(_tg);
     _tgs->_call_end_function = true;
@@ -135,10 +135,10 @@ void transform_gizmo::transform_changed(){
         return;
     
     if(_live)
-        _update_function(this, this->transform());
+        _update_function(this, this->old_transform());
     else {
         if(!_in_live)
-            _update_function(this, this->transform());
+            _update_function(this, this->old_transform());
     }
 }
 
@@ -147,7 +147,7 @@ void transform_gizmo::begin_live_edit(rb::live_edit kind){
 }
 
 void transform_gizmo::end_live_edit(){
-    _update_function(this, this->transform());
+    _update_function(this, this->old_transform());
     _in_live = false;
 }
 
@@ -157,7 +157,7 @@ void transform_gizmo::render_gizmo(){
     auto _b = _bounds;
     polygon _p;
     _b.to_polygon(_p);
-    from_node_space_to(space::screen).from_space_to_base().transform_polygon(_p);
+    from_node_space_to(space::screen).transform_polygon(_p);
     if(!_p.is_simple())
         return;
     _p.optimize();

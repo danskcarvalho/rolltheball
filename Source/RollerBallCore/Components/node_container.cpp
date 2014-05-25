@@ -21,6 +21,9 @@ node_container::node_container(){
     _dirty_transform = true;
     _in_editor_hidden = false;
     _selected = nullptr;
+    _transform = matrix3x3::identity;
+    _transform_space = transform_space();
+    _transform_space_dirty = true;
 }
 
 bool node_container::add_node(rb::node *n){
@@ -172,22 +175,38 @@ bool node_container::remove_node_at(uint32_t at, bool cleanup){
 }
 
 //transform
-const transform_space& node_container::transform() const {
+const matrix3x3& node_container::transform() const {
     return _transform;
 }
 
-const transform_space& node_container::transform(const rb::transform_space &value){
+const matrix3x3& node_container::transform(const rb::matrix3x3 &value){
     if(_transform == value)
         return _transform;
     _dirty_transform = true;
+    _transform_space_dirty = true;
     _transform = value;
     return _transform;
 }
 
-transform_space node_container::from_space_to(const rb::space another) const{
+const transform_space node_container::old_transform() const {
+    if(_transform_space_dirty){
+        const_cast<node_container*>(this)->_transform_space = transform_space::from_matrix(_transform);
+        const_cast<node_container*>(this)->_transform_space_dirty = false;
+    }
+    return _transform_space;
+}
+
+const transform_space node_container::old_transform(const rb::transform_space &value){
+    transform(value.from_space_to_base());
+    _transform_space = value;
+    _transform_space_dirty = false;
+    return value;
+}
+
+matrix3x3 node_container::from_space_to(const rb::space another) const{
     assert(parent_scene()); //has to be active...
     if(another == space::camera){
-        transform_space _to_scene = from_space_to(space::scene);
+        matrix3x3 _to_scene = from_space_to(space::scene);
         auto _camera = parent_scene()->camera();
         auto _l = parent_layer();
         if(!_l)
@@ -201,25 +220,25 @@ transform_space node_container::from_space_to(const rb::space another) const{
             _camera.scale(vec2(1, 1));
         if(rb::has_flag(_l->camera_invariant_flags(), camera_invariant::rotation))
             _camera.rotation(0);
-        return _camera.inverse() * _to_scene;
+        return _camera.from_base_to_space() * _to_scene;
     }
     else if(another == space::layer){
         const node_container* _current = this;
         auto _acc = matrix3x3::identity;
         
         while (_current->parent_node_container()) {
-            _acc = _current->transform().from_space_to_base() * _acc;
+            _acc = _current->transform() * _acc;
             _current = _current->parent_node_container();
         }
-        return transform_space::from_matrix(_acc);
+        return _acc;
     }
     else if(another == space::normalized_screen){
-        transform_space _to_camera = from_space_to(space::camera);
+        matrix3x3 _to_camera = from_space_to(space::camera);
         const vec2& _viewport_size = parent_scene()->viewport_size();
         float _aspect = _viewport_size.y() / _viewport_size.x();
         if(!parent_scene()->camera_aspect_correction())
             _aspect = 1;
-        transform_space _correction = transform_space(vec2::zero, vec2(_aspect, 1), 0);
+        matrix3x3 _correction = matrix3x3::build_scale(vec2(_aspect, 1));
         return _correction * _to_camera;
     }
     else if(another == space::scene){
@@ -227,16 +246,16 @@ transform_space node_container::from_space_to(const rb::space another) const{
         auto _acc = matrix3x3::identity;
         
         while (_current) {
-            _acc = _current->transform().from_space_to_base() * _acc;
+            _acc = _current->transform() * _acc;
             _current = _current->parent_node_container();
         }
-        return transform_space::from_matrix(_acc);
+        return _acc;
     }
     else { //screen
         const vec2& _viewport_size = parent_scene()->viewport_size();
-        transform_space _norm_screen = from_space_to(space::normalized_screen);
-        transform_space _translation = transform_space(vec2(1, 1));
-        transform_space _scale = transform_space(vec2::zero, vec2(_viewport_size.x() / 2.0, _viewport_size.y() / 2.0));
+        matrix3x3 _norm_screen = from_space_to(space::normalized_screen);
+        matrix3x3 _translation = matrix3x3::build_translation(vec2(1, 1));
+        matrix3x3 _scale = matrix3x3::build_scale(vec2(_viewport_size.x() / 2.0, _viewport_size.y() / 2.0));
         return _scale * _translation * _norm_screen;
     }
 }
@@ -393,7 +412,7 @@ group_component* node_container::group_nodes(const std::vector<node *> &nodes){
     for (auto _n : nodes){
         if(!_n->renderable())
             continue;
-        auto _b = _n->transform().from_space_to_base().transformed_rectangle(_n->bounds());
+        auto _b = _n->old_transform().from_space_to_base().transformed_rectangle(_n->bounds());
         if(!_rc.has_value())
             _rc = _b;
         else
@@ -403,7 +422,7 @@ group_component* node_container::group_nodes(const std::vector<node *> &nodes){
     transform_space _grp_space = transform_space(_rc.has_value() ? _rc.value().center() : vec2::zero, 1, 0);
     _grp_space = _grp_space.moved(director::active_scene()->align_to_grid(_grp_space.origin()));
     auto _new_grp = new group_component();
-    _new_grp->transform(_grp_space);
+    _new_grp->old_transform(_grp_space);
     bool _added_grp = this->add_node(_new_grp);
     if(!_added_grp){
         delete _new_grp;
@@ -411,11 +430,11 @@ group_component* node_container::group_nodes(const std::vector<node *> &nodes){
     }
     
     for (auto _n : nodes){
-        auto _new_t = _grp_space.inverse() * _n->transform();
+        auto _new_t = _grp_space.inverse() * _n->old_transform();
 //        this->remove_node(_n, false);
 //        _new_grp->add_node(_n);
         _n->move_node_to(_new_grp);
-        _n->transform(_new_t);
+        _n->old_transform(_new_t);
     }
     
     return _new_grp;
@@ -441,16 +460,16 @@ void node_container::start_transformation(long index){
 }
 
 bool node_container::adjust_transformation(const rb::transform_space &transform){
-    auto _previous_t = this->transform();
+    auto _previous_t = this->old_transform();
     if(!transform.test_direction(transform_direction::from_base_to_space))
         return false;
     auto _i_t = transform.inverse();
     
     for(auto _n : *this){
-        _n->transform(_i_t * _previous_t * _n->transform());
+        _n->old_transform(_i_t * _previous_t * _n->old_transform());
     }
     
-    this->transform(transform);
+    this->old_transform(transform);
     
     return true;
 }
@@ -496,7 +515,7 @@ std::vector<rectangle> node_container::calc_bounds(const std::vector<node *> &no
     for (auto _n : nodes){
         auto _b = _n->bounds();
         auto _t = _n->from_node_space_to(space::normalized_screen);
-        _rcs.push_back(_t.from_space_to_base().transformed_rectangle(_b));
+        _rcs.push_back(_t.transformed_rectangle(_b));
     }
     return _rcs;
 }
@@ -513,10 +532,10 @@ void node_container::hor_align_by_center(const std::vector<node *> &nodes){
     _vs /= _sum;
     for (size_t i = 0; i < nodes.size(); i++) {
         auto _v = _vs - _bs[i].center();
-        auto _nv = this->from_space_to(space::normalized_screen).from_space_to_base().transformed_point(nodes[i]->transform().origin());
+        auto _nv = this->from_space_to(space::normalized_screen).transformed_point(nodes[i]->old_transform().origin());
         auto _new_origin = vec2(_nv.x() + _v.x(), _nv.y());
-        this->from_space_to(space::normalized_screen).from_base_to_space().transform_point(_new_origin);
-        nodes[i]->transform(nodes[i]->transform().moved(_new_origin));
+        this->from_space_to(space::normalized_screen).inverse().transform_point(_new_origin);
+        nodes[i]->old_transform(nodes[i]->old_transform().moved(_new_origin));
     }
 }
 
@@ -532,10 +551,10 @@ void node_container::hor_align_by_left_edge(const std::vector<node *> &nodes){
     }
     for (size_t i = 0; i < nodes.size(); i++) {
         auto _v = _vs - _bs[i].top_left();
-        auto _nv = this->from_space_to(space::normalized_screen).from_space_to_base().transformed_point(nodes[i]->transform().origin());
+        auto _nv = this->from_space_to(space::normalized_screen).transformed_point(nodes[i]->old_transform().origin());
         auto _new_origin = vec2(_nv.x() + _v.x(), _nv.y());
-        this->from_space_to(space::normalized_screen).from_base_to_space().transform_point(_new_origin);
-        nodes[i]->transform(nodes[i]->transform().moved(_new_origin));
+        this->from_space_to(space::normalized_screen).inverse().transform_point(_new_origin);
+        nodes[i]->old_transform(nodes[i]->old_transform().moved(_new_origin));
     }
 }
 
@@ -551,10 +570,10 @@ void node_container::hor_align_by_right_edge(const std::vector<node *> &nodes){
     }
     for (size_t i = 0; i < nodes.size(); i++) {
         auto _v = _vs - _bs[i].top_right();
-        auto _nv = this->from_space_to(space::normalized_screen).from_space_to_base().transformed_point(nodes[i]->transform().origin());
+        auto _nv = this->from_space_to(space::normalized_screen).transformed_point(nodes[i]->old_transform().origin());
         auto _new_origin = vec2(_nv.x() + _v.x(), _nv.y());
-        this->from_space_to(space::normalized_screen).from_base_to_space().transform_point(_new_origin);
-        nodes[i]->transform(nodes[i]->transform().moved(_new_origin));
+        this->from_space_to(space::normalized_screen).inverse().transform_point(_new_origin);
+        nodes[i]->old_transform(nodes[i]->old_transform().moved(_new_origin));
     }
 }
 
@@ -570,10 +589,10 @@ void node_container::ver_align_by_center(const std::vector<node *> &nodes){
     _vs /= _sum;
     for (size_t i = 0; i < nodes.size(); i++) {
         auto _v = _vs - _bs[i].center();
-        auto _nv = this->from_space_to(space::normalized_screen).from_space_to_base().transformed_point(nodes[i]->transform().origin());
+        auto _nv = this->from_space_to(space::normalized_screen).transformed_point(nodes[i]->old_transform().origin());
         auto _new_origin = vec2(_nv.x(), _nv.y() + _v.y());
-        this->from_space_to(space::normalized_screen).from_base_to_space().transform_point(_new_origin);
-        nodes[i]->transform(nodes[i]->transform().moved(_new_origin));
+        this->from_space_to(space::normalized_screen).inverse().transform_point(_new_origin);
+        nodes[i]->old_transform(nodes[i]->old_transform().moved(_new_origin));
     }
 }
 
@@ -589,10 +608,10 @@ void node_container::ver_align_by_top_edge(const std::vector<node *> &nodes){
     }
     for (size_t i = 0; i < nodes.size(); i++) {
         auto _v = _vs - _bs[i].top_left();
-        auto _nv = this->from_space_to(space::normalized_screen).from_space_to_base().transformed_point(nodes[i]->transform().origin());
+        auto _nv = this->from_space_to(space::normalized_screen).transformed_point(nodes[i]->old_transform().origin());
         auto _new_origin = vec2(_nv.x(), _nv.y() + _v.y());
-        this->from_space_to(space::normalized_screen).from_base_to_space().transform_point(_new_origin);
-        nodes[i]->transform(nodes[i]->transform().moved(_new_origin));
+        this->from_space_to(space::normalized_screen).inverse().transform_point(_new_origin);
+        nodes[i]->old_transform(nodes[i]->old_transform().moved(_new_origin));
     }
 }
 
@@ -608,10 +627,10 @@ void node_container::ver_align_by_bottom_edge(const std::vector<node *> &nodes){
     }
     for (size_t i = 0; i < nodes.size(); i++) {
         auto _v = _vs - _bs[i].bottom_left();
-        auto _nv = this->from_space_to(space::normalized_screen).from_space_to_base().transformed_point(nodes[i]->transform().origin());
+        auto _nv = this->from_space_to(space::normalized_screen).transformed_point(nodes[i]->old_transform().origin());
         auto _new_origin = vec2(_nv.x(), _nv.y() + _v.y());
-        this->from_space_to(space::normalized_screen).from_base_to_space().transform_point(_new_origin);
-        nodes[i]->transform(nodes[i]->transform().moved(_new_origin));
+        this->from_space_to(space::normalized_screen).inverse().transform_point(_new_origin);
+        nodes[i]->old_transform(nodes[i]->old_transform().moved(_new_origin));
     }
 }
 
@@ -734,7 +753,7 @@ void node_container::unhide_all_children() {
 }
 
 bool node_container::is_degenerated() const {
-    auto _t = transform();
+    auto _t = old_transform();
     return !_t.test_direction(transform_direction::from_base_to_space) || !_t.test_direction(transform_direction::from_space_to_base);
 }
 

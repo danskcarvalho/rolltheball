@@ -86,12 +86,12 @@ bool saw::animatable(bool value){
 void saw::reset_component(){
     transform(_saved_transform);
     auto _t = this->from_node_space_to(space::layer);
-    _body->SetTransform(b2Vec2(_t.origin().x(), _t.origin().y()), _t.rotation().x());
+    _body->SetTransform(b2Vec2(_t.translation().x(), _t.translation().y()), 0);
 }
 
 void saw::reset_physics(){
     auto _t = this->from_node_space_to(space::layer);
-    _body->SetTransform(b2Vec2(_t.origin().x(), _t.origin().y()), _t.rotation().x());
+    _body->SetTransform(b2Vec2(_t.translation().x(), _t.translation().y()), 0);
 }
 
 void saw::update(float dt){
@@ -100,7 +100,7 @@ void saw::update(float dt){
     _body->SetLinearVelocity(b2Vec2(0, 0));
     _body->SetAngularVelocity(0);
     auto _t = this->from_node_space_to(space::layer);
-    _body->SetTransform(b2Vec2(_t.origin().x(), _t.origin().y()), 0);
+    _body->SetTransform(b2Vec2(_t.translation().x(), _t.translation().y()), 0);
 }
 
 rb_string saw::type_name() const {
@@ -123,9 +123,9 @@ void saw::playing(){
         b2BodyDef _bDef;
         _bDef.active = true;
         _bDef.allowSleep = false;
-        _bDef.angle = _t.rotation().x();
+        _bDef.angle = 0;
         _bDef.awake = true;
-        _bDef.position = b2Vec2(_t.origin().x(), _t.origin().y());
+        _bDef.position = b2Vec2(_t.translation().x(), _t.translation().y());
         _bDef.type = b2_kinematicBody;
         _bDef.userData = (node*)this;
         _body = _world->CreateBody(&_bDef);
@@ -135,7 +135,7 @@ void saw::playing(){
         _fDef.filter.categoryBits = PHYS_MASK_ENEMY;
         _fDef.filter.maskBits = PHYS_MASK_CHARACTER | PHYS_BREAKABLE_BLOCK;
         b2CircleShape _c;
-        _c.m_radius = _t.scale().x() / 2;
+        _c.m_radius = _t.x_vector().length() / 2;
         _fDef.shape = &_c;
         _body->CreateFixture(&_fDef);
         
@@ -169,10 +169,13 @@ void saw::destroy_saw(){
     animation_info ai;
     ai.auto_destroy = true;
     ai.duration = 0.5f;
-    auto _saved_scale = this->_sprite->transform().scale();
+    auto _saved_scale = this->_sprite->transform().x_vector().length();
     ai.update_function = [this, _saved_scale](float t, animation_info* ai){
         this->_sprite->blend(1 - t);
-        this->_sprite->transform(this->_sprite->transform().scaled(_saved_scale * (1 - t)));
+        auto _t = this->_sprite->transform();
+        _t.x_vector(_t.x_vector().normalized() * _saved_scale * (1 - t));
+        _t.y_vector(_t.y_vector().normalized() * _saved_scale * (1 - t));
+        this->_sprite->transform(_t);
     };
     auto _aidd = _an_manager->add_animation(&ai);
     _an_manager->animation(_aidd)->state = animation_state::playing;

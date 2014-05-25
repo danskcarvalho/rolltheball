@@ -477,7 +477,7 @@ void layer::setup_processes(){
     if(rb::has_flag(this->camera_invariant_flags(), camera_invariant::rotation))
         _camera.rotation(0);
     
-    auto _final_transform = _correction * _camera.inverse() * transform();
+    auto _final_transform = _correction * _camera.inverse() * old_transform();
     _textureless_process->ambient_color(_ambient_color.pre_multiplied());
     _textureless_process->position_transform(_final_transform);
     for (auto _p : _processes){
@@ -555,16 +555,16 @@ const node_container* layer::parent_node_container() const {
     return nullptr;
 }
 
-transform_space layer::from_layer_space_to(const rb::space another)const {
+matrix3x3 layer::from_layer_space_to(const rb::space another)const {
     assert(active());
     return from_space_to(another);
 }
 
-transform_space layer::from_layer_space_to(const rb::node_container *another) const {
+matrix3x3 layer::from_layer_space_to(const rb::node_container *another) const {
     assert(active());
     assert(another);
     if(this == another)
-        return transform_space(); //identity
+        return matrix3x3::identity; //identity
     auto _to_scene_1 = another->from_space_to(space::scene);
     auto _to_scene_2 = from_space_to(space::scene);
     return _to_scene_1.inverse() * _to_scene_2;
@@ -803,14 +803,14 @@ std::vector<rb_string> layer::transformables(){
 }
 
 void layer::start_transformation(long index){
-    parent_scene()->hidden_layer()->transform(transform_space());
+    parent_scene()->hidden_layer()->transform(matrix3x3::identity);
     if(index == LAYER_TRANSFORM){
-        transform_gizmo::start_transformation(parent_scene()->hidden_layer(), transform(), rectangle(0, 0, 1, 1), true, [=](transform_gizmo* g, const transform_space& t){
-            this->transform(t);
+        transform_gizmo::start_transformation(parent_scene()->hidden_layer(), old_transform(), rectangle(0, 0, 1, 1), true, [=](transform_gizmo* g, const transform_space& t){
+            this->old_transform(t);
         });
     }
     else {
-        transform_gizmo::start_transformation(parent_scene()->hidden_layer(), transform(), rectangle(0, 0, 1, 1), false, [=](transform_gizmo* g, const transform_space& t){
+        transform_gizmo::start_transformation(parent_scene()->hidden_layer(), old_transform(), rectangle(0, 0, 1, 1), false, [=](transform_gizmo* g, const transform_space& t){
             this->adjust_transformation(t);
         });
     }

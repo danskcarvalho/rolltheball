@@ -214,7 +214,7 @@ rb_string transform_space::to_string() const{
 buffer transform_space::to_buffer() const {
     return buffer(this, sizeof(transform_space));
 }
-const transform_space& transform_space::operator=(const transform_space& other){
+transform_space& transform_space::operator=(const transform_space& other){
     _dirty = other._dirty;
     _axisRotation = other._axisRotation;
     _axisScale = other._axisScale;
@@ -223,7 +223,7 @@ const transform_space& transform_space::operator=(const transform_space& other){
     _inv_matrix = other._inv_matrix;
     return *this;
 }
-const transform_space& transform_space::operator=(transform_space&& other){
+transform_space& transform_space::operator=(transform_space&& other){
     _dirty = other._dirty;
     _axisRotation = other._axisRotation;
     _axisScale = other._axisScale;

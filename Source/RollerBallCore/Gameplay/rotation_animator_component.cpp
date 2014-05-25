@@ -30,8 +30,10 @@ rotation_animator_component::rotation_animator_component(){
 void rotation_animator_component::reset_component(){
     for (size_t i = 0; i < _nodes.size(); i++) {
         //HACK: We just restore the rotations to avoid the problem of destructed saws reappearing again!
-        if(_nodes[i]->has_class(u"saw"))
-            _nodes[i]->transform(_nodes[i]->transform().rotated(_saved_transforms[i].rotation()));
+        if(_nodes[i]->has_class(u"saw")){
+            //Do nothing! We don't really need to restore saw rotations!
+//            _nodes[i]->transform(_nodes[i]->transform().rotated(_saved_transforms[i].rotation()));
+        }
         else
             _nodes[i]->transform(_saved_transforms[i]);
         _directions[i] = _nodes[i]->has_class(u"revDir") ? -1 : 1;
@@ -54,12 +56,12 @@ void rotation_animator_component::playing(){
             _current_awake.push_back(_awake_duration);
             
             if(_min_angle.has_value())
-                _current_min_angles.push_back(_n->transform().rotation().x() + _min_angle.value());
+                _current_min_angles.push_back(_n->old_transform().rotation().x() + _min_angle.value());
             else
                 _current_min_angles.push_back(nullptr);
             
             if(_max_angle.has_value())
-                _current_max_angles.push_back(_n->transform().rotation().x() + _max_angle.value());
+                _current_max_angles.push_back(_n->old_transform().rotation().x() + _max_angle.value());
             else
                 _current_max_angles.push_back(nullptr);
         }
@@ -106,20 +108,26 @@ void rotation_animator_component::update(float dt){
         }
         
         auto _t = _n->transform();
-        _t.rotate_by(vec2(_r_velocity * dt * _directions[_index], _r_velocity * dt * _directions[_index]));
-        
-        if(_min_angle.has_value() && _t.rotation().x() < _current_min_angles[_index].value()){
-            _t = _t.rotated(_current_min_angles[_index].value(), _current_min_angles[_index].value() + M_PI_2);
-            if(_change_dir_endpoint)
-                _directions[_index] *= -1;
-            _current_asleep_endpoint[_index] = _asleep_duration_endpoint;
-        }
-        if(_max_angle.has_value() && _t.rotation().x() > _current_max_angles[_index].value()){
-            _t = _t.rotated(_current_max_angles[_index].value(), _current_max_angles[_index].value() + M_PI_2);
-            if(_change_dir_endpoint)
-                _directions[_index] *= -1;
-            _current_asleep_endpoint[_index] = _asleep_duration_endpoint;
-        }
+        auto _translation = _t.translation();
+        _t.translation(vec2::zero);
+        auto _r = matrix3x3::build_rotation(_r_velocity * dt * _directions[_index]);
+        _t = _r * _t;
+        _t.translation(_translation);
+//        _t.rotate_by(vec2(_r_velocity * dt * _directions[_index], _r_velocity * dt * _directions[_index]));
+
+        //For now this won't be supported!
+//        if(_min_angle.has_value() && _t.rotation().x() < _current_min_angles[_index].value()){
+//            _t = _t.rotated(_current_min_angles[_index].value(), _current_min_angles[_index].value() + M_PI_2);
+//            if(_change_dir_endpoint)
+//                _directions[_index] *= -1;
+//            _current_asleep_endpoint[_index] = _asleep_duration_endpoint;
+//        }
+//        if(_max_angle.has_value() && _t.rotation().x() > _current_max_angles[_index].value()){
+//            _t = _t.rotated(_current_max_angles[_index].value(), _current_max_angles[_index].value() + M_PI_2);
+//            if(_change_dir_endpoint)
+//                _directions[_index] *= -1;
+//            _current_asleep_endpoint[_index] = _asleep_duration_endpoint;
+//        }
         
         _n->transform(_t);
         if(_current_awake[_index] > 0){

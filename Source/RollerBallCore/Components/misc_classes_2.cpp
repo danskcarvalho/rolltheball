@@ -80,7 +80,7 @@ transformation_values::transformation_values(){
 
 void transformation_values::sync_values(){
     if(transformed_node){
-        transformed_node->transform(transform_space(translation(), scale(), vec2(TO_RADIANS(rotation().x()), TO_RADIANS(rotation().y()))));
+        transformed_node->old_transform(transform_space(translation(), scale(), vec2(TO_RADIANS(rotation().x()), TO_RADIANS(rotation().y()))));
     }
 }
 
@@ -93,7 +93,7 @@ void transformation_values::describe_type(){
         [](transformation_values* site, const vec2& value){
             site->translation(value);
             if(site->transformed_node)
-                site->transformed_node->transform(site->transformed_node->transform().moved(value));
+                site->transformed_node->old_transform(site->transformed_node->old_transform().moved(value));
         }
     });
     vec2_property<transformation_values>(u"scale", u"Scale", true, {
@@ -103,12 +103,12 @@ void transformation_values::describe_type(){
         [](transformation_values* site, const vec2& value){
             if(!site->_uniform){
                 if(site->transformed_node)
-                    site->transformed_node->transform(site->transformed_node->transform().scaled(value));
+                    site->transformed_node->old_transform(site->transformed_node->old_transform().scaled(value));
                 site->scale(value);
             }
             else {
                 if(site->transformed_node)
-                    site->transformed_node->transform(site->transformed_node->transform().scaled(value.x(), value.x()));
+                    site->transformed_node->old_transform(site->transformed_node->old_transform().scaled(value.x(), value.x()));
                 site->scale(vec2(value.x(), value.x()));
                 site->force_notify_property_changed(u"scale");
             }
@@ -121,9 +121,9 @@ void transformation_values::describe_type(){
         [](transformation_values* site, const bool& value){
             site->uniform(value);
             if(site->transformed_node){
-                auto _t = site->transformed_node->transform();
+                auto _t = site->transformed_node->old_transform();
                 if(site->uniform())
-                    site->transformed_node->transform(site->transformed_node->transform().scaled(_t.scale().x(), _t.scale().x()));
+                    site->transformed_node->old_transform(site->transformed_node->old_transform().scaled(_t.scale().x(), _t.scale().x()));
             }
         }
     });
@@ -134,12 +134,12 @@ void transformation_values::describe_type(){
         [](transformation_values* site, const vec2& value){
             if(!site->_orthogonal){
                 if(site->transformed_node)
-                    site->transformed_node->transform(site->transformed_node->transform().rotated(TO_RADIANS(value.x()), TO_RADIANS(value.y())));
+                    site->transformed_node->old_transform(site->transformed_node->old_transform().rotated(TO_RADIANS(value.x()), TO_RADIANS(value.y())));
                 site->rotation(value);
             }
             else {
                 if(site->transformed_node)
-                    site->transformed_node->transform(site->transformed_node->transform().rotated(TO_RADIANS(value.x()), TO_RADIANS(value.x() + 90)));
+                    site->transformed_node->old_transform(site->transformed_node->old_transform().rotated(TO_RADIANS(value.x()), TO_RADIANS(value.x() + 90)));
                 site->rotation(vec2(value.x(), value.x() + 90));
             }
         }
@@ -151,9 +151,9 @@ void transformation_values::describe_type(){
         [](transformation_values* site, const bool& value){
             site->orthogonal(value);
             if(site->transformed_node){
-                auto _t = site->transformed_node->transform();
+                auto _t = site->transformed_node->old_transform();
                 if(site->orthogonal())
-                    site->transformed_node->transform(site->transformed_node->transform().rotated(_t.rotation().x(), _t.rotation().x() + (M_PI / 2.0f)));
+                    site->transformed_node->old_transform(site->transformed_node->old_transform().rotated(_t.rotation().x(), _t.rotation().x() + (M_PI / 2.0f)));
             }
         }
     });

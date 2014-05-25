@@ -21,13 +21,13 @@ void distribute_horizontally(std::vector<node*>& nodes, const rb::distribution_i
     float _min_x = std::numeric_limits<float>::max();
     float _max_x = std::numeric_limits<float>::min();
     for (auto _n : nodes){
-        if(_n->transform().origin().x() < _min_x)
-            _min_x = _n->transform().origin().x();
-        if(_n->transform().origin().x() > _max_x)
-            _max_x = _n->transform().origin().x();
+        if(_n->old_transform().origin().x() < _min_x)
+            _min_x = _n->old_transform().origin().x();
+        if(_n->old_transform().origin().x() > _max_x)
+            _max_x = _n->old_transform().origin().x();
     }
     std::sort(nodes.begin(), nodes.end(), [](node* n1, node* n2){
-        return n1->transform().origin().x() < n2->transform().origin().x();
+        return n1->old_transform().origin().x() < n2->old_transform().origin().x();
     });
     auto _diff_size = (di.max_size - di.min_size);
     _diff_size /= (float)(nodes.size() - 1);
@@ -36,9 +36,9 @@ void distribute_horizontally(std::vector<node*>& nodes, const rb::distribution_i
     if(di.space.has_value()){
         for (auto _n : nodes){
             if(di.change_size)
-                _n->transform(_n->transform().moved(_min_x, _n->transform().origin().y()).scaled(_init_size));
+                _n->old_transform(_n->old_transform().moved(_min_x, _n->old_transform().origin().y()).scaled(_init_size));
             else
-                _n->transform(_n->transform().moved(_min_x, _n->transform().origin().y()));
+                _n->old_transform(_n->old_transform().moved(_min_x, _n->old_transform().origin().y()));
             _min_x += di.space.value();
             _init_size += _diff_size;
             if(di.clamp && _min_x > _max_x)
@@ -52,9 +52,9 @@ void distribute_horizontally(std::vector<node*>& nodes, const rb::distribution_i
         _space /= (float)(nodes.size() - 1);
         for (auto _n : nodes){
             if(di.change_size)
-                _n->transform(_n->transform().moved(_min_x, _n->transform().origin().y()).scaled(_init_size));
+                _n->old_transform(_n->old_transform().moved(_min_x, _n->old_transform().origin().y()).scaled(_init_size));
             else
-                _n->transform(_n->transform().moved(_min_x, _n->transform().origin().y()));
+                _n->old_transform(_n->old_transform().moved(_min_x, _n->old_transform().origin().y()));
             _init_size += _diff_size;
             _min_x += _space;
         }
@@ -67,13 +67,13 @@ void distribute_vertically(std::vector<node*>& nodes, const rb::distribution_inf
     float _min_y = std::numeric_limits<float>::max();
     float _max_y = std::numeric_limits<float>::min();
     for (auto _n : nodes){
-        if(_n->transform().origin().y() < _min_y)
-            _min_y = _n->transform().origin().y();
-        if(_n->transform().origin().y() > _max_y)
-            _max_y = _n->transform().origin().y();
+        if(_n->old_transform().origin().y() < _min_y)
+            _min_y = _n->old_transform().origin().y();
+        if(_n->old_transform().origin().y() > _max_y)
+            _max_y = _n->old_transform().origin().y();
     }
     std::sort(nodes.begin(), nodes.end(), [](node* n1, node* n2){
-        return n1->transform().origin().y() < n2->transform().origin().y();
+        return n1->old_transform().origin().y() < n2->old_transform().origin().y();
     });
     auto _diff_size = (di.max_size - di.min_size);
     _diff_size /= (float)(nodes.size() - 1);
@@ -82,9 +82,9 @@ void distribute_vertically(std::vector<node*>& nodes, const rb::distribution_inf
     if(di.space.has_value()){
         for (auto _n : nodes){
             if(di.change_size)
-                _n->transform(_n->transform().moved(_n->transform().origin().x(), _min_y).scaled(_init_size));
+                _n->old_transform(_n->old_transform().moved(_n->old_transform().origin().x(), _min_y).scaled(_init_size));
             else
-                _n->transform(_n->transform().moved(_n->transform().origin().x(), _min_y));
+                _n->old_transform(_n->old_transform().moved(_n->old_transform().origin().x(), _min_y));
             _min_y += di.space.value();
             _init_size += _diff_size;
             if(di.clamp && _min_y > _max_y)
@@ -98,9 +98,9 @@ void distribute_vertically(std::vector<node*>& nodes, const rb::distribution_inf
         _space /= (float)(nodes.size() - 1);
         for (auto _n : nodes){
             if(di.change_size)
-                _n->transform(_n->transform().moved(_n->transform().origin().x(), _min_y).scaled(_init_size));
+                _n->old_transform(_n->old_transform().moved(_n->old_transform().origin().x(), _min_y).scaled(_init_size));
             else
-                _n->transform(_n->transform().moved(_n->transform().origin().x(), _min_y));
+                _n->old_transform(_n->old_transform().moved(_n->old_transform().origin().x(), _min_y));
             _init_size += _diff_size;
             _min_y += _space;
         }
@@ -135,9 +135,9 @@ void distribute_along_path(std::vector<node*>& nodes, polygon_component* pc, con
     //get all the point's current situations
     std::vector<vec2> _pt_pos;
     for(auto _p : *pc)
-        _pt_pos.push_back(_p->transform().origin());
+        _pt_pos.push_back(_p->old_transform().origin());
     //get the current transformation of polygon
-    auto _polygon = reconstruct_polygon(pc, _pt_pos, pc->transform());
+    auto _polygon = reconstruct_polygon(pc, _pt_pos, pc->old_transform());
     //2. do a length mapping
     polygon_path _path = polygon_path(_polygon);
     //size
@@ -150,9 +150,9 @@ void distribute_along_path(std::vector<node*>& nodes, polygon_component* pc, con
     for (auto _n : nodes){
         auto _pt = _path.point_at(_len, true);
         if(di.change_size)
-            _n->transform(_n->transform().moved(_pt).scaled(_init_size));
+            _n->old_transform(_n->old_transform().moved(_pt).scaled(_init_size));
         else
-            _n->transform(_n->transform().moved(_pt));
+            _n->old_transform(_n->old_transform().moved(_pt));
         _len += _space;
         _init_size += _diff_size;
         if(_len > _path.length())
@@ -354,7 +354,7 @@ void scene::join_selected(){
         return;
     }
     
-    _change->transform(_change->transform().moved(_target->transform().origin()));
+    _change->old_transform(_change->old_transform().moved(_target->old_transform().origin()));
     //remove target class
     auto _classes = rb::tokenize(_target->classes());
     rb_string _strClass = u"";

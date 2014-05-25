@@ -55,11 +55,11 @@ void position_animator_component::adjust_objects_to_path(){
         //we take scale into consideration
         for (uint32_t i = 0; i < _pc->node_count(); i++){
             auto _pt = _pc->node_at(i);
-            auto _ptt = _pt->transform();
-            _ptt = _ptt.moved(_ptt.origin() * _pc->transform().scale());
-            _pt->transform(_ptt);
+            auto _ptt = _pt->old_transform();
+            _ptt = _ptt.moved(_ptt.origin() * _pc->old_transform().scale());
+            _pt->old_transform(_ptt);
         }
-        _pc->transform(_pc->transform().scaled(1, 1));
+        _pc->old_transform(_pc->old_transform().scaled(1, 1));
         
         _paths.insert({_p, polygon_path(_pc->to_smooth_polygon())});
     }
@@ -68,18 +68,18 @@ void position_animator_component::adjust_objects_to_path(){
         for (auto _p : _paths){
             if(_n->has_class(_p.first->name())){
                 //calc the length offset in the path...
-                auto _xy = _n->transform().origin();
+                auto _xy = _n->old_transform().origin();
                 if(_n->parent_node())
-                    _n->parent_node()->from_node_space_to(_p.first).from_space_to_base().transform_point(_xy);
+                    _n->parent_node()->from_node_space_to(_p.first).transform_point(_xy);
                 else
-                    _n->parent_layer()->from_layer_space_to(_p.first).from_space_to_base().transform_point(_xy);
+                    _n->parent_layer()->from_layer_space_to(_p.first).transform_point(_xy);
                 
                 auto _len = _p.second.length(_xy);
                 
                 //we adjust the transform of the object
                 auto _new_xy = _p.second.point_at(_len, true);
-                _p.first->from_node_space_to(_n->parent()).from_space_to_base().transform_point(_new_xy);
-                _n->transform(_n->transform().moved(_new_xy));
+                _p.first->from_node_space_to(_n->parent()).transform_point(_new_xy);
+                _n->old_transform(_n->old_transform().moved(_new_xy));
                 break;
             }
         }
@@ -101,11 +101,11 @@ void position_animator_component::playing(){
             //we take scale into consideration
             for (uint32_t i = 0; i < _pc->node_count(); i++){
                 auto _pt = _pc->node_at(i);
-                auto _ptt = _pt->transform();
-                _ptt = _ptt.moved(_ptt.origin() * _pc->transform().scale());
-                _pt->transform(_ptt);
+                auto _ptt = _pt->old_transform();
+                _ptt = _ptt.moved(_ptt.origin() * _pc->old_transform().scale());
+                _pt->old_transform(_ptt);
             }
-            _pc->transform(_pc->transform().scaled(1, 1));
+            _pc->old_transform(_pc->old_transform().scaled(1, 1));
             
             _paths.insert({_p, polygon_path(_pc->to_smooth_polygon())});
         }
@@ -115,11 +115,11 @@ void position_animator_component::playing(){
                 if(_n->has_class(_p.first->name()) || (_n->has_class(u"@parent") && _n->parent() == _p.first->parent())){
                     _attached_path.insert({_n, _p.first});
                     //calc the length offset in the path...
-                    auto _xy = _n->transform().origin();
+                    auto _xy = _n->old_transform().origin();
                     if(_n->parent_node())
-                        _n->parent_node()->from_node_space_to(_p.first).from_space_to_base().transform_point(_xy);
+                        _n->parent_node()->from_node_space_to(_p.first).transform_point(_xy);
                     else
-                        _n->parent_layer()->from_layer_space_to(_p.first).from_space_to_base().transform_point(_xy);
+                        _n->parent_layer()->from_layer_space_to(_p.first).transform_point(_xy);
                     
                     auto _len = _p.second.length(_xy);
                     _lengths.push_back(_len);
@@ -138,8 +138,8 @@ void position_animator_component::playing(){
                     
                     //we adjust the transform of the object
                     auto _new_xy = _p.second.point_at(_len, true);
-                    _p.first->from_node_space_to(_n->parent()).from_space_to_base().transform_point(_new_xy);
-                    _n->transform(_n->transform().moved(_new_xy));
+                    _p.first->from_node_space_to(_n->parent()).transform_point(_new_xy);
+                    _n->old_transform(_n->old_transform().moved(_new_xy));
                     
                     _saved_transforms.push_back(_n->transform());
                     break;
@@ -216,8 +216,8 @@ void position_animator_component::update(float dt){
         }
         
         auto _nxy = _pp.point_at(_l, _clamp);
-        _path->from_node_space_to(_nodes[i]->parent()).from_space_to_base().transform_point(_nxy);
-        _t = _t.moved(_nxy);
+        _path->from_node_space_to(_nodes[i]->parent()).transform_point(_nxy);
+        _t.translation(_nxy);
         _nodes[i]->transform(_t);
         _lengths[i] = _l;
         _dirs[i] = _d;
