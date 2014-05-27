@@ -243,4 +243,39 @@
     <file path="Down-1.png" width="1" height="1"/>
     <file path="Down-2.png" width="1" height="1"/>
     <file path="Down-3.png" width="1" height="1"/>
+    <!--UI-->
+    <file path="Back.png" width="1" height="1"/>
+    <file path="Coins.png" width="1" height="1"/>
+    <file path="CoinsSign.png" width="1" height="1"/>
+    <file path="Deaths.png" width="1" height="1"/>
+    <file path="DeathSign.png" width="1" height="1"/>
+    <file path="Eight.png" width="1" height="1"/>
+    <file path="Five.png" width="1" height="1"/>
+    <file path="Four.png" width="1" height="1"/>
+    <file path="Go.png" width="1" height="1"/>
+    <file path="Hearts.png" width="1" height="1"/>
+    <file path="HeartsCanSaveYou.png" width="1" height="1"/>
+    <file path="HoldToStop.png" width="1" height="1"/>
+    <file path="Leaderboards.png" width="1" height="1"/>
+    <file path="Minus.png" width="1" height="1"/>
+    <file path="Nine.png" width="1" height="1"/>
+    <file path="One.png" width="1" height="1"/>
+    <file path="Pause.png" width="1" height="1"/>
+    <file path="Plus.png" width="1" height="1"/>
+    <file path="SemiColon.png" width="1" height="1"/>
+    <file path="Set1.png" width="1" height="1"/>
+    <file path="Set2.png" width="1" height="1"/>
+    <file path="Seven.png" width="1" height="1"/>
+    <file path="Six.png" width="1" height="1"/>
+    <file path="SwipeLeftToChangeDirection.png" width="1" height="1"/>
+    <file path="SwipeLeftToMove.png" width="1" height="1"/>
+    <file path="TapRightToJump.png" width="1" height="1"/>
+    <file path="TapRightToJumpAgain.png" width="1" height="1"/>
+    <file path="Three.png" width="1" height="1"/>
+    <file path="Time.png" width="1" height="1"/>
+    <file path="TimeSign.png" width="1" height="1"/>
+    <file path="TotalSign.png" width="1" height="1"/>
+    <file path="Tutorial.png" width="1" height="1"/>
+    <file path="Two.png" width="1" height="1"/>
+    <file path="Zero.png" width="1" height="1"/>
 </images>
