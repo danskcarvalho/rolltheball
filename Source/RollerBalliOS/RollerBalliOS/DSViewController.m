@@ -8,6 +8,7 @@
 
 #import "DSViewController.h"
 #include "components_external.h"
+#include "ui_controller.h"
 
 using namespace rb;
 
@@ -89,11 +90,13 @@ using namespace rb;
 
 - (void)setupScene
 {
+    ui_controller::set_intro(true);
     director::in_editor(false);
     director::active_scene(nullptr, true);
     auto _scene = scene_loader::load(u"Intro");
     director::active_scene(_scene, true);
     director::active_scene()->playing(true);
+    director::active_scene()->camera(transform_space(vec2::zero, 6));
 }
 
 - (void)tearDownGL

@@ -3,39 +3,40 @@
 	<all-groups>
 		<group name="g01">
 			<textures>
-				<texture size-y="180" center-x="892" center-y="370" atlas-index="0" size-x="180" name="uiBack" />
-				<texture size-y="180" center-x="892" center-y="554" atlas-index="0" size-x="180" name="uiCoin" />
-				<texture size-y="52" center-x="1261" center-y="636" atlas-index="0" size-x="182" name="uiCoinSign" />
-				<texture size-y="180" center-x="524" center-y="370" atlas-index="0" size-x="180" name="uiDeath" />
-				<texture size-y="48" center-x="1442.5" center-y="634" atlas-index="0" size-x="173" name="uiDeathSign" />
-				<texture size-y="181" center-x="1478" center-y="463.5" atlas-index="0" size-x="120" name="ui8" />
-				<texture size-y="177" center-x="1602" center-y="272.5" atlas-index="0" size-x="120" name="ui5" />
-				<texture size-y="170" center-x="1726" center-y="87" atlas-index="0" size-x="120" name="ui4" />
-				<texture size-y="180" center-x="1260" center-y="276" atlas-index="0" size-x="180" name="uiPlay" />
-				<texture size-y="180" center-x="1260" center-y="92" atlas-index="0" size-x="180" name="uiHeart" />
+				<texture size-y="180" center-x="768" center-y="426" atlas-index="0" size-x="180" name="uiBack" />
+				<texture size-y="180" center-x="584" center-y="426" atlas-index="0" size-x="180" name="uiCoin" />
+				<texture size-y="52" center-x="93" center-y="644" atlas-index="0" size-x="182" name="uiCoinSign" />
+				<texture size-y="180" center-x="400" center-y="426" atlas-index="0" size-x="180" name="uiDeath" />
+				<texture size-y="48" center-x="274.5" center-y="642" atlas-index="0" size-x="173" name="uiDeathSign" />
+				<texture size-y="181" center-x="1782" center-y="92.5" atlas-index="0" size-x="120" name="ui8" />
+				<texture size-y="177" center-x="1906" center-y="90.5" atlas-index="0" size-x="120" name="ui5" />
+				<texture size-y="170" center-x="1906" center-y="449" atlas-index="0" size-x="120" name="ui4" />
+				<texture size-y="180" center-x="1504" center-y="460" atlas-index="0" size-x="180" name="uiPlay" />
+				<texture size-y="180" center-x="1504" center-y="276" atlas-index="0" size-x="180" name="uiHeart" />
 				<texture size-y="56" center-x="540.5" center-y="156" atlas-index="0" size-x="829" name="uiHoldLeftStop" />
-				<texture size-y="180" center-x="1076" center-y="554" atlas-index="0" size-x="180" name="uiLeaderboards" />
-				<texture size-y="53" center-x="1755.5" center-y="636.5" atlas-index="0" size-x="125" name="uiMinus" />
-				<texture size-y="182" center-x="1354" center-y="461" atlas-index="0" size-x="120" name="ui9" />
-				<texture size-y="297" center-x="186" center-y="428.5" atlas-index="0" size-x="120" name="ui1" />
-				<texture size-y="180" center-x="340" center-y="554" atlas-index="0" size-x="180" name="uiPause" />
-				<texture size-y="180" center-x="340" center-y="370" atlas-index="0" size-x="180" name="uiPlus" />
+				<texture size-y="180" center-x="1504" center-y="92" atlas-index="0" size-x="180" name="uiLeaderboards" />
+				<texture size-y="53" center-x="587.5" center-y="644.5" atlas-index="0" size-x="125" name="uiMinus" />
+				<texture size-y="182" center-x="1658" center-y="466" atlas-index="0" size-x="120" name="ui9" />
+				<texture size-y="297" center-x="1076" center-y="150.5" atlas-index="0" size-x="120" name="ui1" />
+				<texture size-y="180" center-x="952" center-y="426" atlas-index="0" size-x="180" name="uiPause" />
+				<texture size-y="180" center-x="216" center-y="426" atlas-index="0" size-x="180" name="uiPlus" />
 				<texture size-y="456" center-x="62" center-y="296" atlas-index="0" size-x="120" name="uiColon" />
-				<texture size-y="180" center-x="524" center-y="554" atlas-index="0" size-x="180" name="uiSet1" />
-				<texture size-y="180" center-x="1076" center-y="370" atlas-index="0" size-x="180" name="uiSet2" />
-				<texture size-y="178" center-x="1602" center-y="91" atlas-index="0" size-x="120" name="ui7" />
-				<texture size-y="182" center-x="1478" center-y="93" atlas-index="0" size-x="120" name="ui6" />
-				<texture size-y="41" center-x="562.5" center-y="255.5" atlas-index="0" size-x="873" name="uiChangeDir" />
+				<texture size-y="180" center-x="1320" center-y="460" atlas-index="0" size-x="180" name="uiSet1" />
+				<texture size-y="180" center-x="1320" center-y="276" atlas-index="0" size-x="180" name="uiSet2" />
+				<texture size-y="178" center-x="1782" center-y="461" atlas-index="0" size-x="120" name="ui7" />
+				<texture size-y="182" center-x="1658" center-y="280" atlas-index="0" size-x="120" name="ui6" />
+				<texture size-y="41" center-x="562.5" center-y="311.5" atlas-index="0" size-x="873" name="uiChangeDir" />
 				<texture size-y="56" center-x="563.5" center-y="96" atlas-index="0" size-x="875" name="uiMove" />
 				<texture size-y="62" center-x="432.5" center-y="33" atlas-index="0" size-x="861" name="uiJump" />
-				<texture size-y="43" center-x="569" center-y="209.5" atlas-index="0" size-x="886" name="uiJumpTwice" />
-				<texture size-y="181" center-x="1478" center-y="278.5" atlas-index="0" size-x="120" name="ui3" />
-				<texture size-y="180" center-x="708" center-y="370" atlas-index="0" size-x="180" name="uiTime" />
-				<texture size-y="51" center-x="1611" center-y="635.5" atlas-index="0" size-x="156" name="uiTimeSign" />
-				<texture size-y="60" center-x="1635.5" center-y="576" atlas-index="0" size-x="187" name="uiTotalSign" />
-				<texture size-y="180" center-x="708" center-y="554" atlas-index="0" size-x="180" name="uiTutorial" />
-				<texture size-y="177" center-x="1602" center-y="453.5" atlas-index="0" size-x="120" name="ui2" />
-				<texture size-y="183" center-x="1230" center-y="461.5" atlas-index="0" size-x="120" name="ui0" />
+				<texture size-y="43" center-x="569" center-y="265.5" atlas-index="0" size-x="886" name="uiJumpTwice" />
+				<texture size-y="181" center-x="1782" center-y="277.5" atlas-index="0" size-x="120" name="ui3" />
+				<texture size-y="180" center-x="1136" center-y="393" atlas-index="0" size-x="180" name="uiTime" />
+				<texture size-y="51" center-x="443" center-y="643.5" atlas-index="0" size-x="156" name="uiTimeSign" />
+				<texture size-y="60" center-x="1815.5" center-y="584" atlas-index="0" size-x="187" name="uiTotalSign" />
+				<texture size-y="180" center-x="1320" center-y="92" atlas-index="0" size-x="180" name="uiTutorial" />
+				<texture size-y="177" center-x="1906" center-y="271.5" atlas-index="0" size-x="120" name="ui2" />
+				<texture size-y="183" center-x="1658" center-y="93.5" atlas-index="0" size-x="120" name="ui0" />
+				<texture size-y="52" center-x="566" center-y="214" atlas-index="0" size-x="880" name="uiHeartsSaveYou" />
 			</textures>
 			<atlases>
 				<atlas index="0" />
@@ -262,6 +263,7 @@
 		<texture border="rb::texture_border::empty" scale="1" name="noSign1" />
 		<texture border="rb::texture_border::repeat" scale="1" name="ph2" />
 		<texture border="rb::texture_border::repeat" scale="1" name="pc1" />
+		<texture border="rb::texture_border::empty" scale="0.433094" name="uiHeartsSaveYou" />
 		<texture border="rb::texture_border::repeat" scale="1" name="ph5" />
 		<texture border="rb::texture_border::repeat" scale="1" name="pc3" />
 		<texture border="rb::texture_border::repeat" scale="1" name="ph4" />

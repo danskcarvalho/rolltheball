@@ -342,6 +342,8 @@
 		4570F64416E02A1D0093102F /* observer.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 458CE15116DE4003006C5D03 /* observer.h */; };
 		4575ADCC18C554B40017815A /* position_animator_component.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4575ADCA18C554B40017815A /* position_animator_component.cpp */; };
 		4575ADCD18C554B40017815A /* position_animator_component.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4575ADCA18C554B40017815A /* position_animator_component.cpp */; };
+		45760EBD193544D80083C699 /* ui_controller.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 45AE182C193416F300542AE8 /* ui_controller.h */; };
+		45760EBE193544EB0083C699 /* ui_controller.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 45AE182C193416F300542AE8 /* ui_controller.h */; };
 		4576DF6D1624BD7F00DAA297 /* texture_layer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4576DF6B1624BD7F00DAA297 /* texture_layer.cpp */; };
 		4576DF6E1624BD7F00DAA297 /* texture_layer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4576DF6B1624BD7F00DAA297 /* texture_layer.cpp */; };
 		4576DF6F1624BD7F00DAA297 /* texture_layer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4576DF6B1624BD7F00DAA297 /* texture_layer.cpp */; };
@@ -503,6 +505,12 @@
 		45ADAF8515FA205F00B99104 /* RayTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = 45ADAF8415FA205F00B99104 /* RayTests.mm */; };
 		45ADAF8C15FA29B900B99104 /* EdgeTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = 45ADAF8B15FA29B900B99104 /* EdgeTests.mm */; };
 		45ADAF9215FA321700B99104 /* PolygonTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = 45ADAF9115FA321600B99104 /* PolygonTests.mm */; };
+		45AE1828193416BA00542AE8 /* ui_component.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 45AE1826193416BA00542AE8 /* ui_component.cpp */; };
+		45AE1829193416BA00542AE8 /* ui_component.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 45AE1826193416BA00542AE8 /* ui_component.cpp */; };
+		45AE182D193416F300542AE8 /* ui_controller.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 45AE182B193416F300542AE8 /* ui_controller.cpp */; };
+		45AE182E193416F300542AE8 /* ui_controller.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 45AE182B193416F300542AE8 /* ui_controller.cpp */; };
+		45AE18311934202300542AE8 /* ui_number.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 45AE182F1934202200542AE8 /* ui_number.cpp */; };
+		45AE18321934202300542AE8 /* ui_number.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 45AE182F1934202200542AE8 /* ui_number.cpp */; };
 		45BA096F18FACBC7006444C4 /* keyframe_animation_component.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 45BA096D18FACBC7006444C4 /* keyframe_animation_component.cpp */; };
 		45BA097018FACBC7006444C4 /* keyframe_animation_component.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 45BA096D18FACBC7006444C4 /* keyframe_animation_component.cpp */; };
 		45BAC5A616E4DCF700E28F15 /* CppBridgeProtocol.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4570F63C16E01C000093102F /* CppBridgeProtocol.h */; };
@@ -541,6 +549,7 @@
 			dstPath = include;
 			dstSubfolderSpec = 16;
 			files = (
+				45760EBD193544D80083C699 /* ui_controller.h in CopyFiles */,
 				452F453E184B7FA400270215 /* destructible_sprite_component.h in CopyFiles */,
 				45A883D217B6D49200827C80 /* polygon_component.h in CopyFiles */,
 				45A06C1B17AEB816009087B7 /* misc_classes_2.h in CopyFiles */,
@@ -631,6 +640,7 @@
 			dstPath = include;
 			dstSubfolderSpec = 16;
 			files = (
+				45760EBE193544EB0083C699 /* ui_controller.h in CopyFiles */,
 				452F453F184B7FB600270215 /* destructible_sprite_component.h in CopyFiles */,
 				45A883D117B6D48200827C80 /* polygon_component.h in CopyFiles */,
 				45A06C1F17AEB839009087B7 /* TextureAtlasLoader.h in CopyFiles */,
@@ -10053,6 +10063,12 @@
 		45ADAF8B15FA29B900B99104 /* EdgeTests.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = EdgeTests.mm; sourceTree = "<group>"; };
 		45ADAF9015FA321600B99104 /* PolygonTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PolygonTests.h; sourceTree = "<group>"; };
 		45ADAF9115FA321600B99104 /* PolygonTests.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PolygonTests.mm; sourceTree = "<group>"; };
+		45AE1826193416BA00542AE8 /* ui_component.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ui_component.cpp; path = UI/ui_component.cpp; sourceTree = "<group>"; };
+		45AE1827193416BA00542AE8 /* ui_component.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ui_component.h; path = UI/ui_component.h; sourceTree = "<group>"; };
+		45AE182B193416F300542AE8 /* ui_controller.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ui_controller.cpp; path = UI/ui_controller.cpp; sourceTree = "<group>"; };
+		45AE182C193416F300542AE8 /* ui_controller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ui_controller.h; path = UI/ui_controller.h; sourceTree = "<group>"; };
+		45AE182F1934202200542AE8 /* ui_number.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ui_number.cpp; path = UI/ui_number.cpp; sourceTree = "<group>"; };
+		45AE18301934202300542AE8 /* ui_number.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ui_number.h; path = UI/ui_number.h; sourceTree = "<group>"; };
 		45BA096D18FACBC7006444C4 /* keyframe_animation_component.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = keyframe_animation_component.cpp; path = Gameplay/keyframe_animation_component.cpp; sourceTree = "<group>"; };
 		45BA096E18FACBC7006444C4 /* keyframe_animation_component.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = keyframe_animation_component.h; path = Gameplay/keyframe_animation_component.h; sourceTree = "<group>"; };
 		45C41E6115F6B6B8004E777D /* edge.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = edge.cpp; path = Base/edge.cpp; sourceTree = "<group>"; };
@@ -15451,6 +15467,7 @@
 				4525C34D1630673800A301D7 /* Xml */,
 				45777505162C83EB002EB77C /* Components */,
 				45139D6D17BAAAC0003AC03D /* Gameplay */,
+				45AE18251934168600542AE8 /* UI */,
 				456771A915F04A7900C91B3C /* Precompiled */,
 				4567270B15F0401500C91B3C /* Libs */,
 				4567334615F02560008F5966 /* RollerBallCoreMacOSX */,
@@ -25749,6 +25766,27 @@
 			name = Enumerations;
 			sourceTree = "<group>";
 		};
+		45AE18251934168600542AE8 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				45AE182A193416C200542AE8 /* Include */,
+				45AE1826193416BA00542AE8 /* ui_component.cpp */,
+				45AE182B193416F300542AE8 /* ui_controller.cpp */,
+				45AE182F1934202200542AE8 /* ui_number.cpp */,
+			);
+			name = UI;
+			sourceTree = "<group>";
+		};
+		45AE182A193416C200542AE8 /* Include */ = {
+			isa = PBXGroup;
+			children = (
+				45AE1827193416BA00542AE8 /* ui_component.h */,
+				45AE182C193416F300542AE8 /* ui_controller.h */,
+				45AE18301934202300542AE8 /* ui_number.h */,
+			);
+			name = Include;
+			sourceTree = "<group>";
+		};
 		45C68E8C15F2DE9300E1637B /* Include */ = {
 			isa = PBXGroup;
 			children = (
@@ -26040,6 +26078,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				45139D7717BAEF7A003AC03D /* physics_engine.cpp in Sources */,
+				45AE1829193416BA00542AE8 /* ui_component.cpp in Sources */,
 				45E5295416126492002159FF /* polygon.cpp in Sources */,
 				45C68E9D15F30CF000E1637B /* platform.mm in Sources */,
 				456770F115F040B900C91B3C /* b2BroadPhase.cpp in Sources */,
@@ -26131,6 +26170,7 @@
 				450FBFA4161B9185001B3BF2 /* texture_atlas.mm in Sources */,
 				4563DDC5161F6FF300C831C0 /* radial_gradient_texture.cpp in Sources */,
 				4563DDCB1620617C00C831C0 /* dynamic_texture.cpp in Sources */,
+				45AE182E193416F300542AE8 /* ui_controller.cpp in Sources */,
 				45F33E0C1879E22D00EFDE64 /* saw.cpp in Sources */,
 				4563DDD41620B24400C831C0 /* render_target.cpp in Sources */,
 				4576DF6E1624BD7F00DAA297 /* texture_layer.cpp in Sources */,
@@ -26175,6 +26215,7 @@
 				458A01421778974F00E8D7AD /* Resolutions.m in Sources */,
 				457EFAD2177B78DA0042AF9F /* texture_atlas_loader.mm in Sources */,
 				45BA097018FACBC7006444C4 /* keyframe_animation_component.cpp in Sources */,
+				45AE18321934202300542AE8 /* ui_number.cpp in Sources */,
 				4586707B190449EB00544B7B /* action_buffer.cpp in Sources */,
 				45AACCDC17AC620700C04218 /* tokenizer.cpp in Sources */,
 				45A06C1417AEB794009087B7 /* misc_classes_2.cpp in Sources */,
@@ -26262,6 +26303,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				456770F015F040B900C91B3C /* b2BroadPhase.cpp in Sources */,
+				45AE1828193416BA00542AE8 /* ui_component.cpp in Sources */,
 				456770F415F040B900C91B3C /* b2CollideCircle.cpp in Sources */,
 				456770F715F040B900C91B3C /* b2CollideEdge.cpp in Sources */,
 				456770FA15F040B900C91B3C /* b2CollidePolygon.cpp in Sources */,
@@ -26353,6 +26395,7 @@
 				4563DDC4161F6FF300C831C0 /* radial_gradient_texture.cpp in Sources */,
 				4563DDCA1620617C00C831C0 /* dynamic_texture.cpp in Sources */,
 				4563DDD31620B24400C831C0 /* render_target.cpp in Sources */,
+				45AE182D193416F300542AE8 /* ui_controller.cpp in Sources */,
 				45F33E0B1879E22D00EFDE64 /* saw.cpp in Sources */,
 				4576DF6D1624BD7F00DAA297 /* texture_layer.cpp in Sources */,
 				4576DF731624C45E00DAA297 /* texture_composition.cpp in Sources */,
@@ -26397,6 +26440,7 @@
 				457EFAD1177B78DA0042AF9F /* texture_atlas_loader.mm in Sources */,
 				45AACCDB17AC620700C04218 /* tokenizer.cpp in Sources */,
 				45BA096F18FACBC7006444C4 /* keyframe_animation_component.cpp in Sources */,
+				45AE18311934202300542AE8 /* ui_number.cpp in Sources */,
 				4586707A190449EB00544B7B /* action_buffer.cpp in Sources */,
 				45A06C1317AEB794009087B7 /* misc_classes_2.cpp in Sources */,
 				45A06C1817AEB7AA009087B7 /* misc_classes_3.cpp in Sources */,

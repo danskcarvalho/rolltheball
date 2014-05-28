@@ -27958,7 +27958,7 @@
 			<key>group09</key>
 			<false/>
 			<key>height</key>
-			<real>384</real>
+			<real>640</real>
 			<key>maskAggressively</key>
 			<false/>
 			<key>name</key>
@@ -27991,9 +27991,9 @@
 				<integer>12</integer>
 			</dict>
 			<key>width</key>
-			<real>384</real>
+			<real>641</real>
 		</dict>
-		<string>384 X 384</string>
+		<string>641 X 640</string>
 		<string>uiPlay</string>
 		<dict>
 			<key>$class</key>
@@ -32767,12 +32767,12 @@
 			<key>stages</key>
 			<dict>
 				<key>CF$UID</key>
-				<integer>1403</integer>
+				<integer>1402</integer>
 			</dict>
 			<key>type</key>
 			<dict>
 				<key>CF$UID</key>
-				<integer>1402</integer>
+				<integer>12</integer>
 			</dict>
 			<key>width</key>
 			<real>1876.5946785654921</real>
@@ -32801,7 +32801,6 @@
 			MSAwLjk5OTk3NDM3IDAuOTk5OTkxMjk3NwA=
 			</data>
 		</dict>
-		<string>Texture</string>
 		<dict>
 			<key>$class</key>
 			<dict>
@@ -32812,7 +32811,7 @@
 			<array>
 				<dict>
 					<key>CF$UID</key>
-					<integer>1404</integer>
+					<integer>1403</integer>
 				</dict>
 			</array>
 		</dict>
@@ -32832,7 +32831,7 @@
 			<key>color</key>
 			<dict>
 				<key>CF$UID</key>
-				<integer>1406</integer>
+				<integer>1405</integer>
 			</dict>
 			<key>enableTextureControls</key>
 			<true/>
@@ -32845,7 +32844,7 @@
 			<key>primitiveImage</key>
 			<dict>
 				<key>CF$UID</key>
-				<integer>1405</integer>
+				<integer>1404</integer>
 			</dict>
 			<key>repeat</key>
 			<false/>
@@ -32867,7 +32866,7 @@
 			<key>type</key>
 			<dict>
 				<key>CF$UID</key>
-				<integer>1402</integer>
+				<integer>12</integer>
 			</dict>
 			<key>uniformResizing</key>
 			<false/>

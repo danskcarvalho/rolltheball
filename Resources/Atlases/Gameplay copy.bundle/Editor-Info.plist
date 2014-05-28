@@ -707,6 +707,10 @@
 					<key>CF$UID</key>
 					<integer>1390</integer>
 				</dict>
+				<dict>
+					<key>CF$UID</key>
+					<integer>1398</integer>
+				</dict>
 			</array>
 		</dict>
 		<dict>
@@ -32579,18 +32583,202 @@
 			<key>stages</key>
 			<dict>
 				<key>CF$UID</key>
-				<integer>1395</integer>
+				<integer>1394</integer>
 			</dict>
 			<key>type</key>
 			<dict>
 				<key>CF$UID</key>
-				<integer>1394</integer>
+				<integer>12</integer>
 			</dict>
 			<key>width</key>
 			<real>256</real>
 		</dict>
 		<string>256 X 468</string>
 		<string>tex0</string>
+		<dict>
+			<key>$class</key>
+			<dict>
+				<key>CF$UID</key>
+				<integer>11</integer>
+			</dict>
+			<key>NSColorSpace</key>
+			<integer>1</integer>
+			<key>NSComponents</key>
+			<data>
+			MSAxIDEgMQ==
+			</data>
+			<key>NSCustomColorSpace</key>
+			<dict>
+				<key>CF$UID</key>
+				<integer>7</integer>
+			</dict>
+			<key>NSRGB</key>
+			<data>
+			MSAwLjk5OTk3NDM3IDAuOTk5OTkxMjk3NwA=
+			</data>
+		</dict>
+		<dict>
+			<key>$class</key>
+			<dict>
+				<key>CF$UID</key>
+				<integer>18</integer>
+			</dict>
+			<key>NS.objects</key>
+			<array>
+				<dict>
+					<key>CF$UID</key>
+					<integer>1395</integer>
+				</dict>
+			</array>
+		</dict>
+		<dict>
+			<key>$class</key>
+			<dict>
+				<key>CF$UID</key>
+				<integer>17</integer>
+			</dict>
+			<key>base</key>
+			<true/>
+			<key>blendMode</key>
+			<dict>
+				<key>CF$UID</key>
+				<integer>5</integer>
+			</dict>
+			<key>color</key>
+			<dict>
+				<key>CF$UID</key>
+				<integer>1397</integer>
+			</dict>
+			<key>enableTextureControls</key>
+			<true/>
+			<key>first</key>
+			<false/>
+			<key>last</key>
+			<false/>
+			<key>opacity</key>
+			<real>1</real>
+			<key>primitiveImage</key>
+			<dict>
+				<key>CF$UID</key>
+				<integer>1396</integer>
+			</dict>
+			<key>repeat</key>
+			<false/>
+			<key>rotation</key>
+			<real>0.0</real>
+			<key>scaleX</key>
+			<real>1</real>
+			<key>scaleY</key>
+			<real>1</real>
+			<key>texture</key>
+			<dict>
+				<key>CF$UID</key>
+				<integer>1390</integer>
+			</dict>
+			<key>translationX</key>
+			<real>0.0</real>
+			<key>translationY</key>
+			<real>0.0</real>
+			<key>type</key>
+			<dict>
+				<key>CF$UID</key>
+				<integer>12</integer>
+			</dict>
+			<key>uniformResizing</key>
+			<false/>
+		</dict>
+		<string>Reactor-3.png</string>
+		<dict>
+			<key>$class</key>
+			<dict>
+				<key>CF$UID</key>
+				<integer>11</integer>
+			</dict>
+			<key>NSColorSpace</key>
+			<integer>1</integer>
+			<key>NSComponents</key>
+			<data>
+			MSAxIDEgMQ==
+			</data>
+			<key>NSCustomColorSpace</key>
+			<dict>
+				<key>CF$UID</key>
+				<integer>7</integer>
+			</dict>
+			<key>NSRGB</key>
+			<data>
+			MSAwLjk5OTk3NDM3IDAuOTk5OTkxMjk3NwA=
+			</data>
+		</dict>
+		<dict>
+			<key>$class</key>
+			<dict>
+				<key>CF$UID</key>
+				<integer>19</integer>
+			</dict>
+			<key>border</key>
+			<dict>
+				<key>CF$UID</key>
+				<integer>5</integer>
+			</dict>
+			<key>group00</key>
+			<false/>
+			<key>group01</key>
+			<true/>
+			<key>group02</key>
+			<false/>
+			<key>group03</key>
+			<false/>
+			<key>group04</key>
+			<false/>
+			<key>group05</key>
+			<false/>
+			<key>group06</key>
+			<false/>
+			<key>group07</key>
+			<false/>
+			<key>group08</key>
+			<false/>
+			<key>group09</key>
+			<false/>
+			<key>height</key>
+			<real>110.87196808510639</real>
+			<key>maskAggressively</key>
+			<false/>
+			<key>name</key>
+			<dict>
+				<key>CF$UID</key>
+				<integer>1400</integer>
+			</dict>
+			<key>radialGradientColor</key>
+			<dict>
+				<key>CF$UID</key>
+				<integer>1401</integer>
+			</dict>
+			<key>scale</key>
+			<real>0.43309362533244683</real>
+			<key>sizeAsString</key>
+			<dict>
+				<key>CF$UID</key>
+				<integer>1399</integer>
+			</dict>
+			<key>sizeInBlocks</key>
+			<real>1</real>
+			<key>stages</key>
+			<dict>
+				<key>CF$UID</key>
+				<integer>1403</integer>
+			</dict>
+			<key>type</key>
+			<dict>
+				<key>CF$UID</key>
+				<integer>1402</integer>
+			</dict>
+			<key>width</key>
+			<real>1876.5946785654921</real>
+		</dict>
+		<string>1877 X 111</string>
+		<string>uiHeartsSaveYou</string>
 		<dict>
 			<key>$class</key>
 			<dict>
@@ -32624,7 +32812,7 @@
 			<array>
 				<dict>
 					<key>CF$UID</key>
-					<integer>1396</integer>
+					<integer>1404</integer>
 				</dict>
 			</array>
 		</dict>
@@ -32644,7 +32832,7 @@
 			<key>color</key>
 			<dict>
 				<key>CF$UID</key>
-				<integer>1398</integer>
+				<integer>1406</integer>
 			</dict>
 			<key>enableTextureControls</key>
 			<true/>
@@ -32657,7 +32845,7 @@
 			<key>primitiveImage</key>
 			<dict>
 				<key>CF$UID</key>
-				<integer>1397</integer>
+				<integer>1405</integer>
 			</dict>
 			<key>repeat</key>
 			<false/>
@@ -32670,7 +32858,7 @@
 			<key>texture</key>
 			<dict>
 				<key>CF$UID</key>
-				<integer>1390</integer>
+				<integer>1398</integer>
 			</dict>
 			<key>translationX</key>
 			<real>0.0</real>
@@ -32679,12 +32867,12 @@
 			<key>type</key>
 			<dict>
 				<key>CF$UID</key>
-				<integer>1394</integer>
+				<integer>1402</integer>
 			</dict>
 			<key>uniformResizing</key>
 			<false/>
 		</dict>
-		<string>Reactor-3.png</string>
+		<string>HeartsCanSaveYou.png</string>
 		<dict>
 			<key>$class</key>
 			<dict>
