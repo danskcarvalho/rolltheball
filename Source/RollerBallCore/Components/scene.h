@@ -386,6 +386,16 @@ namespace rb {
         //join
     public:
         void join_selected();
+        //to next level
+        void animated_fade(const color& target_color, float time, std::function<void (void)> completionFn);
+        void cancel_auto_fading();
+    private:
+        bool _unfaded_at_start;
+        color _target_fd_color;
+        color _source_fd_color;
+        float _faded_time_passed;
+        float _faded_time_total;
+        std::function<void (void)> _completion_fn;
     };
 }
 

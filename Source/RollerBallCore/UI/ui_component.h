@@ -61,8 +61,12 @@ namespace rb {
         
         vec2 get_aspect_correction() const;
         bool _intro_play;
+        bool _intro_select;
     private:
         void intro_play_clicked();
+        void intro_tutorial_clicked();
+        void intro_set1_clicked();
+        void intro_set2_clicked();
     protected:
         virtual bool should_serialize_children() const override;
         //Update

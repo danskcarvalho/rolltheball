@@ -21,6 +21,7 @@
 #include "sprite_component.h"
 #include "layer.h"
 #include "saw.h"
+#include "ui_controller.h"
 #include <random>
 #include <Box2D/Box2D.h>
 
@@ -580,12 +581,14 @@ void main_character::check_win(){
     if(_won){
         _an_manager->animation(_win_an)->state = animation_state::playing;
         _saved_position_at_win = this->old_transform().origin();
+        parent_scene()->cancel_auto_fading();
     }
 }
 
 void main_character::win_animation(float t){
     if(!_full_win_an){
         if(t >= 1){
+            ui_controller::next_level();
             parent_scene()->fade_color(color::from_rgba(0, 1, 0, 1));
             return;
         }
@@ -596,6 +599,7 @@ void main_character::win_animation(float t){
     }
     else {
         if(t >= 1){
+            ui_controller::next_level();
             this->old_transform(this->old_transform().scaled(0));
             return;
         }
@@ -1170,6 +1174,7 @@ void main_character::die(){
     if(_hearts < 0)
         _hearts = 0.0f;
     
+    parent_scene()->cancel_auto_fading();
     shake_camera();
     _camera_died = parent_scene()->camera();
     _die_emitter->reset_emitter();

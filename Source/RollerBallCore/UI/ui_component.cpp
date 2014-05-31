@@ -13,6 +13,7 @@
 #include "ui_controller.h"
 #include "ui_number.h"
 #include "texture_atlas.h"
+#include "director.h"
 
 using namespace rb;
 
@@ -56,6 +57,7 @@ ui_component::ui_component(){
     _initialized = false;
     _play_btn = nullptr;
     _intro_play = true;
+    _intro_select = false;
     classes(u"ui");
     name(u"ui");
 }
@@ -406,11 +408,10 @@ void ui_component::play_layout(){
 }
 
 void ui_component::playing(){
-    if(!_initialized){
-//        if(ui_controller::is_intro()){
-//            intro_layout();
-//        }
-        intro_layout();
+    if(!_initialized && !director::in_editor()){
+        if(ui_controller::is_intro()){
+            intro_layout();
+        }
     }
 }
 
@@ -420,18 +421,41 @@ bool intersects_circle(const vec2& center, float radius, const vec2& pos){
 }
 
 void ui_component::touches_began(const std::vector<touch> &touches, bool &swallow){
-//    if(ui_controller::is_intro() && _intro_play){
-//        for(auto& _t : touches){
-//            auto _np = parent_scene()->layer(9)->from_layer_space_to(space::normalized_screen).invert().transformed_point(_t.normalized_position());
-//            auto _touches_play = intersects_circle(vec2::zero, 0.5f, _np);
-//            if(_touches_play)
-//                intro_play_clicked();
-//        }
-//    }
+    if(director::in_editor())
+        return;
+    for(auto& _t : touches){
+        auto _np = parent_scene()->layer(9)->from_layer_space_to(space::normalized_screen).invert().transformed_point(_t.normalized_position());
+        
+        if(ui_controller::is_intro() && _intro_play){
+            auto _touches = intersects_circle(vec2::zero, 0.5f, _np);
+            if(_touches){
+                intro_play_clicked();
+                return;
+            }
+        }
+        else if(ui_controller::is_intro() && _intro_select) {
+            auto _touches = intersects_circle(_tutorial_btn->old_transform().origin(), UI_INTRO_BTN_SIZE / 2.0f, _np);
+            if(_touches){
+                intro_tutorial_clicked();
+                return;
+            }
+            _touches = intersects_circle(_set1_btn->old_transform().origin(), UI_INTRO_BTN_SIZE / 2.0f, _np);
+            if(_touches){
+                intro_set1_clicked();
+                return;
+            }
+            _touches = intersects_circle(_set2_btn->old_transform().origin(), UI_INTRO_BTN_SIZE / 2.0f, _np);
+            if(_touches){
+                intro_set2_clicked();
+                return;
+            }
+        }
+    }
 }
 
 void ui_component::intro_play_clicked(){
     _intro_play = false;
+    _intro_select = true;
     _play_btn->opacity(0);
     _set1_btn->opacity(1);
     _set2_btn->opacity(1);
@@ -440,6 +464,41 @@ void ui_component::intro_play_clicked(){
     _hearts_btn->opacity(1);
     _num_hearts->visible(true);
     _addhearts_btn->opacity(1);
+}
+
+void ui_component::intro_tutorial_clicked(){
+    _intro_select = false;
+    parent_scene()->animated_fade(color::from_rgba(1, 1, 1, 1), 0.25f, [](){
+        ui_controller::set_intro(false);
+        ui_controller::set_playing(false);
+        ui_controller::set_tutorial(true);
+        ui_controller::set_force_load_level(true);
+        ui_controller::goto_first_level();
+    });
+}
+
+void ui_component::intro_set1_clicked(){
+    _intro_select = false;
+    parent_scene()->animated_fade(color::from_rgba(1, 1, 1, 1), 0.25f, [](){
+        ui_controller::set_intro(false);
+        ui_controller::set_playing(true);
+        ui_controller::set_tutorial(false);
+        ui_controller::set_set(1);
+        ui_controller::goto_first_level();
+        ui_controller::set_force_load_level(true);
+    });
+}
+
+void ui_component::intro_set2_clicked(){
+    _intro_select = false;
+    parent_scene()->animated_fade(color::from_rgba(1, 1, 1, 1), 0.25f, [](){
+        ui_controller::set_intro(false);
+        ui_controller::set_playing(true);
+        ui_controller::set_tutorial(false);
+        ui_controller::set_set(2);
+        ui_controller::goto_first_level();
+        ui_controller::set_force_load_level(true);
+    });
 }
 
 void ui_component::touches_moved(const std::vector<touch> &touches, bool &swallow){

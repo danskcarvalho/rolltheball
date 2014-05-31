@@ -46,6 +46,7 @@
 		45AE182219340CD100542AE8 /* Tutorial3.scene in Resources */ = {isa = PBXBuildFile; fileRef = 45AE181C19340CD100542AE8 /* Tutorial3.scene */; };
 		45AE182319340CD100542AE8 /* Tutorial4.scene in Resources */ = {isa = PBXBuildFile; fileRef = 45AE181D19340CD100542AE8 /* Tutorial4.scene */; };
 		45AE182419340CD100542AE8 /* Tutorial5.scene in Resources */ = {isa = PBXBuildFile; fileRef = 45AE181E19340CD100542AE8 /* Tutorial5.scene */; };
+		45B61E8A19393D4E00A5EAE7 /* Tutorial0.scene in Resources */ = {isa = PBXBuildFile; fileRef = 45B61E8919393D4E00A5EAE7 /* Tutorial0.scene */; };
 		45BC87EA1911A6A100CF23AF /* Level0.scene in CopyFiles */ = {isa = PBXBuildFile; fileRef = 45BC87E81911A68C00CF23AF /* Level0.scene */; };
 		45E179A4190F2B9100803E4E /* Gameplay.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 45E179A3190F2B9100803E4E /* Gameplay.bundle */; };
 		45E52957161265E9002159FF /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45E52956161265E9002159FF /* ImageIO.framework */; };
@@ -9130,6 +9131,7 @@
 		45AE181C19340CD100542AE8 /* Tutorial3.scene */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = Tutorial3.scene; path = ../../../Resources/Scenes/Tutorial3.scene; sourceTree = "<group>"; };
 		45AE181D19340CD100542AE8 /* Tutorial4.scene */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = Tutorial4.scene; path = ../../../Resources/Scenes/Tutorial4.scene; sourceTree = "<group>"; };
 		45AE181E19340CD100542AE8 /* Tutorial5.scene */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = Tutorial5.scene; path = ../../../Resources/Scenes/Tutorial5.scene; sourceTree = "<group>"; };
+		45B61E8919393D4E00A5EAE7 /* Tutorial0.scene */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = Tutorial0.scene; path = ../../../Resources/Scenes/Tutorial0.scene; sourceTree = "<group>"; };
 		45BC87E81911A68C00CF23AF /* Level0.scene */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = Level0.scene; path = ../../../Resources/Scenes/Level0.scene; sourceTree = "<group>"; };
 		45E179A3190F2B9100803E4E /* Gameplay.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = Gameplay.bundle; path = ../../../Resources/Atlases/Gameplay.bundle; sourceTree = "<group>"; };
 		45E52956161265E9002159FF /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
@@ -24312,6 +24314,7 @@
 			isa = PBXGroup;
 			children = (
 				45AE181919340CD100542AE8 /* Intro.scene */,
+				45B61E8919393D4E00A5EAE7 /* Tutorial0.scene */,
 				45AE181A19340CD100542AE8 /* Tutorial1.scene */,
 				45AE181B19340CD100542AE8 /* Tutorial2.scene */,
 				45AE181C19340CD100542AE8 /* Tutorial3.scene */,
@@ -24428,6 +24431,7 @@
 				45AE181F19340CD100542AE8 /* Intro.scene in Resources */,
 				4553A42E191E020E00930C8F /* Level5.scene in Resources */,
 				456726DE15F0322E00C91B3C /* InfoPlist.strings in Resources */,
+				45B61E8A19393D4E00A5EAE7 /* Tutorial0.scene in Resources */,
 				451208301928214800F5F61B /* Level14.scene in Resources */,
 				45E179A4190F2B9100803E4E /* Gameplay.bundle in Resources */,
 				45AE182119340CD100542AE8 /* Tutorial2.scene in Resources */,

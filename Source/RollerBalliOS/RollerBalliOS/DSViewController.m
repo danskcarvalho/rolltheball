@@ -22,6 +22,8 @@ using namespace rb;
 - (void)setupScene;
 @end
 
+static rb_string _current_level;
+
 @implementation DSViewController
 
 - (void)viewDidLoad
@@ -91,12 +93,16 @@ using namespace rb;
 - (void)setupScene
 {
     ui_controller::set_intro(true);
+    ui_controller::set_playing(false);
+    ui_controller::set_tutorial(false);
+    ui_controller::set_force_load_level(false);
     director::in_editor(false);
     director::active_scene(nullptr, true);
     auto _scene = scene_loader::load(u"Intro");
     director::active_scene(_scene, true);
     director::active_scene()->playing(true);
     director::active_scene()->camera(transform_space(vec2::zero, 6));
+    _current_level = u"Intro";
 }
 
 - (void)tearDownGL
@@ -106,6 +112,38 @@ using namespace rb;
 
 - (void)update
 {
+    nullable<rb_string> _changeLevel = nullptr;
+    if(ui_controller::get_level() == nullptr && _current_level != u"Intro"){ //return to intro
+        _changeLevel = u"Intro";
+    }
+    else if(ui_controller::get_level() != nullptr && ui_controller::get_level() != _current_level){
+        _changeLevel = ui_controller::get_level();
+    }
+    else if(ui_controller::is_force_load_level() && ui_controller::get_level() != nullptr)
+        _changeLevel = ui_controller::get_level();
+    else if(ui_controller::is_force_load_level() && ui_controller::get_level() == nullptr)
+        _changeLevel = u"Intro";
+    
+    if(_changeLevel.has_value()){
+        if(_changeLevel.value() == u"Intro"){
+            auto _fd_color = director::active_scene()->fade_color();
+            director::active_scene()->playing(false);
+            [self setupScene];
+            director::active_scene()->fade_color(_fd_color);
+        }
+        else {
+            auto _fd_color = director::active_scene()->fade_color();
+            director::active_scene()->playing(false);
+            director::active_scene(nullptr, true);
+            auto _scene = scene_loader::load(_changeLevel.value());
+            director::active_scene(_scene, true);
+            director::active_scene()->playing(true);
+            director::active_scene()->fade_color(_fd_color);
+            _current_level = ui_controller::get_level().value();
+            ui_controller::set_intro(false);
+            ui_controller::set_force_load_level(false);
+        }
+    }
     director::active_responder()->update();
 }
 

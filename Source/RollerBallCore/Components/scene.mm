@@ -83,6 +83,10 @@ scene::scene(){
     _locked_selection = nullptr;
     _move10x = false;
     _alignToGrid = false;
+    //goto next level
+    _unfaded_at_start = false;
+    _faded_time_passed = 0;
+    _faded_time_total = 0;
 }
 
 node* scene::locked_selection() const {
@@ -594,7 +598,34 @@ const color& scene::selection_color(const rb::color &value) {
     return _selection_color;
 }
 
+void scene::cancel_auto_fading(){
+    _unfaded_at_start = true;
+    _fade_color.a(0);
+}
+
 void scene::render() {
+    if(!_unfaded_at_start && _fade_color.a() >= 0){
+        _fade_color.a(_fade_color.a() - 0.12f);
+        if(_fade_color.a() <= 0){
+            _unfaded_at_start = true;
+            _fade_color.a(0);
+        }
+    }
+    if(_unfaded_at_start && _faded_time_total > 0){
+        _faded_time_passed += (1.0f / 30.0f);
+        if(_faded_time_passed >= _faded_time_total)
+            _faded_time_passed = _faded_time_total;
+        
+        auto _t = _faded_time_passed / _faded_time_total;
+        color _res = color::lerp(_t, _source_fd_color, _target_fd_color);
+        _fade_color = _res;
+        if(_faded_time_passed == _faded_time_total){
+            _faded_time_total = 0;
+            _faded_time_passed = 0;
+            if(_completion_fn)
+                _completion_fn();
+        }
+    }
     //we clear the gizmo layer
     if(_gizmo_layer)
         _gizmo_layer->clear_meshes();
@@ -1434,6 +1465,13 @@ const color& scene::fade_color(const color& value){
     return _fade_color;
 }
 
+void scene::animated_fade(const rb::color &target_color, float time, std::function<void ()> completionFn){
+    _target_fd_color = target_color;
+    _source_fd_color = _fade_color;
+    _faded_time_total = time;
+    _faded_time_passed = 0;
+    _completion_fn = completionFn;
+}
 
 
 
