@@ -9108,7 +9108,7 @@
 		456726DF15F0322E00C91B3C /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		456726E115F0322E00C91B3C /* RollerBalliOS-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "RollerBalliOS-Prefix.pch"; sourceTree = "<group>"; };
 		456726E215F0322E00C91B3C /* DSAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DSAppDelegate.h; sourceTree = "<group>"; };
-		456726E315F0322E00C91B3C /* DSAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DSAppDelegate.m; sourceTree = "<group>"; };
+		456726E315F0322E00C91B3C /* DSAppDelegate.m */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; path = DSAppDelegate.m; sourceTree = "<group>"; };
 		456726E915F0322E00C91B3C /* DSViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DSViewController.h; sourceTree = "<group>"; };
 		456726EA15F0322E00C91B3C /* DSViewController.m */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; path = DSViewController.m; sourceTree = "<group>"; };
 		456726ED15F0322E00C91B3C /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/DSViewController.xib; sourceTree = "<group>"; };

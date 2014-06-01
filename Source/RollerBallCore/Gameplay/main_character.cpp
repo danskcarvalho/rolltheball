@@ -22,6 +22,7 @@
 #include "layer.h"
 #include "saw.h"
 #include "ui_controller.h"
+#include "ui_component.h"
 #include <random>
 #include <Box2D/Box2D.h>
 
@@ -69,7 +70,7 @@
 
 #define EXPLOSION_GRAVITY_MAGNITUDE 25
 
-#define INVINCIBILITY_FLAG false
+#define INVINCIBILITY_FLAG true
 
 using namespace rb;
 
@@ -588,25 +589,39 @@ void main_character::check_win(){
 void main_character::win_animation(float t){
     if(!_full_win_an){
         if(t >= 1){
-            ui_controller::next_level();
+            if(!in_editor())
+                ui_controller::next_level();
+            dynamic_cast<sprite_component*>(_win_zone)->opacity(0);
             parent_scene()->fade_color(color::from_rgba(0, 1, 0, 1));
+            this->_sprite->opacity(0);
             return;
         }
         parent_scene()->fade_color(color::from_rgba(0, 1, 0, t));
         auto _t = _win_zone->from_node_space_to(space::layer);
         auto _pos = vec2::lerp(t, _saved_position_at_win, _t.translation());
         this->old_transform(this->old_transform().moved(_pos).scaled(1 - t));
+        dynamic_cast<sprite_component*>(_win_zone)->opacity(1 - t);
+        this->_sprite->opacity(1 - t);
     }
     else {
         if(t >= 1){
-            ui_controller::next_level();
+            if(!in_editor()){
+                if(ui_controller::is_tutorial())
+                    ui_controller::next_level();
+                else
+                    dynamic_cast<ui_component*>(parent_scene()->node_with_name(u"ui"))->show_scores();
+            }
+            dynamic_cast<sprite_component*>(_win_zone)->opacity(0);
             this->old_transform(this->old_transform().scaled(0));
+            this->_sprite->opacity(0);
             return;
         }
         
         auto _t = _win_zone->from_node_space_to(space::layer);
         auto _pos = vec2::lerp(t, _saved_position_at_win, _t.translation());
         this->old_transform(this->old_transform().moved(_pos).scaled(1 - t));
+        dynamic_cast<sprite_component*>(_win_zone)->opacity(1 - t);
+        this->_sprite->opacity(1 - t);
     }
 }
 
@@ -1388,6 +1403,9 @@ void main_character::playing(){
         //force zone
         _velocity_force_zones = vec2::zero;
         _zero_gravity = false;
+        
+        if(ui_controller::is_last_level() && !ui_controller::is_tutorial())
+            _full_win_an = true;
     }
 }
 

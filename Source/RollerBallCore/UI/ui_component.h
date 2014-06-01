@@ -67,6 +67,15 @@ namespace rb {
         void intro_tutorial_clicked();
         void intro_set1_clicked();
         void intro_set2_clicked();
+        //playing
+    public:
+        void play_pause_clicked();
+    private:
+        void play_unpause_clicked();
+        void play_return_clicked();
+        void play_finish_clicked();
+    public:
+        void show_scores();
     protected:
         virtual bool should_serialize_children() const override;
         //Update

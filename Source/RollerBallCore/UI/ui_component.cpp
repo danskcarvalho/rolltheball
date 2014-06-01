@@ -60,6 +60,7 @@ ui_component::ui_component(){
     _intro_select = false;
     classes(u"ui");
     name(u"ui");
+    _finish_btn = nullptr;
 }
 
 void ui_component::describe_type(){
@@ -251,53 +252,53 @@ void ui_component::score_layout(){
     _coins_btn = new sprite_component();
     _coins_btn->image_name(UI_COIN);
     _coins_btn->old_transform(transform_space(_pos_coin_btn, vec2(UI_PLAY_SCORE_SIZE, UI_PLAY_SCORE_SIZE), 0));
-    _coins_btn->opacity(1);
+    _coins_btn->opacity(0);
     parent_scene()->layer(9)->add_node(_coins_btn);
     
     _time_btn = new sprite_component();
     _time_btn->image_name(UI_TIME);
     _time_btn->old_transform(transform_space(_pos_time_btn, vec2(UI_PLAY_SCORE_SIZE, UI_PLAY_SCORE_SIZE), 0));
-    _time_btn->opacity(1);
+    _time_btn->opacity(0);
     parent_scene()->layer(9)->add_node(_time_btn);
     
     _death_btn = new sprite_component();
     _death_btn->image_name(UI_DEATH);
     _death_btn->old_transform(transform_space(_pos_death_btn, vec2(UI_PLAY_SCORE_SIZE, UI_PLAY_SCORE_SIZE), 0));
-    _death_btn->opacity(1);
+    _death_btn->opacity(0);
     parent_scene()->layer(9)->add_node(_death_btn);
     
     _total_btn = new sprite_component();
     _total_btn->image_name(UI_TUTORIAL);
     _total_btn->old_transform(transform_space(_pos_total_btn, vec2(UI_PLAY_SCORE_SIZE, UI_PLAY_SCORE_SIZE), 0));
-    _total_btn->opacity(1);
+    _total_btn->opacity(0);
     parent_scene()->layer(9)->add_node(_total_btn);
     
     //texts
     _coins_num = new ui_number();
     parent_scene()->layer(9)->add_node(_coins_num);
     _coins_num->old_transform(transform_space(_pos_coin_num, vec2(UI_PLAY_SCORE_SIZE, UI_PLAY_SCORE_SIZE), 0));
-    _coins_num->visible(true);
+    _coins_num->visible(false);
     _coins_num->alignment(text_alignment::right);
     _coins_num->number(999999);
     
     _time_num = new ui_number();
     parent_scene()->layer(9)->add_node(_time_num);
     _time_num->old_transform(transform_space(_pos_time_num, vec2(UI_PLAY_SCORE_SIZE, UI_PLAY_SCORE_SIZE), 0));
-    _time_num->visible(true);
+    _time_num->visible(false);
     _time_num->alignment(text_alignment::right);
     _time_num->number(999999);
     
     _death_num = new ui_number();
     parent_scene()->layer(9)->add_node(_death_num);
     _death_num->old_transform(transform_space(_pos_death_num, vec2(UI_PLAY_SCORE_SIZE, UI_PLAY_SCORE_SIZE), 0));
-    _death_num->visible(true);
+    _death_num->visible(false);
     _death_num->alignment(text_alignment::right);
     _death_num->number(-99999);
     
     _total_num = new ui_number();
     parent_scene()->layer(9)->add_node(_total_num);
     _total_num->old_transform(transform_space(_pos_total_num, vec2(UI_PLAY_SCORE_SIZE, UI_PLAY_SCORE_SIZE), 0));
-    _total_num->visible(true);
+    _total_num->visible(false);
     _total_num->alignment(text_alignment::right);
     _total_num->number(999999);
     
@@ -305,7 +306,7 @@ void ui_component::score_layout(){
     _finish_btn = new sprite_component();
     _finish_btn->image_name(UI_BACK);
     _finish_btn->old_transform(transform_space(vec2(0, -0.5), vec2(UI_INTRO_BTN_SIZE, UI_INTRO_BTN_SIZE), 0));
-    _finish_btn->opacity(1);
+    _finish_btn->opacity(0);
     parent_scene()->layer(9)->add_node(_finish_btn);
 }
 
@@ -396,14 +397,14 @@ void ui_component::play_layout(){
     _unpause_btn = new sprite_component();
     _unpause_btn->image_name(UI_PLAY);
     _unpause_btn->old_transform(transform_space(vec2(_initial_pos, 0), vec2(UI_INTRO_BTN_SIZE, UI_INTRO_BTN_SIZE), 0));
-    _unpause_btn->opacity(1);
+    _unpause_btn->opacity(0);
     parent_scene()->layer(9)->add_node(_unpause_btn);
     
     _initial_pos += _inc;
     _back_btn = new sprite_component();
     _back_btn->image_name(UI_BACK);
     _back_btn->old_transform(transform_space(vec2(_initial_pos, 0), vec2(UI_INTRO_BTN_SIZE, UI_INTRO_BTN_SIZE), 0));
-    _back_btn->opacity(1);
+    _back_btn->opacity(0);
     parent_scene()->layer(9)->add_node(_back_btn);
 }
 
@@ -411,6 +412,12 @@ void ui_component::playing(){
     if(!_initialized && !director::in_editor()){
         if(ui_controller::is_intro()){
             intro_layout();
+        }
+        else
+        {
+            play_layout();
+            if(!ui_controller::is_tutorial())
+                score_layout();
         }
     }
 }
@@ -450,7 +457,103 @@ void ui_component::touches_began(const std::vector<touch> &touches, bool &swallo
                 return;
             }
         }
+        else {
+            if(_pause_btn->opacity() != 0.0f){
+                auto _touches = intersects_circle(_pause_btn->old_transform().origin(), 0.25f / 2.0f, _np);
+                if(_touches){
+                    swallow = true;
+                    play_pause_clicked();
+                    return;
+                }
+            }
+            if(_unpause_btn->opacity() != 0.0f){
+                auto _touches = intersects_circle(_unpause_btn->old_transform().origin(), UI_INTRO_BTN_SIZE / 2.0f, _np);
+                if(_touches){
+                    swallow = true;
+                    play_unpause_clicked();
+                    return;
+                }
+            }
+            if(_back_btn->opacity() != 0.0f){
+                auto _touches = intersects_circle(_back_btn->old_transform().origin(), UI_INTRO_BTN_SIZE / 2.0f, _np);
+                if(_touches){
+                    swallow = true;
+                    play_return_clicked();
+                    return;
+                }
+            }
+            if(_finish_btn && _finish_btn->opacity() != 0.0f){
+                auto _touches = intersects_circle(_finish_btn->old_transform().origin(), UI_INTRO_BTN_SIZE / 2.0f, _np);
+                if(_touches){
+                    swallow = true;
+                    play_finish_clicked();
+                    return;
+                }
+            }
+        }
     }
+}
+
+void ui_component::show_scores(){
+    //hide playing
+    _phearts_btn->opacity(0.0f);
+    _pcoins_btn->opacity(0.0f);
+    _ptime_btn->opacity(0.0f);
+    _phearts_num->visible(false);
+    _pcoins_num->visible(false);
+    _ptime_num->visible(false);
+    _pause_btn->opacity(0.0f);
+    _unpause_btn->opacity(0.0f);
+    _back_btn->opacity(0.0f);
+    //show scores
+    _coins_btn->opacity(1.0f);
+    _time_btn->opacity(1.0f);
+    _death_btn->opacity(1.0f);
+    _total_btn->opacity(1.0f);
+    _coins_num->visible(true);
+    _time_num->visible(true);
+    _death_num->visible(true);
+    _total_num->visible(true);
+    _finish_btn->opacity(1.0f);
+}
+
+void ui_component::play_pause_clicked(){
+    if(_pause_btn->opacity() == 0.0f)
+        return;
+    for(size_t i = 0; i < 9; ++i)
+        parent_scene()->layer((uint32_t)i)->playing(false);
+    _pause_btn->opacity(0.0f);
+    _unpause_btn->opacity(1.0f);
+    _back_btn->opacity(1.0f);
+}
+
+void ui_component::play_unpause_clicked(){
+    for(size_t i = 0; i < 9; ++i)
+        parent_scene()->layer((uint32_t)i)->playing(true);
+    _pause_btn->opacity(1.0f);
+    _unpause_btn->opacity(0.0f);
+    _back_btn->opacity(0.0f);
+}
+
+void ui_component::play_return_clicked(){
+    parent_scene()->animated_fade(color::from_rgba(1, 1, 1, 1), 0.25f, [](){
+        ui_controller::set_intro(true);
+        ui_controller::set_playing(false);
+        ui_controller::set_tutorial(false);
+        ui_controller::set_force_load_level(true);
+        ui_controller::goto_first_level();
+    });
+}
+
+void ui_component::play_finish_clicked(){
+    //for now do the same thing as return_clicked
+    parent_scene()->animated_fade(color::from_rgba(1, 1, 1, 1), 0.25f, [](){
+        ui_controller::set_intro(true);
+        ui_controller::set_playing(false);
+        ui_controller::set_tutorial(false);
+        ui_controller::set_force_load_level(true);
+        ui_controller::goto_first_level();
+    });
 }
 
 void ui_component::intro_play_clicked(){

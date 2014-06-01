@@ -169,6 +169,8 @@
 		452FEB7A164B03B70002A601 /* director.mm in Sources */ = {isa = PBXBuildFile; fileRef = 452FEB77164B03B70002A601 /* director.mm */; };
 		4531D70B17B421DD004F0AA8 /* polygon_component.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4531D70917B421DC004F0AA8 /* polygon_component.cpp */; };
 		4531D70C17B421DD004F0AA8 /* polygon_component.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4531D70917B421DC004F0AA8 /* polygon_component.cpp */; };
+		4535B682193AC20F00DC2FF7 /* ui_component.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 45AE1827193416BA00542AE8 /* ui_component.h */; };
+		4535B683193AC22000DC2FF7 /* ui_component.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 45AE1827193416BA00542AE8 /* ui_component.h */; };
 		4536B0E615FE1B3B004AE82A /* mesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4536B0E415FE1B3B004AE82A /* mesh.cpp */; };
 		4536B0E715FE1B3B004AE82A /* mesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4536B0E415FE1B3B004AE82A /* mesh.cpp */; };
 		4536B0E815FE1B3B004AE82A /* mesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4536B0E415FE1B3B004AE82A /* mesh.cpp */; };
@@ -549,6 +551,7 @@
 			dstPath = include;
 			dstSubfolderSpec = 16;
 			files = (
+				4535B683193AC22000DC2FF7 /* ui_component.h in CopyFiles */,
 				45760EBD193544D80083C699 /* ui_controller.h in CopyFiles */,
 				452F453E184B7FA400270215 /* destructible_sprite_component.h in CopyFiles */,
 				45A883D217B6D49200827C80 /* polygon_component.h in CopyFiles */,
@@ -640,6 +643,7 @@
 			dstPath = include;
 			dstSubfolderSpec = 16;
 			files = (
+				4535B682193AC20F00DC2FF7 /* ui_component.h in CopyFiles */,
 				45760EBE193544EB0083C699 /* ui_controller.h in CopyFiles */,
 				452F453F184B7FB600270215 /* destructible_sprite_component.h in CopyFiles */,
 				45A883D117B6D48200827C80 /* polygon_component.h in CopyFiles */,

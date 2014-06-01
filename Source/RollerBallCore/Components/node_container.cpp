@@ -502,6 +502,8 @@ void node_container::fill_vector_with_children(std::vector<typed_object *> &chil
 }
 
 void node_container::set_children(const std::vector<typed_object *> &children) {
+    for(auto _c : _child_nodes)
+        _c->commit_suicide();
     _child_nodes.clear();
     for (auto _n : children){
         auto _node = dynamic_cast<node*>(_n);

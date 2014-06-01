@@ -97,6 +97,16 @@ nullable<rb_string> ui_controller::get_level(){
     }
 }
 
+bool ui_controller::is_last_level(){
+    if(_is_tutorial){
+        return _current_level == 5;
+    }
+    else if(_is_playing)
+        return _current_level == 9;
+    else
+        return true;
+}
+
 
 
 

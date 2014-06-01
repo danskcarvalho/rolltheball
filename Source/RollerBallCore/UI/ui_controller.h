@@ -37,6 +37,7 @@ namespace rb {
         static void goto_first_level();
         static bool is_force_load_level();
         static bool set_force_load_level(bool value);
+        static bool is_last_level();
     };
 }
 
