@@ -86,6 +86,7 @@ ui_component::ui_component(){
     _pcoins_num = nullptr;
     _unpause_btn = nullptr;
     _back_btn = nullptr;
+    _scores_posted = false;
 }
 
 void ui_component::describe_type(){
@@ -550,6 +551,12 @@ void ui_component::touches_began(const std::vector<touch> &touches, bool &swallo
                 intro_set2_clicked();
                 return;
             }
+            _touches = intersects_circle(_leaderboards_btn->old_transform().origin(), UI_INTRO_HEARTS_SIZE / 2.0f, _np);
+            if(_touches){
+                sound_player::play_click();
+                intro_leaderboards_clicked();
+                return;
+            }
             _touches = intersects_circle(_addhearts_btn->old_transform().origin(), UI_INTRO_HEARTS_SIZE / 2.0f, _np);
             if(_touches){
                 sound_player::play_click();
@@ -598,6 +605,13 @@ void ui_component::touches_began(const std::vector<touch> &touches, bool &swallo
     }
 }
 
+void ui_component::intro_leaderboards_clicked(){
+    if(_leaderboards_btn->opacity() < 1)
+        return;
+    _tutorial_btn->image_name(UI_BACK);
+    _leaderboards_btn->opacity(0.5f);
+}
+
 void ui_component::intro_addhearts_clicked(){
     ui_controller::hearts(ui_controller::hearts() + 15);
 }
@@ -623,6 +637,14 @@ void ui_component::show_scores(){
     _death_num->visible(true);
     _total_num->visible(true);
     _finish_btn->opacity(1.0f);
+    if(!_scores_posted){
+        auto _coin_num = ui_controller::coins() * 10.0f;
+        auto _time_num = ui_controller::time() * (-2.0f);
+        auto _deaths_num = ui_controller::deaths() * (-5.0f);
+        auto _total = _coin_num + _time_num + _deaths_num;
+        ui_controller::scores().push_back({ui_controller::get_set(), _total});
+        _scores_posted = true;
+    }
 }
 
 void ui_component::play_pause_clicked(){
@@ -679,6 +701,11 @@ void ui_component::intro_play_clicked(){
 }
 
 void ui_component::intro_tutorial_clicked(){
+    if(_tutorial_btn->image_name() == UI_BACK){
+        _tutorial_btn->image_name(UI_TUTORIAL);
+        _leaderboards_btn->opacity(1);
+        return;
+    }
     _intro_select = false;
     parent_scene()->animated_fade(color::from_rgba(1, 1, 1, 1), 0.25f, [](){
         ui_controller::set_intro(false);
@@ -690,6 +717,10 @@ void ui_component::intro_tutorial_clicked(){
 }
 
 void ui_component::intro_set1_clicked(){
+    if(_tutorial_btn->image_name() == UI_BACK){
+        ui_controller::leaderboard_to_show() = 1;
+        return;
+    }
     _intro_select = false;
     parent_scene()->animated_fade(color::from_rgba(1, 1, 1, 1), 0.25f, [](){
         ui_controller::set_intro(false);
@@ -702,6 +733,10 @@ void ui_component::intro_set1_clicked(){
 }
 
 void ui_component::intro_set2_clicked(){
+    if(_tutorial_btn->image_name() == UI_BACK){
+        ui_controller::leaderboard_to_show() = 2;
+        return;
+    }
     _intro_select = false;
     parent_scene()->animated_fade(color::from_rgba(1, 1, 1, 1), 0.25f, [](){
         ui_controller::set_intro(false);

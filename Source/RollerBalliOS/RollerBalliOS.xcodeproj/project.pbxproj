@@ -61,6 +61,7 @@
 		45A11ADB193C0A3F0087119B /* Launch768x1024@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 45A11AD9193C0A3F0087119B /* Launch768x1024@2x.png */; };
 		45A11ADC193C0A3F0087119B /* Launch1024x768@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 45A11ADA193C0A3F0087119B /* Launch1024x768@2x.png */; };
 		45A11ADE193C0B7A0087119B /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 45A11ADD193C0B7A0087119B /* Images.xcassets */; };
+		45A11AE0193C17930087119B /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45A11ADF193C17930087119B /* GameKit.framework */; };
 		45A7335D19132E8C00E7905E /* Level1.scene in Copy Files */ = {isa = PBXBuildFile; fileRef = 45A7335919132E6800E7905E /* Level1.scene */; };
 		45A7335E19132E8C00E7905E /* Level2.scene in Copy Files */ = {isa = PBXBuildFile; fileRef = 45A7335A19132E6800E7905E /* Level2.scene */; };
 		45AE181F19340CD100542AE8 /* Intro.scene in Resources */ = {isa = PBXBuildFile; fileRef = 45AE181919340CD100542AE8 /* Intro.scene */; };
@@ -113,7 +114,6 @@
 		453A5697193BD8A200390CFE /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = System/Library/Frameworks/OpenAL.framework; sourceTree = SDKROOT; };
 		453A5699193BD8C300390CFE /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		453A569B193BD8E000390CFE /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
-		453A56E5193BE14F00390CFE /* libObjectiveChipmunk.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libObjectiveChipmunk.a; path = "../RollerBallCore/build/Debug-iphoneos/libObjectiveChipmunk.a"; sourceTree = "<group>"; };
 		453A56E9193BF6A800390CFE /* BreakBlock.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = BreakBlock.wav; path = ../../../Resources/Sounds/BreakBlock.wav; sourceTree = "<group>"; };
 		453A56EA193BF6A800390CFE /* Disappear.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = Disappear.wav; path = ../../../Resources/Sounds/Disappear.wav; sourceTree = "<group>"; };
 		453A56EB193BF6A800390CFE /* Jump.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = Jump.wav; path = ../../../Resources/Sounds/Jump.wav; sourceTree = "<group>"; };
@@ -9171,6 +9171,7 @@
 		45A11AD9193C0A3F0087119B /* Launch768x1024@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Launch768x1024@2x.png"; sourceTree = "<group>"; };
 		45A11ADA193C0A3F0087119B /* Launch1024x768@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Launch1024x768@2x.png"; sourceTree = "<group>"; };
 		45A11ADD193C0B7A0087119B /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		45A11ADF193C17930087119B /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
 		45A7335919132E6800E7905E /* Level1.scene */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = Level1.scene; path = ../../../Resources/Scenes/Level1.scene; sourceTree = "<group>"; };
 		45A7335A19132E6800E7905E /* Level2.scene */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = Level2.scene; path = ../../../Resources/Scenes/Level2.scene; sourceTree = "<group>"; };
 		45AE181919340CD100542AE8 /* Intro.scene */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = Intro.scene; path = ../../../Resources/Scenes/Intro.scene; sourceTree = "<group>"; };
@@ -9192,6 +9193,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				45A11AE0193C17930087119B /* GameKit.framework in Frameworks */,
 				453A569C193BD8E000390CFE /* AudioToolbox.framework in Frameworks */,
 				453A569A193BD8C300390CFE /* AVFoundation.framework in Frameworks */,
 				453A5698193BD8A200390CFE /* OpenAL.framework in Frameworks */,
@@ -24336,7 +24338,7 @@
 		456726CE15F0322E00C91B3C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				453A56E5193BE14F00390CFE /* libObjectiveChipmunk.a */,
+				45A11ADF193C17930087119B /* GameKit.framework */,
 				453A569B193BD8E000390CFE /* AudioToolbox.framework */,
 				453A5699193BD8C300390CFE /* AVFoundation.framework */,
 				453A5697193BD8A200390CFE /* OpenAL.framework */,
@@ -24497,6 +24499,11 @@
 				TargetAttributes = {
 					456726CA15F0322E00C91B3C = {
 						DevelopmentTeam = M9XXFPDEMJ;
+						SystemCapabilities = {
+							com.apple.GameCenter = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -24689,6 +24696,7 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "RollerBalliOS/RollerBalliOS-Prefix.pch";
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
@@ -24697,6 +24705,7 @@
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
@@ -24710,6 +24719,7 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "RollerBalliOS/RollerBalliOS-Prefix.pch";
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
@@ -24718,6 +24728,7 @@
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};

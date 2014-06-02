@@ -697,7 +697,7 @@ void main_character::update(float dt){
                     auto _rMoving = _physShape->get_ray();
                     _moving_max_t = _rMoving.get_parameter(_physShape->get_pt1());
                     _moving_t = _rMoving.get_parameter(vec2(_body->GetPosition().x, _body->GetPosition().y));
-                    if(_penetration < (0.5f * 0.04f) && !(_moving_t < 0 || _moving_t > _moving_max_t))
+                    if(_penetration < (0.5f * 0.08f) && !(_moving_t < 0 || _moving_t > _moving_max_t))
                         _jumpCount = PHYS_CHARACTER_JUMP_COUNT;
                 }
                 else
@@ -820,7 +820,7 @@ MvPlatform:
                     return;
                 if(_pshape->phase_through()){
                     auto _penetration = calc_penetration(_pshape, this->old_transform());
-                    if(_penetration >= (0.5f * 0.04f))
+                    if(_penetration >= (0.5f * 0.08f))
                         return;
                 }
                 _moving_platform = _pshape;
@@ -1670,7 +1670,7 @@ void main_character::BeginContact(b2Contact *contact){
                     _moving_max_t = _rMoving.get_parameter(_ground->get_pt1());
                     _moving_t = _rMoving.get_parameter(vec2(_body->GetPosition().x, _body->GetPosition().y));
                     
-                    if(_penetration < (0.5f * 0.04f) && !(_moving_t < 0 || _moving_t > _moving_max_t))
+                    if(_penetration < (0.5f * 0.08f) && !(_moving_t < 0 || _moving_t > _moving_max_t))
                         _character->_jumpCount = PHYS_CHARACTER_JUMP_COUNT;
                 }
                 else

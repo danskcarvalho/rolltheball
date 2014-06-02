@@ -24,6 +24,8 @@ float ui_controller::_time = 0;
 float ui_controller::_hearts = 0;
 float ui_controller::_deaths = 0;
 float ui_controller::_saved_hearts = 0;
+std::vector<score> ui_controller::_scores_to_be_reported;
+size_t ui_controller::_show_leaderboard = 0;
 
 bool ui_controller::is_intro(){
     return _is_intro;
@@ -154,6 +156,14 @@ void ui_controller::save_hearts(){
 
 void ui_controller::restore_hearts(){
     _hearts = _saved_hearts;
+}
+
+std::vector<score>& ui_controller::scores(){
+    return _scores_to_be_reported;
+}
+
+size_t& ui_controller::leaderboard_to_show(){
+    return _show_leaderboard;
 }
 
 

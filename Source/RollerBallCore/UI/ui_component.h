@@ -29,6 +29,7 @@ namespace rb {
         std::unordered_map<char16_t, float> _sizes;
         
         bool _initialized;
+        bool _scores_posted;
         //intro screen
         sprite_component* _play_btn;
         sprite_component* _tutorial_btn;
@@ -69,6 +70,7 @@ namespace rb {
         void intro_set1_clicked();
         void intro_set2_clicked();
         void intro_addhearts_clicked();
+        void intro_leaderboards_clicked();
         //playing
     public:
         void play_pause_clicked();

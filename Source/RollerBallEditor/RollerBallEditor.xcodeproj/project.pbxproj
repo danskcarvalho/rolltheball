@@ -52,6 +52,9 @@
 		4563CBFF165DAE4F00F38B64 /* basic_shader.fsh in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4563CBF8165DAE1C00F38B64 /* basic_shader.fsh */; };
 		4563CC00165DAE4F00F38B64 /* basic_shader.vsh in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4563CBF9165DAE1C00F38B64 /* basic_shader.vsh */; };
 		4570F64016E024890093102F /* CppBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 4570F63F16E024880093102F /* CppBridge.m */; };
+		457F3083193D1E7A00C7EA76 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 457F3082193D1E7A00C7EA76 /* OpenAL.framework */; };
+		457F3085193D1E8A00C7EA76 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 457F3084193D1E8A00C7EA76 /* AudioToolbox.framework */; };
+		457F3087193D1E9200C7EA76 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 457F3086193D1E9200C7EA76 /* AVFoundation.framework */; };
 		45848A2C175BDC4F00176975 /* KBButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 45848A27175BDC4F00176975 /* KBButton.m */; };
 		45848A2D175BDC4F00176975 /* KBButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 45848A29175BDC4F00176975 /* KBButtonCell.m */; };
 		45848A2E175BDC4F00176975 /* NSColor+ColorExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 45848A2B175BDC4F00176975 /* NSColor+ColorExtensions.m */; };
@@ -9216,6 +9219,9 @@
 		4570F63D16E023DA0093102F /* CppBridgeProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CppBridgeProtocol.h; path = ../../../RollerBallCore/Components/CppBridgeProtocol.h; sourceTree = "<group>"; };
 		4570F63E16E024880093102F /* CppBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CppBridge.h; sourceTree = "<group>"; };
 		4570F63F16E024880093102F /* CppBridge.m */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = CppBridge.m; sourceTree = "<group>"; };
+		457F3082193D1E7A00C7EA76 /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = System/Library/Frameworks/OpenAL.framework; sourceTree = SDKROOT; };
+		457F3084193D1E8A00C7EA76 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		457F3086193D1E9200C7EA76 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		45848A26175BDC4F00176975 /* KBButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KBButton.h; path = KBButton/KBButton.h; sourceTree = "<group>"; };
 		45848A27175BDC4F00176975 /* KBButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KBButton.m; path = KBButton/KBButton.m; sourceTree = "<group>"; };
 		45848A28175BDC4F00176975 /* KBButtonCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KBButtonCell.h; path = KBButton/KBButtonCell.h; sourceTree = "<group>"; };
@@ -9296,6 +9302,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				457F3087193D1E9200C7EA76 /* AVFoundation.framework in Frameworks */,
+				457F3085193D1E8A00C7EA76 /* AudioToolbox.framework in Frameworks */,
+				457F3083193D1E7A00C7EA76 /* OpenAL.framework in Frameworks */,
 				45848A37175BDC8A00176975 /* QuartzCore.framework in Frameworks */,
 				4563CBDB165D91D300F38B64 /* OpenGL.framework in Frameworks */,
 				4563A48F165D8E8300F38B64 /* libRollerBallCoreMacOSX.a in Frameworks */,
@@ -24641,6 +24650,9 @@
 		45EA05C41635B554002ECC37 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				457F3086193D1E9200C7EA76 /* AVFoundation.framework */,
+				457F3084193D1E8A00C7EA76 /* AudioToolbox.framework */,
+				457F3082193D1E7A00C7EA76 /* OpenAL.framework */,
 				45848A36175BDC8A00176975 /* QuartzCore.framework */,
 				4563A48E165D8E8300F38B64 /* libRollerBallCoreMacOSX.a */,
 				4563CBDA165D91D300F38B64 /* OpenGL.framework */,
@@ -24959,6 +24971,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/../../../../Library/Developer/Xcode/DerivedData/GameRollerBall-bwsouzuzmkmatvazblqbzwuztkxy/Build/Products/Debug\"",
 				);
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				USER_HEADER_SEARCH_PATHS = ../Libs;
 				WRAPPER_EXTENSION = app;
@@ -24980,6 +24993,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/../../../../Library/Developer/Xcode/DerivedData/GameRollerBall-bwsouzuzmkmatvazblqbzwuztkxy/Build/Products/Debug\"",
 				);
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				USER_HEADER_SEARCH_PATHS = ../Libs;
 				WRAPPER_EXTENSION = app;

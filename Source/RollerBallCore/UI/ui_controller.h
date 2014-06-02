@@ -12,6 +12,10 @@
 #include "components_base.h"
 
 namespace rb {
+    struct score {
+        size_t set;
+        float value;
+    };
     class ui_controller {
     public:
         static bool _is_intro;
@@ -28,6 +32,8 @@ namespace rb {
         static float _hearts;
         static float _deaths;
         static float _saved_hearts;
+        static std::vector<score> _scores_to_be_reported;
+        static size_t _show_leaderboard;
     public:
         static bool is_intro();
         static bool set_intro(bool value);
@@ -55,6 +61,9 @@ namespace rb {
         static float hearts(float value);
         static float deaths();
         static float deaths(float value);
+        //scores to be reported
+        static std::vector<score>& scores();
+        static size_t& leaderboard_to_show();
     };
 }
 

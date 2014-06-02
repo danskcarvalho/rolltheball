@@ -13,6 +13,7 @@
 #include "ui_controller.h"
 #include "director.h"
 #include "ui_component.h"
+#import "GameKit/GameKit.h"
 
 using namespace rb;
 
@@ -25,6 +26,14 @@ using namespace rb;
     self.viewController = [[DSViewController alloc] initWithNibName:@"DSViewController" bundle:nil];
     self.window.rootViewController = self.viewController;
     [self.window makeKeyAndVisible];
+    GKLocalPlayer *localPlayer = [GKLocalPlayer localPlayer];
+    localPlayer.authenticateHandler = ^(UIViewController *viewController, NSError *error){
+        if(viewController != nil)
+            [self.viewController presentViewController:viewController animated:YES completion:nil];
+        else {
+            //do nothing...
+        }
+    };
     return YES;
 }
 

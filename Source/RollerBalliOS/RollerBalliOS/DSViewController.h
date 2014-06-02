@@ -8,7 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import <GLKit/GLKit.h>
+#import <GameKit/GameKit.h> 
 
-@interface DSViewController : GLKViewController
+@interface DSViewController : GLKViewController <GKGameCenterControllerDelegate>
 
 @end

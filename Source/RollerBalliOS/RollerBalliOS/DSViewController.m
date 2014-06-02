@@ -15,12 +15,18 @@ using namespace rb;
 
 
 @interface DSViewController () {
+    BOOL _reportingScores;
+    size_t _scoreIndex;
 }
 @property (strong, nonatomic) EAGLContext *context;
 
 - (void)setupGL;
 - (void)tearDownGL;
 - (void)setupScene;
+- (void)changeScene;
+- (void)reportScores;
+- (void)showLeaderboard:(size_t)set;
+- (void)maybeShowLeaderboard;
 @end
 
 static rb_string _current_level;
@@ -44,6 +50,7 @@ static rb_string _current_level;
     view.multipleTouchEnabled = YES;
     self.preferredFramesPerSecond = 1.0 / DESIRED_FPS;
     
+    _reportingScores = NO;
     [self setupGL];
 }
 
@@ -113,8 +120,7 @@ static rb_string _current_level;
     [EAGLContext setCurrentContext:self.context];
 }
 
-- (void)update
-{
+- (void)changeScene{
     nullable<rb_string> _changeLevel = nullptr;
     if(ui_controller::get_level() == nullptr && _current_level != u"Intro"){ //return to intro
         _changeLevel = u"Intro";
@@ -147,6 +153,65 @@ static rb_string _current_level;
             ui_controller::set_force_load_level(false);
         }
     }
+}
+
+-(void)showLeaderboard:(size_t)set{
+    if(![GKLocalPlayer localPlayer].authenticated)
+        return;
+    GKGameCenterViewController *gcViewController = [[GKGameCenterViewController alloc] init];
+    
+    gcViewController.gameCenterDelegate = self;
+    
+    gcViewController.viewState = GKGameCenterViewControllerStateLeaderboards;
+    gcViewController.leaderboardIdentifier = set == 1 ? @"GRL_SET1_LEADERBOARD" : @"GRL_SET2_LEADERBOARD";
+    
+    [self presentViewController:gcViewController animated:YES completion:nil];
+}
+
+-(void)maybeShowLeaderboard{
+    if(ui_controller::leaderboard_to_show() != 0)
+    {
+        [self showLeaderboard:ui_controller::leaderboard_to_show()];
+        ui_controller::leaderboard_to_show() = 0;
+    }
+}
+
+-(void)gameCenterViewControllerDidFinish:(GKGameCenterViewController *)gameCenterViewController{
+    [gameCenterViewController dismissViewControllerAnimated:YES completion:nil];
+}
+
+-(void)reportScores{
+    if(_reportingScores)
+        return;
+    
+    if(![GKLocalPlayer localPlayer].authenticated)
+        return;
+    
+    auto& _scores = ui_controller::scores();
+    if(_scores.size() == 0)
+        return;
+    
+    _reportingScores = YES;
+    auto _sc = _scores.back();
+    _scoreIndex = _scores.size() - 1;
+    GKScore* score = [[GKScore alloc] initWithLeaderboardIdentifier: _sc.set == 1 ? @"GRL_SET1_LEADERBOARD" : @"GRL_SET2_LEADERBOARD"];
+    score.value = _sc.value;
+    [GKScore reportScores:@[score] withCompletionHandler:^(NSError *error) {
+        _reportingScores = NO;
+        if (error != nil) {
+            NSLog(@"%@", [error localizedDescription]);
+        }
+        if(error == nil){
+            _scores.erase(_scores.begin() + _scoreIndex);
+        }
+    }];
+}
+
+- (void)update
+{
+    [self changeScene];
+    [self reportScores];
+    [self maybeShowLeaderboard];
     director::active_responder()->update();
 }
 
