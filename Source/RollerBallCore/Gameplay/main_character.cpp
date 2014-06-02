@@ -23,6 +23,7 @@
 #include "saw.h"
 #include "ui_controller.h"
 #include "ui_component.h"
+#include "sound_player.h"
 #include <random>
 #include <Box2D/Box2D.h>
 
@@ -70,7 +71,7 @@
 
 #define EXPLOSION_GRAVITY_MAGNITUDE 25
 
-#define INVINCIBILITY_FLAG true
+#define INVINCIBILITY_FLAG false
 
 using namespace rb;
 
@@ -197,6 +198,11 @@ main_character::main_character(){
     //force zone
     _velocity_force_zones = vec2::zero;
     _zero_gravity = false;
+    //deaths
+    _deaths = 0;
+    //time
+    _fixed_time = 0;
+    _time = 0;
 }
 
 main_character::~main_character(){
@@ -407,11 +413,12 @@ bool main_character::check_die(float dt){
         auto _other = dynamic_cast<saw*>((node*)ce->other->GetUserData());
         if(_other && !_other->destroyed() && ce->contact->IsTouching() && ce->contact->IsEnabled()){
             if(_debug_mode || INVINCIBILITY_FLAG || (_other->destructible() && _hearts > 0)){
-                if(_coins.size() != 0)
-                    _hearts -= 1.0f;
+                _hearts -= 1.0f;
                 if(_hearts < 0)
                     _hearts = 0.0f;
+                ui_controller::hearts(_hearts);
                 _other->destroy_saw();
+                sound_player::play_disappear();
             }
             else {
                 die();
@@ -542,6 +549,7 @@ void main_character::check_for_coins(){
         auto _tcc = _c->from_node_space_to(space::layer).translation();
         auto _intersects = circle_intersects(_tcc, _c->transform().x_vector().length() / 2.0f, this->transform().translation(), 0.5f);
         if(_intersects && _coins.count(_c) != 0){
+            sound_player::play_coin();
             animation_info ai;
             ai.auto_destroy = true;
             ai.duration = 0.25f;
@@ -570,6 +578,7 @@ void main_character::check_for_coins(){
         }
         _it++;
     }
+    ui_controller::coins(_fixed_coins + _nonfixed_coins);
 }
 
 void main_character::check_win(){
@@ -589,8 +598,11 @@ void main_character::check_win(){
 void main_character::win_animation(float t){
     if(!_full_win_an){
         if(t >= 1){
-            if(!in_editor())
+            if(!in_editor()){
+                if(ui_controller::is_tutorial())
+                    ui_controller::restore_hearts();
                 ui_controller::next_level();
+            }
             dynamic_cast<sprite_component*>(_win_zone)->opacity(0);
             parent_scene()->fade_color(color::from_rgba(0, 1, 0, 1));
             this->_sprite->opacity(0);
@@ -606,8 +618,11 @@ void main_character::win_animation(float t){
     else {
         if(t >= 1){
             if(!in_editor()){
-                if(ui_controller::is_tutorial())
+                if(ui_controller::is_tutorial()){
+                    if(ui_controller::is_last_level())
+                        ui_controller::restore_hearts();
                     ui_controller::next_level();
+                }
                 else
                     dynamic_cast<ui_component*>(parent_scene()->node_with_name(u"ui"))->show_scores();
             }
@@ -629,6 +644,8 @@ void main_character::update(float dt){
     check_win();
     if (_won)
         return;
+    _time += dt;
+    ui_controller::time(_fixed_time + _time);
     
     if(_died){
         update_died(dt);
@@ -897,8 +914,10 @@ void main_character::update_movingplatform(vec2& vel, nullable<float>& rot_vel, 
                 auto _vAt = _moving_platform->get_velocity_at_pt(_pt);
                 if(_vAt.y() > 0)
                     _vy += _vAt.y() / 3;
-                if(!_inside_jump_zone && !INVINCIBILITY_FLAG && !_debug_mode)
+                sound_player::play_jump();
+                if(!_inside_jump_zone && !INVINCIBILITY_FLAG && !_debug_mode){
                     _jumpCount--;
+                }
                 
                 _last_moving_platform = _moving_platform;
                 _clear_last_moving_platform = _frame_count + (uint64_t)(JUMP_TOUCH_DURATION * 2);
@@ -1091,8 +1110,10 @@ void main_character::update_character(vec2& cam_gravity, float dt){
             if(_jumpCount > 0){
                 _vy = -_true_gy * _jump_velocity;
                 _v = _vx + _vy;
-                if(!_inside_jump_zone && !INVINCIBILITY_FLAG && !_debug_mode)
+                sound_player::play_jump();
+                if(!_inside_jump_zone && !INVINCIBILITY_FLAG && !_debug_mode){
                     _jumpCount--;
+                }
             }
         }
         
@@ -1185,9 +1206,22 @@ void main_character::die(){
     if(_died)
         return;
     
+    sound_player::play_explosion();
+    
+    _deaths++;
+    
+    ui_controller::deaths(_deaths);
+    
+    if(_hearts <= 0)
+        _fixed_time += _time;
+    
     _hearts -= 1.0f;
     if(_hearts < 0)
         _hearts = 0.0f;
+    ui_controller::hearts(_hearts);
+    
+    _time = 0;
+    ui_controller::time(_time + _fixed_time);
     
     parent_scene()->cancel_auto_fading();
     shake_camera();
@@ -1283,6 +1317,7 @@ void main_character::reset_component(){
     for (auto _cc : _fixed_taken_coins){
         _cc->opacity(0);
     }
+    ui_controller::coins(_fixed_coins + _nonfixed_coins);
     //jump zone
     _inside_jump_zone = false;
     //force zone
@@ -1406,6 +1441,24 @@ void main_character::playing(){
         
         if(ui_controller::is_last_level() && !ui_controller::is_tutorial())
             _full_win_an = true;
+        //coins
+        if(ui_controller::get_level_number() == 0){ //first level
+            ui_controller::coins(0);
+            ui_controller::deaths(0);
+            ui_controller::time(0);
+            ui_controller::save_hearts();
+        }
+        else {
+            _fixed_coins = ui_controller::coins();
+            _deaths = ui_controller::deaths();
+            _fixed_time = ui_controller::time();
+        }
+        if(ui_controller::is_playing()){
+            _hearts = ui_controller::hearts();
+        }
+        else {
+            ui_controller::hearts(_hearts);
+        }
     }
 }
 

@@ -133,6 +133,11 @@ namespace rb {
         //force zones
         vec2 _velocity_force_zones;
         bool _zero_gravity;
+        //deaths
+        float _deaths;
+        //time
+        float _fixed_time;
+        float _time;
     private:
         void check_win();
         void win_animation(float t);

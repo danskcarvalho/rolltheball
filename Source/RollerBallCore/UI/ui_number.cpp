@@ -51,6 +51,8 @@ rb_string get_string(int digits, float number, bool is_date){
         float _seconds = floorf(number - _minutes * 60.0f);
         if(_minutes > 99)
             _minutes = 99;
+        if(_seconds > 59)
+            _seconds = 59; //should never need to that anyway
         std::string s1 = std::to_string((int)_minutes);
         std::string s2 = std::to_string((int)_seconds);
         if(s1.size() == 1)
@@ -302,6 +304,8 @@ float ui_number::number() const{
     return _number;
 }
 float ui_number::number(float value){
+    if(_number == value)
+        return _number;
     _number = value;
     update_sprites();
     return _number;

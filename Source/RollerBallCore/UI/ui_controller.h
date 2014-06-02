@@ -23,6 +23,11 @@ namespace rb {
         static rb_string _set2_levels[10];
         static rb_string _tut_levels[6];
         static size_t _current_level;
+        static float _coins;
+        static float _time;
+        static float _hearts;
+        static float _deaths;
+        static float _saved_hearts;
     public:
         static bool is_intro();
         static bool set_intro(bool value);
@@ -32,12 +37,24 @@ namespace rb {
         static bool set_playing(bool value);
         static size_t get_set();
         static size_t set_set(size_t value);
+        static size_t get_level_number();
         static nullable<rb_string> get_level();
         static bool next_level();
         static void goto_first_level();
         static bool is_force_load_level();
         static bool set_force_load_level(bool value);
         static bool is_last_level();
+        static void save_hearts();
+        static void restore_hearts();
+        //statistics
+        static float coins();
+        static float coins(float value);
+        static float time();
+        static float time(float value);
+        static float hearts();
+        static float hearts(float value);
+        static float deaths();
+        static float deaths(float value);
     };
 }
 

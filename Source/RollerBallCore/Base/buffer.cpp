@@ -7,7 +7,7 @@
 //
 
 #include "buffer.h"
-#include "base64.h"
+#include "rb_base64.h"
 #include "compute_hash.h"
 
 using namespace rb;
@@ -63,7 +63,7 @@ buffer::buffer_internals::buffer_internals(const rb_string& encoded){
         return;
     }
     std::string _str = to_utf8_string(encoded);
-    auto _b_v = base64Decode(_str);
+    auto _b_v = rb_base64Decode(_str);
     _size = _b_v.size();
     _bytes = (uint8_t*)malloc(_size);
     for (size_t i = 0; i < _b_v.size(); i++) {
@@ -168,7 +168,7 @@ void buffer::copy_to_cbuffer(void *cbuffer) const {
 rb_string buffer::encode() const {
     std::vector<uint8_t> _b;
     copy_to_vector(_b);
-    auto _str = base64Encode(_b);
+    auto _str = rb_base64Encode(_b);
     return _to_rb_string(_str);
 }
 

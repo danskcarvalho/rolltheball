@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		4506F10F1623238B009AA030 /* basic_shader_with_wrapping.fsh in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4506F10A16232362009AA030 /* basic_shader_with_wrapping.fsh */; };
+		4506F10F1623238B009AA030 /* basic_shader_with_wrapping.fsh in Copy Files */ = {isa = PBXBuildFile; fileRef = 4506F10A16232362009AA030 /* basic_shader_with_wrapping.fsh */; };
 		451208301928214800F5F61B /* Level14.scene in Resources */ = {isa = PBXBuildFile; fileRef = 4512082D1928214800F5F61B /* Level14.scene */; };
 		451208311928214800F5F61B /* Level15.scene in Resources */ = {isa = PBXBuildFile; fileRef = 4512082E1928214800F5F61B /* Level15.scene */; };
 		451208321928214800F5F61B /* Level17.scene in Resources */ = {isa = PBXBuildFile; fileRef = 4512082F1928214800F5F61B /* Level17.scene */; };
@@ -15,9 +15,19 @@
 		452AC7E7192B0E5F004CE3B3 /* Level16.scene in Resources */ = {isa = PBXBuildFile; fileRef = 452AC7E4192B0E5F004CE3B3 /* Level16.scene */; };
 		452AC7E8192B0E5F004CE3B3 /* Level18.scene in Resources */ = {isa = PBXBuildFile; fileRef = 452AC7E5192B0E5F004CE3B3 /* Level18.scene */; };
 		452AC7E9192B0E5F004CE3B3 /* Level19.scene in Resources */ = {isa = PBXBuildFile; fileRef = 452AC7E6192B0E5F004CE3B3 /* Level19.scene */; };
+		453A568A193BD4E300390CFE /* Click.wav in Resources */ = {isa = PBXBuildFile; fileRef = 453A5686193BD4E300390CFE /* Click.wav */; };
+		453A568B193BD4E300390CFE /* Coin.wav in Resources */ = {isa = PBXBuildFile; fileRef = 453A5687193BD4E300390CFE /* Coin.wav */; };
+		453A568C193BD4E300390CFE /* Explosion.wav in Resources */ = {isa = PBXBuildFile; fileRef = 453A5688193BD4E300390CFE /* Explosion.wav */; };
+		453A568D193BD4E300390CFE /* Soundtrack.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 453A5689193BD4E300390CFE /* Soundtrack.mp3 */; };
+		453A5698193BD8A200390CFE /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 453A5697193BD8A200390CFE /* OpenAL.framework */; };
+		453A569A193BD8C300390CFE /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 453A5699193BD8C300390CFE /* AVFoundation.framework */; };
+		453A569C193BD8E000390CFE /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 453A569B193BD8E000390CFE /* AudioToolbox.framework */; };
+		453A56EC193BF6A800390CFE /* BreakBlock.wav in Resources */ = {isa = PBXBuildFile; fileRef = 453A56E9193BF6A800390CFE /* BreakBlock.wav */; };
+		453A56ED193BF6A800390CFE /* Disappear.wav in Resources */ = {isa = PBXBuildFile; fileRef = 453A56EA193BF6A800390CFE /* Disappear.wav */; };
+		453A56EE193BF6A800390CFE /* Jump.wav in Resources */ = {isa = PBXBuildFile; fileRef = 453A56EB193BF6A800390CFE /* Jump.wav */; };
 		4553A42C191DBD9900930C8F /* Level4.scene in Resources */ = {isa = PBXBuildFile; fileRef = 4553A42B191DBD9900930C8F /* Level4.scene */; };
 		4553A42E191E020E00930C8F /* Level5.scene in Resources */ = {isa = PBXBuildFile; fileRef = 4553A42D191E020E00930C8F /* Level5.scene */; };
-		455481841916EF6F00681587 /* Level3.scene in CopyFiles */ = {isa = PBXBuildFile; fileRef = 455481821916EF6100681587 /* Level3.scene */; };
+		455481841916EF6F00681587 /* Level3.scene in Copy Files */ = {isa = PBXBuildFile; fileRef = 455481821916EF6100681587 /* Level3.scene */; };
 		456726D015F0322E00C91B3C /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 456726CF15F0322E00C91B3C /* UIKit.framework */; };
 		456726D215F0322E00C91B3C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 456726D115F0322E00C91B3C /* Foundation.framework */; };
 		456726D415F0322E00C91B3C /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 456726D315F0322E00C91B3C /* CoreGraphics.framework */; };
@@ -29,8 +39,8 @@
 		456726EB15F0322E00C91B3C /* DSViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 456726EA15F0322E00C91B3C /* DSViewController.m */; };
 		456726EE15F0322E00C91B3C /* DSViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 456726EC15F0322E00C91B3C /* DSViewController.xib */; };
 		456726F815F033B100C91B3C /* libRollerBallCoreiOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 456726F715F033B100C91B3C /* libRollerBallCoreiOS.a */; };
-		456C8A0E161267900001B343 /* basic_shader.fsh in CopyFiles */ = {isa = PBXBuildFile; fileRef = 456C8A06161267510001B343 /* basic_shader.fsh */; };
-		456C8A0F161267900001B343 /* basic_shader.vsh in CopyFiles */ = {isa = PBXBuildFile; fileRef = 456C8A07161267510001B343 /* basic_shader.vsh */; };
+		456C8A0E161267900001B343 /* basic_shader.fsh in Copy Files */ = {isa = PBXBuildFile; fileRef = 456C8A06161267510001B343 /* basic_shader.fsh */; };
+		456C8A0F161267900001B343 /* basic_shader.vsh in Copy Files */ = {isa = PBXBuildFile; fileRef = 456C8A07161267510001B343 /* basic_shader.vsh */; };
 		4570FB0C17C40B0D002A063F /* DSCustomOpenGLView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4570FB0B17C40B0D002A063F /* DSCustomOpenGLView.mm */; };
 		458651501922EE6300CA013E /* Level9.scene in Resources */ = {isa = PBXBuildFile; fileRef = 4586514E1922EE6300CA013E /* Level9.scene */; };
 		458651511922EE6300CA013E /* Level10.scene in Resources */ = {isa = PBXBuildFile; fileRef = 4586514F1922EE6300CA013E /* Level10.scene */; };
@@ -38,8 +48,8 @@
 		459714DB192587AA009FF957 /* Level12.scene in Resources */ = {isa = PBXBuildFile; fileRef = 459714D8192587AA009FF957 /* Level12.scene */; };
 		459714DC192587AA009FF957 /* Level13.scene in Resources */ = {isa = PBXBuildFile; fileRef = 459714D9192587AA009FF957 /* Level13.scene */; };
 		45A2A44F18E87C7700A2397E /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 45A2A44E18E87C7700A2397E /* Default-568h@2x.png */; };
-		45A7335D19132E8C00E7905E /* Level1.scene in CopyFiles */ = {isa = PBXBuildFile; fileRef = 45A7335919132E6800E7905E /* Level1.scene */; };
-		45A7335E19132E8C00E7905E /* Level2.scene in CopyFiles */ = {isa = PBXBuildFile; fileRef = 45A7335A19132E6800E7905E /* Level2.scene */; };
+		45A7335D19132E8C00E7905E /* Level1.scene in Copy Files */ = {isa = PBXBuildFile; fileRef = 45A7335919132E6800E7905E /* Level1.scene */; };
+		45A7335E19132E8C00E7905E /* Level2.scene in Copy Files */ = {isa = PBXBuildFile; fileRef = 45A7335A19132E6800E7905E /* Level2.scene */; };
 		45AE181F19340CD100542AE8 /* Intro.scene in Resources */ = {isa = PBXBuildFile; fileRef = 45AE181919340CD100542AE8 /* Intro.scene */; };
 		45AE182019340CD100542AE8 /* Tutorial1.scene in Resources */ = {isa = PBXBuildFile; fileRef = 45AE181A19340CD100542AE8 /* Tutorial1.scene */; };
 		45AE182119340CD100542AE8 /* Tutorial2.scene in Resources */ = {isa = PBXBuildFile; fileRef = 45AE181B19340CD100542AE8 /* Tutorial2.scene */; };
@@ -47,7 +57,7 @@
 		45AE182319340CD100542AE8 /* Tutorial4.scene in Resources */ = {isa = PBXBuildFile; fileRef = 45AE181D19340CD100542AE8 /* Tutorial4.scene */; };
 		45AE182419340CD100542AE8 /* Tutorial5.scene in Resources */ = {isa = PBXBuildFile; fileRef = 45AE181E19340CD100542AE8 /* Tutorial5.scene */; };
 		45B61E8A19393D4E00A5EAE7 /* Tutorial0.scene in Resources */ = {isa = PBXBuildFile; fileRef = 45B61E8919393D4E00A5EAE7 /* Tutorial0.scene */; };
-		45BC87EA1911A6A100CF23AF /* Level0.scene in CopyFiles */ = {isa = PBXBuildFile; fileRef = 45BC87E81911A68C00CF23AF /* Level0.scene */; };
+		45BC87EA1911A6A100CF23AF /* Level0.scene in Copy Files */ = {isa = PBXBuildFile; fileRef = 45BC87E81911A68C00CF23AF /* Level0.scene */; };
 		45E179A4190F2B9100803E4E /* Gameplay.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 45E179A3190F2B9100803E4E /* Gameplay.bundle */; };
 		45E52957161265E9002159FF /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45E52956161265E9002159FF /* ImageIO.framework */; };
 		45F3A72C19205A610095E7F3 /* Level7.scene in Resources */ = {isa = PBXBuildFile; fileRef = 45F3A72A19205A600095E7F3 /* Level7.scene */; };
@@ -55,20 +65,21 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		456C8A0C161267820001B343 /* CopyFiles */ = {
+		456C8A0C161267820001B343 /* Copy Files */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 7;
 			files = (
-				455481841916EF6F00681587 /* Level3.scene in CopyFiles */,
-				45A7335D19132E8C00E7905E /* Level1.scene in CopyFiles */,
-				45A7335E19132E8C00E7905E /* Level2.scene in CopyFiles */,
-				45BC87EA1911A6A100CF23AF /* Level0.scene in CopyFiles */,
-				4506F10F1623238B009AA030 /* basic_shader_with_wrapping.fsh in CopyFiles */,
-				456C8A0E161267900001B343 /* basic_shader.fsh in CopyFiles */,
-				456C8A0F161267900001B343 /* basic_shader.vsh in CopyFiles */,
+				455481841916EF6F00681587 /* Level3.scene in Copy Files */,
+				45A7335D19132E8C00E7905E /* Level1.scene in Copy Files */,
+				45A7335E19132E8C00E7905E /* Level2.scene in Copy Files */,
+				45BC87EA1911A6A100CF23AF /* Level0.scene in Copy Files */,
+				4506F10F1623238B009AA030 /* basic_shader_with_wrapping.fsh in Copy Files */,
+				456C8A0E161267900001B343 /* basic_shader.fsh in Copy Files */,
+				456C8A0F161267900001B343 /* basic_shader.vsh in Copy Files */,
 			);
+			name = "Copy Files";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -82,6 +93,17 @@
 		452AC7E4192B0E5F004CE3B3 /* Level16.scene */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = Level16.scene; path = ../../../Resources/Scenes/Level16.scene; sourceTree = "<group>"; };
 		452AC7E5192B0E5F004CE3B3 /* Level18.scene */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = Level18.scene; path = ../../../Resources/Scenes/Level18.scene; sourceTree = "<group>"; };
 		452AC7E6192B0E5F004CE3B3 /* Level19.scene */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = Level19.scene; path = ../../../Resources/Scenes/Level19.scene; sourceTree = "<group>"; };
+		453A5686193BD4E300390CFE /* Click.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = Click.wav; path = ../../../Resources/Sounds/Click.wav; sourceTree = "<group>"; };
+		453A5687193BD4E300390CFE /* Coin.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = Coin.wav; path = ../../../Resources/Sounds/Coin.wav; sourceTree = "<group>"; };
+		453A5688193BD4E300390CFE /* Explosion.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = Explosion.wav; path = ../../../Resources/Sounds/Explosion.wav; sourceTree = "<group>"; };
+		453A5689193BD4E300390CFE /* Soundtrack.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = Soundtrack.mp3; path = ../../../Resources/Sounds/Soundtrack.mp3; sourceTree = "<group>"; };
+		453A5697193BD8A200390CFE /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = System/Library/Frameworks/OpenAL.framework; sourceTree = SDKROOT; };
+		453A5699193BD8C300390CFE /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		453A569B193BD8E000390CFE /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		453A56E5193BE14F00390CFE /* libObjectiveChipmunk.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libObjectiveChipmunk.a; path = "../RollerBallCore/build/Debug-iphoneos/libObjectiveChipmunk.a"; sourceTree = "<group>"; };
+		453A56E9193BF6A800390CFE /* BreakBlock.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = BreakBlock.wav; path = ../../../Resources/Sounds/BreakBlock.wav; sourceTree = "<group>"; };
+		453A56EA193BF6A800390CFE /* Disappear.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = Disappear.wav; path = ../../../Resources/Sounds/Disappear.wav; sourceTree = "<group>"; };
+		453A56EB193BF6A800390CFE /* Jump.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = Jump.wav; path = ../../../Resources/Sounds/Jump.wav; sourceTree = "<group>"; };
 		4553A42B191DBD9900930C8F /* Level4.scene */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = Level4.scene; path = ../../../Resources/Scenes/Level4.scene; sourceTree = "<group>"; };
 		4553A42D191E020E00930C8F /* Level5.scene */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = Level5.scene; path = ../../../Resources/Scenes/Level5.scene; sourceTree = "<group>"; };
 		455481821916EF6100681587 /* Level3.scene */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = Level3.scene; path = ../../../Resources/Scenes/Level3.scene; sourceTree = "<group>"; };
@@ -9144,6 +9166,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				453A569C193BD8E000390CFE /* AudioToolbox.framework in Frameworks */,
+				453A569A193BD8C300390CFE /* AVFoundation.framework in Frameworks */,
+				453A5698193BD8A200390CFE /* OpenAL.framework in Frameworks */,
 				45E52957161265E9002159FF /* ImageIO.framework in Frameworks */,
 				456726F815F033B100C91B3C /* libRollerBallCoreiOS.a in Frameworks */,
 				456726D015F0322E00C91B3C /* UIKit.framework in Frameworks */,
@@ -9157,6 +9182,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		453A5685193BD4CB00390CFE /* Sounds */ = {
+			isa = PBXGroup;
+			children = (
+				453A56E9193BF6A800390CFE /* BreakBlock.wav */,
+				453A56EA193BF6A800390CFE /* Disappear.wav */,
+				453A56EB193BF6A800390CFE /* Jump.wav */,
+				453A5686193BD4E300390CFE /* Click.wav */,
+				453A5687193BD4E300390CFE /* Coin.wav */,
+				453A5688193BD4E300390CFE /* Explosion.wav */,
+				453A5689193BD4E300390CFE /* Soundtrack.mp3 */,
+			);
+			name = Sounds;
+			sourceTree = "<group>";
+		};
 		455C001F16272A200052A9F5 /* indexes */ = {
 			isa = PBXGroup;
 			children = (
@@ -24271,6 +24310,10 @@
 		456726CE15F0322E00C91B3C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				453A56E5193BE14F00390CFE /* libObjectiveChipmunk.a */,
+				453A569B193BD8E000390CFE /* AudioToolbox.framework */,
+				453A5699193BD8C300390CFE /* AVFoundation.framework */,
+				453A5697193BD8A200390CFE /* OpenAL.framework */,
 				456726F715F033B100C91B3C /* libRollerBallCoreiOS.a */,
 				45E52956161265E9002159FF /* ImageIO.framework */,
 				456726CF15F0322E00C91B3C /* UIKit.framework */,
@@ -24347,6 +24390,7 @@
 		45E5295916126684002159FF /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				453A5685193BD4CB00390CFE /* Sounds */,
 				45D3CC7517A411680034EDBF /* Scenes */,
 				45E5295B16126692002159FF /* Atlases */,
 				45E5295A1612668A002159FF /* Shaders */,
@@ -24382,7 +24426,7 @@
 				456726C715F0322E00C91B3C /* Sources */,
 				456726C815F0322E00C91B3C /* Frameworks */,
 				456726C915F0322E00C91B3C /* Resources */,
-				456C8A0C161267820001B343 /* CopyFiles */,
+				456C8A0C161267820001B343 /* Copy Files */,
 			);
 			buildRules = (
 			);
@@ -24402,6 +24446,11 @@
 				CLASSPREFIX = DS;
 				LastUpgradeCheck = 0500;
 				ORGANIZATIONNAME = "Danilo Carvalho";
+				TargetAttributes = {
+					456726CA15F0322E00C91B3C = {
+						DevelopmentTeam = M9XXFPDEMJ;
+					};
+				};
 			};
 			buildConfigurationList = 456726C515F0322E00C91B3C /* Build configuration list for PBXProject "RollerBalliOS" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -24430,13 +24479,17 @@
 				4553A42C191DBD9900930C8F /* Level4.scene in Resources */,
 				45AE181F19340CD100542AE8 /* Intro.scene in Resources */,
 				4553A42E191E020E00930C8F /* Level5.scene in Resources */,
+				453A568B193BD4E300390CFE /* Coin.wav in Resources */,
+				453A56ED193BF6A800390CFE /* Disappear.wav in Resources */,
 				456726DE15F0322E00C91B3C /* InfoPlist.strings in Resources */,
 				45B61E8A19393D4E00A5EAE7 /* Tutorial0.scene in Resources */,
 				451208301928214800F5F61B /* Level14.scene in Resources */,
 				45E179A4190F2B9100803E4E /* Gameplay.bundle in Resources */,
 				45AE182119340CD100542AE8 /* Tutorial2.scene in Resources */,
 				459714DC192587AA009FF957 /* Level13.scene in Resources */,
+				453A568A193BD4E300390CFE /* Click.wav in Resources */,
 				452AC7E7192B0E5F004CE3B3 /* Level16.scene in Resources */,
+				453A568C193BD4E300390CFE /* Explosion.wav in Resources */,
 				45AE182219340CD100542AE8 /* Tutorial3.scene in Resources */,
 				45AE182319340CD100542AE8 /* Tutorial4.scene in Resources */,
 				452AC7E9192B0E5F004CE3B3 /* Level19.scene in Resources */,
@@ -24448,6 +24501,9 @@
 				459714DA192587AA009FF957 /* Level11.scene in Resources */,
 				451739FD191EB46C0006EF90 /* Level6.scene in Resources */,
 				451208311928214800F5F61B /* Level15.scene in Resources */,
+				453A56EC193BF6A800390CFE /* BreakBlock.wav in Resources */,
+				453A56EE193BF6A800390CFE /* Jump.wav in Resources */,
+				453A568D193BD4E300390CFE /* Soundtrack.mp3 in Resources */,
 				452AC7E8192B0E5F004CE3B3 /* Level18.scene in Resources */,
 				45F3A72D19205A610095E7F3 /* Level8.scene in Resources */,
 				45F3A72C19205A610095E7F3 /* Level7.scene in Resources */,
@@ -24523,6 +24579,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = "-ObjC";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 2;
 				USER_HEADER_SEARCH_PATHS = ../Libs;
@@ -24555,6 +24612,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				OTHER_LDFLAGS = "-ObjC";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 2;
 				USER_HEADER_SEARCH_PATHS = ../Libs;
@@ -24567,10 +24625,14 @@
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
 				CLANG_CXX_LIBRARY = "libc++";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "RollerBalliOS/RollerBalliOS-Prefix.pch";
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				INFOPLIST_FILE = "RollerBalliOS/RollerBalliOS-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
@@ -24582,10 +24644,14 @@
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
 				CLANG_CXX_LIBRARY = "libc++";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "RollerBalliOS/RollerBalliOS-Prefix.pch";
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				INFOPLIST_FILE = "RollerBalliOS/RollerBalliOS-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;

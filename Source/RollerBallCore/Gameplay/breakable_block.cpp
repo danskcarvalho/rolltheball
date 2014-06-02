@@ -15,6 +15,7 @@
 #include "physics_engine.h"
 #include "physics_mask.h"
 #include "action_buffer.h"
+#include "sound_player.h"
 #include <random>
 #include <Box2D/Box2D.h> 
 
@@ -155,6 +156,7 @@ void breakable_block::break_block(bool animation){
     _should_be_active = false;
     _body->SetActive(false);
 CallAction:
+    sound_player::play_breakblock();
     if(!_no_reentrancy){
         if(_on_break_action_buffer != u""){
             auto _buffer = dynamic_cast<action_buffer*>(parent_scene()->node_with_name(_on_break_action_buffer));

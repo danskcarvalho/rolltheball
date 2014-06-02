@@ -9,6 +9,7 @@
 #import "DSViewController.h"
 #include "components_external.h"
 #include "ui_controller.h"
+#include "sound_player.h"
 
 using namespace rb;
 
@@ -92,11 +93,13 @@ static rb_string _current_level;
 
 - (void)setupScene
 {
+    sound_player::preload_effects();
     ui_controller::set_intro(true);
     ui_controller::set_playing(false);
     ui_controller::set_tutorial(false);
     ui_controller::set_force_load_level(false);
     director::in_editor(false);
+    sound_player::play_background();
     director::active_scene(nullptr, true);
     auto _scene = scene_loader::load(u"Intro");
     director::active_scene(_scene, true);

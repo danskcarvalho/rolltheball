@@ -6,13 +6,13 @@
 //  Copyright (c) 2013 Danilo Carvalho. All rights reserved.
 //
 
-#include "base64.h"
+#include "rb_base64.h"
 #include <iostream>
 #include <vector>
 
 const static char encodeLookup[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 const static char padCharacter = '=';
-std::basic_string<char> base64Encode(const std::vector<uint8_t>& inputBuffer)
+std::basic_string<char> rb_base64Encode(const std::vector<uint8_t>& inputBuffer)
 {
     std::basic_string<char> encodedString;
     encodedString.reserve(((inputBuffer.size()/3) + (inputBuffer.size() % 3 > 0)) * 4);
@@ -48,7 +48,7 @@ std::basic_string<char> base64Encode(const std::vector<uint8_t>& inputBuffer)
     return encodedString;
 }
 
-std::vector<uint8_t> base64Decode(const std::basic_string<char>& input)
+std::vector<uint8_t> rb_base64Decode(const std::basic_string<char>& input)
 {
     if (input.length() % 4) //Sanity check
         throw std::runtime_error("Non-Valid base64!");

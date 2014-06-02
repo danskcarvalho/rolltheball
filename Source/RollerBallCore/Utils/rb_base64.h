@@ -13,7 +13,7 @@
 #include "precompiled.h"
 #endif
 
-std::basic_string<char> base64Encode(const std::vector<uint8_t>& inputBuffer);
-std::vector<uint8_t> base64Decode(const std::basic_string<char>& input);
+std::basic_string<char> rb_base64Encode(const std::vector<uint8_t>& inputBuffer);
+std::vector<uint8_t> rb_base64Decode(const std::basic_string<char>& input);
 
 #endif

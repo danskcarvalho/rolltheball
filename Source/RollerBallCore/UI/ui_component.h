@@ -63,10 +63,12 @@ namespace rb {
         bool _intro_play;
         bool _intro_select;
     private:
+        void update_statistics();
         void intro_play_clicked();
         void intro_tutorial_clicked();
         void intro_set1_clicked();
         void intro_set2_clicked();
+        void intro_addhearts_clicked();
         //playing
     public:
         void play_pause_clicked();

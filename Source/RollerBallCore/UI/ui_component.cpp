@@ -14,6 +14,7 @@
 #include "ui_number.h"
 #include "texture_atlas.h"
 #include "director.h"
+#include "sound_player.h"
 
 using namespace rb;
 
@@ -55,12 +56,36 @@ using namespace rb;
 
 ui_component::ui_component(){
     _initialized = false;
-    _play_btn = nullptr;
     _intro_play = true;
     _intro_select = false;
     classes(u"ui");
     name(u"ui");
+    _play_btn = nullptr;
+    _tutorial_btn = nullptr;
+    _set1_btn = nullptr;
+    _set2_btn = nullptr;
+    _leaderboards_btn = nullptr;
+    _hearts_btn = nullptr;
+    _addhearts_btn = nullptr;
+    _num_hearts = nullptr;
+    _coins_btn = nullptr;
+    _coins_num = nullptr;
+    _time_btn = nullptr;
+    _time_num = nullptr;
+    _death_btn = nullptr;
+    _death_num = nullptr;
+    _total_btn = nullptr;
+    _total_num = nullptr;
     _finish_btn = nullptr;
+    _pause_btn = nullptr;
+    _phearts_btn = nullptr;
+    _phearts_num = nullptr;
+    _ptime_btn = nullptr;
+    _ptime_num = nullptr;
+    _pcoins_btn = nullptr;
+    _pcoins_num = nullptr;
+    _unpause_btn = nullptr;
+    _back_btn = nullptr;
 }
 
 void ui_component::describe_type(){
@@ -91,7 +116,66 @@ vec2 ui_component::get_aspect_correction() const {
     return vec2(_aspect, 1);
 }
 
+void ui_component::update_statistics(){
+    if(_pcoins_num){ //max 999
+        auto _num = ui_controller::coins();
+        if(_num > 999)
+            _num = 999;
+        _pcoins_num->number(_num);
+    }
+    if(_phearts_num){ //max 999
+        auto _num = ui_controller::hearts();
+        if(_num > 999)
+            _num = 999;
+        _phearts_num->number(_num);
+    }
+    if(_ptime_num){ //max 00:00
+        auto _num = ui_controller::time();
+        _ptime_num->number(_num);
+    }
+    if(_coins_num){ //max 999999
+        auto _num = ui_controller::coins() * 10.0f;
+        if(_num > 999999)
+            _num = 999999;
+        _coins_num->number(_num);
+    }
+    if(_time_num){ //max 999999
+        auto _num = ui_controller::time() * (-2.0f);
+        if(_num > 999999)
+            _num = 999999;
+        if(_num < -99999)
+            _num = -99999;
+        _time_num->number(_num);
+    }
+    if(_death_num){ //max 999999
+        auto _num = ui_controller::deaths() * (-5.0f);
+        if(_num > 999999)
+            _num = 999999;
+        if(_num < -99999)
+            _num = -99999;
+        _death_num->number(_num);
+    }
+    if(_total_num){ //max 999999
+        auto _coin_num = ui_controller::coins() * 10.0f;
+        auto _time_num = ui_controller::time() * (-2.0f);
+        auto _deaths_num = ui_controller::deaths() * (-5.0f);
+        auto _total = _coin_num + _time_num + _deaths_num;
+        if(_total > 999999)
+            _total = 999999;
+        if(_total < -99999)
+            _total = -99999;
+        _total_num->number(_total);
+    }
+    if(_num_hearts){
+        auto _num = ui_controller::hearts();
+        if(_num > 999)
+            _num = 999;
+        _num_hearts->number(_num);
+    }
+}
+
 void ui_component::update(float dt){
+    update_statistics();
 }
 
 void ui_component::intro_layout(){
@@ -419,6 +503,12 @@ void ui_component::playing(){
             if(!ui_controller::is_tutorial())
                 score_layout();
         }
+        if(!ui_controller::is_intro() && ui_controller::get_level_number() == 0){ //first level
+            ui_controller::coins(0);
+            ui_controller::deaths(0);
+            ui_controller::time(0);
+        }
+        update_statistics();
     }
 }
 
@@ -436,6 +526,7 @@ void ui_component::touches_began(const std::vector<touch> &touches, bool &swallo
         if(ui_controller::is_intro() && _intro_play){
             auto _touches = intersects_circle(vec2::zero, 0.5f, _np);
             if(_touches){
+                sound_player::play_click();
                 intro_play_clicked();
                 return;
             }
@@ -443,25 +534,35 @@ void ui_component::touches_began(const std::vector<touch> &touches, bool &swallo
         else if(ui_controller::is_intro() && _intro_select) {
             auto _touches = intersects_circle(_tutorial_btn->old_transform().origin(), UI_INTRO_BTN_SIZE / 2.0f, _np);
             if(_touches){
+                sound_player::play_click();
                 intro_tutorial_clicked();
                 return;
             }
             _touches = intersects_circle(_set1_btn->old_transform().origin(), UI_INTRO_BTN_SIZE / 2.0f, _np);
             if(_touches){
+                sound_player::play_click();
                 intro_set1_clicked();
                 return;
             }
             _touches = intersects_circle(_set2_btn->old_transform().origin(), UI_INTRO_BTN_SIZE / 2.0f, _np);
             if(_touches){
+                sound_player::play_click();
                 intro_set2_clicked();
+                return;
+            }
+            _touches = intersects_circle(_addhearts_btn->old_transform().origin(), UI_INTRO_HEARTS_SIZE / 2.0f, _np);
+            if(_touches){
+                sound_player::play_click();
+                intro_addhearts_clicked();
                 return;
             }
         }
         else {
             if(_pause_btn->opacity() != 0.0f){
-                auto _touches = intersects_circle(_pause_btn->old_transform().origin(), 0.25f / 2.0f, _np);
+                auto _touches = intersects_circle(_pause_btn->old_transform().origin(), 0.25f, _np);
                 if(_touches){
                     swallow = true;
+                    sound_player::play_click();
                     play_pause_clicked();
                     return;
                 }
@@ -470,6 +571,7 @@ void ui_component::touches_began(const std::vector<touch> &touches, bool &swallo
                 auto _touches = intersects_circle(_unpause_btn->old_transform().origin(), UI_INTRO_BTN_SIZE / 2.0f, _np);
                 if(_touches){
                     swallow = true;
+                    sound_player::play_click();
                     play_unpause_clicked();
                     return;
                 }
@@ -478,6 +580,7 @@ void ui_component::touches_began(const std::vector<touch> &touches, bool &swallo
                 auto _touches = intersects_circle(_back_btn->old_transform().origin(), UI_INTRO_BTN_SIZE / 2.0f, _np);
                 if(_touches){
                     swallow = true;
+                    sound_player::play_click();
                     play_return_clicked();
                     return;
                 }
@@ -486,12 +589,17 @@ void ui_component::touches_began(const std::vector<touch> &touches, bool &swallo
                 auto _touches = intersects_circle(_finish_btn->old_transform().origin(), UI_INTRO_BTN_SIZE / 2.0f, _np);
                 if(_touches){
                     swallow = true;
+                    sound_player::play_click();
                     play_finish_clicked();
                     return;
                 }
             }
         }
     }
+}
+
+void ui_component::intro_addhearts_clicked(){
+    ui_controller::hearts(ui_controller::hearts() + 15);
 }
 
 void ui_component::show_scores(){
@@ -537,6 +645,7 @@ void ui_component::play_unpause_clicked(){
 
 void ui_component::play_return_clicked(){
     parent_scene()->animated_fade(color::from_rgba(1, 1, 1, 1), 0.25f, [](){
+        ui_controller::restore_hearts();
         ui_controller::set_intro(true);
         ui_controller::set_playing(false);
         ui_controller::set_tutorial(false);

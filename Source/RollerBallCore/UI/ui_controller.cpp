@@ -19,6 +19,11 @@ rb_string ui_controller::_set2_levels[10] = {u"Level1", u"Level3", u"Level5", u"
 rb_string ui_controller::_tut_levels[6] = {u"Tutorial0", u"Tutorial1", u"Tutorial2", u"Tutorial3", u"Tutorial4", u"Tutorial5"};
 size_t ui_controller::_current_level = 0;
 bool ui_controller::_is_force_load_level = false;
+float ui_controller::_coins = 0;
+float ui_controller::_time = 0;
+float ui_controller::_hearts = 0;
+float ui_controller::_deaths = 0;
+float ui_controller::_saved_hearts = 0;
 
 bool ui_controller::is_intro(){
     return _is_intro;
@@ -97,6 +102,10 @@ nullable<rb_string> ui_controller::get_level(){
     }
 }
 
+size_t ui_controller::get_level_number(){
+    return _current_level;
+}
+
 bool ui_controller::is_last_level(){
     if(_is_tutorial){
         return _current_level == 5;
@@ -107,6 +116,45 @@ bool ui_controller::is_last_level(){
         return true;
 }
 
+float ui_controller::coins(){
+    return _coins;
+}
+
+float ui_controller::coins(float value){
+    return _coins = value;
+}
+
+float ui_controller::time(){
+    return _time;
+}
+
+float ui_controller::time(float value){
+    return _time = value;
+}
+
+float ui_controller::hearts(){
+    return _hearts;
+}
+
+float ui_controller::hearts(float value){
+    return _hearts = value;
+}
+
+float ui_controller::deaths(){
+    return _deaths;
+}
+
+float ui_controller::deaths(float value){
+    return _deaths = value;
+}
+
+void ui_controller::save_hearts(){
+    _saved_hearts = _hearts;
+}
+
+void ui_controller::restore_hearts(){
+    _hearts = _saved_hearts;
+}
 
 
 
