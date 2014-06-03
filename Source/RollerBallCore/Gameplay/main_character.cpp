@@ -71,7 +71,7 @@
 
 #define EXPLOSION_GRAVITY_MAGNITUDE 25
 
-#define INVINCIBILITY_FLAG false
+#define INVINCIBILITY_FLAG true
 
 using namespace rb;
 
