@@ -13,7 +13,7 @@
 #include "ui_controller.h"
 #include "director.h"
 #include "ui_component.h"
-#import "GameKit/GameKit.h"
+#import <GameKit/GameKit.h>
 
 using namespace rb;
 
@@ -24,6 +24,7 @@ using namespace rb;
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
     self.viewController = [[DSViewController alloc] initWithNibName:@"DSViewController" bundle:nil];
+    self.viewController.storeProducts = [NSArray array];
     self.window.rootViewController = self.viewController;
     [self.window makeKeyAndVisible];
     GKLocalPlayer *localPlayer = [GKLocalPlayer localPlayer];
@@ -34,7 +35,17 @@ using namespace rb;
             //do nothing...
         }
     };
+    //store
+    [[SKPaymentQueue defaultQueue] addTransactionObserver:self.viewController];
+    SKProductsRequest *productsRequest = [[SKProductsRequest alloc]
+                                          initWithProductIdentifiers:[NSSet setWithArray:@[@"GRL_15HEARTS", @"GRL_SET2LEVELS"]]];
+    productsRequest.delegate = self;
+    [productsRequest start];
     return YES;
+}
+
+-(void)productsRequest:(SKProductsRequest *)request didReceiveResponse:(SKProductsResponse *)response{
+    self.viewController.storeProducts = response.products;
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application

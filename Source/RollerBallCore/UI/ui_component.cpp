@@ -15,6 +15,7 @@
 #include "texture_atlas.h"
 #include "director.h"
 #include "sound_player.h"
+#include "game_saver.h"
 
 using namespace rb;
 
@@ -87,6 +88,9 @@ ui_component::ui_component(){
     _unpause_btn = nullptr;
     _back_btn = nullptr;
     _scores_posted = false;
+    
+    _blinkFlag = false;
+    _timeToBlink = (1.0f / 6.0f);
 }
 
 void ui_component::describe_type(){
@@ -177,6 +181,25 @@ void ui_component::update_statistics(){
 
 void ui_component::update(float dt){
     update_statistics();
+    if(ui_controller::buy_hearts() || ui_controller::buy_set2()){
+        _timeToBlink -= dt;
+        if(_timeToBlink <= 0){
+            _timeToBlink = (1.0f / 6.0f);
+            _blinkFlag = !_blinkFlag;
+        }
+        if(ui_controller::buy_hearts() && _addhearts_btn){
+            _addhearts_btn->opacity(_blinkFlag ? 1 : 0);
+        }
+        if(ui_controller::buy_set2() && _set2_btn){
+            _set2_btn->opacity(_blinkFlag ? 1 : 0);
+        }
+    }
+    if((!ui_controller::buy_hearts()) && _addhearts_btn && _intro_select){
+        _addhearts_btn->opacity(1);
+    }
+    if((!ui_controller::buy_set2()) && _set2_btn && _intro_select){
+        _set2_btn->opacity(1);
+    }
 }
 
 void ui_component::intro_layout(){
@@ -613,7 +636,12 @@ void ui_component::intro_leaderboards_clicked(){
 }
 
 void ui_component::intro_addhearts_clicked(){
-    ui_controller::hearts(ui_controller::hearts() + 15);
+    if(ui_controller::buy_hearts())
+        return;
+    ui_controller::buy_hearts(true);
+    _blinkFlag = false;
+    _timeToBlink = (1.0f / 6.0f);
+//    ui_controller::hearts(ui_controller::hearts() + 15);
 }
 
 void ui_component::show_scores(){
@@ -677,6 +705,11 @@ void ui_component::play_return_clicked(){
 }
 
 void ui_component::play_finish_clicked(){
+    //save hearts
+    saved_data_v1 sd;
+    game_saver::load_saved(&sd);
+    sd.hearts = ui_controller::hearts();
+    game_saver::save(&sd);
     //for now do the same thing as return_clicked
     parent_scene()->animated_fade(color::from_rgba(1, 1, 1, 1), 0.25f, [](){
         ui_controller::set_intro(true);
@@ -737,15 +770,25 @@ void ui_component::intro_set2_clicked(){
         ui_controller::leaderboard_to_show() = 2;
         return;
     }
-    _intro_select = false;
-    parent_scene()->animated_fade(color::from_rgba(1, 1, 1, 1), 0.25f, [](){
-        ui_controller::set_intro(false);
-        ui_controller::set_playing(true);
-        ui_controller::set_tutorial(false);
-        ui_controller::set_set(2);
-        ui_controller::goto_first_level();
-        ui_controller::set_force_load_level(true);
-    });
+    if(ui_controller::set2_unlocked())
+    {
+        _intro_select = false;
+        parent_scene()->animated_fade(color::from_rgba(1, 1, 1, 1), 0.25f, [](){
+            ui_controller::set_intro(false);
+            ui_controller::set_playing(true);
+            ui_controller::set_tutorial(false);
+            ui_controller::set_set(2);
+            ui_controller::goto_first_level();
+            ui_controller::set_force_load_level(true);
+        });
+    }
+    else {
+        if(ui_controller::buy_set2())
+            return;
+        ui_controller::buy_set2(true);
+        _blinkFlag = false;
+        _timeToBlink = (1.0f / 6.0f);
+    }
 }
 
 void ui_component::touches_moved(const std::vector<touch> &touches, bool &swallow){

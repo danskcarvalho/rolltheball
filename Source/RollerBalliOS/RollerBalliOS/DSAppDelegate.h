@@ -7,10 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <StoreKit/StoreKit.h>
 
 @class DSViewController;
 
-@interface DSAppDelegate : UIResponder <UIApplicationDelegate>
+@interface DSAppDelegate : UIResponder <UIApplicationDelegate, SKProductsRequestDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 

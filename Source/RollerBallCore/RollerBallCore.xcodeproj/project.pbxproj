@@ -484,6 +484,9 @@
 		457F307F193D1C6300C7EA76 /* ccUtils.c in Sources */ = {isa = PBXBuildFile; fileRef = 453A54CA193BCB1A00390CFE /* ccUtils.c */; };
 		457F3080193D1CC800C7EA76 /* CCConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 453A542B193BCB1A00390CFE /* CCConfiguration.m */; };
 		457F3081193D1D2F00C7EA76 /* CCFileUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 453A54C7193BCB1A00390CFE /* CCFileUtils.m */; };
+		457F308D193D417A00C7EA76 /* game_saver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 457F308B193D417A00C7EA76 /* game_saver.cpp */; };
+		457F308E193D417A00C7EA76 /* game_saver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 457F308B193D417A00C7EA76 /* game_saver.cpp */; };
+		457F3090193D4DCD00C7EA76 /* game_saver.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 457F308C193D417A00C7EA76 /* game_saver.h */; };
 		458110BE177774F800C1ECD4 /* scene_loader.mm in Sources */ = {isa = PBXBuildFile; fileRef = 458110BC177774F800C1ECD4 /* scene_loader.mm */; };
 		458110BF177774F800C1ECD4 /* scene_loader.mm in Sources */ = {isa = PBXBuildFile; fileRef = 458110BC177774F800C1ECD4 /* scene_loader.mm */; };
 		4585F4CC16E60D0800B605C4 /* shapes.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4585F4BF16E60D0800B605C4 /* shapes.cc */; };
@@ -745,6 +748,7 @@
 			dstPath = include;
 			dstSubfolderSpec = 16;
 			files = (
+				457F3090193D4DCD00C7EA76 /* game_saver.h in CopyFiles */,
 				453A5695193BD79000390CFE /* sound_player.h in CopyFiles */,
 				4535B682193AC20F00DC2FF7 /* ui_component.h in CopyFiles */,
 				45760EBE193544EB0083C699 /* ui_controller.h in CopyFiles */,
@@ -10470,6 +10474,8 @@
 		457E3FBF15F40EBB00ECAB44 /* VectorTests.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = VectorTests.mm; sourceTree = "<group>"; };
 		457EFACF177B78DA0042AF9F /* texture_atlas_loader.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = texture_atlas_loader.mm; path = Components/texture_atlas_loader.mm; sourceTree = "<group>"; };
 		457EFAD0177B78DA0042AF9F /* texture_atlas_loader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = texture_atlas_loader.h; path = Components/texture_atlas_loader.h; sourceTree = "<group>"; };
+		457F308B193D417A00C7EA76 /* game_saver.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; name = game_saver.cpp; path = Saver/game_saver.cpp; sourceTree = "<group>"; };
+		457F308C193D417A00C7EA76 /* game_saver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = game_saver.h; path = Saver/game_saver.h; sourceTree = "<group>"; };
 		458110BC177774F800C1ECD4 /* scene_loader.mm */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; name = scene_loader.mm; path = Components/scene_loader.mm; sourceTree = "<group>"; };
 		458110BD177774F800C1ECD4 /* scene_loader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = scene_loader.h; path = Components/scene_loader.h; sourceTree = "<group>"; };
 		4585F4BF16E60D0800B605C4 /* shapes.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = shapes.cc; sourceTree = "<group>"; };
@@ -16591,6 +16597,7 @@
 				45777505162C83EB002EB77C /* Components */,
 				45139D6D17BAAAC0003AC03D /* Gameplay */,
 				45AE18251934168600542AE8 /* UI */,
+				457F308A193D411C00C7EA76 /* Saver */,
 				453A5684193BD39100390CFE /* Sound */,
 				456771A915F04A7900C91B3C /* Precompiled */,
 				4567270B15F0401500C91B3C /* Libs */,
@@ -26830,6 +26837,23 @@
 			name = Include;
 			sourceTree = "<group>";
 		};
+		457F308A193D411C00C7EA76 /* Saver */ = {
+			isa = PBXGroup;
+			children = (
+				457F308F193D418500C7EA76 /* Include */,
+				457F308B193D417A00C7EA76 /* game_saver.cpp */,
+			);
+			name = Saver;
+			sourceTree = "<group>";
+		};
+		457F308F193D418500C7EA76 /* Include */ = {
+			isa = PBXGroup;
+			children = (
+				457F308C193D417A00C7EA76 /* game_saver.h */,
+			);
+			name = Include;
+			sourceTree = "<group>";
+		};
 		4585F4BD16E60D0800B605C4 /* poly2tri */ = {
 			isa = PBXGroup;
 			children = (
@@ -27379,6 +27403,7 @@
 				45A0BD3B1774794C006919BE /* rb_base64.cpp in Sources */,
 				453A53F1193BCA8700390CFE /* ALChannelSource.m in Sources */,
 				453A540D193BCA8700390CFE /* OALAudioFile.m in Sources */,
+				457F308E193D417A00C7EA76 /* game_saver.cpp in Sources */,
 				453A53EB193BCA8700390CFE /* OALSimpleAudio.m in Sources */,
 				45A0BD411774887D006919BE /* buffer.cpp in Sources */,
 				458110BF177774F800C1ECD4 /* scene_loader.mm in Sources */,
@@ -27653,6 +27678,7 @@
 				45A0BD3A1774794C006919BE /* rb_base64.cpp in Sources */,
 				45A0BD401774887D006919BE /* buffer.cpp in Sources */,
 				453A53F0193BCA8700390CFE /* ALChannelSource.m in Sources */,
+				457F308D193D417A00C7EA76 /* game_saver.cpp in Sources */,
 				453A540C193BCA8700390CFE /* OALAudioFile.m in Sources */,
 				453A53EA193BCA8700390CFE /* OALSimpleAudio.m in Sources */,
 				458110BE177774F800C1ECD4 /* scene_loader.mm in Sources */,

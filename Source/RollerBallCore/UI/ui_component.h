@@ -28,6 +28,8 @@ namespace rb {
     private:
         std::unordered_map<char16_t, float> _sizes;
         
+        bool _blinkFlag;
+        float _timeToBlink;
         bool _initialized;
         bool _scores_posted;
         //intro screen

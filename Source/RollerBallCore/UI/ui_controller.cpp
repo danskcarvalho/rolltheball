@@ -26,6 +26,9 @@ float ui_controller::_deaths = 0;
 float ui_controller::_saved_hearts = 0;
 std::vector<score> ui_controller::_scores_to_be_reported;
 size_t ui_controller::_show_leaderboard = 0;
+bool ui_controller::_buy_hearts = false;
+bool ui_controller::_buy_set2 = false;
+bool ui_controller::_set2_unlocked = false;
 
 bool ui_controller::is_intro(){
     return _is_intro;
@@ -164,6 +167,30 @@ std::vector<score>& ui_controller::scores(){
 
 size_t& ui_controller::leaderboard_to_show(){
     return _show_leaderboard;
+}
+
+bool ui_controller::buy_hearts(){
+    return _buy_hearts;
+}
+
+bool ui_controller::buy_set2(){
+    return _buy_set2;
+}
+
+bool ui_controller::buy_hearts(bool value){
+    return _buy_hearts = value;
+}
+
+bool ui_controller::buy_set2(bool value){
+    return _buy_set2 = value;
+}
+
+void ui_controller::unlock_set2(){
+    _set2_unlocked = true;
+}
+
+bool ui_controller::set2_unlocked(){
+    return _set2_unlocked;
 }
 
 

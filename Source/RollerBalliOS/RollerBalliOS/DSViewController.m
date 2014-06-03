@@ -10,13 +10,25 @@
 #include "components_external.h"
 #include "ui_controller.h"
 #include "sound_player.h"
+#include "game_saver.h"
 
 using namespace rb;
+
+typedef enum : NSUInteger {
+    kBuy,
+    kRestore,
+    kCancel,
+} BuyEnum;
 
 
 @interface DSViewController () {
     BOOL _reportingScores;
+    BOOL _buying;
     size_t _scoreIndex;
+    void(^_response)(BOOL);
+    void(^_responseBuy)(BuyEnum);
+    UIAlertView* _ask;
+    UIAlertView* _askBuy;
 }
 @property (strong, nonatomic) EAGLContext *context;
 
@@ -27,11 +39,212 @@ using namespace rb;
 - (void)reportScores;
 - (void)showLeaderboard:(size_t)set;
 - (void)maybeShowLeaderboard;
+- (void)loadHearts;
+- (void)ask:(NSString*)msg title:(NSString*)title response:(void(^)(BOOL))response;
+- (void)alert:(NSString*)msg title:(NSString*)title;
+- (void)buySet2;
+- (void)buy15Hearts;
+- (void)askBuy:(NSString *)msg title:(NSString *)title response:(void (^)(BuyEnum))response;
 @end
 
 static rb_string _current_level;
 
 @implementation DSViewController
+
+-(void)paymentQueue:(SKPaymentQueue *)queue updatedTransactions:(NSArray *)transactions{
+    for (SKPaymentTransaction *transaction in transactions) {
+        if([transaction.payment.productIdentifier isEqualToString:@"GRL_SET2LEVELS"]){
+            switch (transaction.transactionState) {
+                    // Call the appropriate custom method.
+                case SKPaymentTransactionStatePurchased:
+                case SKPaymentTransactionStateRestored:
+                    ui_controller::unlock_set2();
+                    saved_data_v1 sd;
+                    game_saver::load_saved(&sd);
+                    sd.set2Availability = 1;
+                    game_saver::save(&sd);
+                    ui_controller::buy_set2(false);
+                    _buying = NO;
+                    if(transaction.transactionState == SKPaymentTransactionStatePurchased)
+                        [self alert:@"Congratulations! Now you can play the Set 2 Levels!" title:@"Congratulations!"];
+                    else
+                        [self alert:@"Congratulations! You restored the Set 2 Levels!" title:@"Congratulations!"];
+                    [[SKPaymentQueue defaultQueue] finishTransaction:transaction];
+                    break;
+                case SKPaymentTransactionStateFailed:
+                    [self alert:@"Failed to buy the Set 2 Levels." title:@"Failure"];
+                    ui_controller::buy_set2(false);
+                    _buying = NO;
+                    [[SKPaymentQueue defaultQueue] finishTransaction:transaction];
+                    break;
+                default:
+                    break;
+            }
+        }
+        else{
+            switch (transaction.transactionState) {
+                    // Call the appropriate custom method.
+                case SKPaymentTransactionStatePurchased:
+                case SKPaymentTransactionStateRestored:
+                    saved_data_v1 sd;
+                    game_saver::load_saved(&sd);
+                    sd.hearts += 15;
+                    game_saver::save(&sd);
+                    ui_controller::buy_hearts(false);
+                    ui_controller::hearts(ui_controller::hearts() + 15);
+                    _buying = NO;
+                    [[SKPaymentQueue defaultQueue] finishTransaction:transaction];
+                    if(transaction.transactionState == SKPaymentTransactionStatePurchased)
+                        [self alert:@"Congratulations! You bought 15 Hearts!" title:@"Congratulations!"];
+                    break;
+                case SKPaymentTransactionStateFailed:
+                    [self alert:@"Failed to buy 15 Hearts." title:@"Failure"];
+                    ui_controller::buy_hearts(false);
+                    _buying = NO;
+                    [[SKPaymentQueue defaultQueue] finishTransaction:transaction];
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+}
+
+-(void)buySet2{
+    if(_buying)
+        return;
+    if(![SKPaymentQueue canMakePayments]){
+        [self alert:@"Failed to buy the Set 2 Levels." title:@"Failure"];
+        ui_controller::buy_set2(false);
+        _buying = NO;
+        return;
+    }
+    _buying = YES;
+    [self askBuy:@"Would you like to buy the Set 2 Levels for just $0.99? You can also restore (for free) the Set 2 Levels if you bought it before." title:@"Buy Set 2 Levels?" response:^void(BuyEnum response) {
+        if(response == kCancel)
+        {
+            ui_controller::buy_set2(false);
+            _buying = NO;
+            return;
+        }
+        if(response == kRestore){
+            [[SKPaymentQueue defaultQueue] restoreCompletedTransactions];
+            return;
+        }
+        SKProduct* set2Prod = nil;
+        for(SKProduct* prod in self.storeProducts){
+            if([prod.productIdentifier isEqualToString:@"GRL_SET2LEVELS"]){
+                set2Prod = prod;
+                break;
+            }
+        }
+        
+        
+        if(set2Prod == nil){
+            ui_controller::buy_set2(false);
+            _buying = NO;
+            return;
+        }
+        SKMutablePayment *payment = [SKMutablePayment paymentWithProduct:set2Prod];
+        payment.quantity = 1;
+        
+        [[SKPaymentQueue defaultQueue] addPayment:payment];
+    }];
+}
+
+-(void)buy15Hearts{
+    if(_buying)
+        return;
+    if(![SKPaymentQueue canMakePayments]){
+        [self alert:@"Failed to buy the 15 Hearts." title:@"Failure"];
+        ui_controller::buy_hearts(false);
+        _buying = NO;
+        return;
+    }
+    _buying = YES;
+    [self ask:@"Would you like to buy 15 Hearts for just $0.99?" title:@"Buy 15 Hearts Levels?" response:^void(BOOL response) {
+        if(!response)
+        {
+            ui_controller::buy_hearts(false);
+            _buying = NO;
+            return;
+        }
+        SKProduct* _15heartsProd = nil;
+        for(SKProduct* prod in self.storeProducts){
+            if([prod.productIdentifier isEqualToString:@"GRL_15HEARTS"]){
+                _15heartsProd = prod;
+                break;
+            }
+        }
+        
+        
+        if(_15heartsProd == nil){
+            ui_controller::buy_hearts(false);
+            _buying = NO;
+            return;
+        }
+        SKMutablePayment *payment = [SKMutablePayment paymentWithProduct:_15heartsProd];
+        payment.quantity = 1;
+        
+        [[SKPaymentQueue defaultQueue] addPayment:payment];
+    }];
+}
+
+-(void)ask:(NSString *)msg title:(NSString *)title response:(void (^)(BOOL))response{
+    UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:title
+                                                        message:msg
+                                                       delegate:self
+                                              cancelButtonTitle:@"No"
+                                              otherButtonTitles:@"Yes", nil];
+    _response = response;
+    _ask = alertView;
+    _askBuy = nil;
+    [alertView show];
+}
+
+-(void)askBuy:(NSString *)msg title:(NSString *)title response:(void (^)(BuyEnum))response{
+    UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:title
+                                                        message:msg
+                                                       delegate:self
+                                              cancelButtonTitle:@"Cancel"
+                                              otherButtonTitles:@"Buy", @"Restore", nil];
+    _responseBuy = response;
+    _ask = nil;
+    _askBuy = alertView;
+    [alertView show];
+}
+
+-(void)alert:(NSString *)msg title:(NSString *)title{
+    UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:title
+                                                        message:msg
+                                                       delegate:self
+                                              cancelButtonTitle:@"Ok"
+                                              otherButtonTitles:nil];
+    _ask = nil;
+    _askBuy = nil;
+    [alertView show];
+}
+
+-(void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex{
+    if(_ask == nil && _askBuy == nil)
+        return;
+    if(_ask != nil){
+        if(buttonIndex == 1)
+            _response(YES);
+        else
+            _response(NO);
+    }
+    else {
+        if(buttonIndex == 1)
+            _responseBuy(kBuy);
+        else if(buttonIndex == 2)
+            _responseBuy(kRestore);
+        else
+            _responseBuy(kCancel);
+    }
+    _ask = nil;
+    _askBuy = nil;
+}
 
 - (void)viewDidLoad
 {
@@ -95,7 +308,19 @@ static rb_string _current_level;
         std::swap(_s_height, _s_width);
     glViewport(0, 0, _s_width, _s_height);
     
+    [self loadHearts];
+    _buying = NO;
+    _ask = nil;
+    _askBuy = nil;
     [self setupScene];
+}
+
+- (void)loadHearts{
+    saved_data_v1 sd;
+    game_saver::load_saved(&sd);
+    ui_controller::hearts(sd.hearts);
+    if(sd.set2Availability == 1)
+        ui_controller::unlock_set2();
 }
 
 - (void)setupScene
@@ -209,6 +434,10 @@ static rb_string _current_level;
 
 - (void)update
 {
+    if(ui_controller::buy_hearts())
+        [self buy15Hearts];
+    else if(ui_controller::buy_set2())
+        [self buySet2];
     [self changeScene];
     [self reportScores];
     [self maybeShowLeaderboard];

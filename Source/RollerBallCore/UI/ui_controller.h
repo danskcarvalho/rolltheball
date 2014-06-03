@@ -34,6 +34,9 @@ namespace rb {
         static float _saved_hearts;
         static std::vector<score> _scores_to_be_reported;
         static size_t _show_leaderboard;
+        static bool _buy_hearts;
+        static bool _buy_set2;
+        static bool _set2_unlocked;
     public:
         static bool is_intro();
         static bool set_intro(bool value);
@@ -64,6 +67,13 @@ namespace rb {
         //scores to be reported
         static std::vector<score>& scores();
         static size_t& leaderboard_to_show();
+        //buying
+        static bool buy_hearts();
+        static bool buy_set2();
+        static bool buy_hearts(bool value);
+        static bool buy_set2(bool value);
+        static void unlock_set2();
+        static bool set2_unlocked();
     };
 }
 
