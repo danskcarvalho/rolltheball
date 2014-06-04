@@ -37,6 +37,7 @@ namespace rb {
         static bool _buy_hearts;
         static bool _buy_set2;
         static bool _set2_unlocked;
+        static bool _played_tutorial;
     public:
         static bool is_intro();
         static bool set_intro(bool value);
@@ -55,6 +56,7 @@ namespace rb {
         static bool is_last_level();
         static void save_hearts();
         static void restore_hearts();
+        static bool& played_tutorial();
         //statistics
         static float coins();
         static float coins(float value);

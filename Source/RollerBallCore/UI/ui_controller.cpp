@@ -29,6 +29,7 @@ size_t ui_controller::_show_leaderboard = 0;
 bool ui_controller::_buy_hearts = false;
 bool ui_controller::_buy_set2 = false;
 bool ui_controller::_set2_unlocked = false;
+bool ui_controller::_played_tutorial = false;
 
 bool ui_controller::is_intro(){
     return _is_intro;
@@ -191,6 +192,10 @@ void ui_controller::unlock_set2(){
 
 bool ui_controller::set2_unlocked(){
     return _set2_unlocked;
+}
+
+bool& ui_controller::played_tutorial(){
+    return _played_tutorial;
 }
 
 

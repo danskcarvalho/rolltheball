@@ -32,6 +32,7 @@ namespace rb {
         float _timeToBlink;
         bool _initialized;
         bool _scores_posted;
+        bool _seeing_leaderboards;
         //intro screen
         sprite_component* _play_btn;
         sprite_component* _tutorial_btn;

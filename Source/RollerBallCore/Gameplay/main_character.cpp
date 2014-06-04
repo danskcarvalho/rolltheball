@@ -24,6 +24,7 @@
 #include "ui_controller.h"
 #include "ui_component.h"
 #include "sound_player.h"
+#include "game_saver.h"
 #include <random>
 #include <Box2D/Box2D.h>
 
@@ -599,8 +600,14 @@ void main_character::win_animation(float t){
     if(!_full_win_an){
         if(t >= 1){
             if(!in_editor()){
-                if(ui_controller::is_tutorial())
+                if(ui_controller::is_tutorial()){
+                    saved_data_v1 sd;
+                    game_saver::load_saved(&sd);
+                    sd.playedTutorial = 1;
+                    game_saver::save(&sd);
+                    ui_controller::played_tutorial() = true;
                     ui_controller::restore_hearts();
+                }
                 ui_controller::next_level();
             }
             dynamic_cast<sprite_component*>(_win_zone)->opacity(0);

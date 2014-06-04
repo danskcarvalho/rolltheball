@@ -88,6 +88,7 @@ ui_component::ui_component(){
     _unpause_btn = nullptr;
     _back_btn = nullptr;
     _scores_posted = false;
+    _seeing_leaderboards = false;
     
     _blinkFlag = false;
     _timeToBlink = (1.0f / 6.0f);
@@ -198,7 +199,22 @@ void ui_component::update(float dt){
         _addhearts_btn->opacity(1);
     }
     if((!ui_controller::buy_set2()) && _set2_btn && _intro_select){
-        _set2_btn->opacity(1);
+        if(ui_controller::played_tutorial())
+            _set2_btn->opacity(1);
+        else
+            _set2_btn->opacity(0.5);
+    }
+    if(_set1_btn && _intro_select){
+        if(ui_controller::played_tutorial())
+            _set1_btn->opacity(1);
+        else
+            _set1_btn->opacity(0.5);
+    }
+    if(_leaderboards_btn && _intro_select){
+        if(ui_controller::played_tutorial() && !_seeing_leaderboards)
+            _leaderboards_btn->opacity(1);
+        else
+            _leaderboards_btn->opacity(0.5);
     }
 }
 
@@ -544,6 +560,8 @@ bool intersects_circle(const vec2& center, float radius, const vec2& pos){
 void ui_component::touches_began(const std::vector<touch> &touches, bool &swallow){
     if(director::in_editor())
         return;
+    if(ui_controller::buy_hearts() || ui_controller::buy_set2())
+        return;
     for(auto& _t : touches){
         auto _np = parent_scene()->layer(9)->from_layer_space_to(space::normalized_screen).invert().transformed_point(_t.normalized_position());
         
@@ -558,31 +576,36 @@ void ui_component::touches_began(const std::vector<touch> &touches, bool &swallo
         else if(ui_controller::is_intro() && _intro_select) {
             auto _touches = intersects_circle(_tutorial_btn->old_transform().origin(), UI_INTRO_BTN_SIZE / 2.0f, _np);
             if(_touches){
-                sound_player::play_click();
+                if(_tutorial_btn->opacity() == 1)
+                    sound_player::play_click();
                 intro_tutorial_clicked();
                 return;
             }
             _touches = intersects_circle(_set1_btn->old_transform().origin(), UI_INTRO_BTN_SIZE / 2.0f, _np);
             if(_touches){
-                sound_player::play_click();
+                if(_set1_btn->opacity() == 1)
+                    sound_player::play_click();
                 intro_set1_clicked();
                 return;
             }
             _touches = intersects_circle(_set2_btn->old_transform().origin(), UI_INTRO_BTN_SIZE / 2.0f, _np);
             if(_touches){
-                sound_player::play_click();
+                if(_set2_btn->opacity() == 1)
+                    sound_player::play_click();
                 intro_set2_clicked();
                 return;
             }
             _touches = intersects_circle(_leaderboards_btn->old_transform().origin(), UI_INTRO_HEARTS_SIZE / 2.0f, _np);
             if(_touches){
-                sound_player::play_click();
+                if(_leaderboards_btn->opacity() == 1)
+                    sound_player::play_click();
                 intro_leaderboards_clicked();
                 return;
             }
             _touches = intersects_circle(_addhearts_btn->old_transform().origin(), UI_INTRO_HEARTS_SIZE / 2.0f, _np);
             if(_touches){
-                sound_player::play_click();
+                if(_addhearts_btn->opacity() == 1)
+                    sound_player::play_click();
                 intro_addhearts_clicked();
                 return;
             }
@@ -633,6 +656,7 @@ void ui_component::intro_leaderboards_clicked(){
         return;
     _tutorial_btn->image_name(UI_BACK);
     _leaderboards_btn->opacity(0.5f);
+    _seeing_leaderboards = true;
 }
 
 void ui_component::intro_addhearts_clicked(){
@@ -737,6 +761,7 @@ void ui_component::intro_tutorial_clicked(){
     if(_tutorial_btn->image_name() == UI_BACK){
         _tutorial_btn->image_name(UI_TUTORIAL);
         _leaderboards_btn->opacity(1);
+        _seeing_leaderboards = false;
         return;
     }
     _intro_select = false;
@@ -750,6 +775,8 @@ void ui_component::intro_tutorial_clicked(){
 }
 
 void ui_component::intro_set1_clicked(){
+    if(_set1_btn->opacity() != 1)
+        return;
     if(_tutorial_btn->image_name() == UI_BACK){
         ui_controller::leaderboard_to_show() = 1;
         return;
@@ -766,6 +793,8 @@ void ui_component::intro_set1_clicked(){
 }
 
 void ui_component::intro_set2_clicked(){
+    if(_set2_btn->opacity() != 1)
+        return;
     if(_tutorial_btn->image_name() == UI_BACK){
         ui_controller::leaderboard_to_show() = 2;
         return;

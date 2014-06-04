@@ -110,6 +110,12 @@ static rb_string _current_level;
     }
 }
 
+-(void)paymentQueue:(SKPaymentQueue *)queue restoreCompletedTransactionsFailedWithError:(NSError *)error{
+    [self alert:@"Failed to restore the Set 2 Levels." title:@"Failure"];
+    ui_controller::buy_set2(false);
+    _buying = NO;
+}
+
 -(void)buySet2{
     if(_buying)
         return;
@@ -162,7 +168,7 @@ static rb_string _current_level;
         return;
     }
     _buying = YES;
-    [self ask:@"Would you like to buy 15 Hearts for just $0.99?" title:@"Buy 15 Hearts Levels?" response:^void(BOOL response) {
+    [self ask:@"Would you like to buy 15 Hearts for just $0.99?" title:@"Buy 15 Hearts?" response:^void(BOOL response) {
         if(!response)
         {
             ui_controller::buy_hearts(false);
@@ -319,6 +325,7 @@ static rb_string _current_level;
     saved_data_v1 sd;
     game_saver::load_saved(&sd);
     ui_controller::hearts(sd.hearts);
+    ui_controller::played_tutorial() = sd.playedTutorial == 0 ? false : true;
     if(sd.set2Availability == 1)
         ui_controller::unlock_set2();
 }

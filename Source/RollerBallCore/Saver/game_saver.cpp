@@ -21,6 +21,7 @@ void game_saver::load_saved(rb::saved_data_v1 *d){
         d->version = 1;
         d->hearts = 0;
         d->set2Availability = 0; //not available
+        d->playedTutorial = 0;
         return;
     }
     memcpy(d, [data bytes], sizeof(saved_data_v1));

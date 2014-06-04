@@ -13,17 +13,18 @@
 using namespace rb;
 
 void rb::sound_player::play_background(){
-    if(director::in_editor())
-        return;
-    OALSimpleAudio *audio = [OALSimpleAudio sharedInstance];
-    [audio playBg:@"Soundtrack.mp3" loop:YES];
+//    if(director::in_editor())
+//        return;
+//    OALSimpleAudio *audio = [OALSimpleAudio sharedInstance];
+//    [audio playBg:@"Soundtrack.mp3" loop:YES];
 }
 
 void sound_player::preload_effects(){
     if(director::in_editor())
         return;
     OALSimpleAudio *audio = [OALSimpleAudio sharedInstance];
-    [audio preloadBg:@"Soundtrack.mp3"];
+    [audio setAllowIpod:YES];
+//    [audio preloadBg:@"Soundtrack.mp3"];
     [audio preloadEffect:@"Click.wav"];
     [audio preloadEffect:@"Coin.wav"];
     [audio preloadEffect:@"Explosion.wav"];

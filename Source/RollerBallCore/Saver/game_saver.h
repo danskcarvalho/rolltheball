@@ -14,6 +14,7 @@ namespace rb {
         uint32_t version;
         uint32_t hearts;
         uint32_t set2Availability;
+        uint32_t playedTutorial;
         uint32_t reserved[33];
     };
     class game_saver {
